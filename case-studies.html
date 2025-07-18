@@ -9,42 +9,72 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Custom styles for the masonry layout and hover effects */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #ffffff; /* White background */
+            background-color: #ffffff;
         }
 
-        /* This wrapper centers the inline-block masonry grid */
+        /* This wrapper uses Flexbox to perfectly center the masonry grid */
         #masonry-wrapper {
-            text-align: center;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+        
+        /* The container for the columns, also using Flexbox */
+        #masonry-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Aligns columns to the top */
+            gap: 1.5rem;
+            /* The width will be set by the columns inside it */
         }
 
-        /* Masonry Grid using fluid column-width */
-        .masonry-grid {
-            display: inline-block; /* Allows the grid to be centered by its parent */
-            text-align: left; /* Resets text alignment for the content within the cards */
-            column-width: 20rem; 
-            column-gap: 1.5rem;   
+        /* Dynamically created columns by JavaScript */
+        .masonry-column {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            width: 300px; /* Base width for each column */
         }
 
         /* Individual pin/card styling */
         .masonry-item {
-            display: inline-block;
             width: 100%;
-            margin-bottom: 1.5rem;
-            break-inside: avoid-column; /* Prevents cards from breaking across columns */
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-            cursor: pointer; /* Add a pointer cursor to indicate it's clickable */
-            border: 1px solid #e5e7eb; /* Add a light border to cards */
+            cursor: pointer;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            background: white;
         }
-
         .masonry-item:hover {
             transform: translateY(-5px);
             box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
         }
-        
-        /* For future infinite scroll implementation */
+        .card-content {
+            padding: 1.5rem;
+        }
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+            line-height: 1.4;
+        }
+        .card-description {
+            color: #4b5563;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        .main-content {
+            padding: 3rem;
+        }
+        @media (max-width: 640px) {
+            .main-content {
+                padding: 2rem 1rem;
+            }
+        }
         #loader {
             text-align: center;
             padding: 2rem;
@@ -54,29 +84,25 @@
     </style>
 </head>
 <body class="bg-white">
-
     <!-- Header and Navigation -->
     <header class="bg-white shadow-sm sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div>
-                <a href="#" class="text-2xl font-bold text-gray-800">Exit Ready Advisors</a>
+                <a href="#" class="text-xl md:text-2xl font-bold text-gray-800">Exit Ready Advisors</a>
             </div>
             <div class="hidden md:flex items-center space-x-6">
-                <!-- Link back to your home page -->
                 <a href="index.html" class="text-gray-600 hover:text-gray-900 transition-colors">Home</a>
                 <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">Services</a>
                 <a href="#" class="text-gray-900 font-semibold border-b-2 border-gray-900">Case Studies</a>
                 <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">About</a>
                 <a href="#" class="bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-black transition-colors">Contact Us</a>
             </div>
-            <!-- Mobile Menu Button -->
             <div class="md:hidden">
                 <button id="mobile-menu-button">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                 </button>
             </div>
         </nav>
-        <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
              <a href="index.html" class="block py-2 text-gray-600 hover:text-gray-900">Home</a>
              <a href="#" class="block py-2 text-gray-600 hover:text-gray-900">Services</a>
@@ -87,78 +113,60 @@
     </header>
 
     <!-- Main Content -->
-    <main class="w-full px-6 lg:px-12 py-12">
+    <main class="w-full main-content">
         <div class="text-center mb-12 max-w-3xl mx-auto">
             <h1 class="text-4xl md:text-5xl font-bold text-gray-800">Proven Results, Real Stories</h1>
             <p class="mt-4 text-lg text-gray-600">Explore how we've helped business owners like you maximize their company's value and achieve successful exits.</p>
         </div>
-
-        <!-- Centering Wrapper for the Masonry Grid -->
+        
         <div id="masonry-wrapper">
-            <!-- Masonry Grid Container -->
-            <div id="masonry-container" class="masonry-grid">
-                <!-- Case Study Pin 1 -->
-                <div class="masonry-item bg-white rounded-lg overflow-hidden">
-                    <img src="https://placehold.co/600x800/e0e0e0/000000?text=Manufacturing+Firm" alt="Manufacturing Firm Case Study" class="w-full h-auto">
-                    <div class="p-6">
-                        <h3 class="font-bold text-xl mb-2 text-gray-800">Manufacturing Firm Boosts Sale Price by 45%</h3>
-                        <p class="text-gray-600 text-base">From messy financials to a turnkey operation, see how we systematized processes to attract three competing offers.</p>
-                    </div>
-                </div>
+            <!-- This container will be populated by JavaScript -->
+            <div id="masonry-container"></div>
+        </div>
 
-                <!-- Case Study Pin 2 -->
-                <div class="masonry-item bg-white rounded-lg overflow-hidden">
-                    <img src="https://placehold.co/600x600/cccccc/000000?text=B2B+Services" alt="B2B Services Case Study" class="w-full h-auto">
-                    <div class="p-6">
-                        <h3 class="font-bold text-xl mb-2 text-gray-800">Service Business Reduces Owner Dependency</h3>
-                        <p class="text-gray-600 text-base">How we built a leadership team and delegated P&L, resulting in a 2.5x multiple premium from a strategic buyer.</p>
-                    </div>
-                </div>
-
-                <!-- Case Study Pin 3 -->
-                <div class="masonry-item bg-white rounded-lg overflow-hidden">
-                    <img src="https://placehold.co/600x750/f0f0f0/000000?text=SaaS+Company" alt="SaaS Company Case Study" class="w-full h-auto">
-                    <div class="p-6">
-                        <h3 class="font-bold text-xl mb-2 text-gray-800">SaaS Co. Triples Valuation via Churn Reduction</h3>
-                        <p class="text-gray-600 text-base">Implemented key customer success initiatives and long-term contracts to stabilize revenue and prove future growth.</p>
-                    </div>
-                </div>
-                
-                <!-- Case Study Pin 4 -->
-                <div class="masonry-item bg-white rounded-lg overflow-hidden">
-                    <img src="https://placehold.co/600x650/d9d9d9/000000?text=E-commerce+Brand" alt="E-commerce Brand Case Study" class="w-full h-auto">
-                    <div class="p-6">
-                        <h3 class="font-bold text-xl mb-2 text-gray-800">E-commerce Brand Secures 8-Figure Exit</h3>
-                        <p class="text-gray-600 text-base">Diversified from a single sales channel (Amazon) to a multi-channel powerhouse, de-risking the business for buyers.</p>
-                    </div>
-                </div>
-                
-                <!-- Case Study Pin 5 -->
-                <div class="masonry-item bg-white rounded-lg overflow-hidden">
-                    <img src="https://placehold.co/600x850/e0e0e0/000000?text=Logistics+Co." alt="Logistics Co. Case Study" class="w-full h-auto">
-                    <div class="p-6">
-                        <h3 class="font-bold text-xl mb-2 text-gray-800">Logistics Co. Optimizes for Strategic Acquisition</h3>
-                        <p class="text-gray-600 text-base">Streamlined fleet management and locked in key contracts, making the company a perfect bolt-on for a larger competitor.</p>
-                    </div>
-                </div>
-
-                 <!-- Case Study Pin 6 -->
-                <div class="masonry-item bg-white rounded-lg overflow-hidden">
-                    <img src="https://placehold.co/600x700/f5f5f5/000000?text=Digital+Agency" alt="Digital Agency Case Study" class="w-full h-auto">
-                    <div class="p-6">
-                        <h3 class="font-bold text-xl mb-2 text-gray-800">Digital Agency Builds Recurring Revenue</h3>
-                        <p class="text-gray-600 text-base">Shifted from project-based work to retainer contracts, increasing predictable revenue from 20% to 75% pre-sale.</p>
-                    </div>
-                </div>
+        <!-- Hidden container for the original items to be processed by JS -->
+        <div id="original-items" class="hidden">
+            <div class="masonry-item">
+                <img src="https://placehold.co/600x800/e0e0e0/000000?text=Manufacturing+Firm" alt="Manufacturing Firm Case Study" class="w-full h-auto">
+                <div class="card-content"><h3 class="card-title">Manufacturing Firm Boosts Sale Price by 45%</h3><p class="card-description">From messy financials to a turnkey operation, see how we systematized processes to attract three competing offers.</p></div>
+            </div>
+            <div class="masonry-item">
+                <img src="https://placehold.co/600x600/cccccc/000000?text=B2B+Services" alt="B2B Services Case Study" class="w-full h-auto">
+                <div class="card-content"><h3 class="card-title">Service Business Reduces Owner Dependency</h3><p class="card-description">How we built a leadership team and delegated P&L, resulting in a 2.5x multiple premium from a strategic buyer.</p></div>
+            </div>
+            <div class="masonry-item">
+                <img src="https://placehold.co/600x750/f0f0f0/000000?text=SaaS+Company" alt="SaaS Company Case Study" class="w-full h-auto">
+                <div class="card-content"><h3 class="card-title">SaaS Co. Triples Valuation via Churn Reduction</h3><p class="card-description">Implemented key customer success initiatives and long-term contracts to stabilize revenue and prove future growth.</p></div>
+            </div>
+            <div class="masonry-item">
+                <img src="https://placehold.co/600x650/d9d9d9/000000?text=E-commerce+Brand" alt="E-commerce Brand Case Study" class="w-full h-auto">
+                <div class="card-content"><h3 class="card-title">E-commerce Brand Secures 8-Figure Exit</h3><p class="card-description">Diversified from a single sales channel (Amazon) to a multi-channel powerhouse, de-risking the business for buyers.</p></div>
+            </div>
+            <div class="masonry-item">
+                <img src="https://placehold.co/600x850/e0e0e0/000000?text=Logistics+Co." alt="Logistics Co. Case Study" class="w-full h-auto">
+                <div class="card-content"><h3 class="card-title">Logistics Co. Optimizes for Strategic Acquisition</h3><p class="card-description">Streamlined fleet management and locked in key contracts, making the company a perfect bolt-on for a larger competitor.</p></div>
+            </div>
+            <div class="masonry-item">
+                <img src="https://placehold.co/600x700/f5f5f5/000000?text=Digital+Agency" alt="Digital Agency Case Study" class="w-full h-auto">
+                <div class="card-content"><h3 class="card-title">Digital Agency Builds Recurring Revenue</h3><p class="card-description">Shifted from project-based work to retainer contracts, increasing predictable revenue from 20% to 75% pre-sale.</p></div>
+            </div>
+            <div class="masonry-item">
+                <img src="https://placehold.co/600x550/e8e8e8/000000?text=Tech+Startup" alt="Tech Startup Case Study" class="w-full h-auto">
+                <div class="card-content"><h3 class="card-title">Tech Startup Achieves Strategic Exit</h3><p class="card-description">Positioned proprietary technology as core differentiator, leading to acquisition by Fortune 500 company.</p></div>
+            </div>
+            <div class="masonry-item">
+                <img src="https://placehold.co/600x680/dddddd/000000?text=Healthcare+Co." alt="Healthcare Company Case Study" class="w-full h-auto">
+                <div class="card-content"><h3 class="card-title">Healthcare Co. Streamlines Operations</h3><p class="card-description">Automated patient management and compliance systems, reducing costs by 30% and attracting private equity interest.</p></div>
+            </div>
+            <div class="masonry-item">
+                <img src="https://placehold.co/600x720/eeeeee/000000?text=Food+Brand" alt="Food Brand Case Study" class="w-full h-auto">
+                <div class="card-content"><h3 class="card-title">Specialty Food Brand Goes National</h3><p class="card-description">Expanded distribution network and built brand recognition, leading to successful acquisition by major food conglomerate.</p></div>
             </div>
         </div>
 
-        <!-- This is where a loading spinner would go for infinite scroll -->
         <div id="loader" class="hidden">Loading more stories...</div>
-
     </main>
     
-    <!-- Footer -->
     <footer class="bg-white mt-12 border-t">
         <div class="container mx-auto px-6 py-8 text-center text-gray-600">
              <p>&copy; 2025 Exit Ready Advisors. All Rights Reserved.</p>
@@ -170,37 +178,64 @@
     </footer>
 
     <script>
-        // Mobile menu toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
+        // Use the 'load' event to ensure all images are loaded and have dimensions
+        window.addEventListener('load', () => {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
 
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+            const masonryWrapper = document.getElementById('masonry-wrapper');
+            const masonryContainer = document.getElementById('masonry-container');
+            const originalItemsContainer = document.getElementById('original-items');
+            // Clone items to avoid issues with moving them from a hidden div
+            const masonryItems = Array.from(originalItemsContainer.children).map(item => item.cloneNode(true));
+            
+            // --- MASONRY LAYOUT LOGIC ---
+            function calculateLayout() {
+                // **THE FIX**: Measure the wrapper, not the container itself.
+                const containerWidth = masonryWrapper.offsetWidth; 
+                const columnBaseWidth = 300; // The width of one column in pixels
+                const gap = 24; // 1.5rem in pixels
+                
+                // Calculate how many columns can fit
+                let numColumns = Math.floor((containerWidth + gap) / (columnBaseWidth + gap));
+                if (numColumns < 1) numColumns = 1; // Always have at least one column
+
+                // Clear previous columns
+                masonryContainer.innerHTML = '';
+                
+                // Create column elements and add them to the container
+                const columns = [];
+                for(let i = 0; i < numColumns; i++) {
+                    const columnDiv = document.createElement('div');
+                    columnDiv.classList.add('masonry-column');
+                    masonryContainer.appendChild(columnDiv);
+                    columns.push(columnDiv);
+                }
+                
+                // Distribute items into the columns
+                masonryItems.forEach((item, index) => {
+                    // Add item to the next column in sequence (e.g., 1, 2, 3, 1, 2, 3)
+                    const columnIndex = index % numColumns;
+                    columns[columnIndex].appendChild(item);
+                });
+            }
+
+            // --- DEBOUNCE FOR RESIZE EVENT ---
+            let resizeTimeout;
+            function debouncedLayout() {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(calculateLayout, 100);
+            }
+
+            // Initial layout calculation
+            calculateLayout();
+
+            // Recalculate layout on window resize
+            window.addEventListener('resize', debouncedLayout);
         });
-
-        // --- Future Infinite Scroll Logic ---
-        // This section remains for future implementation.
-        
-        /*
-        const container = document.getElementById('masonry-container');
-        const loader = document.getElementById('loader');
-        let page = 1;
-
-        async function fetchPins(pageNumber) {
-            // ...
-        }
-
-        function appendPins(pins) {
-            // ...
-        }
-
-        const observer = new IntersectionObserver(async (entries) => {
-            // ...
-        });
-        
-        // observer.observe(loader);
-        */
-
     </script>
 </body>
 </html>
