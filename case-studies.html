@@ -209,14 +209,22 @@
             
             // --- MASONRY LAYOUT LOGIC ---
             function calculateLayout() {
-                // **THE FIX**: Measure the wrapper, not the container itself.
                 const containerWidth = masonryWrapper.offsetWidth; 
-                const columnBaseWidth = 300; // The width of one column in pixels
-                const gap = 24; // 1.5rem in pixels
+                const columnBaseWidth = 300;
+                const gap = 24;
                 
-                // Calculate how many columns can fit
-                let numColumns = Math.floor((containerWidth + gap) / (columnBaseWidth + gap));
-                if (numColumns < 1) numColumns = 1; // Always have at least one column
+                // Calculate how many columns can theoretically fit
+                let maxColumns = Math.floor((containerWidth + gap) / (columnBaseWidth + gap));
+                if (maxColumns < 1) maxColumns = 1;
+
+                // **THE FIX**: The number of columns should not exceed the number of items.
+                const numColumns = Math.min(maxColumns, masonryItems.length);
+
+                // If there are no items, do nothing.
+                if (numColumns === 0) {
+                    masonryContainer.innerHTML = '';
+                    return;
+                }
 
                 // Clear previous columns
                 masonryContainer.innerHTML = '';
@@ -232,7 +240,6 @@
                 
                 // Distribute items into the columns
                 masonryItems.forEach((item, index) => {
-                    // Add item to the next column in sequence (e.g., 1, 2, 3, 1, 2, 3)
                     const columnIndex = index % numColumns;
                     columns[columnIndex].appendChild(item);
                 });
