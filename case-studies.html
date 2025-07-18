@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Studies - Exit Ready Advisors</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for the masonry layout and hover effects */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff; /* White background */
+        }
+
+        /* This wrapper centers the inline-block masonry grid */
+        #masonry-wrapper {
+            text-align: center;
+        }
+
+        /* Masonry Grid using fluid column-width */
+        .masonry-grid {
+            display: inline-block; /* Allows the grid to be centered by its parent */
+            text-align: left; /* Resets text alignment for the content within the cards */
+            column-width: 20rem; 
+            column-gap: 1.5rem;   
+        }
+
+        /* Individual pin/card styling */
+        .masonry-item {
+            display: inline-block;
+            width: 100%;
+            margin-bottom: 1.5rem;
+            break-inside: avoid-column; /* Prevents cards from breaking across columns */
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            cursor: pointer; /* Add a pointer cursor to indicate it's clickable */
+            border: 1px solid #e5e7eb; /* Add a light border to cards */
+        }
+
+        .masonry-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        
+        /* For future infinite scroll implementation */
+        #loader {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.25rem;
+            color: #4b5563;
+        }
+    </style>
+</head>
+<body class="bg-white">
+
+    <!-- Header and Navigation -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div>
+                <a href="#" class="text-2xl font-bold text-gray-800">Exit Ready Advisors</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-6">
+                <!-- Link back to your home page -->
+                <a href="index.html" class="text-gray-600 hover:text-gray-900 transition-colors">Home</a>
+                <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">Services</a>
+                <a href="#" class="text-gray-900 font-semibold border-b-2 border-gray-900">Case Studies</a>
+                <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">About</a>
+                <a href="#" class="bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-black transition-colors">Contact Us</a>
+            </div>
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden">
+                <button id="mobile-menu-button">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+             <a href="index.html" class="block py-2 text-gray-600 hover:text-gray-900">Home</a>
+             <a href="#" class="block py-2 text-gray-600 hover:text-gray-900">Services</a>
+             <a href="#" class="block py-2 text-gray-900 font-semibold">Case Studies</a>
+             <a href="#" class="block py-2 text-gray-600 hover:text-gray-900">About</a>
+             <a href="#" class="block mt-2 bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-black w-full text-center">Contact Us</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="w-full px-6 lg:px-12 py-12">
+        <div class="text-center mb-12 max-w-3xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800">Proven Results, Real Stories</h1>
+            <p class="mt-4 text-lg text-gray-600">Explore how we've helped business owners like you maximize their company's value and achieve successful exits.</p>
+        </div>
+
+        <!-- Centering Wrapper for the Masonry Grid -->
+        <div id="masonry-wrapper">
+            <!-- Masonry Grid Container -->
+            <div id="masonry-container" class="masonry-grid">
+                <!-- Case Study Pin 1 -->
+                <div class="masonry-item bg-white rounded-lg overflow-hidden">
+                    <img src="https://placehold.co/600x800/e0e0e0/000000?text=Manufacturing+Firm" alt="Manufacturing Firm Case Study" class="w-full h-auto">
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-2 text-gray-800">Manufacturing Firm Boosts Sale Price by 45%</h3>
+                        <p class="text-gray-600 text-base">From messy financials to a turnkey operation, see how we systematized processes to attract three competing offers.</p>
+                    </div>
+                </div>
+
+                <!-- Case Study Pin 2 -->
+                <div class="masonry-item bg-white rounded-lg overflow-hidden">
+                    <img src="https://placehold.co/600x600/cccccc/000000?text=B2B+Services" alt="B2B Services Case Study" class="w-full h-auto">
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-2 text-gray-800">Service Business Reduces Owner Dependency</h3>
+                        <p class="text-gray-600 text-base">How we built a leadership team and delegated P&L, resulting in a 2.5x multiple premium from a strategic buyer.</p>
+                    </div>
+                </div>
+
+                <!-- Case Study Pin 3 -->
+                <div class="masonry-item bg-white rounded-lg overflow-hidden">
+                    <img src="https://placehold.co/600x750/f0f0f0/000000?text=SaaS+Company" alt="SaaS Company Case Study" class="w-full h-auto">
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-2 text-gray-800">SaaS Co. Triples Valuation via Churn Reduction</h3>
+                        <p class="text-gray-600 text-base">Implemented key customer success initiatives and long-term contracts to stabilize revenue and prove future growth.</p>
+                    </div>
+                </div>
+                
+                <!-- Case Study Pin 4 -->
+                <div class="masonry-item bg-white rounded-lg overflow-hidden">
+                    <img src="https://placehold.co/600x650/d9d9d9/000000?text=E-commerce+Brand" alt="E-commerce Brand Case Study" class="w-full h-auto">
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-2 text-gray-800">E-commerce Brand Secures 8-Figure Exit</h3>
+                        <p class="text-gray-600 text-base">Diversified from a single sales channel (Amazon) to a multi-channel powerhouse, de-risking the business for buyers.</p>
+                    </div>
+                </div>
+                
+                <!-- Case Study Pin 5 -->
+                <div class="masonry-item bg-white rounded-lg overflow-hidden">
+                    <img src="https://placehold.co/600x850/e0e0e0/000000?text=Logistics+Co." alt="Logistics Co. Case Study" class="w-full h-auto">
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-2 text-gray-800">Logistics Co. Optimizes for Strategic Acquisition</h3>
+                        <p class="text-gray-600 text-base">Streamlined fleet management and locked in key contracts, making the company a perfect bolt-on for a larger competitor.</p>
+                    </div>
+                </div>
+
+                 <!-- Case Study Pin 6 -->
+                <div class="masonry-item bg-white rounded-lg overflow-hidden">
+                    <img src="https://placehold.co/600x700/f5f5f5/000000?text=Digital+Agency" alt="Digital Agency Case Study" class="w-full h-auto">
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-2 text-gray-800">Digital Agency Builds Recurring Revenue</h3>
+                        <p class="text-gray-600 text-base">Shifted from project-based work to retainer contracts, increasing predictable revenue from 20% to 75% pre-sale.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- This is where a loading spinner would go for infinite scroll -->
+        <div id="loader" class="hidden">Loading more stories...</div>
+
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-white mt-12 border-t">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-600">
+             <p>&copy; 2025 Exit Ready Advisors. All Rights Reserved.</p>
+             <div class="mt-4">
+                <a href="#" class="mx-2 hover:text-gray-900">Privacy Policy</a>
+                <a href="#" class="mx-2 hover:text-gray-900">Terms of Service</a>
+             </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // --- Future Infinite Scroll Logic ---
+        // This section remains for future implementation.
+        
+        /*
+        const container = document.getElementById('masonry-container');
+        const loader = document.getElementById('loader');
+        let page = 1;
+
+        async function fetchPins(pageNumber) {
+            // ...
+        }
+
+        function appendPins(pins) {
+            // ...
+        }
+
+        const observer = new IntersectionObserver(async (entries) => {
+            // ...
+        });
+        
+        // observer.observe(loader);
+        */
+
+    </script>
+</body>
+</html>
