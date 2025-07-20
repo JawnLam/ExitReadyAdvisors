@@ -2,14 +2,11 @@
 <html lang="en">
 
     <!-- 
-    /------------------------------------------------\
-    |                                                |
-    |            NOTES & COMMENTS SECTION            |
-    |                                                |
-    | The Gemini link to this is:                    |
-    | https://gemini.google.com/app/a481f93648df580c |
-    |                                                |
-    \------------------------------------------------/
+    /----------------------------------------------------------------------------\
+    | LAST UPDATE: 2507201649…Sun_Jul_20_2025…0449PM                             |
+    | https://gemini.google.com/app/a481f93648df580c                             |
+    | https://github.com/JawnLam/ExitReadyAdvisors/blob/main/privacy-policy.html |
+    \----------------------------------------------------------------------------/
     -->
 
 <head>
@@ -31,30 +28,32 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
-        /* Styles for the main content area */
+        /* Styles for the main content area for better readability */
         .policy-content h2 {
-            @apply text-2xl font-bold text-gray-900 mt-8 mb-4;
+            @apply text-3xl font-bold text-gray-900 mt-12 mb-6 pb-3 border-b border-gray-300;
         }
         .policy-content h3 {
-            @apply text-xl font-semibold text-gray-800 mt-6 mb-3;
+            @apply text-2xl font-bold text-gray-900 mt-10 mb-4;
         }
         .policy-content p {
-            @apply text-gray-700 mb-4 leading-relaxed;
+            @apply text-lg text-gray-700 mb-10 leading-relaxed;
         }
         .policy-content ul {
-            @apply list-disc list-inside text-gray-700 mb-4 pl-4 space-y-2;
+            @apply list-disc list-inside text-lg text-gray-700 mb-10 pl-4 space-y-3;
         }
         .policy-content a {
             @apply text-gray-800 underline hover:text-black;
+        }
+        /* First h2 should not have a top margin */
+        .policy-content h2:first-of-type {
+            @apply mt-0;
         }
     </style>
 </head>
 <body class="bg-white text-gray-800">
     <!-- 
     /----------------\
-    |                |
     | HEADER SECTION |
-    |                |
     \----------------/
     -->
     <header class="bg-white shadow-sm sticky top-0 z-50">
@@ -73,8 +72,7 @@
     <main class="bg-gray-50 py-16 md:py-24">
         <div class="container mx-auto px-6">
             <div class="max-w-4xl mx-auto bg-white p-8 md:p-12 rounded-lg shadow-md">
-                <h1 class="text-4xl font-bold text-gray-900 mb-2">Privacy Policy</h1>
-                <p class="text-gray-500 mb-8">Last Updated: July 18, 2025</p>
+                <h1 class="text-5xl font-bold text-gray-900 mb-10">Privacy Policy</h1>
 
                 <div class="policy-content">
                     <p>Exit Ready Advisors ("we," "us," or "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website and use our services. Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the site.</p>
@@ -135,21 +133,18 @@
 
     <!-- 
     /----------------\
-    |                |
     | FOOTER SECTION |
-    |                |
     \----------------/
     -->
     <footer class="bg-gray-900 text-gray-400 py-8">
         <div class="container mx-auto px-6 text-center">
             <p>&copy; 2025 Exit Ready Advisors. All Rights Reserved.</p>
             <div class="mt-4 space-x-6">
-                <a href="privacy-policy.html" class="text-white">Privacy Policy</a>
-                <a href="#" class="hover:text-white">Terms of Service</a>
+                <a href="privacy-policy.html" class="hover:text-white">Privacy Policy</a>
+                <a href="terms-of-service.html" class="hover:text-white">Terms of Service</a>
             </div>
         </div>
     </footer>
-
 
 </body>
 </html>
