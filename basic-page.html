@@ -3,8 +3,8 @@
 
     <!-- 
     /------------------------------------------------------------------------\
-    | LAST UPDATE: 2507201951…Sun_Jul_20_2025…0751PM                         |
-    | https://gemini.google.com/app/                                         |
+    | LAST UPDATE: 2507211116…Mon_Jul_21_2025…1116AM                         |
+    | https://gemini.google.com/app/8a73b2be7803285b                         |
     | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/basic-page.html |
     \------------------------------------------------------------------------/
     -->
@@ -21,33 +21,20 @@
         body {
             font-family: 'Inter', sans-serif;
         }
-        .hero-bg {
-            background-image: url('https://i.imgur.com/2fSu8qd.png');
-            background-size: cover;
-            background-position: center top; /* Anchored to the top */
-        }
-        .cta-button {
-            transition: all 0.3s ease;
-        }
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
-        .service-card {
-            transition: all 0.3s ease;
-        }
-        .service-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-        .text-glow {
-            text-shadow: 0 0 8px rgba(0, 0, 0, 0.9), 0 0 10px rgba(0, 0, 0, 0.7);
-        }
     </style>
 </head>
-<body class="bg-white text-gray-800">
+<body class="bg-gray-50 text-gray-800">
+
     <!-- Header Placeholder -->
     <header id="header-placeholder"></header>
+
+    <!-- Main Content Placeholder -->
+    <main class="container mx-auto px-6 py-16 md:py-24">
+        <div class="text-center">
+            <h1 class="text-4xl font-bold text-gray-900">Title Placeholder</h1>
+            <p class="mt-4 text-lg text-gray-600">This is a placeholder for the main content of your page. You can replace this section with your own text, images, and components.</p>
+        </div>
+    </main>
 
     <!-- Footer Placeholder -->
     <footer id="footer-placeholder"></footer>
@@ -58,19 +45,40 @@
     \-------------------/
     -->
     <script>
-        // Fetch and inject the header
-        fetch("https://jawnlam.github.io/ExitReadyAdvisors/header.html")
-            .then(response => response.text())
-            .then(data => {
-                document.querySelector("#header-placeholder").innerHTML = data;
-            });
+        /**
+         * Fetches and injects the header and footer components concurrently.
+         * This function is called once the initial HTML document has been completely loaded and parsed.
+         */
+        async function loadComponents() {
+            try {
+                // Promise.all allows us to fetch both resources at the same time (concurrently).
+                const [headerResponse, footerResponse] = await Promise.all([
+                    fetch("https://jawnlam.github.io/ExitReadyAdvisors/header.html"),
+                    fetch("https://jawnlam.github.io/ExitReadyAdvisors/footer.html")
+                ]);
 
-        // Fetch and inject the footer
-        fetch("https://jawnlam.github.io/ExitReadyAdvisors/footer.html")
-            .then(response => response.text())
-            .then(data => {
-                document.querySelector("#footer-placeholder").innerHTML = data;
-            });
+                // Check both responses for errors.
+                if (!headerResponse.ok) throw new Error('Header failed to load.');
+                if (!footerResponse.ok) throw new Error('Footer failed to load.');
+
+                // Get the text content from both responses.
+                const headerData = await headerResponse.text();
+                const footerData = await footerResponse.text();
+                
+                // Inject the HTML into the placeholder elements.
+                document.querySelector("#header-placeholder").innerHTML = headerData;
+                document.querySelector("#footer-placeholder").innerHTML = footerData;
+
+            } catch (error) {
+                console.error('Error loading components:', error);
+                // Display fallback content if any part of the loading process fails.
+                document.querySelector("#header-placeholder").innerHTML = '<div class="bg-gray-800 text-white p-4 text-center">Header could not be loaded.</div>';
+                document.querySelector("#footer-placeholder").innerHTML = '<div class="bg-gray-800 text-white p-4 text-center">Footer could not be loaded.</div>';
+            }
+        }
+
+        // It's best practice to run this script after the DOM is fully loaded.
+        document.addEventListener('DOMContentLoaded', loadComponents);
     </script>
 
 </body>
