@@ -3,7 +3,7 @@
 
     <!-- 
     /-------------------------------------------------------------------\
-    | LAST UPDATE: 2507191215…Sat_Jul_19_2025…1215PM                    |
+    | LAST UPDATE: 2507201951…Sun_Jul_20_2025…0751PM                    |
     | https://gemini.google.com/app/f4a337d5a29ecf30                    |
     | https://github.com/JawnLam/ExitReadyAdvisors/blob/main/index.html |
     \-------------------------------------------------------------------/
@@ -46,18 +46,8 @@
     </style>
 </head>
 <body class="bg-white text-gray-800">
-    <!-- Header / Navigation Placeholder -->
-    <header class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-gray-900">Exit Ready Advisors</h1>
-            <nav class="hidden md:flex space-x-8">
-                <a href="#services" class="text-gray-600 hover:text-black">Services</a>
-                <a href="case-studies.html" class="text-gray-600 hover:text-black">Case Studies</a>
-                <a href="#aboutus" class="text-gray-600 hover:text-black">About Us</a>
-            </nav>
-            <a href="https://book.vimcal.com/p/jawnlam/30-minute-meeting" target="_blank" rel="noopener noreferrer" class="cta-button bg-gray-800 text-white font-semibold px-5 py-2 rounded-lg hover:bg-black">Book a Call</a>
-        </div>
-    </header>
+    <!-- Header Placeholder -->
+    <header id="header-placeholder"></header>
 
     <!-- 1. Hero Section -->
     <section class="hero-bg relative text-white">
@@ -239,20 +229,28 @@
         </div>
     </section>
 
+    <footer id="footer-placeholder"></footer>
+
     <!-- 
-    /----------------\
-    | FOOTER SECTION |
-    \----------------/
+    /-------------------\
+    | HEADER AND FOOTER |
+    \-------------------/
     -->
-    <footer class="bg-gray-900 text-gray-400 py-8">
-        <div class="container mx-auto px-6 text-center">
-            <p>&copy; 2025 Exit Ready Advisors. All Rights Reserved.</p>
-            <div class="mt-4 space-x-6">
-                <a href="privacy-policy.html" class="hover:text-white">Privacy Policy</a>
-                <a href="terms-of-service.html" class="hover:text-white">Terms of Service</a>
-            </div>
-        </div>
-    </footer>
+    <script>
+        // Fetch and inject the header
+        fetch("https://jawnlam.github.io/ExitReadyAdvisors/header.html")
+            .then(response => response.text())
+            .then(data => {
+                document.querySelector("#header-placeholder").innerHTML = data;
+            });
+
+        // Fetch and inject the footer
+        fetch("https://jawnlam.github.io/ExitReadyAdvisors/footer.html")
+            .then(response => response.text())
+            .then(data => {
+                document.querySelector("#footer-placeholder").innerHTML = data;
+            });
+    </script>
 
 </body>
 </html>
