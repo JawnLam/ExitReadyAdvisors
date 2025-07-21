@@ -3,7 +3,7 @@
 
     <!-- 
     /--------------------------------------------------------------------------\
-    | LAST UPDATE: 2507202053…Sun_Jul_20_2025_0853PM                           |
+    | LAST UPDATE: 2507202108…Sun_Jul_20_2025_0908PM                           |
     | https://gemini.google.com/app/6130e9b2b6999ac6                           |
     | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/case-studies.html |
     \--------------------------------------------------------------------------/
@@ -154,44 +154,44 @@
     <footer id="footer-placeholder"></footer>
 
     <script>
-        // Use the 'load' event to ensure all images are loaded and have dimensions
-        window.addEventListener('load', () => {
+        // This function will initialize all the scripts that depend on the DOM being ready
+        function initializeApp() {
+            // Mobile menu toggle
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
-            // This check prevents the error if the elements don't exist
             if (mobileMenuButton && mobileMenu) {
                 mobileMenuButton.addEventListener('click', () => {
                     mobileMenu.classList.toggle('hidden');
                 });
             }
 
+            // Masonry layout logic
             const masonryWrapper = document.getElementById('masonry-wrapper');
             const masonryContainer = document.getElementById('masonry-container');
             const originalItemsContainer = document.getElementById('original-items');
             
-            // This check prevents errors if the masonry elements aren't on the page
             if (!masonryWrapper || !masonryContainer || !originalItemsContainer) {
                 return; 
             }
 
-            // Clone items to avoid issues with moving them from a hidden div
             const masonryItems = Array.from(originalItemsContainer.children).map(item => item.cloneNode(true));
             
-            // --- MASONRY LAYOUT LOGIC ---
             function calculateLayout() {
-                // Measure the wrapper, not the container itself.
                 const containerWidth = masonryWrapper.offsetWidth; 
-                const columnBaseWidth = 300; // The width of one column in pixels
-                const gap = 24; // 1.5rem in pixels
+                const columnBaseWidth = 300;
+                const gap = 24;
                 
-                // Calculate how many columns can fit
                 let numColumns = Math.floor((containerWidth + gap) / (columnBaseWidth + gap));
-                if (numColumns < 1) numColumns = 1; // Always have at least one column
+                if (numColumns < 1) numColumns = 1;
+                
+                // *** THE FIX IS HERE ***
+                // Never create more columns than there are items.
+                if (numColumns > masonryItems.length) {
+                    numColumns = masonryItems.length;
+                }
 
-                // Clear previous columns
                 masonryContainer.innerHTML = '';
                 
-                // Create column elements and add them to the container
                 const columns = [];
                 for(let i = 0; i < numColumns; i++) {
                     const columnDiv = document.createElement('div');
@@ -200,49 +200,54 @@
                     columns.push(columnDiv);
                 }
                 
-                // Distribute items into the columns
                 masonryItems.forEach((item, index) => {
-                    // Add item to the next column in sequence (e.g., 1, 2, 3, 1, 2, 3)
                     const columnIndex = index % numColumns;
                     columns[columnIndex].appendChild(item);
                 });
             }
 
-            // --- DEBOUNCE FOR RESIZE EVENT ---
             let resizeTimeout;
             function debouncedLayout() {
                 clearTimeout(resizeTimeout);
                 resizeTimeout = setTimeout(calculateLayout, 100);
             }
 
-            // Initial layout calculation
             calculateLayout();
-
-            // Recalculate layout on window resize
             window.addEventListener('resize', debouncedLayout);
-        });
-    </script>
+        }
 
-    <!-- 
-    /-------------------\
-    | HEADER AND FOOTER |
-    \-------------------/
-    -->
-    <script>
-        // Fetch and inject the header
-        fetch("https://jawnlam.github.io/ExitReadyAdvisors/header.html")
-            .then(response => response.text())
-            .then(data => {
-                document.querySelector("#header-placeholder").innerHTML = data;
+        // This function fetches and injects the header and footer
+        async function loadComponents() {
+            const headerPromise = fetch("https://jawnlam.github.io/ExitReadyAdvisors/header.html")
+                .then(response => {
+                    if (!response.ok) throw new Error("Header not found");
+                    return response.text();
+                })
+                .then(data => {
+                    document.querySelector("#header-placeholder").innerHTML = data;
+                });
+
+            const footerPromise = fetch("https://jawnlam.github.io/ExitReadyAdvisors/footer.html")
+                .then(response => {
+                    if (!response.ok) throw new Error("Footer not found");
+                    return response.text();
+                })
+                .then(data => {
+                    document.querySelector("#footer-placeholder").innerHTML = data;
+                });
+            
+            // Wait for both fetch operations to complete
+            await Promise.all([headerPromise, footerPromise]);
+        }
+
+        // Main execution: Load components, then initialize the app
+        loadComponents()
+            .then(initializeApp)
+            .catch(error => {
+                console.error("Error loading page components:", error);
+                // Fallback or error message for the user
+                document.body.innerHTML = "<p style='text-align:center; padding: 2rem;'>Error loading page. Please try again later.</p>";
             });
-
-        // Fetch and inject the footer
-        fetch("https://jawnlam.github.io/ExitReadyAdvisors/footer.html")
-            .then(response => response.text())
-            .then(data => {
-                document.querySelector("#footer-placeholder").innerHTML = data;
-            });
     </script>
-
 </body>
 </html>
