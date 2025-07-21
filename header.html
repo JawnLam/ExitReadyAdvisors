@@ -1,32 +1,81 @@
-<!-- header.html -->
-<header class="bg-white shadow-sm sticky top-0 z-50">
-    <nav class="container mx-auto flex justify-between items-center">
-        <!-- Inverted Brand Block with Hover Effect -->
-        <div class="group bg-gray-900 hover:bg-white -ml-6 px-6 py-4 transition-colors duration-300">
-            <a href="index.html" class="text-xl md:text-2xl font-bold text-white group-hover:text-gray-900 transition-colors duration-300">Exit Ready Advisors</a>
-        </div>
-        
-        <!-- Desktop Navigation Links -->
-        <div class="hidden md:flex items-center space-x-8">
-            <a href="#" class="text-gray-500 font-medium hover:text-gray-900 transition-colors">Services</a>
-            <a href="#" class="text-gray-500 font-medium hover:text-gray-900 transition-colors">Case Studies</a>
-            <a href="#" class="text-gray-500 font-medium hover:text-gray-900 transition-colors">About Us</a>
-            <a href="#" class="bg-orange-500 text-white px-5 py-2 rounded-lg hover:bg-orange-600 transition-colors font-semibold">Book A Call</a>
-        </div>
+<!DOCTYPE html>
+<html lang="en">
 
-        <!-- Mobile Menu Button -->
-        <div class="md:hidden pr-4">
-            <button id="mobile-menu-button">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-            </button>
+    <!--  
+    /--------------------------------------------------------------------\
+    | LAST UPDATE: 2007202520...Sun_Jul_20_2025_0813PM                   |
+    | https://gemini.google.com/app/df97e939472ed543                     |
+    | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/header.html |
+    \--------------------------------------------------------------------/
+    -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exit Ready Advisors - Case Studies</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* Use Inter as the default font */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- header.html -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto flex justify-between items-center">
+            <!-- Inverted Brand Block with Hover Effect -->
+            <div class="group bg-gray-900 hover:bg-white -ml-6 px-6 py-4 transition-colors duration-300">
+                <a href="index.html" class="text-xl md:text-2xl font-bold text-white group-hover:text-gray-900 transition-colors duration-300">Exit Ready Advisors</a>
+            </div>
+            
+            <!-- Desktop Navigation Links -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="services.html" class="text-gray-500 font-medium hover:text-gray-900 transition-colors">Services</a>
+                <a href="case-studies.html" class="text-gray-500 font-medium hover:text-gray-900 transition-colors">Case Studies</a>
+                <a href="about.html" class="text-gray-500 font-medium hover:text-gray-900 transition-colors">About Us</a>
+                <a href="contact.html" class="bg-orange-500 text-white px-5 py-2 rounded-lg hover:bg-orange-600 transition-colors font-semibold">Book A Call</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden pr-4">
+                <button id="mobile-menu-button" aria-controls="mobile-menu" aria-expanded="false">
+                    <span class="sr-only">Open main menu</span>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+             <a href="services.html" class="block py-2 text-gray-500 font-medium hover:text-gray-900">Services</a>
+             <a href="case-studies.html" class="block py-2 text-gray-500 font-medium hover:text-gray-900">Case Studies</a>
+             <a href="about.html" class="block py-2 text-gray-500 font-medium hover:text-gray-900">About Us</a>
+             <a href="contact.html" class="block mt-2 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 w-full text-center font-semibold">Book A Call</a>
         </div>
-    </nav>
-    
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
-         <a href="#" class="block py-2 text-gray-500 font-medium hover:text-gray-900">Services</a>
-         <a href="#" class="block py-2 text-gray-500 font-medium hover:text-gray-900">Case Studies</a>
-         <a href="#" class="block py-2 text-gray-500 font-medium hover:text-gray-900">About Us</a>
-         <a href="#" class="block mt-2 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 w-full text-center font-semibold">Book A Call</a>
-    </div>
-</header>
+    </header>
+
+    <script>
+        // JavaScript to toggle the mobile menu
+        const menuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuButton.addEventListener('click', () => {
+            // Toggle the 'hidden' class on the menu
+            mobileMenu.classList.toggle('hidden');
+
+            // Toggle the aria-expanded attribute for accessibility
+            const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+            menuButton.setAttribute('aria-expanded', !isExpanded);
+        });
+    </script>
+
+</body>
+</html>
