@@ -3,9 +3,9 @@
 
     <!-- 
     /--------------------------------------------------------------------------\
-    | LAST UPDATE: 2507191142…Sat_Jul_19_2025…1142AM                           |
-    | https://gemini.google.com/app/a481f93648df580c                           |
-    | https://github.com/JawnLam/ExitReadyAdvisors/blob/main/case-studies.html |
+    | LAST UPDATE: 2507202044…Sun_Jul_20_2025_0844PM                           |
+    | https://gemini.google.com/app/6130e9b2b6999ac6                           |
+    | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/case-studies.html |
     \--------------------------------------------------------------------------/
     -->
 
@@ -94,29 +94,34 @@
 </head>
 <body class="bg-white">
     <header class="bg-white shadow-sm sticky top-0 z-50">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div>
-                <a href="index.html" class="text-xl md:text-2xl font-bold text-gray-800">Exit Ready Advisors</a>
+        <nav class="container mx-auto flex justify-between items-center">
+            <!-- Inverted Brand Block with Hover Effect -->
+            <div class="group bg-gray-900 hover:bg-white -ml-6 px-6 py-4 transition-colors duration-300">
+                <a href="index.html" class="text-xl md:text-2xl font-bold text-white group-hover:text-gray-900 transition-colors duration-300">Exit Ready Advisors</a>
             </div>
-            <div class="hidden md:flex items-center space-x-6">
-                <a href="index.html" class="text-gray-600 hover:text-gray-900 transition-colors">Home</a>
-                <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">Services</a>
-                <a href="#" class="text-gray-900 font-semibold border-b-2 border-gray-900">Case Studies</a>
-                <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">About Us</a>
-                <a href="#" class="bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-black transition-colors">Book A Call</a>
+            
+            <!-- Desktop Navigation Links -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#" class="text-gray-500 font-medium hover:text-gray-900 transition-colors">Services</a>
+                <a href="#" class="text-gray-500 font-medium hover:text-gray-900 transition-colors">Case Studies</a>
+                <a href="#" class="text-gray-500 font-medium hover:text-gray-900 transition-colors">About Us</a>
+                <a href="#" class="bg-orange-500 text-white px-5 py-2 rounded-lg hover:bg-orange-600 transition-colors font-semibold">Book A Call</a>
             </div>
-            <div class="md:hidden">
+
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden pr-4">
                 <button id="mobile-menu-button">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                 </button>
             </div>
         </nav>
+        
+        <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
-             <a href="index.html" class="block py-2 text-gray-600 hover:text-gray-900">Home</a>
-             <a href="#" class="block py-2 text-gray-600 hover:text-gray-900">Services</a>
-             <a href="#" class="block py-2 text-gray-900 font-semibold">Case Studies</a>
-             <a href="#" class="block py-2 text-gray-600 hover:text-gray-900">About Us</a>
-             <a href="#" class="block mt-2 bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-black w-full text-center">Book A Call</a>
+             <a href="#" class="block py-2 text-gray-500 font-medium hover:text-gray-900">Services</a>
+             <a href="#" class="block py-2 text-gray-500 font-medium hover:text-gray-900">Case Studies</a>
+             <a href="#" class="block py-2 text-gray-500 font-medium hover:text-gray-900">About Us</a>
+             <a href="#" class="block mt-2 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 w-full text-center font-semibold">Book A Call</a>
         </div>
     </header>
 
@@ -143,7 +148,6 @@
                 <img src="https://placehold.co/600x750/f0f0f0/000000?text=SaaS+Company" alt="SaaS Company Case Study" class="w-full h-auto">
                 <div class="card-content"><h3 class="card-title">SaaS Co. Triples Valuation via Churn Reduction</h3><p class="card-description">Implemented key customer success initiatives and long-term contracts to stabilize revenue and prove future growth.</p></div>
             </div>
-            <!-- 
             <div class="masonry-item">
                 <img src="https://placehold.co/600x650/d9d9d9/000000?text=E-commerce+Brand" alt="E-commerce Brand Case Study" class="w-full h-auto">
                 <div class="card-content"><h3 class="card-title">E-commerce Brand Secures 8-Figure Exit</h3><p class="card-description">Diversified from a single sales channel (Amazon) to a multi-channel powerhouse, de-risking the business for buyers.</p></div>
@@ -168,30 +172,48 @@
                 <img src="https://placehold.co/600x720/eeeeee/000000?text=Food+Brand" alt="Food Brand Case Study" class="w-full h-auto">
                 <div class="card-content"><h3 class="card-title">Specialty Food Brand Goes National</h3><p class="card-description">Expanded distribution network and built brand recognition, leading to successful acquisition by major food conglomerate.</p></div>
             </div>
-            -->
         </div>
 
         <div id="loader" class="hidden">Loading more stories...</div>
     </main>
     
+    <footer class="bg-gray-900 text-gray-400 py-8">
+        <div class="container mx-auto px-6 text-center">
+            <p>&copy; 2025 Exit Ready Advisors. All Rights Reserved.</p>
+            <div class="mt-4 space-x-6">
+                <a href="privacy-policy.html" class="hover:text-white">Privacy Policy</a>
+                <a href="terms-of-service.html" class="hover:text-white">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
     <script>
         // Use the 'load' event to ensure all images are loaded and have dimensions
         window.addEventListener('load', () => {
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
+            // This check prevents the error if the elements don't exist
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
 
             const masonryWrapper = document.getElementById('masonry-wrapper');
             const masonryContainer = document.getElementById('masonry-container');
             const originalItemsContainer = document.getElementById('original-items');
+            
+            // This check prevents errors if the masonry elements aren't on the page
+            if (!masonryWrapper || !masonryContainer || !originalItemsContainer) {
+                return; 
+            }
+
             // Clone items to avoid issues with moving them from a hidden div
             const masonryItems = Array.from(originalItemsContainer.children).map(item => item.cloneNode(true));
             
             // --- MASONRY LAYOUT LOGIC ---
             function calculateLayout() {
-                // **THE FIX**: Measure the wrapper, not the container itself.
+                // Measure the wrapper, not the container itself.
                 const containerWidth = masonryWrapper.offsetWidth; 
                 const columnBaseWidth = 300; // The width of one column in pixels
                 const gap = 24; // 1.5rem in pixels
@@ -234,19 +256,5 @@
             window.addEventListener('resize', debouncedLayout);
         });
     </script>
-    <!-- 
-    /----------------\
-    | FOOTER SECTION |
-    \----------------/
-    -->
-    <footer class="bg-gray-900 text-gray-400 py-8">
-        <div class="container mx-auto px-6 text-center">
-            <p>&copy; 2025 Exit Ready Advisors. All Rights Reserved.</p>
-            <div class="mt-4 space-x-6">
-                <a href="privacy-policy.html" class="hover:text-white">Privacy Policy</a>
-                <a href="terms-of-service.html" class="hover:text-white">Terms of Service</a>
-            </div>
-        </div>
-    </footer>
 </body>
 </html>
