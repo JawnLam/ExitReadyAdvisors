@@ -3,7 +3,7 @@
 
     <!-- 
     /--------------------------------------------------------------------------\
-    | LAST UPDATE: 2507211049…Mon_Jul_21_2025_1049AM                           |
+    | LAST UPDATE: 2507211100…Mon_Jul_21_2025_1100AM                           |
     | https://gemini.google.com/app/6130e9b2b6999ac6                           |
     | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/case-studies.html |
     \--------------------------------------------------------------------------/
@@ -154,100 +154,104 @@
     <footer id="footer-placeholder"></footer>
 
     <script>
-        // This function will initialize all the scripts that depend on the DOM being ready
-        function initializeApp() {
-            // Mobile menu toggle
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            if (mobileMenuButton && mobileMenu) {
-                mobileMenuButton.addEventListener('click', () => {
-                    mobileMenu.classList.toggle('hidden');
-                });
-            }
-
-            // Masonry layout logic
-            const masonryWrapper = document.getElementById('masonry-wrapper');
-            const masonryContainer = document.getElementById('masonry-container');
-            const originalItemsContainer = document.getElementById('original-items');
-            
-            if (!masonryWrapper || !masonryContainer || !originalItemsContainer) {
-                return; 
-            }
-
-            const masonryItems = Array.from(originalItemsContainer.children).map(item => item.cloneNode(true));
-            
-            function calculateLayout() {
-                const containerWidth = masonryWrapper.offsetWidth; 
-                const columnBaseWidth = 300;
-                const gap = 24;
-                
-                let numColumns = Math.floor((containerWidth + gap) / (columnBaseWidth + gap));
-                if (numColumns < 1) numColumns = 1;
-                
-                // *** THE FIX IS HERE ***
-                // Never create more columns than there are items.
-                if (numColumns > masonryItems.length) {
-                    numColumns = masonryItems.length;
+        document.addEventListener('DOMContentLoaded', () => {
+            // This function will initialize all the scripts that depend on the DOM being ready
+            function initializeApp() {
+                // Mobile menu toggle
+                const mobileMenuButton = document.getElementById('mobile-menu-button');
+                const mobileMenu = document.getElementById('mobile-menu');
+                if (mobileMenuButton && mobileMenu) {
+                    mobileMenuButton.addEventListener('click', () => {
+                        mobileMenu.classList.toggle('hidden');
+                    });
                 }
 
-                masonryContainer.innerHTML = '';
+                // Masonry layout logic
+                const masonryWrapper = document.getElementById('masonry-wrapper');
+                const masonryContainer = document.getElementById('masonry-container');
+                const originalItemsContainer = document.getElementById('original-items');
                 
-                const columns = [];
-                for(let i = 0; i < numColumns; i++) {
-                    const columnDiv = document.createElement('div');
-                    columnDiv.classList.add('masonry-column');
-                    masonryContainer.appendChild(columnDiv);
-                    columns.push(columnDiv);
+                if (!masonryWrapper || !masonryContainer || !originalItemsContainer) {
+                    console.log("Masonry elements not found, skipping layout.");
+                    return; 
                 }
+
+                const masonryItems = Array.from(originalItemsContainer.children).map(item => item.cloneNode(true));
                 
-                masonryItems.forEach((item, index) => {
-                    const columnIndex = index % numColumns;
-                    columns[columnIndex].appendChild(item);
-                });
+                function calculateLayout() {
+                    const containerWidth = masonryWrapper.offsetWidth; 
+                    const columnBaseWidth = 300;
+                    const gap = 24;
+                    
+                    let numColumns = Math.floor((containerWidth + gap) / (columnBaseWidth + gap));
+                    if (numColumns < 1) numColumns = 1;
+                    
+                    if (numColumns > masonryItems.length && masonryItems.length > 0) {
+                        numColumns = masonryItems.length;
+                    }
+
+                    masonryContainer.innerHTML = '';
+                    
+                    const columns = [];
+                    for(let i = 0; i < numColumns; i++) {
+                        const columnDiv = document.createElement('div');
+                        columnDiv.classList.add('masonry-column');
+                        masonryContainer.appendChild(columnDiv);
+                        columns.push(columnDiv);
+                    }
+                    
+                    masonryItems.forEach((item, index) => {
+                        const columnIndex = index % numColumns;
+                        columns[columnIndex].appendChild(item);
+                    });
+                }
+
+                let resizeTimeout;
+                function debouncedLayout() {
+                    clearTimeout(resizeTimeout);
+                    resizeTimeout = setTimeout(calculateLayout, 100);
+                }
+
+                // A short delay to ensure images start loading and have dimensions
+                setTimeout(() => {
+                    calculateLayout();
+                    window.addEventListener('resize', debouncedLayout);
+                }, 100);
             }
 
-            let resizeTimeout;
-            function debouncedLayout() {
-                clearTimeout(resizeTimeout);
-                resizeTimeout = setTimeout(calculateLayout, 100);
+            // This function fetches and injects the header and footer
+            async function loadComponents() {
+                const headerPromise = fetch("https://jawnlam.github.io/ExitReadyAdvisors/header.html")
+                    .then(response => {
+                        if (!response.ok) throw new Error("Header not found at https://jawnlam.github.io/ExitReadyAdvisors/header.html");
+                        return response.text();
+                    })
+                    .then(data => {
+                        document.querySelector("#header-placeholder").innerHTML = data;
+                    });
+
+                const footerPromise = fetch("https://jawnlam.github.io/ExitReadyAdvisors/footer.html")
+                    .then(response => {
+                        if (!response.ok) throw new Error("Footer not found at https://jawnlam.github.io/ExitReadyAdvisors/footer.html");
+                        return response.text();
+                    })
+                    .then(data => {
+                        document.querySelector("#footer-placeholder").innerHTML = data;
+                    });
+                
+                // Wait for both fetch operations to complete
+                await Promise.all([headerPromise, footerPromise]);
             }
 
-            calculateLayout();
-            window.addEventListener('resize', debouncedLayout);
-        }
-
-        // This function fetches and injects the header and footer
-        async function loadComponents() {
-            const headerPromise = fetch("https://jawnlam.github.io/ExitReadyAdvisors/header.html")
-                .then(response => {
-                    if (!response.ok) throw new Error("Header not found");
-                    return response.text();
-                })
-                .then(data => {
-                    document.querySelector("#header-placeholder").innerHTML = data;
+            // Main execution: Load components, then initialize the app
+            loadComponents()
+                .then(initializeApp)
+                .catch(error => {
+                    console.error("Error loading page components:", error);
+                    // Fallback or error message for the user
+                    document.body.innerHTML = `<p style='text-align:center; padding: 2rem; font-family: sans-serif;'>${error}. Please check the file paths and ensure the server is running.</p>`;
                 });
-
-            const footerPromise = fetch("https://jawnlam.github.io/ExitReadyAdvisors/footer.html")
-                .then(response => {
-                    if (!response.ok) throw new Error("Footer not found");
-                    return response.text();
-                })
-                .then(data => {
-                    document.querySelector("#footer-placeholder").innerHTML = data;
-                });
-            
-            // Wait for both fetch operations to complete
-            await Promise.all([headerPromise, footerPromise]);
-        }
-
-        // Main execution: Load components, then initialize the app
-        loadComponents()
-            .then(initializeApp)
-            .catch(error => {
-                console.error("Error loading page components:", error);
-                // Fallback or error message for the user
-                document.body.innerHTML = "<p style='text-align:center; padding: 2rem;'>Error loading page. Please try again later.</p>";
-            });
+        });
     </script>
 </body>
 </html>
