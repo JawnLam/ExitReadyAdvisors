@@ -3,9 +3,9 @@
 
     <!-- 
     /------------------------------------------------------------------------------\
-    | LAST UPDATE: 2507201634…Sun_Jul_20_2025…0434PM                               |
+    | LAST UPDATE: 2507211317…Mon_Jul_21_2025_0117PM                               |
     | https://gemini.google.com/app/2431a4ca46278d65                               |
-    | https://github.com/JawnLam/ExitReadyAdvisors/blob/main/terms-of-service.html |
+    | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/terms-of-service.html |
     \------------------------------------------------------------------------------/
     -->
 
@@ -67,18 +67,8 @@
 
 <body class="bg-white text-gray-800">
 
-    <!-- Header / Navigation -->
-    <header class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="index.html" class="text-2xl font-bold text-gray-900">Exit Ready Advisors</a>
-            <nav class="hidden md:flex space-x-8">
-                <a href="index.html#services" class="text-gray-600 hover:text-black">Services</a>
-                <a href="case-studies.html" class="text-gray-600 hover:text-black">Case Studies</a>
-                <a href="index.html#aboutus" class="text-gray-600 hover:text-black">About Us</a>
-            </nav>
-            <a href="https://book.vimcal.com/p/jawnlam/30-minute-meeting" target="_blank" rel="noopener noreferrer" class="cta-button bg-gray-800 text-white font-semibold px-5 py-2 rounded-lg hover:bg-black">Book a Call</a>
-        </div>
-    </header>
+    <!-- Header Placeholder -->
+    <header id="header-placeholder"></header>
 
     <!-- Main Content: Terms of Service -->
     <main class="bg-gray-50">
@@ -196,20 +186,50 @@
         </div>
     </main>
 
+    <!-- Footer Placeholder -->
+    <footer id="footer-placeholder"></footer>
+
     <!-- 
-    /----------------\
-    | FOOTER SECTION |
-    \----------------/
+    /-------------------\
+    | HEADER AND FOOTER |
+    \-------------------/
     -->
-    <footer class="bg-gray-900 text-gray-400 py-8">
-        <div class="container mx-auto px-6 text-center">
-            <p>&copy; 2025 Exit Ready Advisors. All Rights Reserved.</p>
-            <div class="mt-4 space-x-6">
-                <a href="privacy-policy.html" class="hover:text-white">Privacy Policy</a>
-                <a href="terms-of-service.html" class="hover:text-white">Terms of Service</a>
-            </div>
-        </div>
-    </footer>
+    <script>
+        /**
+         * Fetches and injects the header and footer components concurrently.
+         * This function is called once the initial HTML document has been completely loaded and parsed.
+         */
+        async function loadComponents() {
+            try {
+                // Promise.all allows us to fetch both resources at the same time (concurrently).
+                const [headerResponse, footerResponse] = await Promise.all([
+                    fetch("https://jawnlam.github.io/ExitReadyAdvisors/header.html"),
+                    fetch("https://jawnlam.github.io/ExitReadyAdvisors/footer.html")
+                ]);
+
+                // Check both responses for errors.
+                if (!headerResponse.ok) throw new Error('Header failed to load.');
+                if (!footerResponse.ok) throw new Error('Footer failed to load.');
+
+                // Get the text content from both responses.
+                const headerData = await headerResponse.text();
+                const footerData = await footerResponse.text();
+                
+                // Inject the HTML into the placeholder elements.
+                document.querySelector("#header-placeholder").innerHTML = headerData;
+                document.querySelector("#footer-placeholder").innerHTML = footerData;
+
+            } catch (error) {
+                console.error('Error loading components:', error);
+                // Display fallback content if any part of the loading process fails.
+                document.querySelector("#header-placeholder").innerHTML = '<div class="bg-gray-800 text-white p-4 text-center">Header could not be loaded.</div>';
+                document.querySelector("#footer-placeholder").innerHTML = '<div class="bg-gray-800 text-white p-4 text-center">Footer could not be loaded.</div>';
+            }
+        }
+
+        // It's best practice to run this script after the DOM is fully loaded.
+        document.addEventListener('DOMContentLoaded', loadComponents);
+    </script>
 
 </body>
 </html>
