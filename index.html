@@ -3,7 +3,7 @@
 
     <!-- 
     /-------------------------------------------------------------------\
-    | LAST UPDATE: 2507211230…Mon_Jul_21_2025…1230PM                    |
+    | LAST UPDATE: 2507221317…Tue_Jul_22_2025_0117PM                    |
     | https://gemini.google.com/app/f4a337d5a29ecf30                    |
     | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/index.html |
     \-------------------------------------------------------------------/
@@ -239,38 +239,78 @@
     -->
     <script>
         /**
-         * Fetches and injects the header and footer components concurrently.
-         * This function is called once the initial HTML document has been completely loaded and parsed.
+         * Initializes the mobile menu toggle functionality.
+         * This should be called after the header content is loaded.
+         */
+        function initializeMobileMenu() {
+            const menuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (menuButton && mobileMenu) {
+                menuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                    const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+                    menuButton.setAttribute('aria-expanded', !isExpanded);
+                });
+            }
+        }
+
+        /**
+         * Sets the active style for navigation links based on the current URL.
+         * This should be called after the header content is loaded.
+         */
+        function setActiveNavLinks() {
+            const currentUrl = window.location.href;
+            const navLinks = document.querySelectorAll('nav a'); // Get all nav links
+
+            const linkPaths = {
+                'case-studies': 'ExitReadyAdvisors/case-studies/',
+                'services.html': 'ExitReadyAdvisors/services.html',
+                'about.html': 'ExitReadyAdvisors/about.html'
+            };
+
+            for (const link of navLinks) {
+                const href = link.getAttribute('href');
+                for (const key in linkPaths) {
+                    if (href && href.includes(key) && currentUrl.includes(linkPaths[key])) {
+                        link.classList.add('bg-gray-900', 'text-white');
+                        link.classList.remove('text-gray-500'); // Or similar default class
+                    }
+                }
+            }
+        }
+
+        /**
+         * Fetches and injects the header and footer, then initializes interactive components.
          */
         async function loadComponents() {
             try {
-                // Promise.all allows us to fetch both resources at the same time (concurrently).
                 const [headerResponse, footerResponse] = await Promise.all([
                     fetch("https://jawnlam.github.io/ExitReadyAdvisors/header.html"),
                     fetch("https://jawnlam.github.io/ExitReadyAdvisors/footer.html")
                 ]);
 
-                // Check both responses for errors.
                 if (!headerResponse.ok) throw new Error('Header failed to load.');
                 if (!footerResponse.ok) throw new Error('Footer failed to load.');
 
-                // Get the text content from both responses.
                 const headerData = await headerResponse.text();
                 const footerData = await footerResponse.text();
                 
-                // Inject the HTML into the placeholder elements.
                 document.querySelector("#header-placeholder").innerHTML = headerData;
                 document.querySelector("#footer-placeholder").innerHTML = footerData;
 
+                // --- INITIALIZE DYNAMIC COMPONENTS ---
+                // These functions are called *after* the header/footer HTML is injected.
+                initializeMobileMenu();
+                setActiveNavLinks();
+
             } catch (error) {
                 console.error('Error loading components:', error);
-                // Display fallback content if any part of the loading process fails.
                 document.querySelector("#header-placeholder").innerHTML = '<div class="bg-gray-800 text-white p-4 text-center">Header could not be loaded.</div>';
                 document.querySelector("#footer-placeholder").innerHTML = '<div class="bg-gray-800 text-white p-4 text-center">Footer could not be loaded.</div>';
             }
         }
 
-        // It's best practice to run this script after the DOM is fully loaded.
         document.addEventListener('DOMContentLoaded', loadComponents);
     </script>
 
