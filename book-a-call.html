@@ -2,17 +2,17 @@
 <html lang="en" class="scroll-smooth">
 
     <!-- 
-    /------------------------------------------------------------------------\
-    | LAST UPDATE: 2507211349…Mon_Jul_21_2025_0149PM                         |
-    | https://gemini.google.com/app/8a73b2be7803285b                         |
-    | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/basic-page.html |
-    \------------------------------------------------------------------------/
+    /-------------------------------------------------------------------------\
+    | LAST UPDATE: 2507221343…Tue_Jul_22_2025_0143PM                          |
+    | https://gemini.google.com/app/8a73b2be7803285b                          |
+    | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/book-a-call.html |
+    \-------------------------------------------------------------------------/
     -->
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Presale Valuation Acceleration Coaching</title>
+    <title>Book a Call - ExitReady Advisors</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,6 +21,20 @@
         body {
             font-family: 'Inter', sans-serif;
         }
+        .responsive-iframe-container {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            padding-top: 125%; /* 700 / 800 * 100 = 87.5%, but let's give it more height for different screens */
+        }
+        .responsive-iframe-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -28,11 +42,18 @@
     <!-- Header Placeholder -->
     <header id="header-placeholder"></header>
 
-    <!-- Main Content Placeholder -->
-    <main class="container mx-auto px-6 py-16 md:py-24">
-        <div class="text-center">
-            <h1 class="text-4xl font-bold text-gray-900">Title Placeholder for "Book A Call" page.</h1>
-            <p class="mt-4 text-lg text-gray-600">This is a placeholder for the main content of your page. You can replace this section with your own text, images, and components.</p>
+    <!-- Main Content - Vimcal Embed -->
+    <main class="container mx-auto px-4 sm:px-6 py-16 md:py-24">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-bold text-gray-900">Schedule a Discovery Call</h1>
+                <p class="mt-4 text-lg text-gray-600">Choose a time that works for you. I look forward to our conversation.</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-xl overflow-hidden">
+                 <div class="responsive-iframe-container">
+                    <iframe src="https://book.vimcal.com/p/jawnlam/30-minute-meeting" frameborder="0"></iframe>
+                </div>
+            </div>
         </div>
     </main>
 
