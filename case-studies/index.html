@@ -3,7 +3,7 @@
 
     <!-- 
     /--------------------------------------------------------------------------------\
-    | LAST UPDATE: 2507221033…Tue_Jul_22_2025_1033AM                                 |
+    | LAST UPDATE: 2507221050…Tue_Jul_22_2025_1050AM                                 |
     | https://gemini.google.com/app/6130e9b2b6999ac6                                 |
     | https://github.com/JawnLam/ExitReadyAdvisors/blob/main/case-studies/index.html |
     \--------------------------------------------------------------------------------/
@@ -157,12 +157,31 @@
         document.addEventListener('DOMContentLoaded', () => {
             // This function will initialize all the scripts that depend on the DOM being ready
             function initializeApp() {
-                // Mobile menu toggle
-                const mobileMenuButton = document.getElementById('mobile-menu-button');
+                // --- Mobile Menu Toggle ---
+                const menuButton = document.getElementById('mobile-menu-button');
                 const mobileMenu = document.getElementById('mobile-menu');
-                if (mobileMenuButton && mobileMenu) {
-                    mobileMenuButton.addEventListener('click', () => {
+
+                if (menuButton && mobileMenu) {
+                    menuButton.addEventListener('click', () => {
                         mobileMenu.classList.toggle('hidden');
+                        const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+                        menuButton.setAttribute('aria-expanded', !isExpanded);
+                    });
+                }
+                
+                // --- Active Navigation Link Styling (URL Method) ---
+                const currentUrl = window.location.href;
+                const caseStudiesPath = 'ExitReadyAdvisors/case-studies/';
+
+                // Check if the current URL contains the specific path for Case Studies.
+                if (currentUrl.includes(caseStudiesPath)) {
+                    // Find all links that point to the case studies page.
+                    const caseStudiesLinks = document.querySelectorAll('a[href*="case-studies"]');
+                    
+                    // Apply the active (hover) styles to them.
+                    caseStudiesLinks.forEach(link => {
+                        link.classList.add('bg-gray-900', 'text-white');
+                        link.classList.remove('text-gray-500');
                     });
                 }
 
@@ -217,34 +236,6 @@
                     calculateLayout();
                     window.addEventListener('resize', debouncedLayout);
                 }, 100);
-
-                // --- NEW SCRIPT INTEGRATED HERE ---
-                // Find the square element using its unique ID.
-                const colorSquare = document.getElementById('color-square');
-                // Get the full URL of the current page.
-                const currentUrl = window.location.href;
-
-                // Check if the colorSquare element exists before trying to modify it
-                if (colorSquare) {
-                    // Check if the URL contains the specific string for the 'true' case.
-                    if (currentUrl.includes('ExitReadyAdvisors/test-file-true')) {
-                        // If the 'true' string is found:
-                        // 1. Remove the default styling (semi-transparent white, blur effect).
-                        colorSquare.classList.remove('bg-white', 'bg-opacity-20', 'backdrop-blur-sm', 'border', 'border-white', 'border-opacity-30');
-                        // 2. Add the Tailwind class for a solid green background.
-                        colorSquare.classList.add('bg-green-500');
-                    } 
-                    // Otherwise, check if the URL contains the specific string for the 'false' case.
-                    else if (currentUrl.includes('ExitReadyAdvisors/test-file-false')) {
-                        // If the 'false' string is found:
-                        // 1. Remove the default styling.
-                        colorSquare.classList.remove('bg-white', 'bg-opacity-20', 'backdrop-blur-sm', 'border', 'border-white', 'border-opacity-30');
-                        // 2. Add the Tailwind class for a solid red background.
-                        colorSquare.classList.add('bg-red-500');
-                    }
-                    // If neither string is found in the URL, the square will keep its default "frosted glass" appearance.
-                }
-
             }
 
             // This function fetches and injects the header and footer
