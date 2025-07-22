@@ -3,7 +3,7 @@
 
     <!--  
     /--------------------------------------------------------------------\
-    | LAST UPDATE: 2507211335…Mon_Jul_21_2025_0135PM                     |
+    | LAST UPDATE: 2507220003…Tue_Jul_22_2025_1203AM                     |
     | https://gemini.google.com/app/df97e939472ed543                     |
     | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/header.html |
     \--------------------------------------------------------------------/
@@ -37,11 +37,11 @@
             </div>
             
             <!-- Desktop Navigation Links -->
-            <div class="hidden md:flex items-center space-x-8">
-                <a href="services.html" class="text-gray-500 font-medium px-3 py-2 rounded-md hover:text-white hover:bg-gray-900 transition-colors duration-300">Services</a>
-                <a href="case-studies.html" class="text-gray-500 font-medium px-3 py-2 rounded-md hover:text-white hover:bg-gray-900 transition-colors duration-300">Case Studies</a>
-                <a href="about.html" class="text-gray-500 font-medium px-3 py-2 rounded-md hover:text-white hover:bg-gray-900 transition-colors duration-300">About Us</a>
-                <a href="contact.html" class="bg-orange-500 text-white px-5 py-2 rounded-lg font-semibold transform transition-all duration-300 border border-transparent hover:bg-white hover:text-orange-500 hover:border-orange-500 hover:shadow-lg hover:scale-110">Book A Call</a>
+            <div class="hidden md:flex items-center space-x-8" id="desktop-nav">
+                <a href="services.html" class="nav-link text-gray-500 font-medium px-3 py-2 rounded-md hover:text-white hover:bg-gray-900 transition-colors duration-300">Services</a>
+                <a href="https://jawnlam.github.io/ExitReadyAdvisors/case-studies/index.html" class="nav-link text-gray-500 font-medium px-3 py-2 rounded-md hover:text-white hover:bg-gray-900 transition-colors duration-300">Case Studies</a>
+                <a href="about.html" class="nav-link text-gray-500 font-medium px-3 py-2 rounded-md hover:text-white hover:bg-gray-900 transition-colors duration-300">About Us</a>
+                <a href="https://book.vimcal.com/p/jawnlam/30-minute-meeting" class="cta-link bg-orange-500 text-white px-5 py-2 rounded-lg font-semibold transform transition-all duration-300 border border-transparent hover:bg-white hover:text-orange-500 hover:border-orange-500 hover:shadow-lg hover:scale-110">Book A Call</a>
             </div>
 
             <!-- Mobile Menu Button -->
@@ -55,25 +55,59 @@
         
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
-             <a href="services.html" class="block py-2 px-3 rounded-md text-gray-500 font-medium hover:text-white hover:bg-gray-900 transition-colors duration-300">Services</a>
-             <a href="case-studies.html" class="block py-2 px-3 rounded-md text-gray-500 font-medium hover:text-white hover:bg-gray-900 transition-colors duration-300">Case Studies</a>
-             <a href="about.html" class="block py-2 px-3 rounded-md text-gray-500 font-medium hover:text-white hover:bg-gray-900 transition-colors duration-300">About Us</a>
-             <a href="contact.html" class="block mt-2 bg-orange-500 text-white px-4 py-2 rounded-lg w-full text-center font-semibold transition-all duration-300 border border-transparent hover:bg-white hover:text-orange-500 hover:border-orange-500 hover:shadow-md">Book A Call</a>
+             <a href="services.html" class="nav-link block py-2 px-3 rounded-md text-gray-500 font-medium hover:text-white hover:bg-gray-900 transition-colors duration-300">Services</a>
+             <a href="https://jawnlam.github.io/ExitReadyAdvisors/case-studies/index.html" class="nav-link block py-2 px-3 rounded-md text-gray-500 font-medium hover:text-white hover:bg-gray-900 transition-colors duration-300">Case Studies</a>
+             <a href="about.html" class="nav-link block py-2 px-3 rounded-md text-gray-500 font-medium hover:text-white hover:bg-gray-900 transition-colors duration-300">About Us</a>
+             <a href="https://book.vimcal.com/p/jawnlam/30-minute-meeting" class="cta-link block mt-2 bg-orange-500 text-white px-4 py-2 rounded-lg w-full text-center font-semibold transition-all duration-300 border border-transparent hover:bg-white hover:text-orange-500 hover:border-orange-500 hover:shadow-md">Book A Call</a>
         </div>
     </header>
 
     <script>
-        // JavaScript to toggle the mobile menu
+        // --- Mobile Menu Toggle ---
         const menuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
 
         menuButton.addEventListener('click', () => {
-            // Toggle the 'hidden' class on the menu
             mobileMenu.classList.toggle('hidden');
-
-            // Toggle the aria-expanded attribute for accessibility
             const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
             menuButton.setAttribute('aria-expanded', !isExpanded);
+        });
+
+        // --- Active Navigation Link Styling ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentUrl = window.location.href;
+
+            // A function to get the base name from an href (e.g., "case-studies.html" -> "case-studies")
+            const getBaseName = (href) => {
+                const fileName = href.split('/').pop(); // Get the last part of the path
+                return fileName.split('.')[0]; // Remove the extension
+            };
+
+            // Handle standard navigation links
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                const baseName = getBaseName(href); // e.g., "case-studies"
+                const searchString = `ExitReadyAdvisors/${baseName}/`;
+
+                if (currentUrl.includes(searchString)) {
+                    link.classList.add('bg-gray-900', 'text-white');
+                    link.classList.remove('text-gray-500');
+                }
+            });
+
+            // Handle the "Book A Call" button specifically
+            const ctaLinks = document.querySelectorAll('.cta-link');
+            ctaLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                const baseName = getBaseName(href); // e.g., "contact"
+                const searchString = `ExitReadyAdvisors/${baseName}/`;
+
+                if (currentUrl.includes(searchString)) {
+                    link.classList.remove('bg-orange-500', 'text-white');
+                    link.classList.add('bg-white', 'text-orange-500', 'border-orange-500');
+                }
+            });
         });
     </script>
 
