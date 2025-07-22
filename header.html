@@ -3,7 +3,7 @@
 
     <!--  
     /--------------------------------------------------------------------\
-    | LAST UPDATE: 2507220031…Tue_Jul_22_2025_1231AM                     |
+    | LAST UPDATE: 2507221018…Tue_Jul_22_2025_1018AM                     |
     | https://gemini.google.com/app/df97e939472ed543                     |
     | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/header.html |
     \--------------------------------------------------------------------/
@@ -26,14 +26,7 @@
         }
     </style>
 </head>
-<!-- 
-    IMPORTANT: 
-    To make the active link highlighting work, add the correct ID to the <body> tag of each page.
-    - For the Case Studies page, use: id="page-case-studies"
-    - For the Services page, use:     id="page-services"
-    - For the About Us page, use:      id="page-about"
--->
-<body id="page-case-studies" class="bg-gray-50">
+<body class="bg-gray-50">
 
     <!-- header.html -->
     <header class="bg-white shadow-sm sticky top-0 z-50">
@@ -45,9 +38,9 @@
             
             <!-- Desktop Navigation Links -->
             <div class="hidden md:flex items-center space-x-8" id="desktop-nav">
-                <a href="https://jawnlam.github.io/ExitReadyAdvisors/services.html" data-nav-id="services" class="nav-link text-gray-500 font-medium px-3 py-2 rounded-md hover:text-white hover:bg-gray-900 transition-colors duration-300">Services</a>
-                <a href="https://jawnlam.github.io/ExitReadyAdvisors/case-studies/index.html" data-nav-id="case-studies" class="nav-link text-gray-500 font-medium px-3 py-2 rounded-md hover:text-white hover:bg-gray-900 transition-colors duration-300">Case Studies</a>
-                <a href="https://jawnlam.github.io/ExitReadyAdvisors/about.html" data-nav-id="about" class="nav-link text-gray-500 font-medium px-3 py-2 rounded-md hover:text-white hover:bg-gray-900 transition-colors duration-300">About Us</a>
+                <a href="https://jawnlam.github.io/ExitReadyAdvisors/services.html" class="nav-link text-gray-500 font-medium px-3 py-2 rounded-md hover:text-white hover:bg-gray-900 transition-colors duration-300">Services</a>
+                <a href="https://jawnlam.github.io/ExitReadyAdvisors/case-studies/index.html" class="nav-link text-gray-500 font-medium px-3 py-2 rounded-md hover:text-white hover:bg-gray-900 transition-colors duration-300">Case Studies</a>
+                <a href="https://jawnlam.github.io/ExitReadyAdvisors/about.html" class="nav-link text-gray-500 font-medium px-3 py-2 rounded-md hover:text-white hover:bg-gray-900 transition-colors duration-300">About Us</a>
                 <a href="https://book.vimcal.com/p/jawnlam/30-minute-meeting" class="cta-link bg-orange-500 text-white px-5 py-2 rounded-lg font-semibold transform transition-all duration-300 border border-transparent hover:bg-white hover:text-orange-500 hover:border-orange-500 hover:shadow-lg hover:scale-110">Book A Call</a>
             </div>
 
@@ -62,9 +55,9 @@
         
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
-             <a href="https://jawnlam.github.io/ExitReadyAdvisors/services.html" data-nav-id="services" class="nav-link block py-2 px-3 rounded-md text-gray-500 font-medium hover:text-white hover:bg-gray-900 transition-colors duration-300">Services</a>
-             <a href="https://jawnlam.github.io/ExitReadyAdvisors/case-studies/index.html" data-nav-id="case-studies" class="nav-link block py-2 px-3 rounded-md text-gray-500 font-medium hover:text-white hover:bg-gray-900 transition-colors duration-300">Case Studies</a>
-             <a href="https://jawnlam.github.io/ExitReadyAdvisors/about.html" data-nav-id="about" class="nav-link block py-2 px-3 rounded-md text-gray-500 font-medium hover:text-white hover:bg-gray-900 transition-colors duration-300">About Us</a>
+             <a href="https://jawnlam.github.io/ExitReadyAdvisors/services.html" class="nav-link block py-2 px-3 rounded-md text-gray-500 font-medium hover:text-white hover:bg-gray-900 transition-colors duration-300">Services</a>
+             <a href="https://jawnlam.github.io/ExitReadyAdvisors/case-studies/index.html" class="nav-link block py-2 px-3 rounded-md text-gray-500 font-medium hover:text-white hover:bg-gray-900 transition-colors duration-300">Case Studies</a>
+             <a href="https://jawnlam.github.io/ExitReadyAdvisors/about.html" class="nav-link block py-2 px-3 rounded-md text-gray-500 font-medium hover:text-white hover:bg-gray-900 transition-colors duration-300">About Us</a>
              <a href="https://book.vimcal.com/p/jawnlam/30-minute-meeting" class="cta-link block mt-2 bg-orange-500 text-white px-4 py-2 rounded-lg w-full text-center font-semibold transition-all duration-300 border border-transparent hover:bg-white hover:text-orange-500 hover:border-orange-500 hover:shadow-md">Book A Call</a>
         </div>
     </header>
@@ -80,26 +73,22 @@
             menuButton.setAttribute('aria-expanded', !isExpanded);
         });
 
-        // --- Active Navigation Link Styling (Body ID Method) ---
+        // --- Active Navigation Link Styling (URL Method) ---
         document.addEventListener('DOMContentLoaded', () => {
-            const pageId = document.body.id; // e.g., "page-case-studies"
+            const currentUrl = window.location.href;
+            const caseStudiesPath = 'ExitReadyAdvisors/case-studies/';
 
-            if (!pageId) {
-                // If no ID is on the body, do nothing.
-                return; 
+            // Check if the current URL contains the specific path for Case Studies.
+            if (currentUrl.includes(caseStudiesPath)) {
+                // Find all links that point to the case studies page.
+                const caseStudiesLinks = document.querySelectorAll('a[href*="case-studies"]');
+                
+                // Apply the active (hover) styles to them.
+                caseStudiesLinks.forEach(link => {
+                    link.classList.add('bg-gray-900', 'text-white');
+                    link.classList.remove('text-gray-500');
+                });
             }
-
-            // Extract the simple name from the body ID (e.g., "case-studies")
-            const navId = pageId.replace('page-', ''); // "case-studies"
-            
-            // Find the corresponding nav links using the data-nav-id attribute
-            const activeLinks = document.querySelectorAll(`[data-nav-id="${navId}"]`);
-
-            // Apply the active styles
-            activeLinks.forEach(link => {
-                link.classList.add('bg-gray-900', 'text-white');
-                link.classList.remove('text-gray-500');
-            });
         });
     </script>
 
