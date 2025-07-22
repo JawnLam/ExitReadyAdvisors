@@ -3,7 +3,7 @@
 
     <!--  
     /--------------------------------------------------------------------\
-    | LAST UPDATE: 2507220016…Tue_Jul_22_2025_1216AM                     |
+    | LAST UPDATE: 2507220026…Tue_Jul_22_2025_1226AM                     |
     | https://gemini.google.com/app/df97e939472ed543                     |
     | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/header.html |
     \--------------------------------------------------------------------/
@@ -75,34 +75,33 @@
 
         // --- Active Navigation Link Styling ---
         document.addEventListener('DOMContentLoaded', () => {
-            const currentUrl = window.location.href;
+            // Use window.location.pathname for a more reliable path check.
+            // Example pathname: /ExitReadyAdvisors/case-studies/index.html
+            const currentPath = window.location.pathname;
 
-            // Define the specific path for the "Case Studies" section.
-            const caseStudiesPath = 'ExitReadyAdvisors/case-studies/';
+            // Map the directory path to the link selector. This is easily extendable.
+            const pathMappings = {
+                '/ExitReadyAdvisors/case-studies/': 'a[href*="case-studies"]',
+                '/ExitReadyAdvisors/services/': 'a[href*="services"]',
+                '/ExitReadyAdvisors/about/': 'a[href*="about"]'
+                // Add other mappings here as needed.
+            };
 
-            // Check if the current URL contains the specific path for Case Studies.
-            if (currentUrl.includes(caseStudiesPath)) {
-                // Find all links that are for "Case Studies" (both mobile and desktop).
-                const caseStudiesLinks = document.querySelectorAll('a[href*="case-studies"]');
-                
-                // Apply the active styles to them.
-                caseStudiesLinks.forEach(link => {
-                    link.classList.add('bg-gray-900', 'text-white');
-                    link.classList.remove('text-gray-500');
-                });
+            // Loop through the mappings to find a match.
+            for (const path in pathMappings) {
+                if (currentPath.includes(path)) {
+                    const selector = pathMappings[path];
+                    const activeLinks = document.querySelectorAll(selector);
+                    
+                    activeLinks.forEach(link => {
+                        link.classList.add('bg-gray-900', 'text-white');
+                        link.classList.remove('text-gray-500');
+                    });
+
+                    // Once a match is found and styled, we can stop checking.
+                    break; 
+                }
             }
-
-            // NOTE: You can add more `if` or `else if` blocks here for other sections
-            // following the same pattern. For example, for a "services" section:
-            //
-            // const servicesPath = 'ExitReadyAdvisors/services/';
-            // if (currentUrl.includes(servicesPath)) {
-            //     const servicesLinks = document.querySelectorAll('a[href*="services"]');
-            //     servicesLinks.forEach(link => {
-            //         link.classList.add('bg-gray-900', 'text-white');
-            //         link.classList.remove('text-gray-500');
-            //     });
-            // }
         });
     </script>
 
