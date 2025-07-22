@@ -3,7 +3,7 @@
 
     <!--  
     /--------------------------------------------------------------------\
-    | LAST UPDATE: 2507221018…Tue_Jul_22_2025_1018AM                     |
+    | LAST UPDATE: 2507221059…Tue_Jul_22_2025_1059AM                     |
     | https://gemini.google.com/app/df97e939472ed543                     |
     | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/header.html |
     \--------------------------------------------------------------------/
@@ -76,15 +76,34 @@
         // --- Active Navigation Link Styling (URL Method) ---
         document.addEventListener('DOMContentLoaded', () => {
             const currentUrl = window.location.href;
+            
+            // Define paths for different sections
             const caseStudiesPath = 'ExitReadyAdvisors/case-studies/';
+            const servicesPath = 'ExitReadyAdvisors/services/';
+            const aboutPath = 'ExitReadyAdvisors/about/';
 
-            // Check if the current URL contains the specific path for Case Studies.
+            // Check for Case Studies
             if (currentUrl.includes(caseStudiesPath)) {
-                // Find all links that point to the case studies page.
-                const caseStudiesLinks = document.querySelectorAll('a[href*="case-studies"]');
-                
-                // Apply the active (hover) styles to them.
-                caseStudiesLinks.forEach(link => {
+                const activeLinks = document.querySelectorAll('a[href*="case-studies"]');
+                activeLinks.forEach(link => {
+                    link.classList.add('bg-gray-900', 'text-white');
+                    link.classList.remove('text-gray-500');
+                });
+            }
+
+            // Check for Services
+            if (currentUrl.includes(servicesPath)) {
+                const activeLinks = document.querySelectorAll('a[href*="services"]');
+                activeLinks.forEach(link => {
+                    link.classList.add('bg-gray-900', 'text-white');
+                    link.classList.remove('text-gray-500');
+                });
+            }
+
+            // Check for About Us
+            if (currentUrl.includes(aboutPath)) {
+                const activeLinks = document.querySelectorAll('a[href*="about"]');
+                activeLinks.forEach(link => {
                     link.classList.add('bg-gray-900', 'text-white');
                     link.classList.remove('text-gray-500');
                 });
