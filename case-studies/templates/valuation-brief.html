@@ -1,1 +1,395 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
 
+    <!--
+    /----------------------------------------------------------------------------------------------------\
+    | LAST UPDATE: 2507222353…Tue_Jul_22_2025_1153PM                                                     |
+    | https://gemini.google.com/app/ecaaec77c894517c                                                     |
+    | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/case-studies/templates/valuation-brief.html |
+    \----------------------------------------------------------------------------------------------------/
+    -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valuation Brief - Johnson & Sons Heating, Plumbing, & Air</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles and animations */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F3F4F6; /* Light gray background */
+        }
+        
+        /* Core Animation Definition */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Animation for initial page load */
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out forwards;
+        }
+        
+        /* Tab styling */
+        .tab-button {
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            padding: 1rem 0.5rem; /* py-4 px-2 */
+            font-size: 0.875rem; /* text-sm */
+            font-weight: 500; /* font-medium */
+            flex-shrink: 0; /* shrink-0 */
+            white-space: nowrap; /* whitespace-nowrap */
+        }
+
+        /* Active tab styling with blue accents */
+        .tab-button.active {
+            background-color: #DBEAFE; /* bg-blue-100 */
+            color: #2563EB; /* text-blue-600 */
+            border-bottom-color: #3B82F6; /* blue-500 */
+            border-radius: 0.375rem 0.375rem 0 0;
+        }
+
+        .tab-button:not(.active) {
+            color: #6B7280; /* text-gray-500 */
+        }
+        
+        .tab-button:not(.active):hover {
+            color: #4B5563; /* hover:text-gray-700 */
+            border-bottom-color: #D1D5DB; /* hover:border-gray-300 */
+        }
+
+        /* Tab content styling */
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+            /* Animation for tab content switching */
+            animation: fadeIn 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 md:p-8">
+
+    <!-- Header Placeholder -->
+    <header id="header-placeholder"></header>
+
+    <div id="page-valuation-brief" class="max-w-7xl mx-auto py-8" style="display: none;">
+
+        <!-- Page Header Component -->
+        <header class="grid grid-cols-1 md:grid-cols-2 bg-white rounded-xl overflow-hidden shadow-lg mb-8">
+            <div class="flex items-center justify-center h-48 md:h-auto bg-blue-100">
+                <img src="https://placehold.co/600x400/DBEAFE/2563EB?text=J%26S" alt="Johnson & Sons Heating, Plumbing, & Air" class="object-cover w-full h-full">
+            </div>
+            <div class="p-8">
+                <p class="text-sm font-semibold uppercase tracking-wider text-blue-600">Valuation Brief</p>
+                <h1 class="text-3xl font-bold text-gray-900 mt-1">Johnson & Sons Heating, Plumbing, & Air</h1>
+                <p class="text-gray-600 mt-4">
+                    A premier mechanical contractor with a 45-year history of excellence serving commercial, industrial, and institutional clients across the Southwest.
+                </p>
+            </div>
+        </header>
+
+        <!-- Back/Next Navigation -->
+        <div class="my-8 flex justify-between items-center">
+            <a href="valuation-brief.html" class="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-700 font-medium rounded-lg shadow-sm border border-gray-300 hover:bg-gray-300 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                Back
+            </a>
+            <a href="baseline-analysis.html" class="inline-flex items-center gap-2 px-4 py-2 bg-red-100 text-red-600 font-medium rounded-lg shadow-sm border border-red-500 hover:bg-red-200 transition">
+                Baseline Analysis
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                </svg>
+            </a>
+        </div>
+
+        <!-- Financials Grid Component -->
+        <section class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+            <!-- Financial Cards -->
+            <div class="bg-white p-4 border border-gray-200 rounded-xl shadow-md"><p class="text-sm text-gray-500">Asking Price</p><p class="text-2xl font-semibold text-gray-900">$51,250,000</p></div>
+            <div class="bg-white p-4 border border-gray-200 rounded-xl shadow-md"><p class="text-sm text-gray-500">Gross Revenue</p><p class="text-2xl font-semibold text-gray-900">$68,850,000</p></div>
+            <div class="bg-white p-4 border border-gray-200 rounded-xl shadow-md"><p class="text-sm text-gray-500">Adjusted Free Cash Flow</p><p class="text-2xl font-semibold text-gray-900">$10,450,000</p></div>
+            <div class="bg-white p-4 border border-gray-200 rounded-xl shadow-md"><p class="text-sm text-gray-500">Adjusted EBITDA</p><p class="text-2xl font-semibold text-gray-900">$8,540,000</p></div>
+        </section>
+
+        <!-- Detailed Information with Tabs -->
+        <main>
+            <!-- Tab Navigation -->
+            <div class="border-b border-gray-200 mb-6">
+                <nav class="-mb-px flex space-x-4 overflow-x-auto" aria-label="Tabs">
+                    <button class="tab-button" data-tab="overview">Overview</button>
+                    <button class="tab-button" data-tab="financials">Financials</button>
+                    <button class="tab-button" data-tab="market">Market</button>
+                    <button class="tab-button" data-tab="operations">Operations</button>
+                    <button class="tab-button" data-tab="deal-opportunities">Deal Structure</button>
+                </nav>
+            </div>
+
+            <!-- Tab Content Panels -->
+            <div class="bg-white p-6 border border-gray-200 rounded-xl shadow-md">
+                <!-- Overview Panel -->
+                <div id="overview" class="tab-content space-y-6">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Business Description</h3>
+                        <p class="text-gray-700 leading-relaxed">Johnson & Sons Heating, Plumbing, & Air is a premier mechanical contractor with a distinguished 45-year history of excellence in the HVAC and plumbing sectors. The company specializes in serving commercial, industrial, and institutional clients across a three-state operational footprint in the southwestern United States. With a robust portfolio of over 3,500 completed construction units annually and a backlog of $88 million in contracted projects, it has established itself as a trusted partner for some of the largest national owner/builders. The firm's success is built on a foundation of near-perfect client retention, a highly scalable operational model, and a seasoned leadership team.</p>
+                    </div>
+                     <div class="mt-8">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">History & Context</h3>
+                        <p class="text-gray-700 leading-relaxed">Founded by William Johnson in 1979, the company began as a small family operation with a single truck. William's commitment to quality and customer service laid the groundwork for what would become a regional leader in mechanical contracting. The business is now in its second generation, with the same founding principles guiding its expansion and success.</p>
+                    </div>
+                </div>
+                
+                <!-- Financials Panel -->
+                <div id="financials" class="tab-content space-y-8">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Financial Overview</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div class="bg-gray-50 p-4 rounded-lg border"><p class="text-sm text-gray-600">Total Assets</p><p class="text-xl font-semibold text-gray-800">$28,500,000</p></div>
+                            <div class="bg-gray-50 p-4 rounded-lg border"><p class="text-sm text-gray-600">Total Liabilities</p><p class="text-xl font-semibold text-gray-800">$9,750,000</p></div>
+                            <div class="bg-gray-50 p-4 rounded-lg border"><p class="text-sm text-gray-600">Gross Revenue</p><p class="text-xl font-semibold text-gray-800">$68,850,000</p></div>
+                            <div class="bg-gray-50 p-4 rounded-lg border"><p class="text-sm text-gray-600">Adjusted Free Cash Flow</p><p class="text-xl font-semibold text-gray-800">$10,450,000</p></div>
+                            <div class="bg-gray-50 p-4 rounded-lg border"><p class="text-sm text-gray-600">Adjusted EBITDA</p><p class="text-xl font-semibold text-gray-800">$8,540,000</p></div>
+                            <div class="bg-gray-50 p-4 rounded-lg border"><p class="text-sm text-gray-600">Real Estate (Owned)</p><p class="text-xl font-semibold text-gray-800">$6,200,000</p></div>
+                            <div class="bg-gray-50 p-4 rounded-lg border"><p class="text-sm text-gray-600">Inventory</p><p class="text-xl font-semibold text-gray-800">$1,800,000</p></div>
+                            <div class="bg-gray-50 p-4 rounded-lg border"><p class="text-sm text-gray-600">FF&E</p><p class="text-xl font-semibold text-gray-800">$5,400,000</p></div>
+                            <div class="bg-gray-50 p-4 rounded-lg border"><p class="text-sm text-gray-600">Net Working Capital</p><p class="text-xl font-semibold text-gray-800">$4,500,000</p></div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Financial Statements</h3>
+                        <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700">
+                            <li><a href="#" class="text-blue-600 hover:underline">Balance Sheet</a></li>
+                            <li><a href="#" class="text-blue-600 hover:underline">Income Statement</a></li>
+                            <li><a href="#" class="text-blue-600 hover:underline">Statement of Cash Flows</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Market Panel -->
+                <div id="market" class="tab-content space-y-8">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Market & Competitive Landscape</h3>
+                        <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700">
+                            <li><strong class="font-semibold text-gray-800">Market Position:</strong> A dominant regional player with a service area covering high-growth markets in the Southwest, positioned to capitalize on continued commercial and industrial development.</li>
+                            <li><strong class="font-semibold text-gray-800">Competitive Advantage:</strong> Unlike smaller, local competitors, the company's multi-state footprint, sophisticated project management systems, and four-decade-long relationships with national builders create a significant competitive moat.</li>
+                            <li><strong class="font-semibold text-gray-800">Growth Opportunities:</strong> The company has clear, actionable pathways for expansion, including entering the robust Texas market, increasing its footprint in the hospitality sector, and launching a tech-forward division focused on smart building systems and energy-efficient solutions.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Customer Portfolio Deep Dive</h3>
+                        <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700">
+                            <li><strong class="font-semibold text-gray-800">Client Retention:</strong> The company boasts a near-100% repeat business rate from its core clients, reflecting deep trust and consistent project execution.</li>
+                            <li><strong class="font-semibold text-gray-800">Contract Structure:</strong> Long-term master service agreements are in place with key clients, providing a predictable and recurring revenue stream.</li>
+                            <li><strong class="font-semibold text-gray-800">Project Backlog:</strong> With $88 million in active and awarded work, the company has strong revenue visibility for the next 18-24 months.</li>
+                            <li><strong class="font-semibold text-gray-800">Concentration Risk:</strong> The client base is well-diversified, with no single client accounting for more than 15% of annual revenue, mitigating concentration risk.</li>
+                            <li><strong class="font-semibold text-gray-800">Case Studies:</strong> A portfolio of completed large-scale projects is available, demonstrating the company's ability to manage complex, multi-million-dollar installations profitably and on schedule.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Operations Panel -->
+                <div id="operations" class="tab-content space-y-8">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Operational Assets & Facilities</h3>
+                        <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700">
+                           <li><strong class="font-semibold text-gray-800">Facilities:</strong> The company operates from three strategically located facilities in Phoenix, Salt Lake City, and Denver, all of which are owned and included in the sale.</li>
+                           <li><strong class="font-semibold text-gray-800">Equipment (FF&E):</strong> The sale includes a well-maintained fleet of vehicles and state-of-the-art equipment valued at approximately $5.4 million, with minimal near-term capital expenditure requirements.</li>
+                           <li><strong class="font-semibold text-gray-800">Inventory Strategy:</strong> A robust inventory management system ensures that essential components and materials are readily available, minimizing project delays and enhancing service efficiency.</li>
+                        </ul>
+                    </div>
+                     <div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Technology & Operational Systems</h3>
+                        <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700">
+                           <li><strong class="font-semibold text-gray-800">Project Management:</strong> The company utilizes advanced project management software to streamline scheduling, resource allocation, and budget tracking, ensuring operational efficiency across all projects.</li>
+                           <li><strong class="font-semibold text-gray-800">Proprietary Processes:</strong> Over the past 45 years, Johnson & Sons has developed proprietary installation techniques and quality control checklists that ensure consistent, high-quality outcomes, differentiating the company from its competitors.</li>
+                           <li><strong class="font-semibold text-gray-800">Scalability:</strong> The current operational infrastructure and systems are highly scalable, supporting significant growth without requiring major additional investment.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Management & Workforce</h3>
+                        <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700">
+                           <li><strong class="font-semibold text-gray-800">Leadership Team:</strong> A seasoned and fully autonomous leadership team manages daily operations, with an average tenure of over 15 years. This team is capable of driving growth and executing the company's strategic vision independently.</li>
+                           <li><strong class="font-semibold text-gray-800">Workforce:</strong> The company employs a dedicated team of over 110 skilled technicians, project managers, and support staff. Low employee turnover and a strong company culture are central to its success.</li>
+                           <li><strong class="font-semibold text-gray-800">Training & Development:</strong> Johnson & Sons invests heavily in continuous training and professional development, ensuring its team remains at the forefront of industry standards and new technologies.</li>
+                           <li><strong class="font-semibold text-gray-800">Owner Dependence:</strong> The business is not dependent on the owner for day-to-day operations, with established systems and a strong management team in place to ensure a seamless transition of leadership.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Deal Structure & Opportunities Panel -->
+                <div id="deal-opportunities" class="tab-content space-y-8">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Transaction</h3>
+                        <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700">
+                           <li><strong class="font-semibold text-gray-800">Structure:</strong> The transaction is anticipated as an asset sale to provide a step-up in basis for the buyer; however, a stock sale may also be considered.</li>
+                           <li><strong class="font-semibold text-gray-800">Financing:</strong> A combination of third-party debt and seller financing is proposed to facilitate the acquisition.</li>
+                           <li><strong class="font-semibold text-gray-800">Seller Role:</strong> The owner will commit to a 24-36 month transition period in a full-time capacity, followed by a flexible advisory role.</li>
+                           <li><strong class="font-semibold text-gray-800">Working Capital:</strong> A normalized net working capital target will be established and adjusted at closing.</li>
+                           <li><strong class="font-semibold text-gray-800">Escrow:</strong> A portion of the proceeds will be held in escrow to cover any potential post-closing indemnification claims.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Transition</h3>
+                        <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700">
+                           <li><strong class="font-semibold text-gray-800">Continuity:</strong> The existing leadership team, with an average tenure of over 15 years, will remain to ensure operational stability and continuity.</li>
+                           <li><strong class="font-semibold text-gray-800">Knowledge Transfer:</strong> A comprehensive transition plan will be executed to transfer all critical knowledge, systems access, and client relationships.</li>
+                           <li><strong class="font-semibold text-gray-800">Employee Retention:</strong> Key employee retention agreements will be established to secure top talent following the acquisition.</li>
+                           <li><strong class="font-semibold text-gray-800">Client Communication:</strong> A joint communication strategy will be developed to inform clients and stakeholders of the ownership change, ensuring the integrity of the relationship.</li>
+                        </ul>
+                    </div>
+                     <div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Key Transaction Issues</h3>
+                        <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700">
+                           <li><strong class="font-semibold text-gray-800">Seller Role:</strong> The owner's 24-36 month transition commitment is critical for transferring key relationships and strategic knowledge.</li>
+                           <li><strong class="font-semibold text-gray-800">Contract Novation:</strong> Transferring the $88M backlog and master service agreements will require proactive client consent and negotiation.</li>
+                           <li><strong class="font-semibold text-gray-800">Management Retention:</strong> Securing the long-tenured leadership team post-acquisition is essential for operational stability and continued growth.</li>
+                           <li><strong class="font-semibold text-gray-800">Real Estate:</strong> The sale of three owned operational hubs requires separate valuation and presents an opportunity for a sale-leaseback arrangement.</li>
+                           <li><strong class="font-semibold text-gray-800">Working Capital:</strong> The $4.5M net working capital peg is a key financial term that will require careful due diligence and negotiation.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Valuation</h3>
+                        <p class="text-gray-700 leading-relaxed">The asking price of $51,250,000 is based on a multiple of Adjusted EBITDA, reflecting the company's strong market position, recurring revenue, and significant growth potential. A detailed valuation report is available to qualified buyers.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Growth & Risks</h3>
+                        <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700">
+                            <li><strong class="font-semibold text-gray-800">Growth:</strong> Expansion into the Texas market and the high-tech building systems sector represent significant, untapped revenue streams.</li>
+                            <li><strong class="font-semibold text-gray-800">Risks:</strong> Market risks include potential downturns in the commercial construction sector and dependency on key material suppliers. These are mitigated by a diversified client base and strong supplier relationships.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <footer id="footer-placeholder"></footer>
+
+    <!-- 
+    /-------------------\
+    | HEADER AND FOOTER |
+    \-------------------/
+    -->
+    <script>
+        /**
+         * Initializes the mobile menu toggle functionality.
+         * This should be called after the header content is loaded.
+         */
+        function initializeMobileMenu() {
+            const menuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (menuButton && mobileMenu) {
+                menuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                    const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+                    menuButton.setAttribute('aria-expanded', !isExpanded);
+                });
+            }
+        }
+
+        /**
+         * Sets the active style for navigation links based on the current URL.
+         * This should be called after the header content is loaded.
+         */
+        function setActiveNavLinks() {
+            const currentUrl = window.location.href;
+            const navLinks = document.querySelectorAll('nav a'); // Get all nav links
+
+            const linkPaths = {
+                'case-studies': 'ExitReadyAdvisors/case-studies/',
+                'services.html': 'ExitReadyAdvisors/services.html',
+                'about.html': 'ExitReadyAdvisors/about.html'
+            };
+
+            for (const link of navLinks) {
+                const href = link.getAttribute('href');
+                for (const key in linkPaths) {
+                    if (href && href.includes(key) && currentUrl.includes(linkPaths[key])) {
+                        link.classList.add('bg-gray-900', 'text-white');
+                        link.classList.remove('text-gray-500'); // Or similar default class
+                    }
+                }
+            }
+        }
+
+        /**
+         * Fetches and injects the header and footer, then initializes interactive components.
+         */
+        async function loadComponents() {
+            try {
+                const [headerResponse, footerResponse] = await Promise.all([
+                    fetch("https://jawnlam.github.io/ExitReadyAdvisors/header.html"),
+                    fetch("https://jawnlam.github.io/ExitReadyAdvisors/footer.html")
+                ]);
+
+                if (!headerResponse.ok) throw new Error('Header failed to load.');
+                if (!footerResponse.ok) throw new Error('Footer failed to load.');
+
+                const headerData = await headerResponse.text();
+                const footerData = await footerResponse.text();
+                
+                document.querySelector("#header-placeholder").innerHTML = headerData;
+                document.querySelector("#footer-placeholder").innerHTML = footerData;
+
+                // --- INITIALIZE DYNAMIC COMPONENTS ---
+                // These functions are called *after* the header/footer HTML is injected.
+                initializeMobileMenu();
+                setActiveNavLinks();
+
+            } catch (error) {
+                console.error('Error loading components:', error);
+                document.querySelector("#header-placeholder").innerHTML = '<div class="bg-gray-800 text-white p-4 text-center">Header could not be loaded.</div>';
+                document.querySelector("#footer-placeholder").innerHTML = '<div class="bg-gray-800 text-white p-4 text-center">Footer could not be loaded.</div>';
+            }
+        }
+
+        // Main DOMContentLoaded listener
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load shared header and footer
+            loadComponents();
+            
+            // Initialize page-specific logic
+            const pageContainer = document.getElementById('page-valuation-brief');
+            if (pageContainer) {
+                pageContainer.style.display = 'block';
+                pageContainer.classList.add('fade-in');
+            }
+
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            function switchTab(tabId) {
+                tabButtons.forEach(button => {
+                    button.classList.toggle('active', button.dataset.tab === tabId);
+                });
+                tabContents.forEach(content => {
+                    content.classList.toggle('active', content.id === tabId);
+                });
+            }
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    switchTab(button.dataset.tab);
+                });
+            });
+
+            if (tabButtons.length > 0) {
+                switchTab(tabButtons[0].dataset.tab);
+            }
+        });
+    </script>
+
+</body>
+</html>
