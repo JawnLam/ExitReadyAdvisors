@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+    <!-- 
+    /------------------------------------------------------------------------\
+    | LAST UPDATE: 2507221322…Tue_Jul_22_2025_0122PM                          |
+    | https://gemini.google.com/app                                          |
+    | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/??????????.html |
+    \------------------------------------------------------------------------/
+    -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baseline Analysis: Johnson & Sons</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* gray-100 */
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out forwards;
+        }
+        /* Tab styling */
+        .tab-button {
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            border-radius: 0.375rem 0.375rem 0 0;
+            padding: 1rem 0.25rem; /* Adjusted padding for better wrapping */
+        }
+        .tab-button.active {
+            background-color: #FEE2E2; /* bg-red-100 */
+            color: #DC2626; /* text-red-600 */
+            border-bottom-color: #EF4444; /* red-500 */
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        /* Utility class for list styling */
+        .detail-list li {
+            padding-bottom: 0.75rem;
+        }
+        .detail-list li strong {
+            display: block;
+            color: #374151; /* gray-700 */
+            font-weight: 600;
+        }
+        .detail-list li span {
+            color: #4B5563; /* gray-600 */
+        }
+    </style>
+</head>
+<body class="text-gray-800 p-4 sm:p-6 lg:p-8">
+
+    <!-- Header Placeholder -->
+    <header id="header-placeholder"></header>
+
+    <!-- Main Content -->
+    <main id="page-baseline-analysis" class="max-w-7xl mx-auto pt-8" style="display: none;">
+
+        <!-- Page Header Component -->
+        <div class="grid grid-cols-1 md:grid-cols-2 bg-white rounded-xl overflow-hidden shadow-lg mb-8">
+            <div class="md:order-2 p-8">
+                <p class="text-sm font-semibold uppercase tracking-wider text-red-600">Baseline Analysis</p>
+                <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 mt-1">Johnson & Sons Heating, Plumbing, & Air</h1>
+                <p class="text-gray-600 mt-4">
+                    A comprehensive deep-dive into the pre-intervention state of Johnson & Sons. Use the tabs below to explore all aspects of the business analysis.
+                </p>
+            </div>
+            <div class="flex items-center justify-center md:order-1 h-48 md:h-auto bg-gray-800">
+                <img src="https://placehold.co/600x400/111827/FFFFFF?text=J%26S" alt="Johnson & Sons Company" class="object-cover w-full h-full" onerror="this.onerror=null;this.src='https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found';">
+            </div>
+        </div>
+        
+        <!-- Back/Next Navigation -->
+        <div class="my-8 flex justify-between items-center">
+            <a href="valuation-brief.html" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-600 font-medium rounded-lg shadow-sm border border-blue-500 hover:bg-blue-200 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                Valuation Brief
+            </a>
+            <a href="value-creation-strategy.html" class="inline-flex items-center gap-2 px-4 py-2 bg-yellow-100 text-yellow-600 font-medium rounded-lg shadow-sm border border-yellow-500 hover:bg-yellow-200 transition">
+                Value Creation Strategy
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                </svg>
+            </a>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="mb-8 border-b border-gray-200">
+            <nav class="-mb-px flex flex-wrap gap-x-6" aria-label="Tabs">
+                <button class="tab-button active text-gray-500 hover:text-gray-800 whitespace-nowrap font-medium text-sm" data-tab="overview">Overview</button>
+                <button class="tab-button text-gray-500 hover:text-gray-800 whitespace-nowrap font-medium text-sm" data-tab="business-fundamentals">Business Fundamentals</button>
+                <button class="tab-button text-gray-500 hover:text-gray-800 whitespace-nowrap font-medium text-sm" data-tab="financial-health">Financial Health</button>
+                <button class="tab-button text-gray-500 hover:text-gray-800 whitespace-nowrap font-medium text-sm" data-tab="operational-details">Operational Details</button>
+                <button class="tab-button text-gray-500 hover:text-gray-800 whitespace-nowrap font-medium text-sm" data-tab="market-dynamics">Market Dynamics</button>
+                <button class="tab-button text-gray-500 hover:text-gray-800 whitespace-nowrap font-medium text-sm" data-tab="value-drivers">Value Drivers</button>
+                <button class="tab-button text-gray-500 hover:text-gray-800 whitespace-nowrap font-medium text-sm" data-tab="deal-structure">Deal Structure & Opportunities</button>
+            </nav>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="mb-8">
+            <!-- Overview Tab -->
+            <div id="overview" class="tab-content active">
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <div class="bg-red-50 p-8 border-2 border-dashed border-red-300 rounded-xl shadow-lg">
+                        <h2 class="text-2xl font-bold text-red-800 mb-4">The Central Question for Analysis</h2>
+                        <p class="text-red-700 text-lg font-medium">
+                            Does Johnson & Sons' stellar reputation and formidable project backlog justify a premium valuation, or do the underlying risks of key-person dependency, technological stagnation, and deferred capital needs present a 'value trap' for a new owner?
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Business Fundamentals Tab -->
+            <div id="business-fundamentals" class="tab-content">
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <h2 class="text-xl font-bold mb-6 text-gray-800">Business Fundamentals</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-700 mb-4">Core Business Identity</h3>
+                            <ul class="detail-list space-y-3">
+                                <li><strong>Business Name:</strong><span>Johnson & Sons Heating, Plumbing, & Air</span></li>
+                                <li><strong>Industry/Business Type:</strong><span>Specialty Trade Contractor</span></li>
+                                <li><strong>Product/Service Niche:</strong><span>Commercial, industrial, and institutional HVAC and plumbing installation for large-scale new construction projects.</span></li>
+                                <li><strong>Business Model:</strong><span>B2B, project-based.</span></li>
+                                <li><strong>Years in Operation:</strong><span>45 years (Founded in 1979).</span></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-700 mb-4">Physical & Operational Structure</h3>
+                            <ul class="detail-list space-y-3">
+                                <li><strong>Physical Premises:</strong><span>Owns three facilities (75,000 sq ft total) in Phoenix, Salt Lake City, and Denver. Satellite offices show deferred maintenance needing ~$250k in capital improvements.</span></li>
+                                <li><strong>General Location Type:</strong><span>Industrial parks with good highway access.</span></li>
+                            </ul>
+                        </div>
+                        <div class="md:col-span-2">
+                            <h3 class="text-lg font-semibold text-gray-700 mb-4">Personal Story & Context</h3>
+                            <ul class="detail-list space-y-3">
+                                <li><strong>Founder's Story:</strong><span>Mr. Johnson Sr. started the company in 1979 with a single truck and a commitment to quality workmanship. He built the business on handshakes and a reputation for always finishing a job on time and on budget.</span></li>
+                                <li><strong>Generational Transition:</strong><span>The "Sons" in the name, Mark and David, took over in the late 90s. David, the current owner, bought out his brother 10 years ago and continued the company's growth trajectory, expanding into two new states.</span></li>
+                                <li><strong>Motivation for Sale:</strong><span>At 64, David is ready to retire. With no third generation interested in taking over the demanding construction trade, his primary motivation is to find a successor who will protect his father's legacy, take care of the long-tenured employees, and continue serving the clients who have become like family.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Financial Health Tab -->
+            <div id="financial-health" class="tab-content">
+                 <div class="bg-white p-8 rounded-xl shadow-md">
+                    <h2 class="text-xl font-bold mb-6 text-gray-800">Financial Health</h2>
+                    <div class="space-y-8">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-700 mb-4">Core Metrics & 3-Year Trend</h3>
+                            <p class="text-sm text-gray-600 mb-4">Revenue and profitability dipped in the TTM after a strong 2023, attributed to project completions and market slowdowns.</p>
+                             <table class="w-full text-left text-sm">
+                                  <thead class="bg-gray-50">
+                                      <tr>
+                                          <th class="p-3 rounded-tl-lg font-semibold">Metric</th>
+                                          <th class="p-3 font-semibold">2022</th>
+                                          <th class="p-3 font-semibold">2023</th>
+                                          <th class="p-3 rounded-tr-lg font-semibold">2024 (TTM)</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      <tr class="border-b">
+                                          <td class="p-3 font-medium text-gray-800">Gross Revenue</td>
+                                          <td class="p-3 text-gray-600">$65.2M</td>
+                                          <td class="p-3 text-gray-600">$75.1M</td>
+                                          <td class="p-3 text-gray-600">$68.85M</td>
+                                      </tr>
+                                      <tr class="border-b">
+                                          <td class="p-3 font-medium text-gray-800">Adjusted EBITDA</td>
+                                          <td class="p-3 text-gray-600">$7.8M</td>
+                                          <td class="p-3 text-gray-600">$9.2M</td>
+                                          <td class="p-3 text-gray-600">$8.54M</td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-700 mb-4">Key Financial "Add-Backs"</h3>
+                                <ul class="detail-list">
+                                    <li><strong>Owner's Salary & Perks:</strong><span>$450,000</span></li>
+                                    <li><strong>Excess Family Salaries:</strong><span>$200,000</span></li>
+                                    <li><strong>One-Time Legal Fees:</strong><span>$150,000</span></li>
+                                    <li class="text-red-600"><strong>Rent Normalization (Negative):</strong><span>($400,000)</span></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-700 mb-4">Balance Sheet & Working Capital</h3>
+                                <ul class="detail-list">
+                                    <li><strong>NWC Target:</strong><span>$4,500,000</span></li>
+                                    <li><strong>A/R Concern:</strong><span>15% of receivables are over 90 days, tying up cash.</span></li>
+                                    <li><strong>Obsolete Inventory:</strong><span>~$200k of stock is slow-moving.</span></li>
+                                    <li><strong>Debt:</strong><span>~$4.25M total between LOC and equipment loans.</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Operational Details Tab -->
+            <div id="operational-details" class="tab-content">
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <h2 class="text-xl font-bold mb-6 text-gray-800">Operational Details</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-700 mb-4">Management & Workforce</h3>
+                            <ul class="detail-list">
+                                <li><strong>Leadership Team:</strong><span>Highly experienced (15yr avg tenure) but lacks a succession plan for the GM (retiring in 3-5 yrs) and strategic vision for innovation.</span></li>
+                                <li><strong>Owner Dependence:</strong><span>Owner is the primary relationship holder for critical banking and bonding capacity.</span></li>
+                                <li><strong>Skilled Labor:</strong><span>Faces industry-wide shortage of skilled technicians, limiting growth and driving up labor costs.</span></li>
+                                <li><strong>Company Culture:</strong><span>Strong but traditional ("the way we've always done it"), with internal resistance to new technologies.</span></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-700 mb-4">Operational Inefficiencies</h3>
+                            <ul class="detail-list">
+                                <li><strong>Technology Stack:</strong><span>Uses a legacy project management system that doesn't integrate with modern accounting/CRM, leading to manual data entry and errors.</span></li>
+                                <li><strong>Fleet Management:</strong><span>Vehicle fleet is aging, with rising maintenance costs and poor fuel efficiency. A replacement program is overdue.</span></li>
+                                <li><strong>Proprietary Processes:</strong><span>Effective installation techniques are not well-documented and exist as institutional knowledge, creating risk.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Market Dynamics Tab -->
+            <div id="market-dynamics" class="tab-content">
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <h2 class="text-xl font-bold mb-6 text-gray-800">Market Dynamics</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-700 mb-4">Market & Competitive Landscape</h3>
+                            <ul class="detail-list">
+                                <li><strong>Market Trends:</strong><span>The company is slow to adopt energy-efficient/smart building tech, creating risk of being outpaced by innovative competitors.</span></li>
+                                <li><strong>Regulatory Environment:</strong><span>Compliant with increasing regulations but not a leader, adding to overhead.</span></li>
+                                <li><strong>Competitive Weakness:</strong><span>Sales and marketing are entirely passive and reliant on existing relationships. No formal business development team.</span></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-700 mb-4">Direct Competitors</h3>
+                            <ul class="detail-list">
+                                <li><strong>"Southwest Mechanical":</strong><span>A large, PE-backed competitor that is aggressively expanding and leveraging technology.</span></li>
+                                <li><strong>"High Desert Plumbing & HVAC":</strong><span>A smaller, respected firm that wins mid-sized projects with strong local ties and lower overhead.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Value Drivers Tab -->
+            <div id="value-drivers" class="tab-content">
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <h2 class="text-xl font-bold mb-6 text-gray-800">Value Drivers</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-700 mb-4">Core Strengths</h3>
+                            <ul class="detail-list">
+                                <li><strong>Reputation & Track Record:</strong><span>A 45-year history of excellence and successfully delivering large, complex, multi-state projects.</span></li>
+                                <li><strong>Project Backlog:</strong><span>An $88M backlog of contracted work provides strong revenue visibility for the next 18-24 months.</span></li>
+                                <li><strong>Experienced Leadership:</strong><span>A seasoned, loyal, and autonomous leadership team with an average tenure of 15 years.</span></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-700 mb-4">Customer & Market Position</h3>
+                            <ul class="detail-list">
+                                <li><strong>Client Relationships:</strong><span>Near-100% repeat business rate from its core clients, reflecting deep trust and consistent execution.</span></li>
+                                <li><strong>Competitive Moat:</strong><span>Multi-state footprint and sophisticated project management create a significant advantage over smaller, local competitors.</span></li>
+                                <li><strong>Scalability:</strong><span>Current operational infrastructure and systems are highly scalable, supporting growth without major new investment.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Deal Structure & Opportunities Tab -->
+            <div id="deal-structure" class="tab-content">
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <h2 class="text-xl font-bold mb-6 text-gray-800">Deal Structure & Opportunities</h2>
+                    <div class="space-y-10">
+                        <!-- Valuation Section -->
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-700 mb-4">Valuation & Justification</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div>
+                                    <ul class="detail-list">
+                                        <li><strong>Asking Price:</strong><span>$51,250,000 (Includes $6.2M RE & $5.4M FF&E)</span></li>
+                                        <li><strong>Implied Business Value:</strong><span>$39,650,000</span></li>
+                                        <li><strong>Valuation Multiple:</strong><span>4.64x on $8.54M Adjusted EBITDA</span></li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-semibold text-gray-600 mb-2">Intrinsic Value (DCF) Considerations:</p>
+                                    <ul class="detail-list text-sm">
+                                        <li><strong>FCF Risk:</strong><span>Inflated by deferred CapEx on aging fleet & facilities.</span></li>
+                                        <li><strong>WACC Risk:</strong><span>Increased by rising interest rates and private company risk.</span></li>
+                                        <li><strong>TV Risk:</strong><span>Perpetual growth assumption is challenged by cyclical market.</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Deal Structure Section -->
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-700 mb-4">Deal Structure & Market Dynamics</h3>
+                            <ul class="detail-list">
+                                <li><strong>Seller Financing:</strong><span>Willing to hold a note up to 10% ($5.1M) to bridge a valuation gap.</span></li>
+                                <li><strong>Listing Duration:</strong><span>Quietly shopped for 3 months with no offers. First time on the wider market.</span></li>
+                                <li><strong>Target Buyers:</strong><span>Ideal buyer is a well-capitalized firm (Strategic or Financial) with construction experience and leadership depth.</span></li>
+                            </ul>
+                        </div>
+                        <!-- Growth & Risks Section -->
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-700 mb-4">Growth & Risks</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div>
+                                    <h4 class="text-md font-semibold text-green-700 mb-2">Stated Growth Opportunities</h4>
+                                    <ul class="detail-list">
+                                        <li><strong>Texas Expansion:</strong><span>Logical but capital-intensive ($3M-$5M est.).</span></li>
+                                        <li><strong>Hospitality Sector:</strong><span>Has experience, but market is highly cyclical.</span></li>
+                                        <li><strong>Smart Building/Tech Division:</strong><span>Significant opportunity but requires hiring new talent.</span></li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="text-md font-semibold text-red-700 mb-2">Legitimate Buyer Concerns & Risks</h4>
+                                    <ol class="list-decimal list-inside space-y-2 text-sm text-gray-600">
+                                        <li><strong class="text-gray-700">Key Personnel Risk:</strong><span>GM retirement, owner's role in banking/bonding.</span></li>
+                                        <li><strong class="text-gray-700">Deferred CapEx:</strong><span>Immediate spending required for fleet/facilities.</span></li>
+                                        <li><strong class="text-gray-700">Technological Lag:</strong><span>Legacy software hinders efficiency.</span></li>
+                                        <li><strong class="text-gray-700">Margin Compression:</strong><span>Reliance on fixed-price contracts is risky.</span></li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Placeholder -->
+    <footer id="footer-placeholder"></footer>
+
+    <!-- 
+    /-------------------\
+    |      SCRIPTS      |
+    \-------------------/
+    -->
+    <script>
+        /**
+         * Fetches and injects the header and footer, then initializes interactive components.
+         */
+        async function loadComponents() {
+            try {
+                const [headerResponse, footerResponse] = await Promise.all([
+                    fetch("https://jawnlam.github.io/ExitReadyAdvisors/header.html"),
+                    fetch("https://jawnlam.github.io/ExitReadyAdvisors/footer.html")
+                ]);
+
+                if (!headerResponse.ok) throw new Error('Header failed to load.');
+                if (!footerResponse.ok) throw new Error('Footer failed to load.');
+
+                const headerData = await headerResponse.text();
+                const footerData = await footerResponse.text();
+                
+                document.querySelector("#header-placeholder").innerHTML = headerData;
+                document.querySelector("#footer-placeholder").innerHTML = footerData;
+
+                // --- INITIALIZE DYNAMIC COMPONENTS ---
+                initializeMobileMenu();
+                setActiveNavLinks();
+
+            } catch (error) {
+                console.error('Error loading components:', error);
+                document.querySelector("#header-placeholder").innerHTML = '<div class="bg-gray-800 text-white p-4 text-center">Header could not be loaded.</div>';
+                document.querySelector("#footer-placeholder").innerHTML = '<div class="bg-gray-800 text-white p-4 text-center">Footer could not be loaded.</div>';
+            }
+        }
+        
+        /**
+         * Initializes the mobile menu toggle functionality.
+         */
+        function initializeMobileMenu() {
+            const menuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (menuButton && mobileMenu) {
+                menuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                    const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+                    menuButton.setAttribute('aria-expanded', !isExpanded);
+                });
+            }
+        }
+
+        /**
+         * Sets the active style for navigation links based on the current URL.
+         */
+        function setActiveNavLinks() {
+            const currentUrl = window.location.href;
+            const navLinks = document.querySelectorAll('nav a'); 
+
+            const linkPaths = {
+                'case-studies': 'ExitReadyAdvisors/case-studies/',
+                'services.html': 'ExitReadyAdvisors/services.html',
+                'about.html': 'ExitReadyAdvisors/about.html'
+            };
+
+            for (const link of navLinks) {
+                const href = link.getAttribute('href');
+                for (const key in linkPaths) {
+                    if (href && href.includes(key) && currentUrl.includes(linkPaths[key])) {
+                        link.classList.add('bg-gray-900', 'text-white');
+                        link.classList.remove('text-gray-500'); 
+                    }
+                }
+            }
+        }
+        
+        /**
+         * Initializes page animations and tab functionality on content load.
+         */
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load header and footer first
+            loadComponents();
+
+            // Make the main content visible with a fade-in effect
+            const page = document.getElementById('page-baseline-analysis');
+            if (page) {
+                page.style.display = 'block';
+                page.classList.add('fade-in');
+            }
+
+            // Set up tab functionality
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            let currentTabIndex = 0;
+
+            function updateTabState(newIndex) {
+                // Update current index
+                currentTabIndex = newIndex;
+
+                // Update tab buttons
+                tabButtons.forEach((btn, index) => {
+                    btn.classList.toggle('active', index === newIndex);
+                });
+
+                // Update tab content
+                tabContents.forEach((content, index) => {
+                    content.classList.toggle('active', index === newIndex);
+                });
+                
+                // Scroll to the top of the page for better visibility on mobile
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            // Add click listeners to tab buttons
+            tabButtons.forEach((button, index) => {
+                button.addEventListener('click', () => {
+                    updateTabState(index);
+                });
+            });
+
+            // Initialize the first tab state
+            updateTabState(0);
+        });
+    </script>
+
+</body>
+</html>
