@@ -3,7 +3,7 @@
 
     <!-- 
     /------------------------------------------------------------------------------------------------------\
-    | LAST UPDATE: 2507232245…Wed_Jul_23_2025_1045PM                                                       |
+    | LAST UPDATE: 2507232325…Wed_Jul_23_2025_1125PM                                                       |
     | https://gemini.google.com/app/af75a740127d06f1                                                       |
     | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/case-studies/templates/baseline-analysis.html |
     \------------------------------------------------------------------------------------------------------/
@@ -29,18 +29,50 @@
         .fade-in {
             animation: fadeIn 0.8s ease-in-out forwards;
         }
+        
         /* Tab styling */
         .tab-button {
-            transition: all 0.3s ease;
+            position: relative; /* Needed for the ::after pseudo-element animation */
+            overflow: hidden;   /* Keeps the animation contained within the button */
+            z-index: 1;         /* Ensures text appears above the animation */
+            transition: color 0.3s ease;
+            border: 1px solid transparent; /* Added to prevent layout shift on active */
             border-bottom: 3px solid transparent;
             border-radius: 0.375rem 0.375rem 0 0;
-            padding: 1rem 0.25rem; /* Adjusted padding for better wrapping */
+            padding: 1rem 0.25rem;
         }
-        .tab-button.active {
+
+        /* Pseudo-element for the bottom-up hover animation */
+        .tab-button::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
             background-color: #FEE2E2; /* bg-red-100 */
+            transition: height 0.3s ease;
+            z-index: -1; /* Sits behind the text */
+        }
+
+        /* On hover (but not when active), trigger the animation and style changes */
+        .tab-button:hover:not(.active) {
             color: #DC2626; /* text-red-600 */
             border-bottom-color: #EF4444; /* red-500 */
         }
+
+        .tab-button:hover:not(.active)::after {
+            height: 100%;
+        }
+
+        /* Active state styling */
+        .tab-button.active {
+            background-color: #FEE2E2; /* bg-red-100 */
+            color: #DC2626; /* text-red-600 */
+            border: 1px solid #FCA5A5; /* border-red-300 */
+            border-bottom: 3px solid #EF4444; /* red-500 */
+        }
+
         .tab-content {
             display: none;
         }
