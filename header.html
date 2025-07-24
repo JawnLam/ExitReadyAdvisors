@@ -3,7 +3,7 @@
 
     <!--  
     /--------------------------------------------------------------------\
-    | LAST UPDATE: 2507221347…Tue_Jul_22_2025_0147PM                     |
+    | LAST UPDATE: 2507241646…Thu_Jul_24_2025_0446PM                     |
     | https://gemini.google.com/app/df97e939472ed543                     |
     | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/header.html |
     \--------------------------------------------------------------------/
@@ -40,6 +40,7 @@
             <div class="hidden md:flex items-center space-x-8" id="desktop-nav">
                 <a href="https://jawnlam.github.io/ExitReadyAdvisors/services.html" class="nav-link text-gray-500 font-medium px-3 py-2 rounded-md hover:text-white hover:bg-gray-900 transition-colors duration-300">Services</a>
                 <a href="https://jawnlam.github.io/ExitReadyAdvisors/case-studies/index.html" class="nav-link text-gray-500 font-medium px-3 py-2 rounded-md hover:text-white hover:bg-gray-900 transition-colors duration-300">Case Studies</a>
+                <a href="https://jawnlam.github.io/ExitReadyAdvisors/book-a-call.html" class="nav-link text-gray-500 font-medium px-3 py-2 rounded-md hover:text-white hover:bg-gray-900 transition-colors duration-300">Resources</a>
                 <a href="https://jawnlam.github.io/ExitReadyAdvisors/about.html" class="nav-link text-gray-500 font-medium px-3 py-2 rounded-md hover:text-white hover:bg-gray-900 transition-colors duration-300">About Us</a>
                 <a href="https://jawnlam.github.io/ExitReadyAdvisors/book-a-call.html" class="cta-link bg-orange-500 text-white px-5 py-2 rounded-lg font-semibold transform transition-all duration-300 border border-transparent hover:bg-white hover:text-orange-500 hover:border-orange-500 hover:shadow-lg hover:scale-110">Book A Call</a>
             </div>
@@ -57,6 +58,7 @@
         <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
              <a href="https://jawnlam.github.io/ExitReadyAdvisors/services.html" class="nav-link block py-2 px-3 rounded-md text-gray-500 font-medium hover:text-white hover:bg-gray-900 transition-colors duration-300">Services</a>
              <a href="https://jawnlam.github.io/ExitReadyAdvisors/case-studies/index.html" class="nav-link block py-2 px-3 rounded-md text-gray-500 font-medium hover:text-white hover:bg-gray-900 transition-colors duration-300">Case Studies</a>
+             <a href="https://jawnlam.github.io/ExitReadyAdvisors/book-a-call.html" class="nav-link block py-2 px-3 rounded-md text-gray-500 font-medium hover:text-white hover:bg-gray-900 transition-colors duration-300">Resources</a>
              <a href="https://jawnlam.github.io/ExitReadyAdvisors/about.html" class="nav-link block py-2 px-3 rounded-md text-gray-500 font-medium hover:text-white hover:bg-gray-900 transition-colors duration-300">About Us</a>
              <a href="https://jawnlam.github.io/ExitReadyAdvisors/book-a-call.html" class="cta-link block mt-2 bg-orange-500 text-white px-4 py-2 rounded-lg w-full text-center font-semibold transition-all duration-300 border border-transparent hover:bg-white hover:text-orange-500 hover:border-orange-500 hover:shadow-md">Book A Call</a>
         </div>
@@ -81,6 +83,7 @@
             const caseStudiesPath = 'ExitReadyAdvisors/case-studies/';
             const servicesPath = 'ExitReadyAdvisors/services.html';
             const aboutPath = 'ExitReadyAdvisors/about.html';
+            const resourcesPath = 'ExitReadyAdvisors/resources.html'; // Assumed path for resources page
 
             // Check for Case Studies
             if (currentUrl.includes(caseStudiesPath)) {
@@ -98,6 +101,19 @@
                     link.classList.add('bg-gray-900', 'text-white');
                     link.classList.remove('text-gray-500');
                 });
+            }
+            
+            // Check for Resources
+            // Note: This specifically targets the link with "Resources" as text to differentiate it
+            // from the "Book a Call" button which may share the same URL.
+            if (currentUrl.includes(resourcesPath)) {
+                 const allNavLinks = document.querySelectorAll('.nav-link');
+                 allNavLinks.forEach(link => {
+                    if (link.textContent === 'Resources') {
+                        link.classList.add('bg-gray-900', 'text-white');
+                        link.classList.remove('text-gray-500');
+                    }
+                 });
             }
 
             // Check for About Us
