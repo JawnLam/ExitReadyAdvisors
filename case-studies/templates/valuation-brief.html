@@ -3,7 +3,7 @@
 
     <!--
     /----------------------------------------------------------------------------------------------------\
-    | LAST UPDATE: 2507232222…Wed_Jul_23_2025_1022PM                                                     |
+    | LAST UPDATE: 2507232318…Wed_Jul_23_2025_1118PM                                                     |
     | https://gemini.google.com/app/81c9008b893c0b7e                                                     |
     | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/case-studies/templates/valuation-brief.html |
     \----------------------------------------------------------------------------------------------------/
@@ -39,30 +39,50 @@
         
         /* Tab styling */
         .tab-button {
-            transition: all 0.3s ease;
+            position: relative; /* For pseudo-element positioning */
+            overflow: hidden;   /* To contain the animation */
+            z-index: 1;         /* To keep text on top */
+            transition: color 0.3s ease, border-color 0.3s ease;
             border-bottom: 3px solid transparent;
-            padding: 1rem 0.5rem; /* py-4 px-2 */
-            font-size: 0.875rem; /* text-sm */
-            font-weight: 500; /* font-medium */
-            flex-shrink: 0; /* shrink-0 */
-            white-space: nowrap; /* whitespace-nowrap */
-        }
-
-        /* Active tab styling with blue accents */
-        .tab-button.active {
-            background-color: #DBEAFE; /* bg-blue-100 */
-            color: #2563EB; /* text-blue-600 */
-            border-bottom-color: #3B82F6; /* blue-500 */
-            border-radius: 0.375rem 0.375rem 0 0;
-        }
-
-        .tab-button:not(.active) {
+            padding: 1rem 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            flex-shrink: 0;
+            white-space: nowrap;
             color: #6B7280; /* text-gray-500 */
+        }
+
+        /* Pseudo-element for the bottom-up hover animation */
+        .tab-button::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 0;
+            background-color: #DBEAFE; /* bg-blue-100 */
+            border-radius: 0.375rem 0.375rem 0 0;
+            transition: height 0.3s ease-out;
+            z-index: -1; /* Behind the text */
+        }
+
+        /* Hover state for non-active tabs */
+        .tab-button:not(.active):hover::before {
+            height: 100%; /* Animate the background fill */
         }
         
         .tab-button:not(.active):hover {
-            color: #4B5563; /* hover:text-gray-700 */
-            border-bottom-color: #D1D5DB; /* hover:border-gray-300 */
+            color: #2563EB; /* text-blue-600 */
+            border-bottom-color: #3B82F6; /* border-blue-500 */
+        }
+
+        /* Active tab styling with blue accents and border */
+        .tab-button.active {
+            background-color: #DBEAFE; /* bg-blue-100 */
+            color: #2563EB; /* text-blue-600 */
+            border: 1px solid #2563EB; /* border-blue-600 */
+            border-bottom: 3px solid #3B82F6; /* border-blue-500 */
+            border-radius: 0.375rem 0.375rem 0 0;
         }
 
         /* Tab content styling */
