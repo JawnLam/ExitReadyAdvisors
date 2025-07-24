@@ -3,7 +3,7 @@
 
     <!-- 
     /------------------------------------------------------------------------------------------------------------\
-    | LAST UPDATE: 2507232306…Wed_Jul_23_2025_1106PM                                                             |
+    | LAST UPDATE: 2507241554…Thu_Jul_24_2025_0354PM                                                             |
     | https://gemini.google.com/app/2245d1ce65e5ab37                                                             |
     | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/case-studies/templates/value-creation-strategy.html |
     \------------------------------------------------------------------------------------------------------------/
@@ -15,8 +15,6 @@
     <title>Presale Valuation Acceleration Coaching</title>
     <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- D3.js Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -102,48 +100,6 @@
         .accordion-icon {
             transition: transform 0.2s ease-in-out;
         }
-
-        /* --- D3 Map Specific Styles --- */
-        #d3-map-container {
-            width: 100%;
-            height: 75vh; /* Adjusted height to fit within the tab panel */
-            position: relative;
-            background-color: #f9fafb; /* bg-gray-50 */
-            border-radius: 0.5rem;
-            overflow: hidden;
-        }
-        
-        .link {
-            fill: none;
-            stroke: #9ca3af; /* Gray-400 */
-            stroke-opacity: 0.6;
-            stroke-width: 1.5px;
-        }
-
-        .node {
-            cursor: pointer;
-        }
-        
-        .node circle {
-            transition: filter 0.3s ease, stroke-width 0.3s ease, stroke 0.3s ease;
-        }
-        
-        .node:hover circle {
-            filter: brightness(1.1);
-        }
-        
-        .node-label {
-            font-size: 12px;
-            fill: #1f2937; /* Dark Gray for readability */
-            pointer-events: none;
-            user-select: none;
-            text-shadow: 0 1px 2px rgba(255,255,255,0.5);
-        }
-
-        .center-label { font-size: 18px; font-weight: 700; }
-        .objective-label { font-size: 15px; font-weight: 600; }
-        .kr-label { font-size: 13px; }
-        .kpi-label { font-size: 11px; }
 
     </style>
 </head>
@@ -413,8 +369,6 @@
         }
         
         // --- DYNAMIC PAGE AND TAB INITIALIZATION ---
-        let d3MapInitialized = false;
-
         document.addEventListener('DOMContentLoaded', () => {
             const pageContainer = document.getElementById('page-value-creation-strategy');
             const tabsContainer = document.getElementById('tabs-container');
@@ -444,17 +398,8 @@
             tabsHtml += `<button class="tab-button" data-tab="metrics">Map of Metrics</button>`;
             contentHtml += `
                 <div id="metrics" class="tab-content">
-                    <div id="d3-map-container">
-                        <div class="legend absolute bottom-5 right-5 bg-white bg-opacity-75 backdrop-blur-sm p-4 rounded-lg shadow-lg text-gray-800 pointer-events-none">
-                            <h4 class="font-bold text-sm mb-2">Legend</h4>
-                            <div class="space-y-2">
-                                <div class="flex items-center"><div class="w-5 h-5 rounded-full mr-3" style="background: #10B981;"></div><span class="text-xs">Enterprise Value</span></div>
-                                <div class="flex items-center"><div class="w-5 h-5 rounded-full mr-3" style="background: #3B82F6;"></div><span class="text-xs">Strategic Objectives</span></div>
-                                <div class="flex items-center"><div class="w-5 h-5 rounded-full mr-3" style="background: #F59E0B;"></div><span class="text-xs">Key Results</span></div>
-                                <div class="flex items-center"><div class="w-5 h-5 rounded-full mr-3" style="background: #8B5CF6;"></div><span class="text-xs">KPIs</span></div>
-                            </div>
-                        </div>
-                        <button id="rebalance-btn" class="absolute bottom-5 left-5 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded-lg shadow-lg transition-colors duration-300">Rebalance</button>
+                    <div class="flex items-center justify-center h-full min-h-[400px]">
+                        <p class="text-gray-500 text-2xl">Under Construction</p>
                     </div>
                 </div>
             `;
@@ -474,12 +419,6 @@
                 tabContents.forEach(content => {
                     content.classList.toggle('active', content.id === tabId);
                 });
-
-                // Lazy-load the D3 map
-                if (tabId === 'metrics' && !d3MapInitialized) {
-                    initializeD3Map();
-                    d3MapInitialized = true;
-                }
             }
 
             tabButtons.forEach(button => {
@@ -500,215 +439,6 @@
             pageContainer.style.display = 'block';
             pageContainer.classList.add('fade-in');
         });
-
-        // --- D3 MAP INITIALIZATION ---
-        function initializeD3Map() {
-            const d3Data = {
-                name: "Intrinsic Enterprise Value", type: "center",
-                children: strategyData.objectives.map((obj, i) => ({
-                    name: `Obj ${i+1}: ${obj.title.split(':')[1].trim()}`, type: "objective",
-                    children: obj.keyResults.map((kr, j) => ({
-                        name: `KR ${i+1}.${j+1}: ${kr.title}`, type: "kr",
-                        children: kr.kpis.map((kpi, k) => ({
-                            name: `${i+1}.${j+1}.${k+1}: ${kpi.title}`, type: "kpi"
-                        }))
-                    }))
-                }))
-            };
-
-            const containerEl = document.getElementById('d3-map-container');
-            if (!containerEl) return;
-
-            let width = containerEl.clientWidth;
-            let height = containerEl.clientHeight;
-            const transitionDuration = 400;
-            let isRebalanced = false;
-
-            const svg = d3.select("#d3-map-container").append("svg")
-                .attr("width", "100%")
-                .attr("height", "100%")
-                .attr("viewBox", [0, 0, width, height]);
-
-            const g = svg.append("g");
-            let link = g.append("g").attr("class", "links").selectAll("path.link");
-            let node = g.append("g").attr("class", "nodes").selectAll(".node");
-
-            const colorScale = d3.scaleOrdinal().domain(["center", "objective", "kr", "kpi"]).range(["#10B981", "#3B82F6", "#F59E0B", "#8B5CF6"]);
-            const sizeScale = d3.scaleOrdinal().domain(["center", "objective", "kr", "kpi"]).range([45, 35, 25, 15]);
-
-            const simulation = d3.forceSimulation()
-                .force("link", d3.forceLink().id(d => d.id).distance(d => {
-                    switch (d.source.data.type) {
-                        case "center": return 220;
-                        case "objective": return 160;
-                        case "kr": return 100;
-                        default: return 80;
-                    }
-                }).strength(1))
-                .force("charge", d3.forceManyBody().strength(-400))
-                .force("center", d3.forceCenter(width / 2, height / 2))
-                .force("collision", d3.forceCollide().radius(d => sizeScale(d.data.type) + 15))
-                .on("tick", ticked);
-            
-            const root = d3.hierarchy(d3Data);
-            root.descendants().forEach((d, i) => {
-                d.id = i;
-                d._children = d.children;
-                if (d.depth > 1) d.children = null;
-            });
-            
-            update();
-
-            function update() {
-                const nodes = root.descendants().filter(d => d.parent ? d.parent.children : true);
-                const links = root.links().filter(d => d.source.children && d.target.parent.children);
-
-                simulation.nodes(nodes);
-                simulation.force("link").links(links);
-                simulation.alpha(1).restart();
-
-                link = link.data(links, d => d.target.id);
-                link.exit().remove();
-                link = link.enter().append("path").attr("class", "link").merge(link);
-
-                node = node.data(nodes, d => d.id);
-                node.exit().transition().duration(transitionDuration)
-                    .attr("transform", d => `translate(${d.parent.x},${d.parent.y})`)
-                    .style("opacity", 0).remove();
-                
-                const nodeEnter = node.enter().append("g")
-                    .attr("class", "node")
-                    .attr("transform", d => `translate(${d.parent ? d.parent.x : width/2},${d.parent ? d.parent.y : height/2})`)
-                    .style("opacity", 0)
-                    .on("click", (event, d) => {
-                        if (event.defaultPrevented) return;
-                        toggleChildren(d);
-                        update();
-                    })
-                    .call(drag(simulation));
-
-                nodeEnter.append("circle")
-                    .attr("r", d => sizeScale(d.data.type))
-                    .attr("fill", d => colorScale(d.data.type))
-                    .attr("stroke", d => (d._children && !d.children) ? "#1f2937" : d3.color(colorScale(d.data.type)).darker(0.6))
-                    .attr("stroke-width", d => (d._children && !d.children) ? 4 : 2);
-
-                nodeEnter.append("text")
-                    .attr("class", d => `node-label ${d.data.type}-label`)
-                    .attr("text-anchor", "middle").attr("dy", "0.3em")
-                    .text(d => d.data.name);
-
-                node = nodeEnter.merge(node);
-                
-                node.transition().duration(transitionDuration)
-                    .style("opacity", 1)
-                    .attr("transform", d => `translate(${d.x},${d.y})`);
-
-                node.select('circle').transition().duration(transitionDuration)
-                    .attr("stroke", d => (d._children && !d.children) ? "#1f2937" : d3.color(colorScale(d.data.type)).darker(0.6))
-                    .attr("stroke-width", d => (d._children && !d.children) ? 4 : 2);
-            }
-            
-            function ticked() {
-                node.attr("transform", d => `translate(${d.x},${d.y})`);
-                link.attr("d", d => {
-                    const dx = d.target.x - d.source.x, dy = d.target.y - d.source.y, length = Math.sqrt(dx * dx + dy * dy);
-                    const mx = (d.source.x + d.target.x) / 2, my = (d.source.y + d.target.y) / 2;
-                    const px = -dy / length, py = dx / length;
-                    const offset = 30; 
-                    const cx = mx + offset * px, cy = my + offset * py;
-                    return `M${d.source.x},${d.source.y} Q${cx},${cy} ${d.target.x},${d.target.y}`;
-                });
-            }
-
-            function toggleChildren(d) {
-                if (d.children) d.children = null;
-                else d.children = d._children;
-                if (isRebalanced) unfixAllNodes();
-            }
-
-            function drag(simulation) {
-                function dragstarted(event, d) {
-                    if (isRebalanced) unfixAllNodes();
-                    if (!event.active) simulation.alphaTarget(0.3).restart();
-                    d.fx = d.x; d.fy = d.y;
-                }
-                function dragged(event, d) { d.fx = event.x; d.fy = event.y; }
-                function dragended(event, d) { if (!event.active) simulation.alphaTarget(0); }
-                return d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended);
-            }
-
-            const zoom = d3.zoom().scaleExtent([0.1, 5]).on("zoom", (event) => g.attr("transform", event.transform));
-            svg.call(zoom);
-            
-            function handleResize() {
-                width = containerEl.clientWidth;
-                height = containerEl.clientHeight;
-                svg.attr("width", width).attr("height", height).attr("viewBox", [0, 0, width, height]);
-                simulation.force("center", d3.forceCenter(width / 2, height / 2));
-                if (isRebalanced) rebalanceLayout();
-                else simulation.alpha(0.3).restart();
-            }
-            window.addEventListener('resize', handleResize);
-
-            function unfixAllNodes() {
-                node.each(d => { d.fx = null; d.fy = null; });
-                isRebalanced = false;
-            }
-
-            function rebalanceLayout() {
-                svg.transition().duration(750).call(
-                    zoom.transform,
-                    d3.zoomIdentity,
-                    d3.zoomTransform(svg.node()).invert([width / 2, height / 2])
-                );
-
-                const allNodes = root.descendants().filter(d => d.parent ? d.parent.children : true);
-                const centerNode = allNodes.find(d => d.data.type === 'center');
-                if (!centerNode) return;
-
-                centerNode.fx = width / 2; centerNode.fy = height / 2;
-
-                const objectives = allNodes.filter(d => d.data.type === 'objective');
-                const objectiveRadius = Math.min(width, height) / 3;
-                const objectiveAngleStep = objectives.length > 0 ? (2 * Math.PI) / objectives.length : 0;
-
-                objectives.forEach((obj, i) => {
-                    const angle = i * objectiveAngleStep;
-                    obj.fx = centerNode.fx + objectiveRadius * Math.cos(angle);
-                    obj.fy = centerNode.fy + objectiveRadius * Math.sin(angle);
-
-                    const keyResults = obj.children || [];
-                    const krRadius = 130;
-                    const krAngleSpread = Math.PI / 2.5;
-                    const krAngleStep = keyResults.length > 1 ? krAngleSpread / (keyResults.length - 1) : 0;
-                    const baseKRAngle = angle - krAngleSpread / 2;
-
-                    keyResults.forEach((kr, j) => {
-                        const krAngle = baseKRAngle + j * krAngleStep;
-                        kr.fx = obj.fx + krRadius * Math.cos(krAngle);
-                        kr.fy = obj.fy + krRadius * Math.sin(krAngle);
-
-                        const kpis = kr.children || [];
-                        const kpiRadius = 85;
-                        const kpiAngleSpread = Math.PI / 3;
-                        const kpiAngleStep = kpis.length > 1 ? kpiAngleSpread / (kpis.length - 1) : 0;
-                        const baseKPIAngle = krAngle - kpiAngleSpread / 2;
-
-                        kpis.forEach((kpi, k) => {
-                            const kpiAngle = baseKPIAngle + k * kpiAngleStep;
-                            kpi.fx = kr.fx + kpiRadius * Math.cos(kpiAngle);
-                            kpi.fy = kr.fy + kpiRadius * Math.sin(kpiAngle);
-                        });
-                    });
-                });
-                
-                isRebalanced = true;
-                simulation.alpha(1).restart();
-            }
-
-            d3.select("#rebalance-btn").on("click", rebalanceLayout);
-        }
 
         // --- HEADER AND FOOTER ---
         /**
