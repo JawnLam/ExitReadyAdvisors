@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive KPI to Intrinsic Enterprise Value Mind Map</title>
+    <!-- D3.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <!-- Tailwind CSS for modern UI styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for the visualization */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Very light gray background */
+            overflow: hidden; /* Prevent scrollbars on the body */
+        }
+
+        #container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+        
+        /* Styling for SVG links (lines between nodes) */
+        .link {
+            fill: none;
+            stroke: #9ca3af; /* Gray-400 */
+            stroke-opacity: 0.6;
+            stroke-width: 1.5px;
+        }
+
+        /* Styling for SVG nodes (rectangles and text) */
+        .node {
+            cursor: pointer; /* Change cursor to pointer on hover */
+        }
+        
+        .node rect {
+            transition: filter 0.3s ease, stroke-width 0.3s ease, stroke 0.3s ease;
+            stroke-width: 2px;
+        }
+        
+        .node:hover rect {
+            filter: brightness(1.1);
+        }
+        
+        /* Style for text labels on nodes */
+        .node-label {
+            font-size: 12px;
+            fill: #1f2937; /* Dark Gray for readability */
+            pointer-events: none; /* Text should not block mouse events */
+            user-select: none;
+        }
+
+        /* Specific font sizes for different node types */
+        .center-label { font-size: 16px; font-weight: 700; }
+        .strategicObjective-label { font-size: 14px; font-weight: 600; }
+        .tacticalKeyResult-label { font-size: 13px; }
+        .managerialKpi-label { font-size: 12px; }
+
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Main container for the D3 visualization -->
+    <div id="container">
+        <!-- Bottom-right legend panel -->
+        <div class="legend absolute bottom-5 right-5 bg-white bg-opacity-70 backdrop-blur-sm p-4 rounded-lg shadow-lg text-gray-800 pointer-events-none">
+            <h4 class="font-bold text-sm mb-2">Legend</h4>
+            <div class="space-y-2">
+                <div class="flex items-center">
+                    <div class="w-4 h-4 rounded mr-3" style="background: #34D399;"></div><span class="text-xs">Intrinsic Enterprise Value</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="w-4 h-4 rounded mr-3" style="background: #60A5FA;"></div><span class="text-xs">Strategic Objective</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="w-4 h-4 rounded mr-3" style="background: #FBBF24;"></div><span class="text-xs">Tactical Key Result</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="w-4 h-4 rounded mr-3" style="background: #A78BFA;"></div><span class="text-xs">Managerial KPI</span>
+                </div>
+            </div>
+        </div>
+        <!-- Bottom-left rebalance button -->
+        <button id="rebalance-btn" class="absolute bottom-5 left-5 bg-gray-200 text-gray-700 hover:bg-gray-900 hover:text-gray-100 font-bold py-2 px-4 rounded-lg shadow-lg transition-colors duration-300 border border-gray-700 hover:border-gray-100">Rebalance</button>
+    </div>
+
+    <script>
+        // --- DATA ---
+        const sourceData = {
+            name: "Intrinsic Enterprise Value", type: "center",
+            children: [
+                { name: "Obj 1: Accelerate Commercialization", type: "strategicObjective", children: [
+                    { name: "KR 1.1: Secure Anchor Customers", type: "tacticalKeyResult", children: [
+                        { name: "1.1.1: Customer Acquisition Rate", type: "managerialKpi", target: "1/quarter" },
+                        { name: "1.1.2: Total Contract Value", type: "managerialKpi", target: "$50M/18mo" },
+                        { name: "1.1.3: Sales Cycle Length", type: "managerialKpi", target: "< 6 months" }
+                    ]},
+                    { name: "KR 1.2: Scalable Manufacturing", type: "tacticalKeyResult", children: [
+                        { name: "1.2.1: Unit Production Cost", type: "managerialKpi", target: "-30%" },
+                        { name: "1.2.2: Production Lead Time", type: "managerialKpi", target: "< 3 months" },
+                        { name: "1.2.3: First Pass Yield", type: "managerialKpi", target: "> 95%" }
+                    ]},
+                    { name: "KR 1.3: Recurring Revenue Model", type: "tacticalKeyResult", children: [
+                        { name: "1.3.1: Annual Recurring Revenue", type: "managerialKpi", target: "+20% YoY" },
+                        { name: "1.3.2: Service Attachment Rate", type: "managerialKpi", target: "> 75%" },
+                        { name: "1.3.3: Customer Lifetime Value", type: "managerialKpi", target: "+50%" }
+                    ]}
+                ]},
+                { name: "Obj 2: De-Risk Technology", type: "strategicObjective", children: [
+                    { name: "KR 2.1: High Reliability", type: "tacticalKeyResult", children: [
+                        { name: "2.1.1: Mean Time Between Failures", type: "managerialKpi", target: "> 100k hrs" },
+                        { name: "2.1.2: Fleet-Wide Uptime", type: "managerialKpi", target: "99.99%" },
+                        { name: "2.1.3: Field-Service Events", type: "managerialKpi", target: "Minimize" }
+                    ]},
+                    { name: "KR 2.2: Streamline Deployment", type: "tacticalKeyResult", children: [
+                        { name: "2.2.1: Average Deployment Time", type: "managerialKpi", target: "< 3 days" },
+                        { name: "2.2.2: On-Time Completion Rate", type: "managerialKpi", target: "> 95%" },
+                        { name: "2.2.3: Deployment CSAT Score", type: "managerialKpi", target: "4.8/5.0" }
+                    ]},
+                    { name: "KR 2.3: Industry Certifications", type: "tacticalKeyResult", children: [
+                        { name: "2.3.1: Certification Progress", type: "managerialKpi", target: "100%" },
+                        { name: "2.3.2: Time to Certification", type: "managerialKpi", target: "Track" },
+                        { name: "2.3.3: Markets Unlocked", type: "managerialKpi", target: "Quantify" }
+                    ]}
+                ]},
+                { name: "Obj 3: Build Competitive Moat", type: "strategicObjective", children: [
+                    { name: "KR 3.1: Brand Leadership", type: "tacticalKeyResult", children: [
+                        { name: "3.1.1: Share of Voice", type: "managerialKpi", target: "#1" },
+                        { name: "3.1.2: Inbound Lead Generation", type: "managerialKpi", target: "> 40%" },
+                        { name: "3.1.3: Analyst Rankings", type: "managerialKpi", target: "Leader" }
+                    ]},
+                    { name: "KR 3.2: IP Portfolio", type: "tacticalKeyResult", children: [
+                        { name: "3.2.1: New Patents Filed", type: "managerialKpi", target: "10/year" },
+                        { name: "3.2.2: IP Breadth Score", type: "managerialKpi", target: "+25%" },
+                        { name: "3.2.3: IP Encroachment Rate", type: "managerialKpi", target: "Monitor" }
+                    ]},
+                    { name: "KR 3.3: Ecosystem Integration", type: "tacticalKeyResult", children: [
+                        { name: "3.3.1: Integration Partners", type: "managerialKpi", target: "5+" },
+                        { name: "3.3.2: API Adoption Rate", type: "managerialKpi", target: "Track" },
+                        { name: "3.3.3: Integrated Revenue %", type: "managerialKpi", target: "Measure" }
+                    ]}
+                ]},
+                { name: "Obj 4: Optimize Capital Strategy", type: "strategicObjective", children: [
+                    { name: "KR 4.1: Growth Capital Structure", type: "tacticalKeyResult", children: [
+                        { name: "4.1.1: Capital Runway", type: "managerialKpi", target: "> 24 months" },
+                        { name: "4.1.2: Cost of Capital", type: "managerialKpi", target: "Competitive" },
+                        { name: "4.1.3: Investor Quality", type: "managerialKpi", target: "Strategic" }
+                    ]},
+                    { name: "KR 4.2: Working Capital Efficiency", type: "tacticalKeyResult", children: [
+                        { name: "4.2.1: Cash Conversion Cycle", type: "managerialKpi", target: "-20%" },
+                        { name: "4.2.2: Inventory Turns", type: "managerialKpi", target: "4x/year" },
+                        { name: "4.2.3: Days Sales Outstanding", type: "managerialKpi", target: "< 45 days" }
+                    ]},
+                    { name: "KR 4.3: FP&A Function", type: "tacticalKeyResult", children: [
+                        { name: "4.3.1: Budget Variance", type: "managerialKpi", target: "< 5%" },
+                        { name: "4.3.2: Forecast Accuracy", type: "managerialKpi", target: "> 90%" },
+                        { name: "4.3.3: Time to Close", type: "managerialKpi", target: "< 5 days" }
+                    ]}
+                ]}
+            ]
+        };
+
+        // --- D3 SETUP ---
+        const containerEl = document.getElementById('container');
+        let width = containerEl.clientWidth;
+        let height = containerEl.clientHeight;
+        const transitionDuration = 750;
+        let isRebalanced = false;
+
+        const svg = d3.select("#container").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("viewBox", [-width / 2, -height / 2, width, height]);
+
+        const g = svg.append("g");
+        let link = g.append("g").attr("class", "links").selectAll("path.link");
+        let node = g.append("g").attr("class", "nodes").selectAll(".node");
+
+        // --- SCALES ---
+        const colorScale = d3.scaleOrdinal()
+            .domain(["center", "strategicObjective", "tacticalKeyResult", "managerialKpi"])
+            .range(["#34D399", "#60A5FA", "#FBBF24", "#A78BFA"]);
+
+        // --- SIMULATION ---
+        const simulation = d3.forceSimulation()
+            .force("link", d3.forceLink().id(d => d.id).distance(120).strength(0.8))
+            .force("charge", d3.forceManyBody().strength(-1500))
+            .force("center", d3.forceCenter(0, 0))
+            .force("collision", d3.forceCollide().radius(d => Math.max(d.width / 2, d.height / 2) + 15))
+            .on("tick", ticked);
+        
+        // --- DATA PROCESSING & INITIAL RENDER ---
+        const root = d3.hierarchy(sourceData);
+        root.descendants().forEach((d, i) => {
+            d.id = i;
+            d._children = d.children;
+            if (d.depth > 1) d.children = null;
+        });
+        
+        update();
+
+        /**
+         * Wraps text, sets node dimensions, and positions the text.
+         * @param {d3.Selection} selection - The D3 selection of text elements.
+         */
+        function wrapAndSize(selection) {
+            const PADDING = 10;
+            const LINE_HEIGHT = 1.2; // ems
+            const MAX_WIDTH = 200;
+
+            selection.each(function(d) {
+                const textEl = d3.select(this);
+                const words = d.data.name.split(/\s+/);
+                
+                textEl.text(null);
+
+                let tspan = textEl.append('tspan').attr('x', 0);
+                tspan.text(d.data.name);
+
+                if (tspan.node().getComputedTextLength() > MAX_WIDTH) {
+                    tspan.text('');
+                    let bestSplit = findBestSplitPoint(words);
+                    const line1 = words.slice(0, bestSplit).join(' ');
+                    const line2 = words.slice(bestSplit).join(' ');
+
+                    textEl.append('tspan').attr('x', 0).text(line1);
+                    textEl.append('tspan').attr('x', 0).attr('dy', `${LINE_HEIGHT}em`).text(line2);
+                }
+
+                const bbox = textEl.node().getBBox();
+                d.width = bbox.width + PADDING * 2;
+                d.height = bbox.height + PADDING * 2;
+
+                textEl.attr('y', -bbox.height / 2 - bbox.y);
+            });
+        }
+        
+        function findBestSplitPoint(words) {
+            let bestSplit = -1;
+            let minDiff = Infinity;
+            for (let i = 1; i < words.length; i++) {
+                const line1Length = words.slice(0, i).join(' ').length;
+                const line2Length = words.slice(i).join(' ').length;
+                const diff = Math.abs(line1Length - line2Length);
+                if (diff < minDiff) {
+                    minDiff = diff;
+                    bestSplit = i;
+                }
+            }
+            return bestSplit;
+        }
+
+        // --- CORE UPDATE FUNCTION ---
+        function update() {
+            const nodes = root.descendants().filter(d => d.parent ? d.parent.children : true);
+            const links = root.links().filter(d => d.source.children && d.target.parent.children);
+
+            // If in rebalanced state, just re-run the layout calculation and animation
+            if (isRebalanced) {
+                rebalanceLayout();
+                return;
+            }
+
+            // Normal physics-based update
+            link = link.data(links, d => d.target.id);
+            link.exit().remove();
+            link = link.enter().append("path").attr("class", "link").merge(link);
+
+            node = node.data(nodes, d => d.id);
+            node.exit().transition().duration(transitionDuration)
+                .attr("transform", d => `translate(${d.parent.x},${d.parent.y})`)
+                .style("opacity", 0)
+                .remove();
+            
+            const nodeEnter = node.enter().append("g")
+                .attr("class", "node")
+                .attr("transform", d => `translate(${d.parent ? d.parent.x : 0},${d.parent ? d.parent.y : 0})`)
+                .style("opacity", 0)
+                .on("click", (event, d) => {
+                    if (event.defaultPrevented) return;
+                    toggleChildren(d);
+                })
+                .call(drag(simulation));
+
+            nodeEnter.append("rect");
+            nodeEnter.append("text")
+                .attr("class", d => `node-label ${d.data.type}-label`)
+                .attr("text-anchor", "middle")
+                .call(wrapAndSize);
+            
+            nodeEnter.select("rect")
+                .attr("width", d => d.width)
+                .attr("height", d => d.height)
+                .attr("x", d => -d.width / 2)
+                .attr("y", d => -d.height / 2)
+                .attr("rx", 5)
+                .attr("fill", d => colorScale(d.data.type))
+                .attr("stroke", d => d3.color(colorScale(d.data.type)).darker(0.6));
+
+            node = nodeEnter.merge(node);
+            
+            node.transition().duration(transitionDuration).style("opacity", 1);
+            
+            node.select('rect')
+                .transition().duration(transitionDuration)
+                .attr("stroke", d => (d._children && !d.children) ? "#1f2937" : d3.color(colorScale(d.data.type)).darker(0.6))
+                .attr("stroke-width", d => (d._children && !d.children) ? 4 : 2);
+            
+            simulation.nodes(nodes);
+            simulation.force("link").links(links);
+            simulation.alpha(1).restart();
+        }
+        
+        function ticked() {
+            // Only run the tick function if not in rebalanced mode
+            if (!isRebalanced) {
+                node.attr("transform", d => `translate(${d.x},${d.y})`);
+                link.attr("d", d => {
+                    const dx = d.target.x - d.source.x;
+                    const dy = d.target.y - d.source.y;
+                    const length = Math.sqrt(dx * dx + dy * dy);
+                    const mx = (d.source.x + d.target.x) / 2;
+                    const my = (d.source.y + d.target.y) / 2;
+                    const px = -dy / length;
+                    const py = dx / length;
+                    const offset = 30; 
+                    const cx = mx + offset * px;
+                    const cy = my + offset * py;
+                    return `M${d.source.x},${d.source.y} Q${cx},${cy} ${d.target.x},${d.target.y}`;
+                });
+            }
+        }
+
+        // --- INTERACTIVITY & UTILITIES ---
+        function toggleChildren(d) {
+            if (d.children) {
+                d.children = null;
+            } else {
+                d.children = d._children;
+            }
+            update();
+        }
+
+        function drag(simulation) {
+            function dragstarted(event, d) {
+                // When dragging starts, break out of rebalance mode and go back to physics
+                if (isRebalanced) {
+                    unfixAllNodes();
+                    update(); // Trigger an update to restart the simulation
+                }
+                if (!event.active) simulation.alphaTarget(0.3).restart();
+                d.fx = d.x;
+                d.fy = d.y;
+            }
+            function dragged(event, d) {
+                d.fx = event.x;
+                d.fy = event.y;
+            }
+            function dragended(event, d) {
+                if (!event.active) simulation.alphaTarget(0);
+                // In rebalanced mode, we want the node to stay where it was dropped
+                if (isRebalanced) {
+                    d.fx = event.x;
+                    d.fy = event.y;
+                } else {
+                // In physics mode, unpin the node after dragging
+                    d.fx = null;
+                    d.fy = null;
+                }
+            }
+            return d3.drag()
+                .on("start", dragstarted)
+                .on("drag", dragged)
+                .on("end", dragended);
+        }
+
+        const zoom = d3.zoom().scaleExtent([0.1, 5]).on("zoom", (event) => g.attr("transform", event.transform));
+        svg.call(zoom);
+        
+        function handleResize() {
+            width = containerEl.clientWidth;
+            height = containerEl.clientHeight;
+            svg.attr("viewBox", [-width / 2, -height / 2, width, height]);
+            if (isRebalanced) {
+                rebalanceLayout();
+            } else {
+                simulation.force("center", d3.forceCenter(0, 0)).restart();
+            }
+        }
+        window.addEventListener('resize', handleResize);
+
+        function unfixAllNodes() {
+            node.each(d => {
+                d.fx = null;
+                d.fy = null;
+            });
+            isRebalanced = false;
+        }
+
+        function rebalanceLayout() {
+            isRebalanced = true;
+            simulation.stop(); // Stop physics temporarily to place nodes
+            svg.transition().duration(transitionDuration).call(zoom.transform, d3.zoomIdentity);
+
+            const allNodes = root.descendants().filter(d => d.parent ? d.parent.children : true);
+            const centerNode = allNodes.find(d => d.data.type === 'center');
+            if (!centerNode) return;
+
+            centerNode.fx = 0;
+            centerNode.fy = 0;
+
+            let hasCollisions = true;
+            let iterations = 0;
+            const maxIterations = 50; 
+            
+            let radii = {
+                1: Math.max(centerNode.width, centerNode.height) / 2 + 120,
+                2: Math.max(centerNode.width, centerNode.height) / 2 + 320,
+                3: Math.max(centerNode.width, centerNode.height) / 2 + 520
+            };
+
+            while (hasCollisions && iterations < maxIterations) {
+                iterations++;
+                hasCollisions = false;
+
+                const strategicObjectives = allNodes.filter(d => d.data.type === 'strategicObjective');
+                const strategicObjectiveAngleSlice = (2 * Math.PI) / strategicObjectives.length;
+
+                strategicObjectives.forEach((strategicObj, i) => {
+                    const strategicObjAngle = i * strategicObjectiveAngleSlice;
+                    strategicObj.fx = radii[1] * Math.cos(strategicObjAngle);
+                    strategicObj.fy = radii[1] * Math.sin(strategicObjAngle);
+
+                    const tacticalKeyResults = strategicObj.children ? allNodes.filter(n => n.parent === strategicObj) : [];
+                    if (tacticalKeyResults.length > 0) {
+                        const tacticalKeyResultAngleSlice = strategicObjectiveAngleSlice / tacticalKeyResults.length;
+                        const tacticalKeyResultStartAngle = strategicObjAngle - (strategicObjectiveAngleSlice / 2);
+
+                        tacticalKeyResults.forEach((tacticalKeyResult, j) => {
+                            const tacticalKeyResultAngle = tacticalKeyResultStartAngle + (j * tacticalKeyResultAngleSlice) + (tacticalKeyResultAngleSlice / 2);
+                            tacticalKeyResult.fx = radii[2] * Math.cos(tacticalKeyResultAngle);
+                            tacticalKeyResult.fy = radii[2] * Math.sin(tacticalKeyResultAngle);
+
+                            const managerialKpis = tacticalKeyResult.children ? allNodes.filter(n => n.parent === tacticalKeyResult) : [];
+                            if (managerialKpis.length > 0) {
+                                const managerialKpiAngleSlice = tacticalKeyResultAngleSlice / managerialKpis.length;
+                                const managerialKpiStartAngle = tacticalKeyResultAngle - (tacticalKeyResultAngleSlice / 2);
+
+                                managerialKpis.forEach((managerialKpi, k) => {
+                                    const managerialKpiAngle = managerialKpiStartAngle + (k * managerialKpiAngleSlice) + (managerialKpiAngleSlice / 2);
+                                    managerialKpi.fx = radii[3] * Math.cos(managerialKpiAngle);
+                                    managerialKpi.fy = radii[3] * Math.sin(managerialKpiAngle);
+                                });
+                            }
+                        });
+                    }
+                });
+
+                for (let i = 0; i < allNodes.length; i++) {
+                    const d = allNodes[i];
+                    const r1 = { x1: d.fx - d.width/2, y1: d.fy - d.height/2, x2: d.fx + d.width/2, y2: d.fy + d.height/2 };
+                    for (let j = i + 1; j < allNodes.length; j++) {
+                        const q = allNodes[j];
+                        const r2 = { x1: q.fx - q.width/2, y1: q.fy - q.height/2, x2: q.fx + q.width/2, y2: q.fy + q.height/2 };
+                        if (r1.x1 < r2.x2 && r1.x2 > r2.x1 && r1.y1 < r2.y2 && r1.y2 > r2.y1) {
+                            hasCollisions = true;
+                            break; 
+                        }
+                    }
+                    if (hasCollisions) break;
+                }
+
+                if (hasCollisions) {
+                    const radiusIncrement = 10;
+                    radii[1] += radiusIncrement;
+                    radii[2] += radiusIncrement * 1.5;
+                    radii[3] += radiusIncrement * 2.0;
+                }
+            }
+            
+            // Set final fixed positions and restart simulation for smooth transition
+            allNodes.forEach(d => {
+                d.x = d.fx;
+                d.y = d.fy;
+            });
+            simulation.nodes(allNodes); // Give the simulation the updated nodes
+            simulation.alpha(0.3).restart(); // Restart the simulation with low energy
+
+            // Animate nodes and links to their final fixed positions
+            node.transition().duration(transitionDuration)
+                .attr("transform", d => `translate(${d.fx},${d.fy})`);
+                
+            const links = root.links().filter(d => d.source.children && d.target.parent.children);
+            link = link.data(links, d => d.target.id);
+            link.transition().duration(transitionDuration)
+                .attr("d", d => {
+                    const dx = d.target.fx - d.source.fx;
+                    const dy = d.target.fy - d.source.fy;
+                    const length = Math.sqrt(dx * dx + dy * dy);
+                    const mx = (d.source.fx + d.target.fx) / 2;
+                    const my = (d.source.fy + d.target.fy) / 2;
+                    const px = -dy / length;
+                    const py = dx / length;
+                    const offset = 30; 
+                    const cx = mx + offset * px;
+                    const cy = my + offset * py;
+                    return `M${d.source.fx},${d.source.fy} Q${cx},${cy} ${d.target.fx},${d.target.fy}`;
+                });
+        }
+
+        d3.select("#rebalance-btn").on("click", () => {
+             if (isRebalanced) {
+                unfixAllNodes();
+                update();
+             } else {
+                rebalanceLayout();
+             }
+        });
+
+    </script>
+</body>
+</html>
