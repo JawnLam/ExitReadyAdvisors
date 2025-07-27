@@ -1,18 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-
-    <!-- 
-    /------------------------------------------------------------------------\
-    | LAST UPDATE: 2507241704…Thu_Jul_24_2025_0504PM                         |
-    | https://gemini.google.com/app/                         |
-    | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/??????????.html |
-    \------------------------------------------------------------------------/
-    -->
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Presale Valuation Acceleration Coaching</title>
+    <title>Complete Implementation Journey: Johnson & Sons</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,107 +11,845 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* gray-100 */
         }
+        /* 1. Main Content Load Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out forwards;
+        }
+
+        /* 2. Tab Interface Animations */
+        .tab-button {
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            border-radius: 0.375rem 0.375rem 0 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            font-size: 0.75rem; /* text-xs */
+            line-height: 1rem; /* leading-tight */
+            padding: 0.75rem 0.25rem;
+            min-height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .tab-button::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 0;
+            background-color: #EFE4FF; /* custom bg-purple-150 */
+            transition: height 0.3s ease;
+            z-index: -1;
+        }
+        .tab-button:not(.active):hover::after {
+            height: 100%;
+        }
+        .tab-button:not(.active):hover {
+            color: #9333EA; /* text-purple-600 */
+            border-bottom-color: #A855F7; /* purple-500 */
+        }
+        .tab-button.active {
+            background-color: #EFE4FF; /* custom bg-purple-150 */
+            color: #9333EA; /* text-purple-600 */
+            border-bottom-color: #A855F7; /* purple-500 */
+            box-shadow: 0 0 0 1px #C084FC; /* ring-1 ring-purple-400 */
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        /* Interactive Card Styling */
+        .interactive-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .interactive-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Timeline Styling */
+        .timeline-node {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            z-index: 10;
+            text-align: center;
+        }
+        .node-circle {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 9999px;
+            background-color: #fff;
+            border-width: 2px;
+            border-color: #d1d5db;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #6b7280;
+            transition: all 0.3s ease-in-out;
+        }
+        .node-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-top: 0.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease-in-out;
+        }
+        .timeline-node.active .node-circle {
+            background-color: #a855f7;
+            border-color: #a855f7;
+            color: #fff;
+            transform: scale(1.1);
+        }
+        .timeline-node.active .node-label {
+            color: #9333ea;
+        }
+        .phase-content {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .deliverables-panel {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+
+        /* Risk Tab Specific Styling */
+        .risk-briefing-card {
+            transition: all 0.2s ease-in-out;
+            border-left-width: 4px;
+            border-left-color: transparent;
+        }
+        .risk-briefing-card.active {
+            background-color: #EFE4FF; /* purple-150 */
+            border-left-color: #9333EA; /* purple-600 */
+            transform: translateX(5px);
+        }
+        .pert-node {
+            border: 2px solid #6b7280;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            background-color: white;
+            text-align: center;
+            position: absolute;
+            font-size: 0.75rem;
+        }
+        .pert-node.critical-path {
+            border-color: #8b5cf6; /* violet-500 */
+            background-color: #ede9fe; /* violet-100 */
+        }
+        .pert-node.parallel-path {
+             border-color: #64748b; /* slate-500 */
+             background-color: #f1f5f9; /* slate-100 */
+        }
+        .pert-line {
+            stroke: #9ca3af;
+            stroke-width: 2;
+            marker-end: url(#arrowhead);
+        }
+        .pert-line.critical-path {
+            stroke: #8b5cf6; /* violet-500 */
+        }
+        
+        /* Execution Tab Styling */
+        .blueprint-pillar {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .blueprint-pillar.active {
+            background-color: #EFE4FF; /* purple-150 */
+            border-color: #A855F7; /* purple-500 */
+        }
+        .blueprint-pillar:not(.active):hover {
+            background-color: #F5F3FF; /* purple-100 */
+        }
+        .blueprint-content {
+            display: none;
+        }
+        .blueprint-content.active {
+            display: block;
+            animation: fadeIn 0.4s;
+        }
+
+        /* Politics Tab: Flip Card Styling */
+        .flip-card {
+            background-color: transparent;
+            width: 100%;
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flip-card.is-flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+        }
+        .flip-card-front {
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .flip-card-back {
+            background-color: #f5f3ff; /* purple-100 */
+            color: #5b21b6; /* violet-800 */
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+        }
+        .flip-card-back-header {
+            background-color: #7c3aed; /* violet-600 */
+            color: white;
+            padding: 0.5rem;
+            font-weight: 600;
+            border-top-left-radius: 0.5rem;
+            border-top-right-radius: 0.5rem;
+        }
+        .flip-card-back-content {
+            padding: 1rem;
+            font-size: 0.875rem;
+            text-align: left;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="p-4 sm:p-6 lg:p-8">
 
-    <!-- Header Placeholder -->
-    <header id="header-placeholder"></header>
+    <div id="page-implementation-journey" class="max-w-7xl mx-auto opacity-0">
 
-    <!-- Main Content Placeholder -->
-    <main class="container mx-auto px-6 py-16 md:py-24">
-        <div class="text-center">
-            <h1 class="text-4xl font-bold text-gray-900">Title Placeholder for "Implementation Journey Template" page.</h1>
-            <p class="mt-4 text-lg text-gray-600">This is a placeholder for the main content of your page. You can replace this section with your own text, images, and components.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 bg-white rounded-xl overflow-hidden shadow-lg mb-8">
+            <div class="md:order-2 p-8 flex flex-col justify-center">
+                <p class="text-sm font-semibold uppercase tracking-wider text-purple-600">The Complete Implementation Journey</p>
+                <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 mt-1">Johnson & Sons Transformation</h1>
+                <p class="text-gray-600 mt-4">
+                    A complete, unabridged account of the 36-month value creation strategy. This site chronicles the journey from initial stabilization to being exit-ready, detailing every operational, financial, and political challenge.
+                </p>
+            </div>
+            <div class="flex items-center justify-center md:order-1 h-48 md:h-auto bg-gray-800">
+                <img src="https://placehold.co/600x400/1F2937/FFFFFF?text=Complete+Journey" alt="Johnson & Sons Transformation" class="object-cover w-full h-full">
+            </div>
         </div>
-    </main>
+        
+        <div class="mb-8 border-b border-gray-200">
+            <nav class="-mb-px grid grid-cols-4 md:grid-cols-8 gap-x-1" aria-label="Tabs">
+                <button class="tab-button active text-gray-500 hover:text-gray-800 font-medium" data-tab="summary">Executive<br>Summary</button>
+                <button class="tab-button text-gray-500 hover:text-gray-800 font-medium" data-tab="governance">Governance &<br>Oversight</button>
+                <button class="tab-button text-gray-500 hover:text-gray-800 font-medium" data-tab="finance">Performance<br>Tracking</button>
+                <button class="tab-button text-gray-500 hover:text-gray-800 font-medium" data-tab="sprints">Phased<br>Sprints</button>
+                <button class="tab-button text-gray-500 hover:text-gray-800 font-medium" data-tab="execution">Infrastructure &<br>Capabilities</button>
+                <button class="tab-button text-gray-500 hover:text-gray-800 font-medium" data-tab="risk">Risks &<br>Dependencies</button>
+                <button class="tab-button text-gray-500 hover:text-gray-800 font-medium" data-tab="politics">Organizational<br>Dynamics</button>
+                <button class="tab-button text-gray-500 hover:text-gray-800 font-medium" data-tab="exit">Pre-Exit<br>Preparation</button>
+            </nav>
+        </div>
 
-    <!-- Footer Placeholder -->
-    <footer id="footer-placeholder"></footer>
+        <div class="mb-8">
+            <!-- INTERN NOTE: This content comes from Section 1 of the Implementation Journey document. -->
+            <div id="summary" class="tab-content active">
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <div class="p-8 rounded-xl border-2 border-dashed" style="background-color: #EFE4FF; border-color: #A855F7;">
+                        <h2 class="text-xl font-bold mb-4 text-purple-900">Executive Summary: The 36-Month Journey</h2>
+                        <p class="text-purple-800 leading-relaxed">
+                            Our engagement with Johnson & Sons was a 36-month transformation designed to professionalize a successful but stagnant family business into a scalable, high-margin, and exit-ready platform. The journey was structured in four distinct phases:  Stabilization  (Months 1-6), focused on control and trust-building;  Optimization  (Months 7-24), the period of intense, often painful, operational and technological change;  Acceleration  (Months 25-30), dedicated to scaling new growth engines; and  Preparation  (Months 31-36), focused on hardening the business for a premium exit.
+                            <br><br>
+                            While we successfully increased Adjusted EBITDA by 47% and established a multi-million dollar recurring revenue stream, the path was not linear. The implementation revealed a profound cultural divide between the company's relationship-driven past and its emerging data-driven future. This case study documents not only the "what" and "how" of the financial value created but the far more complex "who" and "why" of the organizational battles that defined the transformation.
+                        </p>
+                    </div>
+                </div>
+            </div>
 
-    <!-- 
-    /-------------------\
-    | HEADER AND FOOTER |
-    \-------------------/
-    -->
-    <script>
-        /**
-         * Initializes the mobile menu toggle functionality.
-         * This should be called after the header content is loaded.
-         */
-        function initializeMobileMenu() {
-            const menuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
+            <!-- INTERN NOTE: This content comes from Section 2 of the Implementation Journey document. -->
+            <div id="governance" class="tab-content">
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <h2 class="text-xl font-bold mb-6 text-gray-800">Implementation Governance & Oversight</h2>
+                    <p class="text-gray-600 mb-8">Effective governance was the bedrock of the transformation. Click each pillar to see how we structured decision-making, communication, and resource management.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                        <div class="interactive-card bg-gray-50 p-6 rounded-lg cursor-pointer" onclick="toggleContent('gov-structure')">
+                            <svg class="w-12 h-12 mx-auto text-purple-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" /></svg>
+                            <h3 class="font-semibold mt-4">Governance Structure</h3>
+                        </div>
+                        <div class="interactive-card bg-gray-50 p-6 rounded-lg cursor-pointer" onclick="toggleContent('gov-comm')">
+                            <svg class="w-12 h-12 mx-auto text-purple-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.397 48.397 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" /></svg>
+                            <h3 class="font-semibold mt-4">Communication Infrastructure</h3>
+                        </div>
+                        <div class="interactive-card bg-gray-50 p-6 rounded-lg cursor-pointer" onclick="toggleContent('gov-res')">
+                            <svg class="w-12 h-12 mx-auto text-purple-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                            <h3 class="font-semibold mt-4">Resource Allocation</h3>
+                        </div>
+                    </div>
+                    <div id="gov-content" class="mt-8">
+                        <div id="gov-structure" class="hidden"><ul class="detail-list"><li><strong>Transformation Steering Committee:</strong><span>A committee was formed on Day 1, comprising two PE partners, the two Johnson brothers (in a transitional capacity), and me. We met bi-weekly for the first six months, then monthly. Its primary charter was to approve capital expenditures exceeding $50,000, ratify key strategic decisions (such as the hiring of the COO), and conduct formal milestone reviews.</span></li><li><strong>Workstream Leadership:</strong><span>We established two primary workstreams: Project Operations, initially led by the tenured General Manager, and Service Division Launch, a "skunkworks" project led by a hand-picked, ambitious young project engineer. This immediately created a "new vs. old" dynamic and a clear line of accountability for each major value lever.</span></li><li><strong>Decision Rights & Escalation Matrix:</strong><span>A clear matrix was established. The new COO was given full P&L authority and decision rights on operational matters up to $100,000. Issues beyond that, or those involving significant changes to the strategic direction (such as abandoning a software module), were escalated to the Steering Committee. We critically underestimated the informal escalation path to the retiring GM, which became a constant source of political friction.</span></li><li><strong>External Advisory Support:</strong><span>The Johnson brothers and the retiring GM were formally retained as paid advisors. Their role was explicitly defined as "client relationship management and technical consultation," but they quickly became the de facto advisors and confidants for the "Veteran" faction, providing a powerful, informal counterweight to the formal governance structure.</span></li></ul></div>
+                        <div id="gov-comm" class="hidden"><ul class="detail-list"><li><strong>Internal & External Communication Cadence:</strong><span>We launched a monthly "Progress & People" newsletter and held quarterly all-hands town halls. After the first few tense meetings, we supplemented these with weekly "Coffee with the COO" open-door sessions to create a less formal feedback channel. Externally, we established a quarterly business review cadence with the top 10 clients, personally led by the Johnson brothers and the COO, to reassure them of stability during the transition.</span></li><li><strong>Success Story Amplification:</strong><span>We celebrated the first $100,000 service contract win with a company-wide catered lunch and gave the sales lead a spot bonus. While intended to build momentum, some "Veteran" construction PMs privately derided it as a celebration of a "small" contract, an early sign of the cultural rift. We learned to frame future wins in terms of margin and recurring value, not just top-line numbers.</span></li><li><strong>Crisis Management Protocols:</strong><span>A crisis protocol was developed following a major incident in Month 14, when a botched data migration from the old system to the new software resulted in missing a critical bid deadline for a long-standing client. The protocol established a "War Room" team (COO, relevant PM, and me) with a pre-approved communication template for notifying the client within two hours, accepting full responsibility, and outlining immediate corrective actions. This rapid, transparent response saved the relationship, but the incident severely damaged the new system's credibility internally.</span></li></ul></div>
+                        <div id="gov-res" class="hidden"><ul class="detail-list"><li><strong>Transformation Budget:</strong><span>A dedicated transformation budget of $1.5M was approved by the board, separate from the company's operating budget. This was earmarked for technology, consulting fees, and new hires. The software implementation's 50% cost overrun necessitated an emergency capital call and a painful review session with the Steering Committee, prompting us to reevaluate our vendor management process.</span></li><li><strong>Human Capital Deployment:</strong><span>We used a hybrid model. The Service Division lead and the new COO were full-time dedicated transformation roles. However, we relied on existing Project Managers and field staff to contribute to the process reengineering on a part-time basis. This saved costs but created a major resource bottleneck, as these individuals were torn between their daily jobs and the demands of the transformation.</span></li><li><strong>External Resource Management:</strong><span>Our initial oversight of the software vendor was too lax. After the budget overrun, we placed them on a strict performance-based contract, with weekly progress reviews and payment tied to specific, testable deliverables. This created an adversarial relationship but gave us the control needed to get the project over the finish line.</span></li><li><strong>ROI-Based Reallocation:</strong><span>As the Service Division began to dramatically outperform its initial business case in Year 2, its leader presented a data-driven request for an additional $250,000 in marketing spend and new service vans. This directly triggered the fierce "Resource Allocation Politics" battle with the Construction Division, forcing the Steering Committee to make a difficult decision to shift capital away from the legacy business to fuel the new, higher-margin growth engine.</span></li></ul></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INTERN NOTE: This content comes from Section 3 of the Implementation Journey document. -->
+            <div id="finance" class="tab-content">
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <div class="mb-8">
+                        <h2 class="text-xl font-bold text-gray-800">CEO Dashboard: Key Transformation Metrics</h2>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4 text-center">
+                            <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                                <div class="text-3xl font-bold text-purple-600">-16</div>
+                                <div class="text-sm font-medium text-purple-800">Cash Conversion Cycle (Days)</div>
+                            </div>
+                             <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                                <div class="text-3xl font-bold text-purple-600">-10</div>
+                                <div class="text-sm font-medium text-purple-800">Days Sales Outstanding</div>
+                            </div>
+                            <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                                <div class="text-3xl font-bold text-purple-600">90</div>
+                                <div class="text-sm font-medium text-purple-800">Days to First Dashboard</div>
+                            </div>
+                            <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                                <div class="text-3xl font-bold text-purple-600">$0</div>
+                                <div class="text-sm font-medium text-purple-800">Contingency Reserve Left</div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="my-8">
+                    <p class="text-gray-600 mb-8 text-center">Beyond the dashboard, we built a comprehensive system for financial control and value tracking. Click to explore our strategies.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="interactive-card bg-gray-50 p-6 rounded-lg cursor-pointer" onclick="toggleContent('finance-monitor')">
+                            <h3 class="font-semibold text-center">Performance Monitoring</h3>
+                        </div>
+                        <div class="interactive-card bg-gray-50 p-6 rounded-lg cursor-pointer" onclick="toggleContent('finance-cash')">
+                            <h3 class="font-semibold text-center">Cash Flow Management</h3>
+                        </div>
+                        <div class="interactive-card bg-gray-50 p-6 rounded-lg cursor-pointer" onclick="toggleContent('finance-roi')">
+                            <h3 class="font-semibold text-center">ROI & Value Capture</h3>
+                        </div>
+                    </div>
+                    <div id="finance-content" class="mt-8">
+                        <div id="finance-monitor" class="hidden"><ul class="detail-list"><li><strong>Centralized Performance Dashboard:</strong><span>Within 90 days, we built a rudimentary dashboard pulling data from the old systems. It provided the first-ever consolidated, real-time view of cash position, project margins, and backlog. This was a massive win for the Steering Committee but was viewed with suspicion by project managers, who felt their performance was being "micromanaged by a spreadsheet."</span></li><li><strong>Variance Analysis Protocols:</strong><span>The new COO instituted a rigorous weekly project review meeting to analyze budget versus actual performance in terms of labor, materials, and timelines. This is where he first used data to publicly question a Veteran PM's timeline, causing immense political damage. While the process was technically sound, its implementation was culturally tone-deaf and fueled the resistance.</span></li><li><strong>Early Warning Systems:</strong><span>We configured the new PM software to trigger automated alerts. For example, an alert was sent to the COO and the relevant PM if any project's gross margin fell 5% below the as-bid margin, or if material costs on a job exceeded their budget by 10%. The Veterans initially saw this as "tattling," but it proved invaluable in preventing small problems from becoming large profit drains.</span></li><li><strong>Reporting Rhythm:</strong><span>We established a strict reporting cadence, comprising a daily "flash report" with cash balance and yesterday's billings, a weekly operating review deck with KPIs for both divisions, and a comprehensive monthly board package that includes full financials and a narrative on transformation progress. This relentless rhythm compelled a new level of discipline and transparency that the company had never experienced before.</span></li></ul></div>
+                        <div id="finance-cash" class="hidden"><ul class="detail-list"><li><strong>Working Capital Optimization:</strong><span>We assigned a junior analyst to aggressively manage Accounts Receivable. By working with clients to align payment schedules with project milestones, we reduced Days Sales Outstanding (DSO) by 10 days in the first six months. This quick win generated tangible cash flow and built credibility for the transformation team.</span></li><li><strong>CapEx Prioritization:</strong><span>All capital requests over $25,000 required a one-page business case with a calculated ROI and payback period. This data-driven approach was used to settle the budget battle between the Service and Construction divisions. The Service Division's request for new vans showed a 12-month payback, while the Construction Division's request for new heavy equipment had a 5-year payback. The Steering Committee funded the vans, a decision that was financially correct but politically explosive.</span></li><li><strong>Cash Conversion Cycle (CCC):</strong><span>The focus on DSO and later, optimizing inventory turns via the new (and controversial) centralized system, ultimately drove the CCC down from 58 to 42 days, a major value driver that reduced the company's reliance on its credit line and freed up cash to fund growth.</span></li><li><strong>Contingency Reserves:</strong><span>The initial $1.5M transformation budget included a 15% ($225,000) contingency reserve. The software implementation's cost overrun consumed this entire reserve, a sobering lesson that forced us to be far more rigorous in our budgeting for subsequent initiatives.</span></li></ul></div>
+                        <div id="finance-roi" class="hidden"><ul class="detail-list"><li><strong>Initiative-Level P&L:</strong><span>We established a separate profit and loss (P&L) statement for the new Service Division from the outset. This allowed us to track its performance independently and prove its high-margin contribution to the overall business. This separate P&L was the key piece of evidence its leader used to win the contentious CapEx debate.</span></li><li><strong>Value Capture Waterfall:</strong><span>In board meetings, we used a waterfall chart to visually link operational changes to financial results. For example: "Reduced material waste by 2% (SOPs) → Saved $300k (Procurement) → Increased Gross Margin by 0.5% → Added $344k to EBITDA." This made the value creation tangible for the board and helped justify the operational disruption.</span></li><li><strong>Payback Period Monitoring:</strong><span>We tracked the payback period on all major investments. The new service vans paid for themselves in 14 months. The Phoenix office renovation had a projected 7-year payback based on improved productivity and employee retention. The botched software implementation's payback period stretched to over 4 years, serving as a constant reminder of the cost of poor execution.</span></li><li><strong>Synergy Realization:</strong><span>We tracked the "handoff" synergy between divisions. By the end of Year 3, 25% of new service contracts had been originated from introductions made by the construction project management team after a new build, demonstrating that the two divisions could be more valuable together than apart.</span></li></ul></div>
+                    </div>
+                </div>
+            </div>
             
-            if (menuButton && mobileMenu) {
-                menuButton.addEventListener('click', () => {
-                    mobileMenu.classList.toggle('hidden');
-                    const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
-                    menuButton.setAttribute('aria-expanded', !isExpanded);
+            <!-- INTERN NOTE: This content comes from Sections 4 & 5 of the Implementation Journey document. -->
+            <div id="sprints" class="tab-content">
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <div class="mb-12">
+                        <h2 class="text-xl font-bold mb-4 text-gray-800">Momentum Building & Quick Wins (100-Day Plan)</h2>
+                        <p class="text-gray-600 mb-6">The first 100 days were critical for building trust and demonstrating immediate value. We focused on highly visible, quick wins to build momentum for the larger changes ahead.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                             <div class="bg-gray-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-purple-600">Low-Hanging Fruit Mapping</h4>
+                                <p class="text-sm text-gray-600 mt-1">Vendor consolidation and route optimization software delivered over $500k in annualized savings within 60 days.</p>
+                            </div>
+                             <div class="bg-gray-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-purple-600">Visible Victories</h4>
+                                <p class="text-sm text-gray-600 mt-1">The Phoenix office renovation was a highly visible signal of a new era, but the disruption was a source of constant grumbling.</p>
+                            </div>
+                             <div class="bg-gray-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-purple-600">Cascading Benefits</h4>
+                                <p class="text-sm text-gray-600 mt-1">We framed the initial savings as the "down payment" for the software and renovation, making them feel like a self-funded investment.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 class="text-xl font-bold mb-6 text-gray-800">The 36-Month Execution Timeline</h2>
+                    <p class="text-gray-600 mb-12">The transformation was structured as a series of focused sprints. Click each phase on the timeline below to reveal the key activities and deliverables.</p>
+                    
+                    <div class="relative px-4">
+                        <div class="absolute top-5 left-0 w-full h-1 bg-gray-300"></div>
+                        <div id="timeline-progress" class="absolute top-5 left-0 h-1 bg-purple-500 transition-all duration-500 ease-in-out" style="width: 0%;"></div>
+                        <div class="flex justify-between items-start relative">
+                            <div class="timeline-node" onclick="selectPhase(1)"><div class="node-circle">1</div><div class="node-label">Stabilization</div></div>
+                            <div class="timeline-node" onclick="selectPhase(2)"><div class="node-circle">2</div><div class="node-label">Optimization</div></div>
+                            <div class="timeline-node" onclick="selectPhase(3)"><div class="node-circle">3</div><div class="node-label">Acceleration</div></div>
+                            <div class="timeline-node" onclick="selectPhase(4)"><div class="node-circle">4</div><div class="node-label">Preparation</div></div>
+                        </div>
+                    </div>
+
+                    <div class="mt-12 min-h-[250px]">
+                        <div id="phase-content-container"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INTERN NOTE: This content comes from Section 6 of the Implementation Journey document. -->
+            <div id="execution" class="tab-content">
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <h2 class="text-xl font-bold mb-6 text-gray-800">Building a Modern Infrastructure</h2>
+                    <p class="text-gray-600 mb-8">We rebuilt the company's operational engine around three core pillars. Click a pillar on the blueprint below to explore the specific initiatives and their outcomes.</p>
+                    
+                    <div class="bg-gray-100 p-8 rounded-lg">
+                        <div class="grid grid-cols-3 gap-4 text-center">
+                            <div id="pillar-tech" class="blueprint-pillar border-b-4 border-gray-300 pb-4">
+                                <h3 class="font-bold text-gray-700">Technology</h3>
+                            </div>
+                             <div id="pillar-process" class="blueprint-pillar border-b-4 border-gray-300 pb-4">
+                                <h3 class="font-bold text-gray-700">Processes</h3>
+                            </div>
+                             <div id="pillar-supply" class="blueprint-pillar border-b-4 border-gray-300 pb-4">
+                                <h3 class="font-bold text-gray-700">Partners</h3>
+                            </div>
+                        </div>
+                        <div class="mt-8 min-h-[300px]">
+                            <div id="blueprint-content-container"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INTERN NOTE: This content comes from Section 7 of the Implementation Journey document. -->
+            <div id="risk" class="tab-content">
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <h2 class="text-xl font-bold mb-6 text-gray-800">Risk & Dependency Management Command Center</h2>
+                    <p class="text-gray-600 mb-8">This command center provides a comprehensive overview of our risk management framework. Select a risk from the register to view its corresponding contingency plans. Expand the strategic planning sections below for more detail.</p>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <!-- Risk Register -->
+                        <div class="lg:col-span-1 bg-gray-50 p-4 rounded-lg">
+                            <h3 class="font-bold text-lg text-gray-800 mb-4">Implementation Risks</h3>
+                            <div id="risk-register-container" class="space-y-2"></div>
+                        </div>
+                        <!-- Contingency Plan Display -->
+                        <div class="lg:col-span-2 bg-gray-50 p-6 rounded-lg min-h-[300px]">
+                            <div id="contingency-display-container"></div>
+                        </div>
+                    </div>
+                    <div class="mt-8">
+                         <h3 class="text-lg font-bold text-gray-800 mb-4">Critical Path Analysis</h3>
+                         <div id="critical-path-container" class="bg-white p-6 rounded-lg shadow-sm relative h-[450px] overflow-x-auto">
+                            <svg id="pert-svg" class="absolute top-0 left-0 w-full h-full" style="min-width: 800px;">
+                                <defs>
+                                    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                                        <polygon points="0 0, 10 3.5, 0 7" />
+                                    </marker>
+                                </defs>
+                            </svg>
+                            <div id="pert-nodes-container" class="relative w-full h-full" style="min-width: 800px;"></div>
+                         </div>
+                         <div id="critical-path-explanation" class="mt-4"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INTERN NOTE: This content comes from Section 8 of the Implementation Journey document. -->
+            <div id="politics" class="tab-content">
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <h2 class="text-xl font-bold mb-6 text-gray-800">The Political Landscape</h2>
+                    <div class="space-y-8">
+                        <div>
+                            <p class="text-gray-600 mb-6">The transformation was defined by a deep-seated conflict between two factions. Understanding these dynamics was key to navigating the change. Click a card to reveal the political realities we faced.</p>
+                            <div id="politics-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INTERN NOTE: This content comes from Section 9 of the Implementation Journey document. -->
+            <div id="exit" class="tab-content">
+                 <div class="bg-white p-8 rounded-xl shadow-md">
+                    <h2 class="text-xl font-bold mb-6 text-gray-800">Pre-Exit Preparation: The Final Checklist</h2>
+                    <p class="text-gray-600 mb-8">The final phase was a systematic process of preparing the company for a successful sale. Check each item to see how we built a buyer-ready organization.</p>
+                     <div class="space-y-4">
+                        <div class="checklist-item"><label class="flex items-center space-x-3 cursor-pointer"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-purple-600 focus:ring-purple-500"> <span class="text-gray-700 font-medium">Documentation & Systematization</span></label><div class="checklist-content hidden ml-8 mt-2 text-sm text-gray-600 border-l-2 border-gray-200 pl-4">A major effort in the final year was to depose the senior PMs and retiring GM, documenting their "rules of thumb" for bidding and managing complex jobs. This converted a significant amount of "tribal knowledge" into a corporate asset, a key de-risking element for a buyer.</div></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3 cursor-pointer"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-purple-600 focus:ring-purple-500"> <span class="text-gray-700 font-medium">Management Team Development</span></label><div class="checklist-content hidden ml-8 mt-2 text-sm text-gray-600 border-l-2 border-gray-200 pl-4">We designed a multi-tiered transaction bonus pool. The COO was heavily incentivized. Critically, we allocated a "stay bonus" to key Veterans, including Mark, that was contingent on their remaining with the company for 6 months post-close. It was a purely financial tool to paper over the cultural chasm during the sale process.</div></div>
+                        <div class="checklist-item"><label class="flex items-center space-x-3 cursor-pointer"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-purple-600 focus:ring-purple-500"> <span class="text-gray-700 font-medium">Strategic Positioning</span></label><div class="checklist-content hidden ml-8 mt-2 text-sm text-gray-600 border-l-2 border-gray-200 pl-4">We deliberately left the detailed plan for expansion into the Austin, TX market "on the table." This provided the next owner with a fully-formed, tangible growth story that was highly credible. The story we crafted for buyers was one of successful transformation and unlocked potential. We positioned the financial and operational improvements as "Act I" and framed the cultural friction not as a flaw, but as the predictable result of rapid, positive change, presenting "Act II"—cultural integration and harmony—as the primary value-creation opportunity for the new owner.</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Main Load Animation
+            const mainContainer = document.getElementById('page-implementation-journey');
+            mainContainer.classList.add('fade-in');
+            
+            // Tab Interface Logic
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            function updateTabState(newIndex) {
+                tabButtons.forEach((btn, index) => btn.classList.toggle('active', index === newIndex));
+                tabContents.forEach((content, index) => content.classList.toggle('active', index === newIndex));
+            }
+
+            tabButtons.forEach((button, index) => {
+                button.addEventListener('click', () => updateTabState(index));
+            });
+            updateTabState(0);
+
+            // Politics Grid & Flip Card Logic
+            const politicsData = {'Power Structure Mapping': 'The formal org chart showed the new COO at the top. The reality was a dual-power state. The COO controlled budgets and systems ("formal authority"), but the recently retired GM, now a "consultant," retained immense influence over the field supervisors and senior PMs ("informal authority"). A quiet word from him could stall a new initiative faster than any directive from the COO could advance it.','Coalition Dynamics': 'Two factions solidified within a year. The "Innovators" (the COO, Service Division head, and younger engineers) championed the new systems and data-driven approach. The "Veterans" (the two key Construction PMs, most field supervisors) formed a powerful resistance bloc, believing that relationships and craftsmanship—the "Johnson Way"—were being sacrificed for soulless efficiency.','Succession Landmines': 'Passing over Mark, the senior PM, for the external COO hire was our single biggest political error. Mark was the heir apparent in the eyes of the Veterans. The decision, while correct on paper (we needed external tech implementation experience), created a deeply resentful and disengaged leader within the most critical part of the business. He became a symbol of the "new owners don\'t respect our own" narrative.','Cultural Antibodies': 'The centralized inventory system was a foreign organ rejected by the host. Field teams, accustomed to having their small caches of parts, viewed the new system\'s requirement for formal requisitions as a bureaucratic impediment. They responded by creating "shadow inventory" stashes on job sites, completely defeating the system\'s purpose of providing accurate, real-time data and leading to redundant material purchases.','Unspoken Rules & Taboos': 'The cardinal unspoken rule was: "You don\'t question a senior PM\'s gut in public." In his first month, the new COO, armed with fresh dashboard data, did exactly that, challenging a project timeline in a management meeting. Though he was technically correct, the political fallout was catastrophic. He was branded as a disrespectful "bean counter," a reputation he never fully shed.','Information Asymmetries': 'The Veterans controlled the flow of crucial ground-truth information. They would consistently delay entering change orders or materials data into the new system, then claim the system was "too slow." This created a self-fulfilling prophecy, where they could blame the latest technology for delays they had orchestrated, thereby preserving their role as the indispensable sources of real project status.','Resource Allocation Politics': 'The annual budget process became a zero-sum battle. The Innovators would present ROI-based arguments for investing in marketing and technology for the high-margin Service Division. The Veterans would counter with emotional appeals based on tradition and the need to maintain their heavy equipment fleet, framing it as a choice between "the future" and "the core of the business."','Sacred Cows & Untouchables': 'The most sacred cow was the "Annual Performance Bonus." The Johnson brothers had awarded it based on a subjective mix of loyalty, tenure, and "gut feel." Our attempt to implement a transparent, metric-driven formula was met with widespread criticism and outrage. It was seen as an attempt to quantify the unquantifiable aspects of their craftsmanship. We were forced to retreat and implement a hybrid model that was less effective and ultimately unsatisfactory to everyone.','Loyalty Networks': 'Allegiance was tribal. Field supervisors were loyal to their PMs, not the company. The senior PMs were faithful to the legacy of the old GM. The new COO had direct reports, but no deep loyalty network. This meant directives were followed, but there was no discretionary effort to ensure their success.', 'Influence Mapping & Arbitrage': 'We quickly learned that to get a new field process adopted, we had to "pre-sell" it to the old GM. If he gave it his tacit blessing, the PMs would grudgingly accept it. If he expressed skepticism, it was met with skepticism. We used this channel carefully, trading favors and giving him credit for certain initiatives to spend our limited political capital wisely.', 'Choice Architecture Design': 'Our strategy was to use the new software to make the "right" operational choice the "easy" choice. For example, the system was designed to automatically suggest the most cost-effective parts. The Veterans subverted this by creating complex workarounds or simply ignoring the suggestions, claiming their experience told them a different part was better, thus defeating the architecture.'};
+            const politicsGrid = document.getElementById('politics-grid');
+            if (politicsGrid) {
+                Object.entries(politicsData).forEach(([title, content]) => {
+                    const cardContainer = document.createElement('div');
+                    cardContainer.className = 'flip-card';
+                    cardContainer.innerHTML = `
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <h4 class="font-semibold text-sm text-gray-700">${title}</h4>
+                            </div>
+                            <div class="flip-card-back">
+                                <div class="flip-card-back-header">${title}</div>
+                                <div class="flip-card-back-content">${content}</div>
+                            </div>
+                        </div>
+                    `;
+                    cardContainer.addEventListener('click', () => {
+                        cardContainer.classList.toggle('is-flipped');
+                    });
+                    politicsGrid.appendChild(cardContainer);
                 });
             }
-        }
 
-        /**
-         * Sets the active style for navigation links based on the current URL.
-         * This should be called after the header content is loaded.
-         */
-        function setActiveNavLinks() {
-            const currentUrl = window.location.href;
-            const navLinks = document.querySelectorAll('nav a'); // Get all nav links
+            // Interactive Content Toggles
+            window.toggleContent = function(id) {
+                const parent = document.getElementById(id).parentElement;
+                Array.from(parent.children).forEach(child => {
+                    if (child.id !== id) child.classList.add('hidden');
+                });
+                document.getElementById(id).classList.toggle('hidden');
+            }
 
-            const linkPaths = {
-                'case-studies': 'ExitReadyAdvisors/case-studies/',
-                'services.html': 'ExitReadyAdvisors/services.html',
-                'about.html': 'ExitReadyAdvisors/about.html',
-                'resources': 'ExitReadyAdvisors/resources/' // Added this line
+            // Timeline Logic
+            const phaseData = { 
+                1: { 
+                    title: 'PHASE 1 - STABILIZATION (Months 1-6): Triage & Control', 
+                    content: 'This initial phase was about stopping the bleeding of value and establishing control. The business was successful but complacent, with no centralized financial visibility.',
+                    deliverables: [
+                        { title: '13-Week Cash Flow Forecast Implemented', outcome: 'For the first time, the company had a forward-looking view of its cash position. This immediately highlighted the poor working capital management and built the case for our aggressive focus on DSO reduction.' },
+                        { title: 'Core Management Team Assessed', outcome: 'Confidential interviews revealed the incumbent GM was a cultural figurehead, not a change agent. This led to the decision to recruit an external COO, planting the seeds of the Succession Landmine with the senior PM who felt he was the rightful heir.' },
+                        { title: 'Discretionary Spend Freeze', outcome: 'An unpopular but necessary move to demonstrate a new era of financial discipline and conserve cash for the transformation budget.' },
+                        { title: 'Initial Customer Feedback Tour', outcome: 'A "listening tour" with the top 10 clients to reassure them of continuity and build trust, which paid dividends later during software rollout disruptions.' }
+                    ]
+                }, 
+                2: { 
+                    title: 'PHASE 2 - OPTIMIZATION (Months 7-24): The Painful Overhaul', 
+                    content: 'This 18-month period was the heart of the transformation and the source of the deepest cultural conflicts. The goal was to replace the company\'s crumbling operational foundations.',
+                    deliverables: [
+                        { title: 'New COO Hired & Onboarded', outcome: 'The external COO arrived with a mandate for change. His data-driven style immediately clashed with the culture, culminating in the politically disastrous public questioning of a Veteran PM\'s timeline.' },
+                        { title: '"Big Bang" Software Implementation', outcome: 'Our biggest operational challenge. The project was plagued by vendor failures, a nightmarish data migration, and active resistance, leading to a missed bid deadline. The 50% budget overrun created lasting skepticism toward any "corporate" initiative.' },
+                        { title: 'Service Division Launched', outcome: 'While the software war raged, the "skunkworks" Service Division was quietly launched. Its initial struggles were largely ignored, which allowed its leader to build his team and processes without intense scrutiny.' }
+                    ]
+                }, 
+                3: { 
+                    title: 'PHASE 3 - ACCELERATION (Months 25-30): The New Engine Fires Up', 
+                    content: 'With the core systems (painfully) in place, the focus shifted to growth. The Service Division, once an afterthought, became the star of the show.',
+                    deliverables: [
+                        { title: 'Service Division Achieves $4.5M ARR Run Rate', outcome: 'A major multi-year maintenance contract demonstrated the recurring revenue model at scale. This was a massive win for the transformation.' },
+                        { title: 'Resource Allocation Battle', outcome: 'The Service Division\'s success triggered a fierce budget battle. Its leader used a clear, ROI-based P&L to successfully argue for funding, taking capital the Construction Division felt was theirs. This deepened the "us vs. them" mentality.' },
+                        { title: 'Sales Force Effectiveness Program', outcome: 'With a functional CRM, we implemented a formal sales process and incentive plan for the Service Division, moving from reactive to proactive selling.' }
+                    ]
+                }, 
+                4: { 
+                    title: 'PHASE 4 - PREPARATION (Months 31-36): Hardening for Exit', 
+                    content: 'The final phase involved refining the asset and preparing the narrative for a premium sale.',
+                    deliverables: [
+                        { title: 'First-Ever Audited Financials', outcome: 'The new systems allowed us to produce clean, CPA-audited financials for the first time, a critical requirement for any credible sale process.' },
+                        { title: 'Key Person Retention Plan Activated', outcome: 'Recognizing the acute flight risk of the disenfranchised PM, Mark, we finalized a substantial transaction bonus plan to keep him engaged through the sale, patching a financial issue over a deep cultural wound.' },
+                        { title: 'Growth Narrative Finalized', outcome: 'We developed the detailed plan for expansion into the Austin, TX market, leaving a tangible, well-researched growth story "on the table" for the next owner.' },
+                        { title: 'Management Presentations Rehearsed', outcome: 'We put the COO and other key leaders through rigorous mock due diligence sessions, training them to present the company\'s story, including its cultural challenges, with confidence and transparency.' }
+                    ]
+                }
             };
-
-            for (const link of navLinks) {
-                const href = link.getAttribute('href');
-                for (const key in linkPaths) {
-                    if (href && href.includes(key) && currentUrl.includes(linkPaths[key])) {
-                        link.classList.add('bg-gray-900', 'text-white');
-                        link.classList.remove('text-gray-500'); // Or similar default class
+            const timelineNodes = document.querySelectorAll('.timeline-node');
+            const timelineProgress = document.getElementById('timeline-progress');
+            const phaseContentContainer = document.getElementById('phase-content-container');
+            
+            window.selectPhase = function(phase) {
+                timelineNodes.forEach((node, index) => node.classList.toggle('active', (index + 1) === phase));
+                const progressWidths = { 1: '0%', 2: '33%', 3: '66%', 4: '100%' };
+                if (timelineProgress) timelineProgress.style.width = progressWidths[phase];
+                if (phaseContentContainer) {
+                    const data = phaseData[phase];
+                    let deliverablesHtml = '';
+                    if (data.deliverables) {
+                        const itemsHtml = data.deliverables.map(item => `
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <h5 class="font-semibold text-purple-600">${item.title}</h5>
+                                <p class="text-sm text-gray-600 mt-1">${item.outcome}</p>
+                            </div>
+                        `).join('');
+                        deliverablesHtml = `
+                            <div class="mt-6 mx-auto" style="max-width: 95%;">
+                                <button onclick="toggleDeliverables(this)" class="w-full text-center inline-flex items-center justify-center gap-2 px-3 py-1 bg-purple-100 text-purple-700 font-medium rounded-md hover:bg-purple-200 transition text-sm">
+                                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
+                                    Show Key Deliverables & Outcomes
+                                </button>
+                                <div class="deliverables-panel mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    ${itemsHtml}
+                                </div>
+                            </div>
+                        `;
                     }
+                    phaseContentContainer.innerHTML = `<div class="phase-content"><h3 class="font-bold text-lg mb-2 text-gray-800">${data.title}</h3><div class="text-gray-600">${data.content}</div>${deliverablesHtml}</div>`;
                 }
             }
-        }
+            if (timelineNodes.length > 0) selectPhase(1);
 
-        /**
-         * Fetches and injects the header and footer, then initializes interactive components.
-         */
-        async function loadComponents() {
-            try {
-                const [headerResponse, footerResponse] = await Promise.all([
-                    fetch("https://jawnlam.github.io/ExitReadyAdvisors/header.html"),
-                    fetch("https://jawnlam.github.io/ExitReadyAdvisors/footer.html")
-                ]);
-
-                if (!headerResponse.ok) throw new Error('Header failed to load.');
-                if (!footerResponse.ok) throw new Error('Footer failed to load.');
-
-                const headerData = await headerResponse.text();
-                const footerData = await footerResponse.text();
-                
-                document.querySelector("#header-placeholder").innerHTML = headerData;
-                document.querySelector("#footer-placeholder").innerHTML = footerData;
-
-                // --- INITIALIZE DYNAMIC COMPONENTS ---
-                // These functions are called *after* the header/footer HTML is injected.
-                initializeMobileMenu();
-                setActiveNavLinks();
-
-            } catch (error) {
-                console.error('Error loading components:', error);
-                document.querySelector("#header-placeholder").innerHTML = '<div class="bg-gray-800 text-white p-4 text-center">Header could not be loaded.</div>';
-                document.querySelector("#footer-placeholder").innerHTML = '<div class="bg-gray-800 text-white p-4 text-center">Footer could not be loaded.</div>';
+            window.toggleDeliverables = function(button) {
+                const panel = button.nextElementSibling;
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                    button.innerHTML = `<svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg> Show Key Deliverables & Outcomes`;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                    button.innerHTML = `<svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" /></svg> Hide Key Deliverables & Outcomes`;
+                }
             }
-        }
 
-        document.addEventListener('DOMContentLoaded', loadComponents);
+            // Checklist Logic
+            document.querySelectorAll('.checklist-item input').forEach(checkbox => {
+                checkbox.addEventListener('change', (e) => {
+                    const content = e.target.closest('.checklist-item').querySelector('.checklist-content');
+                    content.classList.toggle('hidden', !e.target.checked);
+                });
+            });
+
+            // Risk Tab Logic
+            const riskRegisterContainer = document.getElementById('risk-register-container');
+            const contingencyDisplayContainer = document.getElementById('contingency-display-container');
+            const criticalPathContainer = document.getElementById('critical-path-container');
+            const criticalPathExplanation = document.getElementById('critical-path-explanation');
+
+            const riskData = {
+                'R1': { category: 'Organizational', name: 'Cultural Rejection', likelihood: 'High', impact: 'High', description: 'The risk that the "Veteran" culture would actively reject new systems and leadership, leading to passive resistance and operational sabotage. This was our primary concern.' },
+                'R2': { category: 'Organizational', name: 'Key Person Flight Risk', likelihood: 'High', impact: 'Critical', description: 'The specific risk that the passed-over senior PM, Mark, would be poached by a competitor, taking an estimated $15M in client relationships with him.' },
+                'R3': { category: 'Execution', name: 'Technology Failure', likelihood: 'High', impact: 'High', description: 'The risk that the "big bang" ERP implementation would fail due to data migration issues, vendor incompetence, or poor user adoption, crippling operations.' },
+                'R4': { category: 'Execution', name: 'Key Hire Failure', likelihood: 'Medium', impact: 'High', description: 'The risk that the new, external COO would fail to gain credibility and be rejected by the organization, rendering his leadership ineffective.' },
+                'R5': { category: 'Financial', name: 'Cost Overruns', likelihood: 'High', impact: 'Medium', description: 'The risk that the transformation budget would be exceeded, particularly by the complex software project, requiring a dilutive capital call.' },
+                'R6': { category: 'External', name: 'Economic Downturn', likelihood: 'Medium', impact: 'High', description: 'The risk that a sharp rise in interest rates would stall the commercial construction market, jeopardizing our entire investment thesis.' }
+            };
+
+            const contingencyData = {
+                mitigations: [
+                    { risk: 'R1', text: 'We intentionally designed the 100-day plan around non-controversial financial wins to build political capital before attempting major operational changes.' },
+                    { risk: 'R2', text: 'We designed and approved a framework for a multi-tiered transaction bonus plan within the first six months, ensuring a powerful retention tool was ready to deploy for Mark and other key Veterans.' },
+                    { risk: 'R3', text: 'We structured a performance-based contract with the software vendor, tying payments to the successful completion of milestones. (While this didn\'t prevent the pain, it gave us financial leverage during disputes.)' },
+                    { risk: 'R6', text: 'The entire strategy to launch a Service Division was a primary mitigation against the cyclicality of new construction. The goal was to build a recurring revenue stream that would be resilient in a downturn.' }
+                ],
+                playbooks: [
+                    { risk: 'R2', title: '"Mark Quits" Playbook', text: 'This was our most critical playbook. Had Mark resigned, it dictated: 1) Immediate deployment of the old GM to personally meet with Mark\'s top 3 clients within 48 hours to ensure continuity. 2) Promotion of the most senior project engineer on his team to interim PM. 3) Immediate acceleration of the transaction bonus for the remaining senior PM to prevent a domino effect.' },
+                    { risk: 'R3', title: '"Critical System Failure" Playbook', text: 'This playbook was activated after the data migration incident. It involved the pre-defined "War Room" team, transparent client communication, and an immediate rollback to manually verified data backups, allowing us to reconstruct the failed bid within 24 hours, albeit unsuccessfully.' }
+                ]
+            };
+
+            const criticalPathData = {
+                imperatives: [
+                    { title: 'Hire COO → Implement ERP', text: 'We had to mitigate (R4) Key Hire Failure by getting a leader in place before attempting to mitigate (R3) Technology Failure. A leaderless ERP implementation would have been a guaranteed disaster.' },
+                    { title: 'Launch Service Division → Weather Downturn', text: 'The Service Division workstream had to run in parallel from the beginning because it was our primary mitigation for (R6) Economic Downturn. Waiting to launch it would have left us completely exposed to market cyclicality.' },
+                    { title: 'Implement ERP → Audit Financials', text: 'We could not achieve exit-ready, audited financials without the clean, centralized data from the new ERP. Therefore, the painful ERP implementation was a necessary precondition for the final "Preparation" phase.' }
+                ],
+                bottlenecks: [
+                    { title: 'Internal IT Expertise', text: 'The complete lack of an internal IT team was the primary resource bottleneck. It made us wholly dependent on the vendor, directly increasing the likelihood of (R3) Technology Failure.' },
+                    { title: 'COO\'s Attention', text: 'The COO\'s time was the most constrained human resource. Forcing him to simultaneously manage the ERP implementation, the cultural battles, and the launch of a new division stretched him too thin, directly contributing to the (R4) Key Hire Failure risk as he made political missteps due to a lack of bandwidth for cultural diplomacy.' }
+                ]
+            };
+
+            if (riskRegisterContainer) {
+                Object.entries(riskData).forEach(([id, risk]) => {
+                    const card = document.createElement('div');
+                    card.id = `risk-card-${id}`;
+                    card.className = 'risk-briefing-card p-3 rounded-r-md cursor-pointer';
+                    card.onclick = () => selectRisk(id);
+                    card.innerHTML = `
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-sm text-gray-800">${id}: ${risk.name}</span>
+                            <span class="text-xs font-medium text-gray-500">${risk.category}</span>
+                        </div>
+                        <div class="text-xs mt-1 flex justify-between">
+                            <span>Likelihood: <span class="font-bold">${risk.likelihood}</span></span>
+                            <span>Impact: <span class="font-bold">${risk.impact}</span></span>
+                        </div>
+                    `;
+                    riskRegisterContainer.appendChild(card);
+                });
+            }
+
+            window.selectRisk = function(riskId) {
+                document.querySelectorAll('.risk-briefing-card').forEach(c => c.classList.remove('active'));
+                document.getElementById(`risk-card-${riskId}`).classList.add('active');
+
+                const risk = riskData[riskId];
+                const mitigation = contingencyData.mitigations.find(m => m.risk === riskId);
+                const playbook = contingencyData.playbooks.find(p => p.risk === riskId);
+
+                let contingencyHtml = `
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">Contingency Plan: ${risk.name}</h3>
+                    <p class="text-sm text-gray-600 mb-4">${risk.description}</p>
+                `;
+
+                if (mitigation) {
+                    contingencyHtml += `
+                        <div class="mt-4">
+                            <h4 class="font-semibold text-purple-700">Proactive Mitigation Strategy</h4>
+                            <p class="text-sm text-gray-600">${mitigation.text}</p>
+                        </div>
+                    `;
+                }
+
+                if (playbook) {
+                     contingencyHtml += `
+                        <div class="mt-4">
+                            <h4 class="font-semibold text-purple-700">Reactive Recovery Playbook: "${playbook.title}"</h4>
+                            <p class="text-sm text-gray-600">${playbook.text}</p>
+                        </div>
+                    `;
+                }
+                
+                if (!mitigation && !playbook) {
+                    contingencyHtml += '<p class="text-sm text-gray-500 mt-4 italic">No specific proactive or reactive playbook was prioritized for this risk; it was monitored at the Steering Committee level.</p>';
+                }
+
+                contingencyDisplayContainer.innerHTML = `<div class="risk-detail-panel">${contingencyHtml}</div>`;
+            }
+            if (riskRegisterContainer) selectRisk('R1');
+
+            if(criticalPathContainer) {
+                const pertNodesContainer = document.getElementById('pert-nodes-container');
+                const pertSvg = document.getElementById('pert-svg');
+                
+                const nodes = {
+                    A: { x: '5%', y: '45%', label: 'A: Stabilization (6m)', class: 'critical-path' },
+                    A1: { x: '20%', y: '45%', label: 'A1: Hire COO (3m)', class: 'critical-path' },
+                    B1: { x: '45%', y: '25%', label: 'B1: ERP Implementation (18m)', class: 'critical-path' },
+                    B2: { x: '45%', y: '65%', label: 'B2: Service Division Launch (12m)', class: 'parallel-path' },
+                    C1: { x: '65%', y: '65%', label: 'C1: Scale Service Div (6m)', class: 'parallel-path' },
+                    C2: { x: '70%', y: '25%', label: 'C2: Leverage ERP Data (6m)', class: 'critical-path' },
+                    D1: { x: '90%', y: '25%', label: 'D1: Audited Financials (3m)', class: 'critical-path' },
+                    D2: { x: '85%', y: '65%', label: 'D2: Finalize Growth Narrative (3m)', class: 'parallel-path' },
+                };
+
+                Object.values(nodes).forEach(node => {
+                    const el = document.createElement('div');
+                    el.className = `pert-node ${node.class}`;
+                    el.style.left = node.x;
+                    el.style.top = node.y;
+                    el.innerHTML = node.label;
+                    pertNodesContainer.appendChild(el);
+                });
+
+                const connections = [
+                    { from: nodes.A, to: nodes.A1, class: 'critical-path' },
+                    { from: nodes.A1, to: nodes.B1, class: 'critical-path' },
+                    { from: nodes.A, to: nodes.B2, class: '' },
+                    { from: nodes.B1, to: nodes.C2, class: 'critical-path' },
+                    { from: nodes.B2, to: nodes.C1, class: '' },
+                    { from: nodes.C2, to: nodes.D1, class: 'critical-path' },
+                    { from: nodes.C1, to: nodes.D2, class: '' },
+                ];
+                
+                const lineHtml = connections.map(c => {
+                    const x1 = `calc(${c.from.x} + 75px)`; // Approx half width of node
+                    const y1 = `calc(${c.from.y} + 25px)`; // Approx half height of node
+                    const x2 = `calc(${c.to.x})`;
+                    const y2 = `calc(${c.to.y} + 25px)`;
+                    return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="pert-line ${c.class}" />`;
+                }).join('');
+
+                pertSvg.innerHTML += lineHtml;
+                
+                if (criticalPathExplanation) {
+                    criticalPathExplanation.innerHTML = `
+                        <h4 class="font-semibold text-gray-700 mb-2">Sequential Imperatives:</h4>
+                        <ul class="list-disc list-inside space-y-2 text-sm text-gray-600 mb-4">${criticalPathData.imperatives.map(i => `<li><strong>${i.title}:</strong> ${i.text}</li>`).join('')}</ul>
+                        <h4 class="font-semibold text-gray-700 mb-2">Resource Bottlenecks:</h4>
+                        <ul class="list-disc list-inside space-y-2 text-sm text-gray-600">${criticalPathData.bottlenecks.map(b => `<li><strong>${b.title}:</strong> ${b.text}</li>`).join('')}</ul>
+                    `;
+                }
+            }
+            
+            // Blueprint Logic
+            const blueprintPillars = document.querySelectorAll('.blueprint-pillar');
+            const blueprintContentContainer = document.getElementById('blueprint-content-container');
+            const blueprintData = {
+                tech: {
+                    title: 'Technology & Digital Transformation',
+                    items: [
+                        { title: 'Systems Architecture Roadmap', text: 'A painful "big bang" migration from a fragmented mess of legacy systems to a single, cloud-based ERP to create a unified platform for all operations.' },
+                        { title: 'Data Migration Strategy', text: 'Decades of inconsistent data entry required thousands of hours of manual cleansing and resulted in a data corruption incident that caused us to miss a critical bid deadline.' },
+                        { title: 'User Adoption Tactics', text: 'Classroom training and "super-user" champions backfired politically. Adoption was only achieved by forcing PMs to use the system\'s data in unpopular weekly variance review meetings.' }
+                    ]
+                },
+                process: {
+                    title: 'Process Reengineering Initiatives',
+                    items: [
+                        { title: 'Value Stream Mapping', text: 'Identified major value leakage from manually tracked change orders and a lack of a formal project closeout process for collecting retainage.' },
+                        { title: 'SOP Development', text: 'A new digital SOP for change orders, requiring digital sign-off, closed the revenue leak but was a major point of contention.' },
+                        { title: 'Continuous Improvement Infrastructure', text: 'A clear failure. An online "Bright Ideas" suggestion system was met with cynical silence from the field.' },
+                        { title: 'Automation Opportunities', text: 'A quiet win was automating the generation of lien waivers, freeing up hundreds of admin hours per month.' }
+                    ]
+                },
+                supply: {
+                    title: 'Partners & Supply Chain Optimization',
+                    items: [
+                        { title: 'Vendor Consolidation Strategy', text: 'Moved to a single national supplier for 80% of plumbing fixtures, yielding an 8% price reduction and standardizing parts for the new Service Division.' },
+                        { title: 'Contract Renegotiation Timeline', text: 'A formal review process for all equipment and fleet leases achieved an average cost reduction of 12%.' },
+                        { title: 'Inventory Optimization', text: 'The new centralized system was subverted by the creation of "shadow inventory" stashes by Veterans, an unresolved issue for the next owner.' },
+                        { title: 'Logistics Efficiency', text: 'Reconfiguring warehouse layouts based on "A-B-C" zoning of popular items reduced material retrieval times by 10%.' }
+                    ]
+                }
+            };
+
+            window.selectPillar = function(pillar) {
+                blueprintPillars.forEach(p => p.classList.remove('active'));
+                document.getElementById(`pillar-${pillar}`).classList.add('active');
+
+                const data = blueprintData[pillar];
+                const itemsHtml = data.items.map(item => `
+                    <div class="bg-white p-4 rounded-md shadow-sm">
+                        <h4 class="font-semibold text-gray-800">${item.title}</h4>
+                        <p class="text-sm text-gray-600 mt-1">${item.text}</p>
+                    </div>
+                `).join('');
+                
+                blueprintContentContainer.innerHTML = `
+                    <div class="blueprint-content active">
+                        <h3 class="font-bold text-lg text-gray-800 mb-4">${data.title}</h3>
+                        <div class="space-y-4">${itemsHtml}</div>
+                    </div>
+                `;
+            }
+            if(blueprintPillars.length > 0) {
+                blueprintPillars.forEach(p => p.addEventListener('click', () => selectPillar(p.id.split('-')[1])));
+                selectPillar('tech');
+            }
+
+        });
     </script>
-
 </body>
 </html>
