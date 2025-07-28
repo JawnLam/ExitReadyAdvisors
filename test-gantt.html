@@ -3,14 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Gantt Chart: Johnson & Sons Transformation</title>
+    <title>Johnson & Sons Implementation Journey - Gantt Chart</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Base styles from the main implementation journey page */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6;
+            background-color: #f3f4f6; /* gray-100 */
         }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -21,573 +25,297 @@
                 transform: translateY(0);
             }
         }
-        .fade-in {
+        
+        /* More visible pulse animation */
+        @keyframes pulse-critical-visible {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0px rgba(139, 92, 246, 0.7); /* violet-600 */
+            }
+            70% {
+                transform: scale(1.03);
+                box-shadow: 0 0 0 12px rgba(139, 92, 246, 0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0px rgba(139, 92, 246, 0);
+            }
+        }
+
+        /* Gantt Chart Specific Styles - Adapted to the new design system */
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
             animation: fadeIn 0.8s ease-in-out forwards;
         }
-        .gantt-container::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
+
+        /* Header adapted from the main page's hero section */
+        .header {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid #6b7280; /* gray-500, changed from purple */
         }
-        .gantt-container::-webkit-scrollbar-track {
-            background: #f1f5f9;
-            border-radius: 10px;
+
+        .header h1 {
+            color: #111827; /* gray-900 */
+            font-size: 1.875rem; /* text-3xl */
+            font-weight: 700;
+            margin: 0 0 0.5rem 0;
         }
-        .gantt-container::-webkit-scrollbar-thumb {
-            background: #94a3b8;
-            border-radius: 10px;
+
+        .header p {
+            color: #4b5563; /* gray-600 */
+            font-size: 1rem;
+            margin: 0;
         }
-        .gantt-container::-webkit-scrollbar-thumb:hover {
-            background: #64748b;
+
+        .gantt-wrapper {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 1.5rem;
+            overflow-x: auto;
         }
-        .gantt-bar {
-            transition: all 0.3s ease-in-out;
+
+        .gantt-chart {
+            min-width: 1200px;
+            border-collapse: collapse;
+            width: 100%;
+            border: 1px solid #e5e7eb; /* gray-200 */
+            border-radius: 0.5rem;
+            overflow: hidden;
         }
-        .dependency-line {
-            stroke-width: 2;
-            fill: none;
-            transition: opacity 0.3s ease;
+
+        .month-header {
+            background-color: #f9fafb; /* gray-50 */
+            border: 1px solid #e5e7eb;
+            padding: 0.75rem 0.25rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.75rem;
+            min-width: 30px;
+            color: #4b5563; /* gray-600 */
         }
-        /* Extra padding for routing */
-        .gantt-inner-wrapper {
-            padding-top: 40px;
-            padding-left: 20px;
+
+        .task-label {
+            background-color: #fff;
+            border: 1px solid #e5e7eb;
+            padding: 0.75rem 1rem;
+            font-weight: 500; /* Not bold */
+            width: 250px;
+            position: sticky;
+            left: 0;
+            z-index: 10;
+            color: #111827; /* Black text */
+        }
+        
+        .task-label.phase-header {
+            background-color: #f3f4f6;
+            color: #111827; /* Black text */
+            font-weight: 700; /* Bold */
+            text-align: left;
+            font-size: 0.9rem; /* Slightly bigger */
+            letter-spacing: 0.05em;
+            text-transform: uppercase; /* All caps */
+        }
+
+        .task-cell {
+            border: 1px solid #e5e7eb;
+            padding: 0.25rem;
+            height: 2.5rem;
+            min-width: 30px;
             position: relative;
         }
+
+        .task-bar {
+            height: 100%;
+            border-radius: 0.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.625rem;
+            font-weight: 700;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 0 0.25rem;
+        }
+
+        /* Colors adapted from PERT chart styles */
+        .critical-path {
+            background-color: #8b5cf6; /* violet-500 */
+            border: 1px solid #a78bfa; /* violet-400 */
+            animation: pulse-critical-visible 2s infinite;
+        }
+
+        .parallel-path {
+            background-color: #64748b; /* slate-500 */
+            border: 1px solid #94a3b8; /* slate-400 */
+        }
+
+        .supporting-task {
+            background-color: #ffffff; /* White background */
+            border: 1px solid #111827; /* Black border */
+            color: #111827; /* Black text */
+        }
+        
+        .phase-bar {
+            background-color: #4b5563; /* gray-600 */
+            color: white;
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            padding: 1rem;
+            background-color: #f9fafb; /* gray-50 */
+            border-radius: 0.75rem;
+            border: 1px solid #e5e7eb;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .legend-bar {
+            width: 1.5rem;
+            height: 0.75rem;
+            border-radius: 0.25rem;
+        }
+
+        .legend-label {
+            font-weight: 500;
+            color: #374151;
+            font-size: 0.875rem;
+        }
+
     </style>
 </head>
-<body class="text-slate-800">
-
-    <div class="container mx-auto p-4 md:p-8 fade-in">
-        <div class="bg-white p-6 rounded-2xl shadow-lg">
-            <div class="flex flex-col md:flex-row justify-between md:items-center mb-6">
-                <div>
-                    <h1 class="text-2xl md:text-3xl font-bold text-slate-900">Johnson & Sons Transformation Journey</h1>
-                    <p class="text-slate-500 mt-1">An interactive 36-month Gantt chart with intelligent dependency routing.</p>
+<body>
+    <div class="container">
+        <div class="gantt-wrapper">
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-bar critical-path" style="animation: none;"></div>
+                    <span class="legend-label">Critical Path</span>
                 </div>
-                <div class="mt-4 md:mt-0">
-                    <label for="criticalPathToggle" class="flex items-center cursor-pointer">
-                        <div class="relative">
-                            <input type="checkbox" id="criticalPathToggle" class="sr-only">
-                            <div class="block bg-slate-200 w-14 h-8 rounded-full"></div>
-                            <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition"></div>
-                        </div>
-                        <div class="ml-3 text-slate-600 font-medium">
-                            Highlight Critical Path
-                        </div>
-                    </label>
+                <div class="legend-item">
+                    <div class="legend-bar parallel-path"></div>
+                    <span class="legend-label">Parallel Workstream</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-bar" style="background-color: #fff; border: 1px solid #111827;"></div>
+                    <span class="legend-label">Supporting Tasks</span>
                 </div>
             </div>
 
-            <!-- Legend -->
-            <div class="flex flex-wrap gap-4 mb-6 text-sm">
-                <div class="flex items-center"><span class="w-4 h-4 rounded-full bg-indigo-400 mr-2"></span>Phase</div>
-                <div class="flex items-center"><span class="w-4 h-4 rounded-full bg-slate-400 mr-2"></span>Task</div>
-                <div class="flex items-center"><span class="w-4 h-4 rounded-full bg-violet-500 mr-2"></span>Critical Path Task</div>
-                <div class="flex items-center"><div class="w-0 h-0 border-t-[8px] border-t-transparent border-b-[8px] border-b-transparent border-l-[12px] border-l-amber-500 mr-2"></div>Milestone</div>
-                 <div class="flex items-center"><svg class="w-4 h-4 mr-2" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 5 h8 m-4 -4 l4 4 l-4 4" /></svg>Dependency</div>
-            </div>
+            <table class="gantt-chart">
+                <thead>
+                    <tr>
+                        <th class="task-label">Task / Initiative</th>
+                        <!-- Months 1-36 -->
+                        <th class="month-header">1</th><th class="month-header">2</th><th class="month-header">3</th><th class="month-header">4</th><th class="month-header">5</th><th class="month-header">6</th>
+                        <th class="month-header">7</th><th class="month-header">8</th><th class="month-header">9</th><th class="month-header">10</th><th class="month-header">11</th><th class="month-header">12</th>
+                        <th class="month-header">13</th><th class="month-header">14</th><th class="month-header">15</th><th class="month-header">16</th><th class="month-header">17</th><th class="month-header">18</th>
+                        <th class="month-header">19</th><th class="month-header">20</th><th class="month-header">21</th><th class="month-header">22</th><th class="month-header">23</th><th class="month-header">24</th>
+                        <th class="month-header">25</th><th class="month-header">26</th><th class="month-header">27</th><th class="month-header">28</th><th class="month-header">29</th><th class="month-header">30</th>
+                        <th class="month-header">31</th><th class="month-header">32</th><th class="month-header">33</th><th class="month-header">34</th><th class="month-header">35</th><th class="month-header">36</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Phase 1: Stabilization -->
+                    <tr>
+                        <td class="task-label phase-header">Phase 1: Stabilization</td>
+                        <td colspan="6" class="task-cell"><div class="task-bar phase-bar">Triage & Control</div></td>
+                        <td colspan="30" class="task-cell"></td>
+                    </tr>
+                    <tr>
+                        <td class="task-label">Hire External COO</td>
+                        <td colspan="3" class="task-cell"><div class="task-bar critical-path">COO Search</div></td>
+                        <td colspan="33" class="task-cell"></td>
+                    </tr>
+                    <tr>
+                        <td class="task-label">Cash Flow Forecasting</td>
+                        <td colspan="2" class="task-cell"><div class="task-bar supporting-task">13-Week</div></td>
+                        <td colspan="34" class="task-cell"></td>
+                    </tr>
 
-            <!-- Gantt Chart -->
-            <div id="gantt-chart-container" class="relative">
-                <div class="gantt-container overflow-x-auto overflow-y-hidden pb-4">
-                    <div class="gantt-inner-wrapper">
-                        <div id="gantt-grid" class="relative grid" style="grid-template-columns: 250px repeat(36, minmax(50px, 1fr));">
-                            <!-- Headers and tasks will be generated by JS -->
-                        </div>
-                    </div>
-                </div>
-            </div>
+                    <!-- Phase 2: Optimization -->
+                    <tr>
+                        <td class="task-label phase-header">Phase 2: Optimization</td>
+                        <td colspan="6" class="task-cell"></td>
+                        <td colspan="18" class="task-cell"><div class="task-bar phase-bar">The Painful Overhaul</div></td>
+                        <td colspan="12" class="task-cell"></td>
+                    </tr>
+                    <tr>
+                        <td class="task-label">ERP Implementation</td>
+                        <td colspan="6" class="task-cell"></td>
+                        <td colspan="18" class="task-cell"><div class="task-bar critical-path">Full ERP Lifecycle</div></td>
+                        <td colspan="12" class="task-cell"></td>
+                    </tr>
+                    <tr>
+                        <td class="task-label">Service Division Launch</td>
+                        <td colspan="12" class="task-cell"><div class="task-bar parallel-path">Plan, Build, Launch & Grow</div></td>
+                        <td colspan="24" class="task-cell"></td>
+                    </tr>
+
+                    <!-- Phase 3: Acceleration -->
+                    <tr>
+                        <td class="task-label phase-header">Phase 3: Acceleration</td>
+                        <td colspan="24" class="task-cell"></td>
+                        <td colspan="6" class="task-cell"><div class="task-bar phase-bar">New Engine Fires Up</div></td>
+                        <td colspan="6" class="task-cell"></td>
+                    </tr>
+                    <tr>
+                        <td class="task-label">Leverage ERP Data</td>
+                        <td colspan="24" class="task-cell"></td>
+                        <td colspan="6" class="task-cell"><div class="task-bar critical-path">Analytics</div></td>
+                        <td colspan="6" class="task-cell"></td>
+                    </tr>
+                    <tr>
+                        <td class="task-label">Scale Service Division</td>
+                        <td colspan="24" class="task-cell"></td>
+                        <td colspan="6" class="task-cell"><div class="task-bar parallel-path">$4.5M ARR</div></td>
+                        <td colspan="6" class="task-cell"></td>
+                    </tr>
+
+                    <!-- Phase 4: Preparation -->
+                    <tr>
+                        <td class="task-label phase-header">Phase 4: Preparation</td>
+                        <td colspan="30" class="task-cell"></td>
+                        <td colspan="6" class="task-cell"><div class="task-bar phase-bar">Hardening for Exit</div></td>
+                    </tr>
+                    <tr>
+                        <td class="task-label">Produce Audited Financials</td>
+                        <td colspan="30" class="task-cell"></td>
+                        <td colspan="3" class="task-cell"><div class="task-bar critical-path">Audit</div></td>
+                        <td colspan="3" class="task-cell"></td>
+                    </tr>
+                    <tr>
+                        <td class="task-label">Finalize Growth Narrative</td>
+                        <td colspan="32" class="task-cell"></td>
+                        <td colspan="3" class="task-cell"><div class="task-bar supporting-task">Austin Plan</div></td>
+                        <td class="task-cell"></td>
+                    </tr>
+                    <tr>
+                        <td class="task-label">Activate Retention Plan</td>
+                        <td colspan="34" class="task-cell"></td>
+                        <td colspan="2" class="task-cell"><div class="task-bar supporting-task">Bonuses</div></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-
-    <!-- Tooltip -->
-    <div id="tooltip" class="absolute z-30 hidden p-3 text-sm bg-slate-800 text-white rounded-lg shadow-xl max-w-xs transition-opacity duration-200"></div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // --- DATA FROM THE DOCUMENT ---
-            const projectData = [
-                { id: 'P1', name: 'Phase 1: Stabilization', start: 1, duration: 6, type: 'phase', details: 'Focused on stopping value leakage, establishing control, and building trust. Key activities included implementing a 13-week cash flow forecast and assessing the management team.' },
-                { id: 'P2', name: 'Phase 2: Optimization', start: 7, duration: 18, type: 'phase', details: 'The most intense and conflict-ridden phase, aimed at overhauling the company\'s core operational and technological foundations.' },
-                { id: 'P3', name: 'Phase 3: Acceleration', start: 25, duration: 6, type: 'phase', details: 'With new systems in place, the focus shifted to scaling new growth engines, particularly the high-margin Service Division.' },
-                { id: 'P4', name: 'Phase 4: Preparation', start: 31, duration: 6, type: 'phase', details: 'The final phase focused on hardening the business for a premium exit, including producing audited financials and finalizing the growth narrative.' },
-                { id: 'A1', name: 'Hire External COO', start: 4, duration: 3, dependencies: ['P1'], isCritical: true, risk: 'R4', details: 'Recruited an external COO with a mandate for technological change. This was a critical hire to drive the transformation.' },
-                { id: 'B1', name: 'ERP Implementation', start: 9, duration: 18, dependencies: ['A1'], isCritical: true, risk: 'R1, R3, R5', details: 'A "big bang" implementation of a new cloud-based ERP. Plagued by vendor failures, data migration issues, and cultural resistance.' },
-                { id: 'B2', name: 'Service Division Launch', start: 7, duration: 12, dependencies: ['P1'], isCritical: false, risk: 'R6', details: 'A parallel "skunkworks" project to build a recurring revenue stream, mitigating the risk of economic downturns in construction.' },
-                { id: 'C1', name: 'Scale Service Division', start: 25, duration: 6, dependencies: ['B2'], isCritical: false, details: 'Leveraged early successes to secure more funding and aggressively grow the new division, proving the new business model at scale.' },
-                { id: 'C2', name: 'Leverage ERP Data', start: 25, duration: 6, dependencies: ['B1'], isCritical: true, details: 'Used the new ERP data to drive operational efficiency, institute rigorous project reviews, and improve margins.' },
-                { id: 'D1', name: 'Produce Audited Financials', start: 31, duration: 3, dependencies: ['C2'], isCritical: true, details: 'A critical step for the exit strategy, enabled by the clean, centralized data from the new ERP system.' },
-                { id: 'D2', name: 'Finalize Growth Narrative', start: 34, duration: 3, dependencies: ['C1'], isCritical: false, details: 'Developed a tangible growth story (e.g., Austin expansion) to present to potential buyers, demonstrating clear upside.' },
-                { id: 'D3', name: 'Activate Retention Plan', start: 36, duration: 1, dependencies: [], isCritical: false, risk: 'R2', details: 'Finalized and communicated a multi-tiered transaction bonus plan to retain key personnel through the sale process.' },
-                { id: 'M1', name: 'COO Onboarded', month: 7, type: 'milestone', details: 'The new COO starts, marking the beginning of the Optimization phase.' },
-                { id: 'M2', name: 'Missed Bid Deadline', month: 14, type: 'milestone', details: 'A major crisis due to a botched data migration, which severely damaged the new system\'s credibility internally.' },
-                { id: 'M3', name: 'ERP Live & Service Division Proven', month: 25, type: 'milestone', details: 'The painful ERP implementation is complete, and the Service Division has proven its value, setting the stage for acceleration.' },
-                { id: 'M4', name: 'Service Division hits $4.5M ARR', month: 28, type: 'milestone', details: 'A major win for the transformation, demonstrating the success of the recurring revenue model at scale.' },
-                { id: 'M5', name: 'Ready for Sale', month: 36, type: 'milestone', details: 'The company is fully prepared for the sale process with audited financials and a clear growth story.' }
-            ];
-            const risks = {
-                'R1': 'Cultural Rejection', 'R2': 'Key Person Flight Risk', 'R3': 'Technology Failure',
-                'R4': 'Key Hire Failure', 'R5': 'Cost Overruns', 'R6': 'Economic Downturn'
-            };
-
-            const ganttGrid = document.getElementById('gantt-grid');
-            const tooltip = document.getElementById('tooltip');
-            const criticalPathToggle = document.getElementById('criticalPathToggle');
-            const ganttContainer = document.getElementById('gantt-chart-container');
-            const totalMonths = 36;
-            let svg;
-
-            // --- Enhanced A* Pathfinding Implementation ---
-            const pathfinder = {
-                heuristic: (a, b) => Math.abs(a.x - b.x) + Math.abs(a.y - b.y),
-                
-                findPath: function(grid, startNode, endNode) {
-                    const openList = [{...startNode, g: 0, h: this.heuristic(startNode, endNode), f: this.heuristic(startNode, endNode), parent: null}];
-                    const closedList = new Set();
-
-                    while (openList.length > 0) {
-                        let lowestIndex = 0;
-                        for (let i = 1; i < openList.length; i++) {
-                            if (openList[i].f < openList[lowestIndex].f) {
-                                lowestIndex = i;
-                            }
-                        }
-                        const currentNode = openList.splice(lowestIndex, 1)[0];
-
-                        if (currentNode.x === endNode.x && currentNode.y === endNode.y) {
-                            let path = [];
-                            let current = currentNode;
-                            while (current) {
-                                path.unshift({ x: current.x, y: current.y });
-                                current = current.parent;
-                            }
-                            return this.smoothPath(path, grid);
-                        }
-
-                        closedList.add(`${currentNode.x},${currentNode.y}`);
-                        const neighbors = this.getNeighbors(grid, currentNode);
-
-                        for (const neighbor of neighbors) {
-                            const neighborKey = `${neighbor.x},${neighbor.y}`;
-                            if (closedList.has(neighborKey)) continue;
-
-                            const gScore = currentNode.g + 1;
-                            const existingNode = openList.find(n => n.x === neighbor.x && n.y === neighbor.y);
-
-                            if (!existingNode) {
-                                const newNode = {
-                                    ...neighbor,
-                                    g: gScore,
-                                    h: this.heuristic(neighbor, endNode),
-                                    f: gScore + this.heuristic(neighbor, endNode),
-                                    parent: currentNode
-                                };
-                                openList.push(newNode);
-                            } else if (gScore < existingNode.g) {
-                                existingNode.g = gScore;
-                                existingNode.f = gScore + existingNode.h;
-                                existingNode.parent = currentNode;
-                            }
-                        }
-                    }
-                    return null;
-                },
-                
-                getNeighbors: function(grid, node) {
-                    const neighbors = [];
-                    const { x, y } = node;
-                    const width = grid[0].length;
-                    const height = grid.length;
-                    
-                    // Check all 8 directions for smoother paths
-                    const directions = [
-                        {dx: 1, dy: 0}, {dx: -1, dy: 0}, {dx: 0, dy: 1}, {dx: 0, dy: -1},
-                        {dx: 1, dy: 1}, {dx: -1, dy: 1}, {dx: 1, dy: -1}, {dx: -1, dy: -1}
-                    ];
-                    
-                    for (const {dx, dy} of directions) {
-                        const newX = x + dx;
-                        const newY = y + dy;
-                        if (newX >= 0 && newX < width && newY >= 0 && newY < height && grid[newY][newX] === 0) {
-                            neighbors.push({ x: newX, y: newY });
-                        }
-                    }
-                    return neighbors;
-                },
-                
-                smoothPath: function(path, grid) {
-                    if (path.length <= 2) return path;
-                    
-                    const smoothed = [path[0]];
-                    let current = 0;
-                    
-                    while (current < path.length - 1) {
-                        let farthest = current + 1;
-                        for (let i = path.length - 1; i > current; i--) {
-                            if (this.hasLineOfSight(path[current], path[i], grid)) {
-                                farthest = i;
-                                break;
-                            }
-                        }
-                        smoothed.push(path[farthest]);
-                        current = farthest;
-                    }
-                    
-                    return smoothed;
-                },
-                
-                hasLineOfSight: function(start, end, grid) {
-                    const dx = Math.abs(end.x - start.x);
-                    const dy = Math.abs(end.y - start.y);
-                    let x = start.x;
-                    let y = start.y;
-                    const x_inc = (end.x > start.x) ? 1 : -1;
-                    const y_inc = (end.y > start.y) ? 1 : -1;
-                    let error = dx - dy;
-                    
-                    const steps = Math.max(dx, dy);
-                    for (let i = 0; i <= steps; i++) {
-                        if (Math.floor(y) >= 0 && Math.floor(y) < grid.length && 
-                            Math.floor(x) >= 0 && Math.floor(x) < grid[0].length) {
-                            if (grid[Math.floor(y)][Math.floor(x)] === 1) return false;
-                        }
-                        
-                        const e2 = error * 2;
-                        if (e2 > -dy) {
-                            error -= dy;
-                            x += x_inc;
-                        }
-                        if (e2 < dx) {
-                            error += dx;
-                            y += y_inc;
-                        }
-                    }
-                    
-                    return true;
-                }
-            };
-
-            function renderChart() {
-                ganttGrid.innerHTML = '';
-                
-                // Task header
-                const taskHeader = document.createElement('div');
-                taskHeader.className = 'sticky left-0 bg-white z-20 border-r border-b border-slate-200 p-2 font-semibold text-slate-600 text-sm';
-                taskHeader.textContent = 'Task / Initiative';
-                taskHeader.style.gridRow = '1';
-                taskHeader.style.gridColumn = '1';
-                ganttGrid.appendChild(taskHeader);
-
-                // Month headers
-                for (let i = 1; i <= totalMonths; i++) {
-                    const headerCell = document.createElement('div');
-                    headerCell.className = 'border-r border-b border-slate-200 p-2 text-center text-xs font-medium text-slate-500';
-                    headerCell.textContent = `M${i}`;
-                    headerCell.style.gridRow = '1';
-                    headerCell.style.gridColumn = `${i + 1}`;
-                    ganttGrid.appendChild(headerCell);
-                }
-
-                // Task rows
-                projectData.forEach((task, index) => {
-                    const rowNum = index + 2; // Start from row 2
-                    
-                    // Task name cell
-                    const taskNameCell = document.createElement('div');
-                    taskNameCell.className = 'sticky left-0 bg-white z-10 border-r border-b border-slate-200 p-2 flex items-center text-sm';
-                    taskNameCell.style.gridRow = `${rowNum}`;
-                    taskNameCell.textContent = task.name;
-                    if (task.isCritical) taskNameCell.classList.add('font-semibold');
-                    ganttGrid.appendChild(taskNameCell);
-
-                    // Gantt bar
-                    const ganttBar = document.createElement('div');
-                    ganttBar.className = 'gantt-bar flex items-center justify-start p-1 rounded-lg shadow-sm text-white text-xs font-bold cursor-pointer overflow-hidden';
-                    ganttBar.dataset.taskId = task.id;
-                    ganttBar.style.gridRow = `${rowNum}`;
-                    
-                    if (task.type === 'milestone') {
-                        ganttBar.style.gridColumnStart = `${task.month + 1}`;
-                        ganttBar.innerHTML = `<div class="w-0 h-0 border-t-[10px] border-t-transparent border-b-[10px] border-b-transparent border-l-[15px] border-l-amber-500" title="${task.name}"></div>`;
-                    } else {
-                        ganttBar.style.gridColumn = `${task.start + 1} / span ${task.duration}`;
-                        ganttBar.innerHTML = `<span class="px-2 truncate">${task.name}</span>`;
-                        if (task.type === 'phase') ganttBar.classList.add('bg-indigo-400', 'opacity-90');
-                        else if (task.isCritical) ganttBar.classList.add('bg-violet-500');
-                        else ganttBar.classList.add('bg-slate-400');
-                    }
-                    ganttGrid.appendChild(ganttBar);
-                });
-                
-                createDependencySVG();
-                drawDependencies();
-                setupEventListeners();
-            }
-            
-            function createDependencySVG() {
-                if (svg) svg.remove();
-                
-                const wrapper = ganttGrid.closest('.gantt-inner-wrapper');
-                const svgNS = "http://www.w3.org/2000/svg";
-                svg = document.createElementNS(svgNS, 'svg');
-                svg.setAttribute('width', ganttGrid.scrollWidth);
-                svg.setAttribute('height', ganttGrid.scrollHeight);
-                svg.style.position = 'absolute';
-                svg.style.top = '0';
-                svg.style.left = '0';
-                svg.style.pointerEvents = 'none';
-                svg.style.zIndex = '5';
-                
-                const defs = document.createElementNS(svgNS, 'defs');
-                const markerNormal = document.createElementNS(svgNS, 'marker');
-                markerNormal.setAttribute('id', 'arrowhead-normal');
-                markerNormal.setAttribute('viewBox', '0 0 10 10');
-                markerNormal.setAttribute('refX', '5');
-                markerNormal.setAttribute('refY', '5');
-                markerNormal.setAttribute('markerWidth', '6');
-                markerNormal.setAttribute('markerHeight', '6');
-                markerNormal.setAttribute('orient', 'auto-start-reverse');
-                const pathNormal = document.createElementNS(svgNS, 'path');
-                pathNormal.setAttribute('d', 'M 0 0 L 10 5 L 0 10 z');
-                pathNormal.setAttribute('fill', '#94a3b8');
-                markerNormal.appendChild(pathNormal);
-                defs.appendChild(markerNormal);
-
-                const markerCritical = document.createElementNS(svgNS, 'marker');
-                markerCritical.setAttribute('id', 'arrowhead-critical');
-                markerCritical.setAttribute('viewBox', '0 0 10 10');
-                markerCritical.setAttribute('refX', '5');
-                markerCritical.setAttribute('refY', '5');
-                markerCritical.setAttribute('markerWidth', '6');
-                markerCritical.setAttribute('markerHeight', '6');
-                markerCritical.setAttribute('orient', 'auto-start-reverse');
-                const pathCritical = document.createElementNS(svgNS, 'path');
-                pathCritical.setAttribute('d', 'M 0 0 L 10 5 L 0 10 z');
-                pathCritical.setAttribute('fill', '#8b5cf6');
-                markerCritical.appendChild(pathCritical);
-                defs.appendChild(markerCritical);
-
-                svg.appendChild(defs);
-                wrapper.appendChild(svg);
-            }
-
-            function drawDependencies() {
-                if (!svg) return;
-                const lines = svg.querySelectorAll('polyline');
-                lines.forEach(line => line.remove());
-
-                const GRID_SCALE = 5;
-                const OBSTACLE_PADDING = 3;
-                const gridWidth = Math.ceil(ganttGrid.scrollWidth / GRID_SCALE);
-                const gridHeight = Math.ceil(ganttGrid.scrollHeight / GRID_SCALE);
-                const collisionGrid = Array.from({ length: gridHeight }, () => Array(gridWidth).fill(0));
-                
-                // Mark task name column as obstacle
-                const taskNameWidthInGrid = Math.ceil(250 / GRID_SCALE);
-                for (let y = 0; y < gridHeight; y++) {
-                    for (let x = 0; x < taskNameWidthInGrid; x++) {
-                        collisionGrid[y][x] = 1;
-                    }
-                }
-                
-                // Mark header row as obstacle
-                const headerHeightInGrid = Math.ceil(40 / GRID_SCALE);
-                for (let y = 0; y < headerHeightInGrid; y++) {
-                    for (let x = 0; x < gridWidth; x++) {
-                        collisionGrid[y][x] = 1;
-                    }
-                }
-
-                // Mark all gantt bars as obstacles with padding
-                document.querySelectorAll('.gantt-bar').forEach(bar => {
-                    const relativeLeft = bar.offsetLeft;
-                    const relativeTop = bar.offsetTop;
-                    
-                    const startX = Math.floor(relativeLeft / GRID_SCALE) - OBSTACLE_PADDING;
-                    const endX = Math.ceil((relativeLeft + bar.offsetWidth) / GRID_SCALE) + OBSTACLE_PADDING;
-                    const startY = Math.floor(relativeTop / GRID_SCALE) - OBSTACLE_PADDING;
-                    const endY = Math.ceil((relativeTop + bar.offsetHeight) / GRID_SCALE) + OBSTACLE_PADDING;
-
-                    for (let y = Math.max(0, startY); y < Math.min(gridHeight, endY); y++) {
-                        for (let x = Math.max(0, startX); x < Math.min(gridWidth, endX); x++) {
-                            collisionGrid[y][x] = 1;
-                        }
-                    }
-                });
-
-                // Draw dependencies with improved routing
-                projectData.forEach(task => {
-                    if (task.dependencies && task.dependencies.length > 0) {
-                        task.dependencies.forEach(depId => {
-                            const fromTask = projectData.find(t => t.id === depId);
-                            if (!fromTask) return;
-                            
-                            const fromBar = document.querySelector(`.gantt-bar[data-task-id="${fromTask.id}"]`);
-                            const toBar = document.querySelector(`.gantt-bar[data-task-id="${task.id}"]`);
-                            if (!fromBar || !toBar) return;
-                            
-                            // Calculate anchor points
-                            const startPixelX = fromBar.offsetLeft + fromBar.offsetWidth;
-                            const startPixelY = fromBar.offsetTop + fromBar.offsetHeight / 2;
-                            const endPixelX = toBar.offsetLeft;
-                            const endPixelY = toBar.offsetTop + toBar.offsetHeight / 2;
-
-                            const startNode = { 
-                                x: Math.round(startPixelX / GRID_SCALE) + 1, 
-                                y: Math.round(startPixelY / GRID_SCALE) 
-                            };
-                            const endNode = { 
-                                x: Math.round(endPixelX / GRID_SCALE) - 1, 
-                                y: Math.round(endPixelY / GRID_SCALE) 
-                            };
-                            
-                            // Validate nodes
-                            if (startNode.x >= gridWidth || startNode.y >= gridHeight || 
-                                endNode.x < 0 || endNode.y < 0 ||
-                                startNode.x < 0 || startNode.y < 0 ||
-                                endNode.x >= gridWidth || endNode.y >= gridHeight) return;
-
-                            // Create temporary grid with cleared paths
-                            const tempGrid = collisionGrid.map(row => [...row]);
-                            
-                            // Clear area around start and end points
-                            const clearRadius = 2;
-                            for (let dy = -clearRadius; dy <= clearRadius; dy++) {
-                                for (let dx = -clearRadius; dx <= clearRadius; dx++) {
-                                    const sy = startNode.y + dy;
-                                    const sx = startNode.x + dx;
-                                    const ey = endNode.y + dy;
-                                    const ex = endNode.x + dx;
-                                    
-                                    if (sy >= 0 && sy < gridHeight && sx >= 0 && sx < gridWidth) {
-                                        tempGrid[sy][sx] = 0;
-                                    }
-                                    if (ey >= 0 && ey < gridHeight && ex >= 0 && ex < gridWidth) {
-                                        tempGrid[ey][ex] = 0;
-                                    }
-                                }
-                            }
-
-                            const path = pathfinder.findPath(tempGrid, startNode, endNode);
-                            
-                            if (path && path.length > 0) {
-                                // Ensure exact anchor points
-                                const adjustedPath = [
-                                    { x: startPixelX, y: startPixelY },
-                                    ...path.slice(1, -1).map(p => ({ x: p.x * GRID_SCALE, y: p.y * GRID_SCALE })),
-                                    { x: endPixelX, y: endPixelY }
-                                ];
-                                
-                                const points = adjustedPath.map(p => `${p.x},${p.y}`).join(' ');
-                                const polyline = document.createElementNS("http://www.w3.org/2000/svg", 'polyline');
-                                polyline.setAttribute('points', points);
-                                polyline.setAttribute('class', 'dependency-line');
-                                polyline.style.fill = 'none';
-
-                                const isCritical = fromTask.isCritical && task.isCritical;
-                                polyline.style.stroke = isCritical ? '#8b5cf6' : '#94a3b8';
-                                polyline.setAttribute('marker-end', isCritical ? 'url(#arrowhead-critical)' : 'url(#arrowhead-normal)');
-                                if (!isCritical) {
-                                    polyline.style.strokeDasharray = '5,3';
-                                }
-                                svg.appendChild(polyline);
-                            }
-                        });
-                    }
-                });
-            }
-
-            function setupEventListeners() {
-                document.querySelectorAll('.gantt-bar').forEach(bar => {
-                    bar.addEventListener('mouseenter', handleMouseEnter);
-                    bar.addEventListener('mouseleave', handleMouseLeave);
-                });
-
-                criticalPathToggle.addEventListener('change', (e) => {
-                    ganttContainer.classList.toggle('critical-path-highlighted', e.target.checked);
-                });
-
-                // Redraw on resize
-                new ResizeObserver(() => {
-                    createDependencySVG();
-                    drawDependencies();
-                }).observe(ganttGrid);
-            }
-
-            function handleMouseEnter(e) {
-                const taskId = e.target.closest('.gantt-bar').dataset.taskId;
-                const task = projectData.find(t => t.id === taskId);
-                if (!task) return;
-
-                let content = `<div class="font-bold text-base mb-2">${task.name}</div>`;
-                if (task.type !== 'milestone') {
-                    content += `<p><span class="font-semibold">Duration:</span> ${task.duration} months</p>`;
-                    content += `<p><span class="font-semibold">Period:</span> Month ${task.start} - ${task.start + task.duration - 1}</p>`;
-                } else {
-                    content += `<p><span class="font-semibold">Occurs:</span> Month ${task.month}</p>`;
-                }
-                content += `<hr class="my-2 border-slate-600"><p class="text-slate-300">${task.details}</p>`;
-                if (task.risk) {
-                    const riskNames = task.risk.split(', ').map(r => risks[r]).join(', ');
-                    content += `<div class="mt-2 pt-2 border-t border-slate-600"><span class="font-semibold text-red-400">Key Risks:</span> ${riskNames}</div>`;
-                }
-                if (task.dependencies && task.dependencies.length > 0) {
-                    const depNames = task.dependencies.map(depId => {
-                        const depTask = projectData.find(t => t.id === depId);
-                        return depTask ? depTask.name : depId;
-                    }).join(', ');
-                    content += `<div class="mt-2 pt-2 border-t border-slate-600"><span class="font-semibold text-blue-400">Dependencies:</span> ${depNames}</div>`;
-                }
-                tooltip.innerHTML = content;
-                tooltip.classList.remove('hidden');
-
-                // Position tooltip
-                const rect = e.target.getBoundingClientRect();
-                const tooltipRect = tooltip.getBoundingClientRect();
-                let left = e.pageX;
-                let top = e.pageY + 15;
-                
-                // Adjust if tooltip goes off screen
-                if (left + tooltipRect.width > window.innerWidth) {
-                    left = window.innerWidth - tooltipRect.width - 10;
-                }
-                if (top + tooltipRect.height > window.innerHeight) {
-                    top = rect.top - tooltipRect.height - 10 + window.scrollY;
-                }
-                
-                tooltip.style.left = `${left}px`;
-                tooltip.style.top = `${top}px`;
-            }
-
-            function handleMouseLeave() {
-                tooltip.classList.add('hidden');
-            }
-
-            renderChart();
-            
-            const style = document.createElement('style');
-            style.innerHTML = `
-                #criticalPathToggle:checked ~ .dot {
-                    transform: translateX(1.5rem);
-                    background-color: #A855F7;
-                }
-                .critical-path-highlighted .gantt-bar {
-                    opacity: 0.3;
-                }
-                .critical-path-highlighted .gantt-bar.bg-violet-500,
-                .critical-path-highlighted .gantt-bar > div[class*="border-l-amber-500"] {
-                    opacity: 1;
-                }
-                .critical-path-highlighted .dependency-line,
-                .critical-path-highlighted polyline {
-                    opacity: 0.2;
-                }
-                .critical-path-highlighted polyline[style*="stroke: rgb(139, 92, 246)"] {
-                    opacity: 1;
-                }
-            `;
-            document.head.appendChild(style);
-        });
-    </script>
 </body>
 </html>
