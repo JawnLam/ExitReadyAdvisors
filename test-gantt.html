@@ -1,6 +1,207 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Johnson & Sons Implementation Journey - Gantt Chart</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles from the main implementation journey page */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* gray-100 */
+        }
 
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* More visible pulse animation */
+        @keyframes pulse-critical-visible {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0px rgba(139, 92, 246, 0.7); /* violet-600 */
+            }
+            70% {
+                transform: scale(1.03);
+                box-shadow: 0 0 0 12px rgba(139, 92, 246, 0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0px rgba(139, 92, 246, 0);
+            }
+        }
+
+        /* Gantt Chart Specific Styles - Adapted to the new design system */
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            animation: fadeIn 0.8s ease-in-out forwards;
+        }
+
+        /* Header adapted from the main page's hero section */
+        .header {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid #6b7280; /* gray-500, changed from purple */
+        }
+
+        .header h1 {
+            color: #111827; /* gray-900 */
+            font-size: 1.875rem; /* text-3xl */
+            font-weight: 700;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .header p {
+            color: #4b5563; /* gray-600 */
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        .gantt-wrapper {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 1.5rem;
+            overflow-x: auto;
+        }
+
+        .gantt-chart {
+            min-width: 1200px;
+            border-collapse: collapse;
+            width: 100%;
+            border: 1px solid #e5e7eb; /* gray-200 */
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+
+        .month-header {
+            background-color: #f9fafb; /* gray-50 */
+            border: 1px solid #e5e7eb;
+            padding: 0.75rem 0.25rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.75rem;
+            min-width: 30px;
+            color: #4b5563; /* gray-600 */
+        }
+
+        .task-label {
+            background-color: #fff;
+            border: 1px solid #e5e7eb;
+            padding: 0.75rem 1rem;
+            font-weight: 500; /* Not bold */
+            width: 250px;
+            position: sticky;
+            left: 0;
+            z-index: 10;
+            color: #111827; /* Black text */
+        }
+        
+        .task-label.phase-header {
+            background-color: #f3f4f6;
+            color: #111827; /* Black text */
+            font-weight: 700; /* Bold */
+            text-align: left;
+            font-size: 0.9rem; /* Slightly bigger */
+            letter-spacing: 0.05em;
+            text-transform: uppercase; /* All caps */
+        }
+
+        .task-cell {
+            border: 1px solid #e5e7eb;
+            padding: 0.25rem;
+            height: 2.5rem;
+            min-width: 30px;
+            position: relative;
+        }
+
+        .task-bar {
+            height: 100%;
+            border-radius: 0.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.625rem;
+            font-weight: 700;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 0 0.25rem;
+        }
+
+        /* Colors adapted from PERT chart styles */
+        .critical-path {
+            background-color: #8b5cf6; /* violet-500 */
+            border: 1px solid #a78bfa; /* violet-400 */
+            animation: pulse-critical-visible 2s infinite;
+        }
+
+        .parallel-path {
+            background-color: #64748b; /* slate-500 */
+            border: 1px solid #94a3b8; /* slate-400 */
+        }
+
+        .supporting-task {
+            background-color: #ffffff; /* White background */
+            border: 1px solid #111827; /* Black border */
+            color: #111827; /* Black text */
+        }
+        
+        .phase-bar {
+            background-color: #4b5563; /* gray-600 */
+            color: white;
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            padding: 1rem;
+            background-color: #f9fafb; /* gray-50 */
+            border-radius: 0.75rem;
+            border: 1px solid #e5e7eb;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .legend-bar {
+            width: 1.5rem;
+            height: 0.75rem;
+            border-radius: 0.25rem;
+        }
+
+        .legend-label {
+            font-weight: 500;
+            color: #374151;
+            font-size: 0.875rem;
+        }
+
+    </style>
+</head>
 <body>
     <div class="container">
         <div class="gantt-wrapper">
