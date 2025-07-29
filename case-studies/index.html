@@ -3,7 +3,7 @@
 
     <!-- 
     /--------------------------------------------------------------------------------\
-    | LAST UPDATE: 2507291207…Tue_Jul_29_2025_1207PM                                 |
+    | LAST UPDATE: 2507291229…Tue_Jul_29_2025_1229PM                                 |
     | https://gemini.google.com/app/6130e9b2b6999ac6                                 |
     | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/case-studies/index.html |
     \--------------------------------------------------------------------------------/
@@ -145,6 +145,42 @@
                 <img src="https://placehold.co/600x720/eeeeee/000000?text=Food+Brand" alt="Food Brand Case Study" class="w-full h-auto">
                 <div class="card-content"><h3 class="card-title">Specialty Food Brand Goes National</h3><p class="card-description">Expanded distribution network and built brand recognition, leading to successful acquisition by major food conglomerate.</p></div>
             </a>
+            <a href="https://jawnlam.github.io/ExitReadyAdvisors/case-studies/templates/index.html" class="masonry-item">
+                <img src="https://placehold.co/600x720/eeeeee/000000?text=Food+Brand" alt="Food Brand Case Study" class="w-full h-auto">
+                <div class="card-content"><h3 class="card-title">Specialty Food Brand Goes National</h3><p class="card-description">Expanded distribution network and built brand recognition, leading to successful acquisition by major food conglomerate.</p></div>
+            </a>
+            <a href="https://jawnlam.github.io/ExitReadyAdvisors/case-studies/templates/index.html" class="masonry-item">
+                <img src="https://placehold.co/600x720/eeeeee/000000?text=Food+Brand" alt="Food Brand Case Study" class="w-full h-auto">
+                <div class="card-content"><h3 class="card-title">Specialty Food Brand Goes National</h3><p class="card-description">Expanded distribution network and built brand recognition, leading to successful acquisition by major food conglomerate.</p></div>
+            </a>
+            <a href="https://jawnlam.github.io/ExitReadyAdvisors/case-studies/templates/index.html" class="masonry-item">
+                <img src="https://placehold.co/600x720/eeeeee/000000?text=Food+Brand" alt="Food Brand Case Study" class="w-full h-auto">
+                <div class="card-content"><h3 class="card-title">Specialty Food Brand Goes National</h3><p class="card-description">Expanded distribution network and built brand recognition, leading to successful acquisition by major food conglomerate.</p></div>
+            </a>
+            <a href="https://jawnlam.github.io/ExitReadyAdvisors/case-studies/templates/index.html" class="masonry-item">
+                <img src="https://placehold.co/600x720/eeeeee/000000?text=Food+Brand" alt="Food Brand Case Study" class="w-full h-auto">
+                <div class="card-content"><h3 class="card-title">Specialty Food Brand Goes National</h3><p class="card-description">Expanded distribution network and built brand recognition, leading to successful acquisition by major food conglomerate.</p></div>
+            </a>
+            <a href="https://jawnlam.github.io/ExitReadyAdvisors/case-studies/templates/index.html" class="masonry-item">
+                <img src="https://placehold.co/600x720/eeeeee/000000?text=Food+Brand" alt="Food Brand Case Study" class="w-full h-auto">
+                <div class="card-content"><h3 class="card-title">Specialty Food Brand Goes National</h3><p class="card-description">Expanded distribution network and built brand recognition, leading to successful acquisition by major food conglomerate.</p></div>
+            </a>
+            <a href="https://jawnlam.github.io/ExitReadyAdvisors/case-studies/templates/index.html" class="masonry-item">
+                <img src="https://placehold.co/600x720/eeeeee/000000?text=Food+Brand" alt="Food Brand Case Study" class="w-full h-auto">
+                <div class="card-content"><h3 class="card-title">Specialty Food Brand Goes National</h3><p class="card-description">Expanded distribution network and built brand recognition, leading to successful acquisition by major food conglomerate.</p></div>
+            </a>
+            <a href="https://jawnlam.github.io/ExitReadyAdvisors/case-studies/templates/index.html" class="masonry-item">
+                <img src="https://placehold.co/600x720/eeeeee/000000?text=Food+Brand" alt="Food Brand Case Study" class="w-full h-auto">
+                <div class="card-content"><h3 class="card-title">Specialty Food Brand Goes National</h3><p class="card-description">Expanded distribution network and built brand recognition, leading to successful acquisition by major food conglomerate.</p></div>
+            </a>
+            <a href="https://jawnlam.github.io/ExitReadyAdvisors/case-studies/templates/index.html" class="masonry-item">
+                <img src="https://placehold.co/600x720/eeeeee/000000?text=Food+Brand" alt="Food Brand Case Study" class="w-full h-auto">
+                <div class="card-content"><h3 class="card-title">Specialty Food Brand Goes National</h3><p class="card-description">Expanded distribution network and built brand recognition, leading to successful acquisition by major food conglomerate.</p></div>
+            </a>
+            <a href="https://jawnlam.github.io/ExitReadyAdvisors/case-studies/templates/index.html" class="masonry-item">
+                <img src="https://placehold.co/600x720/eeeeee/000000?text=Food+Brand" alt="Food Brand Case Study" class="w-full h-auto">
+                <div class="card-content"><h3 class="card-title">Specialty Food Brand Goes National</h3><p class="card-description">Expanded distribution network and built brand recognition, leading to successful acquisition by major food conglomerate.</p></div>
+            </a>
             -->
         </div>
 
@@ -196,23 +232,29 @@
                     return; 
                 }
 
-                // Clone items and apply alternating styles ONCE.
+                // Clone items and apply alternating styles ONCE using inline styles for high specificity.
                 const masonryItems = Array.from(originalItemsContainer.children).map((item, index) => {
                     const clonedItem = item.cloneNode(true);
+                    const title = clonedItem.querySelector('.card-title');
+                    const description = clonedItem.querySelector('.card-description');
+                    const image = clonedItem.querySelector('img');
+
+                    // --- GUARANTEE FULL BRIGHTNESS ---
+                    if (image) {
+                        image.style.opacity = '1';
+                    }
+
                     // Check for odd index (2nd, 4th, etc. item)
                     if (index % 2 !== 0) {
-                        clonedItem.classList.add('bg-gray-800');
-                        clonedItem.classList.remove('bg-white');
-                        const title = clonedItem.querySelector('.card-title');
-                        const description = clonedItem.querySelector('.card-description');
-                        if (title) {
-                            title.classList.add('text-gray-100');
-                            title.classList.remove('text-gray-800');
-                        }
-                        if (description) {
-                            description.classList.add('text-gray-300');
-                            description.classList.remove('text-gray-600');
-                        }
+                        // Apply dark theme using inline styles
+                        clonedItem.style.backgroundColor = '#1f2937'; // dark grey
+                        if (title) title.style.color = '#f9fafb'; // off-white
+                        if (description) description.style.color = '#d1d5db'; // light grey
+                    } else {
+                        // Explicitly set light theme using inline styles to prevent overrides
+                        clonedItem.style.backgroundColor = '#ffffff'; // white
+                        if (title) title.style.color = '#1f2937'; // dark grey
+                        if (description) description.style.color = '#4b5563'; // medium grey
                     }
                     return clonedItem;
                 });
