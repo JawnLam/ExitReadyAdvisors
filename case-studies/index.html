@@ -3,7 +3,7 @@
 
     <!-- 
     /--------------------------------------------------------------------------------\
-    | LAST UPDATE: 2507291149…Tue_Jul_29_2025_1149AM                                 |
+    | LAST UPDATE: 2507291207…Tue_Jul_29_2025_1207PM                                 |
     | https://gemini.google.com/app/6130e9b2b6999ac6                                 |
     | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/case-studies/index.html |
     \--------------------------------------------------------------------------------/
@@ -196,7 +196,26 @@
                     return; 
                 }
 
-                const masonryItems = Array.from(originalItemsContainer.children).map(item => item.cloneNode(true));
+                // Clone items and apply alternating styles ONCE.
+                const masonryItems = Array.from(originalItemsContainer.children).map((item, index) => {
+                    const clonedItem = item.cloneNode(true);
+                    // Check for odd index (2nd, 4th, etc. item)
+                    if (index % 2 !== 0) {
+                        clonedItem.classList.add('bg-gray-800');
+                        clonedItem.classList.remove('bg-white');
+                        const title = clonedItem.querySelector('.card-title');
+                        const description = clonedItem.querySelector('.card-description');
+                        if (title) {
+                            title.classList.add('text-gray-100');
+                            title.classList.remove('text-gray-800');
+                        }
+                        if (description) {
+                            description.classList.add('text-gray-300');
+                            description.classList.remove('text-gray-600');
+                        }
+                    }
+                    return clonedItem;
+                });
                 
                 function calculateLayout() {
                     const containerWidth = masonryWrapper.offsetWidth; 
