@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+        <!-- 
+		/------------------------------------------------------------------------------------------------------------------\
+		| LAST UPDATE: 2507292229…Tue_Jul_29_2025_1029PM 																   |
+		| https://gemini.google.com/app/2245d1ce65e5ab37  					       				 	 					   |
+		| https://github.com/JawnLam/ExitReadyAdvisors/edit/main/case-studies/templates/exit-ready-analysis.html           |
+		\------------------------------------------------------------------------------------------------------------------/
+		-->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exit Ready Analysis | Johnson & Sons</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js for the waterfall chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles and animations */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F3F4F6; /* Light gray background */
+        }
+        
+        /* Core Animation Definition */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Animation for initial page load */
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out forwards;
+        }
+
+        /* --- TAB STYLING --- */
+        .tab-button {
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            border-radius: 0.375rem 0.375rem 0 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            font-size: 0.75rem;
+            line-height: 1.1rem;
+            padding: 0.75rem 0.25rem;
+            margin: 0 2px;
+            min-height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            font-weight: 600;
+        }
+        .tab-button::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 0;
+            background-color: #dcfce7;
+            transition: height 0.3s ease;
+            z-index: -1;
+        }
+        .tab-button:not(.active):hover::after { height: 100%; }
+        .tab-button:not(.active):hover {
+            color: #16a34a;
+            border-bottom-color: #22c55e;
+        }
+        .tab-button.active {
+            background-color: #dcfce7;
+            color: #16a34a;
+            border-bottom-color: #22c55e;
+            box-shadow: 0 0 0 1px #4ade80;
+        }
+        .tab-button:not(.active) { color: #6B7280; }
+        .tab-content { display: none; }
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        /* --- VALUATION CARD STYLING --- */
+        .valuation-item {
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .valuation-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .valuation-content {
+            transition: opacity 0.3s ease-in-out;
+        }
+        .dot {
+            transition: background-color 0.3s ease;
+        }
+
+        .section-title {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        .subsection-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* --- INTERACTIVE TIMELINE STYLES --- */
+        .timeline-item .timeline-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        .timeline-item.open .timeline-content {
+            max-height: 2000px; /* Large enough for content */
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+        }
+        .timeline-item.open .timeline-icon {
+            transform: rotate(90deg);
+        }
+        .timeline-icon {
+            transition: transform 0.3s ease;
+        }
+        
+        /* --- WORKING CAPITAL ACCORDION --- */
+        .wc-accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        .wc-item.open .wc-accordion-content {
+            max-height: 200px;
+            padding-top: 0.75rem;
+            padding-bottom: 0.5rem;
+        }
+        .wc-item.open .wc-icon {
+            transform: rotate(180deg);
+        }
+        .wc-icon {
+            transition: transform 0.3s ease;
+        }
+
+        /* --- ORG MATURITY INTERACTIVITY --- */
+        .maturity-card-content {
+            transition: opacity 0.3s ease-in-out;
+        }
+        
+        /* --- EXIT READINESS DASHBOARD --- */
+        .readiness-card {
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        .readiness-card.active {
+            transform: scale(1.05);
+            box-shadow: 0 0 0 2px #16a34a; /* green-600 */
+        }
+
+        /* --- MARKET LANDSCAPE INTERACTIVITY --- */
+        .buyer-card-container {
+            perspective: 1000px;
+        }
+        .buyer-card {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            position: relative;
+        }
+        .buyer-card.is-flipped {
+            transform: rotateY(180deg);
+        }
+        .buyer-card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .buyer-card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* --- GROWTH LEVERS ACCORDION --- */
+        .lever-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        .lever.open .lever-content {
+            max-height: 500px;
+        }
+        .lever.open .lever-icon {
+            transform: rotate(45deg);
+        }
+        .lever-icon {
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 p-4 sm:p-6 md:p-8">
+
+    <!-- Header Placeholder -->
+    <header id="header-placeholder"></header>
+
+    <!-- Main Content -->
+    <main id="page-implementation-journey" class="max-w-7xl mx-auto py-8" style="display: none;">
+
+        <!-- PageHeader Component -->
+        <header class="grid grid-cols-1 md:grid-cols-2 bg-white rounded-xl overflow-hidden shadow-lg">
+            <div class="flex items-center justify-center h-48 md:h-auto">
+                <img src="https://images.unsplash.com/photo-1533750122699-M58d5955551c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+                     alt="Industrial plumbing and heating systems" 
+                     class="object-cover w-full h-full"
+                     onerror="this.onerror=null;this.src='https://placehold.co/600x400/000000/FFFFFF?text=J%26S';">
+            </div>
+            <div class="p-8 flex flex-col justify-start">
+                <h1 class="text-3xl font-bold text-gray-900 mt-1">Johnson & Sons Heating, Plumbing, & Air</h1>
+                <p class="text-gray-600 mt-4">
+                    An analysis of the transformation, highlighting key performance indicators, qualitative de-risking, and the resulting organizational landscape after a three-year value creation initiative.
+                </p>
+            </div>
+        </header>
+
+        <!-- Back/Next Navigation -->
+        <div class="flex justify-between items-center my-8">
+            <a href="value-creation-strategy.html" class="inline-flex items-center gap-2 px-4 py-2 bg-purple-100 text-purple-600 font-medium rounded-lg shadow-sm border border-purple-500 hover:bg-purple-200 transition">
+                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                </svg>
+                Value Creation Strategy
+            </a>
+            <div class="flex-grow mx-4 p-2 bg-green-100 text-green-600 border border-green-500 rounded-lg text-center">
+                 <h2 class="text-xl font-semibold uppercase tracking-wider">Exit Ready Analysis</h2>
+            </div>
+            <a href="case-studies.html" class="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-700 font-medium rounded-lg shadow-sm border border-gray-300 hover:bg-gray-300 transition">
+                More Case Studies
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                </svg>
+            </a>
+        </div>
+
+        <!-- Interactive Valuation Brief -->
+        <section id="valuation-brief" class="mb-8 p-6 bg-white rounded-xl shadow-lg">
+             <!-- The heading below is for webmaster reference and is not visible on the page. -->
+             <!-- Valuation Brief: Before vs. After -->
+             <div id="valuation-cards-container" class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                 <!-- Valuation cards will be dynamically generated here -->
+             </div>
+        </section>
+
+        <!-- Detailed Information with Tabs -->
+        <div>
+            <!-- Tab Navigation -->
+            <div class="border-b border-gray-200 mb-8">
+                <nav class="-mb-px flex" aria-label="Tabs" id="tabs-container">
+                    <!-- Tabs will be dynamically generated here -->
+                </nav>
+            </div>
+
+            <!-- Tab Content Panels -->
+            <div class="p-6 min-h-[400px] bg-white rounded-xl shadow-lg" id="tab-content-container">
+                <!-- Tab content will be dynamically generated here -->
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer Placeholder -->
+    <footer id="footer-placeholder"></footer>
+
+    <script>
+        // --- DATA ---
+        const analysisData = {
+            executiveSummary: {
+                title: "1. Executive Summary: The Transformation Story",
+                narrative: "We acquired Johnson & Sons, a highly reputable but operationally stagnant family business, and executed a 36-month transformation into a scalable, professionally managed, and significantly more profitable market leader. By focusing on a series of core objectives—the painful but necessary modernization of core operations, the launch of a high-margin recurring revenue service division, the professionalization of a founder-dependent management structure, and the enhancement of its best-in-class safety programs—we not only de-risked the business but also fundamentally reset its growth trajectory and value proposition.<br><br>This report details the strategic initiatives that drove this complex transformation. The journey was not linear; it was marked by a deep cultural clash between the company's relationship-driven past and its emerging data-driven future. We provide a transparent look at how our objectives translated into measurable financial results, how we matured the organization to command a premium valuation, and what specific, high-upside growth opportunities—and unresolved challenges—we have deliberately prepared for the next owner.",
+                thesisRecap: "Our original thesis was that the immense brand equity and backlog of Johnson & Sons were being undervalued due to significant operational and technological lag, a complete lack of recurring revenue, and a high concentration of key-person risk. We believed that by investing in a modern technology stack, launching a service-based business line, professionalizing management, and leveraging its existing safety advantage, we could unlock substantial margin expansion, create a more resilient business model, and drive a significant valuation multiple expansion upon exit.",
+                valuation: {
+                    title: "Preliminary Valuation Analysis",
+                    headers: ["Metric", "Initial State", "Exit Range", "Uplift"],
+                    rows: [
+                        { metric: "Enterprise Valuation", pre: "~$51.25M", post: "~$88M - $100M", uplift: "+$37M - $49M" },
+                        { metric: "Gross IRR", pre: "N/A", post: "34% - 39%", uplift: "Target Met" },
+                        { metric: "MOIC", pre: "N/A", post: "3.5x - 4.0x", uplift: "Target Met" },
+                        { metric: "Adj. EBITDA", pre: "$8.54M", post: "$12.55M", uplift: "+47%" },
+                        { metric: "EBITDA Multiple", pre: "~6.0x", post: "~7.0x - 8.0x", uplift: "+1.0x - 2.0x" }
+                    ]
+                }
+            },
+            performanceVsObjectives: {
+                title: "2. Performance vs. Objectives: An Attribution Analysis",
+                intro: "This section methodically links our strategic objectives and their intended Key Results to the final Key Performance Indicators, proving how specific actions produced the financial outcome.",
+                objectives: [
+                    {
+                        title: "Objective 1: Modernize Core Operations & Technology",
+                        rationale: "To increase efficiency, improve margins, and create a scalable platform for growth by replacing outdated, fragmented systems with a unified, data-driven operational backbone.",
+                        keyResults: [
+                            {
+                                title: "Key Result 1.1 (Implement Unified ERP)",
+                                description: "Successfully deploy a single, cloud-based ERP to unify project management, accounting, and CRM across all locations.",
+                                kpis: [
+                                    { title: "KPI 1.1.1 (Data-Driven Project Review)", status: "Achieved", detail: "\"Gut-feel timeline management\" → \"Mandatory weekly variance analysis of budget vs. actuals for all projects.\"" },
+                                    { title: "KPI 1.1.2 (System User Adoption)", status: "Partially Achieved", detail: "\"0% of PMs using a centralized system\" → \"70% of PMs entering project data weekly.\" (adoption remains a challenge among Veterans.)" },
+                                    { title: "KPI 1.1.3 (Bid-to-Win Ratio)", status: "Achieved", detail: "\"No accurate tracking\" → \"Established baseline of 18% on competitively bid projects.\" (data integrity is a lingering issue.)" }
+                                ]
+                            },
+                            {
+                                title: "Key Result 1.2 (Centralize Procurement & Inventory)",
+                                description: "Consolidate purchasing power and implement real-time inventory tracking to reduce waste and carrying costs.",
+                                kpis: [
+                                    { title: "KPI 1.2.1 (Centrally Held Inventory Value)", status: "Achieved", detail: "\"$1.8M\" → \"$1.44M (20% reduction).\"" },
+                                    { title: "KPI 1.2.2 (Material Cost Savings)", status: "Achieved", detail: "\"0% savings from consolidated purchasing\" → \"8% average cost reduction on top 20 plumbing & HVAC SKUs.\"" },
+                                    { title: "KPI 1.2.3 (Inventory Turns)", status: "Missed Target", detail: "\"2.1x\" → \"2.5x.\" (Missed Target of 3.0x; progress was undermined by the creation of \"shadow inventory\" at job sites.)" }
+                                ]
+                            }
+                        ],
+                        financialImpact: "$6.5M to enterprise value",
+                        lessonsLearned: "The \"big bang\" ERP implementation was a near-disaster. It ran 50% over budget and six months late, crippling internal credibility. The forced discipline of the COO's unpopular weekly variance meetings was, paradoxically, the only effective driver of adoption. The \"shadow inventory\" problem demonstrates that cultural resistance can directly sabotage financial and operational goals."
+                    },
+                    {
+                        title: "Objective 2: Launch & Scale a High-Margin Service Division",
+                        rationale: "To create a stable, high-margin, recurring revenue stream to counterbalance the cyclicality of the new construction market and increase overall business valuation.",
+                        keyResults: [
+                            {
+                                title: "Key Result 2.1 (Establish Recurring Revenue Stream)",
+                                description: "Build a service division from scratch to generate a stable, high-margin, non-cyclical revenue stream.",
+                                kpis: [
+                                    { title: "KPI 2.1.1 (ARR Growth)", status: "Exceeded Target", detail: "\"$0 in service revenue\" → \"$4.5M Annual Recurring Revenue (ARR) run-rate.\" (Exceeded Target of $4M)" },
+                                    { title: "KPI 2.1.2 (Margin Mix Improvement)", status: "Achieved", detail: "\"N/A\" → \"Service Division Gross Margin: 45%; blended company Gross Margin improved from 20.8% to 24.5%.\"" },
+                                    { title: "KPI 2.1.3 (Customer Lifetime Value - CLV)", status: "Achieved", detail: "\"N/A\" → \"Established baseline CLV of $150k for service customers.\"" }
+                                ]
+                            },
+                            {
+                                title: "Key Result 2.2 (Build Dedicated Sales Function)",
+                                description: "Create a professional sales engine for the new service division, moving beyond the company's total reliance on existing relationships.",
+                                kpis: [
+                                    { title: "KPI 2.2.1 (Sales Cycle Length - Service)", status: "Achieved", detail: "\"N/A\" → \"Average 45-day sales cycle for new service contracts.\"" },
+                                    { title: "KPI 2.2.2 (Synergistic Lead Generation)", status: "Achieved", detail: "\"0% of leads from other divisions\" → \"25% of new service contracts originated from construction project handoffs.\"" },
+                                    { title: "KPI 2.2.3 (Customer Acquisition Cost - CAC)", status: "Achieved", detail: "\"N/A\" → \"Established baseline CAC of $12k for service customers.\"" }
+                                ]
+                            }
+                        ],
+                        financialImpact: "$18M to enterprise value",
+                        lessonsLearned: "Launching the division as a \"skunkworks\" project shielded it from political chaos. Its success, however, created a fierce \"us vs. them\" resource battle, deepening the cultural divide."
+                    },
+                    {
+                        title: "Objective 3: Professionalize Management & De-Risk the Organization",
+                        rationale: "To transition the company from a founder-dependent family business to a professionally managed enterprise, reducing key-person risk and building a team capable of executing future growth.",
+                        keyResults: [
+                            {
+                                title: "Key Result 3.1 (Strengthen Leadership & Mitigate Key-Person Risk)",
+                                description: "Hire a professional COO and capture the \"tribal knowledge\" of retiring leadership.",
+                                kpis: [
+                                    { title: "KPI 3.1.1 (Key Person Dependency)", status: "Achieved", detail: "\"High risk on retiring GM and 2 key PMs\" → \"Risk mitigated via new COO and a multi-tiered transaction bonus plan for key 'Veterans'.\" (but the solution is a short-term financial patch.)" },
+                                    { title: "KPI 3.1.2 (Knowledge Capture)", status: "Achieved", detail: "\"0% of bidding knowledge documented\" → \"80% of retiring GM's 'rules of thumb' for bidding complex jobs documented.\"" },
+                                    { title: "KPI 3.1.3 (Voluntary Attrition - Management)", status: "Met Target", detail: "\"0% (pre-deal)\" → \"5% (1 manager departure).\" (Met Target of <10%)" }
+                                ]
+                            },
+                            {
+                                title: "Key Result 3.2 (Implement Robust FP&A Function)",
+                                description: "Establish modern financial planning and analysis capabilities to enable data-driven decision-making and improve investor confidence.",
+                                kpis: [
+                                    { title: "KPI 3.2.1 (Financial Close Process)", status: "Achieved", detail: "\"20+ business days\" → \"7 business days.\"" },
+                                    { title: "KPI 3.2.2 (Cash Flow Visibility)", status: "Achieved", detail: "\"No formal forecast\" → \"13-week rolling cash flow forecast implemented with <10% variance to actuals.\"" },
+                                    { title: "KPI 3.2.3 (Budget vs. Actual Variance)", status: "Partially Achieved", detail: "\"No formal budget process\" → \"Quarterly budget process implemented; variance maintained at <15%.\" (Missed Target of <10% due to ERP cost overruns.)" }
+                                ]
+                            }
+                        ],
+                        financialImpact: "$12M to enterprise value",
+                        lessonsLearned: "Hiring an external COO was strategically correct but politically disastrous. Passing over the heir apparent created a resentful leader. The transaction bonus plan was a necessary but expensive tool to prevent a mass exodus during the sale process."
+                    },
+                    {
+                        title: "Objective 4: Enhance Safety Culture & Solidify Compliance Advantage",
+                        rationale: "To protect and enhance the company's best-in-class safety record, a key competitive differentiator that secures access to the most desirable projects and clients.",
+                         keyResults: [
+                            {
+                                title: "Key Result 4.1 (Modernize Safety Training & Reporting)",
+                                description: "Digitize safety compliance and training programs to improve tracking and field-level engagement.",
+                                kpis: [
+                                    { title: "KPI 4.1.1 (Experience Modification Rate - EMR)", status: "Achieved", detail: "\"0.72\" → \"Maintained EMR at or below 0.75.\" (maintained rate at 0.74.)" },
+                                    { title: "KPI 4.1.2 (Safety Training Completion Rate)", status: "Achieved", detail: "\"Manual tracking\" → \"98% of field staff completed all required digital safety modules.\"" },
+                                    { title: "KPI 4.1.3 (Digital Safety Reporting)", status: "Achieved", detail: "\"0% digital\" → \"75% of all job site safety reports filed via new mobile app.\"" }
+                                ]
+                            },
+                            {
+                                title: "Key Result 4.2 (Promote Proactive Safety Culture)",
+                                description: "Move beyond compliance to a proactive culture where safety is a shared responsibility.",
+                                kpis: [
+                                    { title: "KPI 4.2.1 (Near-Miss Reporting)", status: "Achieved", detail: "\"5 reports annually\" → \"50+ reports annually.\" (increase indicates a healthier, more proactive reporting culture.)" },
+                                    { title: "KPI 4.2.2 (Lost Time Injury Frequency Rate - LTIFR)", status: "Achieved", detail: "\"1.5\" → \"Reduced LTIFR to 1.2.\"" }
+                                ]
+                            }
+                        ],
+                        financialImpact: "Protected the company's ability to win large contracts and maintained its preferred status with top-tier general contractors, directly supporting the $68M revenue base.",
+                        lessonsLearned: "This was the one area where the \"Innovators vs. Veterans\" divide was minimal. Both factions understood the critical importance of safety. The digital reporting tools were surprisingly well-received as they simplified paperwork for field supervisors. This initiative served as a small but important cultural bridge."
+                    }
+                ]
+            },
+            financialTransformation: {
+                title: "3. Financial Transformation: The Value Bridge",
+                ebitdaBridge: {
+                    title: "EBITDA Value Creation Bridge",
+                    data: [
+                        { label: 'Initial EBITDA', value: 8.54, type: 'total', description: "The starting point: Johnson & Sons' run-rate Adjusted EBITDA at the time of acquisition." },
+                        { label: 'Service Division', value: 2.02, type: 'positive', description: "Value created from launching the new high-margin, recurring revenue service division (45% margin on $4.5M ARR)." },
+                        { label: 'Procurement', value: 1.20, type: 'positive', description: "Direct cost savings achieved through consolidating vendors and leveraging purchasing power for top materials." },
+                        { label: 'Overhead Reduction', value: 0.79, type: 'positive', description: "Efficiencies gained from improved working capital management and administrative process optimization." },
+                        { label: 'New Investments', value: -1.00, type: 'negative', description: "Strategic investments in the new technology stack (ERP/CRM) and key hires (COO, Sales)." },
+                        { label: 'Margin Headwinds', value: -0.50, type: 'negative', description: "Represents continued margin compression on core construction projects due to a competitive bidding environment." },
+                        { label: 'Final EBITDA', value: 12.55, type: 'total', description: "The final run-rate Adjusted EBITDA after all strategic initiatives and market effects." }
+                    ]
+                },
+                workingCapital: {
+                    title: "Working Capital Improvement",
+                    items: [
+                       { title: "Accounts Receivable (DSO)", before: "58 Days", after: "42 Days", impact: "Improved cash collection cycle." },
+                       { title: "Inventory (DIO)", before: "$1.8M Held", after: "$1.44M Held", impact: "Reduced carrying costs, though partially offset by 'shadow inventory'." },
+                       { title: "Accounts Payable (DPO)", before: "35 Days", after: "45 Days", impact: "Extended payment terms with key suppliers." }
+                    ],
+                    netImpact: "The Cash Conversion Cycle was reduced from 58 days to 42 days, freeing up over $3.5M in cash."
+                }
+            },
+            orgMaturity: {
+                title: "4. Organizational Maturity Scorecard (Before vs. After)",
+                rows: [
+                    { category: "Management", initial: "Founder-Dependent; no middle management; key-person risk.", transformed: "Professional team with an experienced COO; documented succession plan; key-person risk financially mitigated." },
+                    { category: "Systems", initial: "Manual processes; QuickBooks & Excel; no data analytics.", transformed: "Automated, scalable tech stack (ERP, CRM); KPI dashboards; poor user adoption is a key weakness." },
+                    { category: "Revenue Model", initial: "Highly concentrated; 100% cyclical construction revenue.", transformed: "Diversified with a $4.5M high-margin, recurring revenue stream." },
+                    { category: "Organizational Dynamics", initial: "Siloed, resistant-to-change culture; unclear roles.", transformed: "A fractured \"dual-power\" state. A formal, data-driven \"Innovator\" culture clashes with an informal, influential \"Veteran\" culture." }
+                ]
+            },
+            exitReadiness: {
+                title: "5. Exit Readiness Scorecard",
+                rows: [
+                    { area: "Financials & Reporting", status: "Green", commentary: "Three years of clean, audited financials are complete. A robust forecasting model is in place." },
+                    { area: "Sales & Marketing Engine", status: "Green", commentary: "A proven, scalable sales process exists for the Service Division. The Construction division remains 95% relationship-based." },
+                    { area: "Commercial & Operations", status: "Yellow", commentary: "The Service Division is a major strength. The unresolved \"shadow inventory\" issue and ongoing margin compression in the core business are key weaknesses." },
+                    { area: "Product & IP", status: "Yellow", commentary: "Brand reputation is a powerful asset. Lack of formal IP and a lag in adopting modern methods like BIM/VDC represent a competitive gap." },
+                    { area: "Management & Team", status: "Yellow", commentary: "The COO is strong, but his leadership is not fully embraced. A key senior PM is a flight risk, with loyalty secured only by a short-term financial incentive." },
+                    { area: "Human Resources & Culture", status: "Red", commentary: "The \"Innovators vs. Veterans\" cultural war is the single biggest unresolved issue. It actively hinders collaboration and data integrity. This is not a harmonious organization." },
+                    { area: "Technology & Systems", status: "Yellow", commentary: "The core ERP system is implemented but suffers from poor user adoption and lingering resentment. It is a foundation that requires significant further investment." },
+                    { area: "Legal & Corporate Structure", status: "Green", commentary: "Corporate records are clean. All key customer and supplier contracts contain modern change-of-control clauses." },
+                    { area: "Tax & Compliance", status: "Green", commentary: "All federal and state tax filings are clean and current. A best-in-class safety record (low EMR) is a key asset." }
+                ]
+            },
+            marketLandscape: {
+                title: "6. Market & Buyer Landscape Analysis",
+                conditions: "The M&A market for specialty trade contractors remains strong. Valuations for businesses with a significant, high-margin recurring revenue component are commanding a 1.0x-2.0x multiple premium over pure-play construction firms.",
+                buyers: [
+                    { 
+                        type: "Strategic", 
+                        description: "A larger national mechanical or infrastructure services firm (e.g., EMCOR, Comfort Systems USA) looking to acquire a dominant Southwest footprint and a proven service model.",
+                        thesis: "You are acquiring a turnkey, market-leading platform in the fastest-growing region of the country. We have done the hard work of modernizing the systems and launching the profitable service division. Your task is to integrate the culture and unlock the clear geographic and operational synergies."
+                    },
+                    { 
+                        type: "Financial", 
+                        description: "A private equity group with a buy-and-build thesis in commercial services, attracted to the strong EBITDA and substantiated growth levers.",
+                        thesis: "We have successfully executed Act I of the value creation plan, transforming the financial profile and de-risking the business model. The asset is now poised for Act II: resolving the manageable cultural friction and executing on a well-defined M&A and expansion strategy. This is a prime opportunity for a secondary buyout with clear upside."
+                    }
+                ],
+                positioning: "Our primary narrative is a \"Successful Transformation with Built-in Upside.\" We will emphasize the de-risking accomplished through the Service Division and professional management. We will transparently position the cultural friction and technology adoption issues as predictable \"Phase 1\" challenges, representing a clear, addressable \"Phase 2\" opportunity for a new owner."
+            },
+            growthOpportunities: {
+                title: "7. Substantiated Growth Opportunities for the Next Owner",
+                intro: "We have captured significant value and deliberately prepared the following de-risked, high-upside opportunities for the next owner to execute. For a buyer, an idea is worthless without evidence; this section provides that proof.",
+                levers: [
+                    {
+                        title: "Growth Lever 1: Geographic Expansion into Texas",
+                        description: "A plan to launch a full-service branch in the booming Austin, TX market, leveraging our proven operational playbook for both construction and service.",
+                        impact: "~$2.5M in incremental EBITDA within 36 months.",
+                        status: "Market analysis and logistics planning complete.",
+                        evidence: "Detailed market analysis report, preliminary logistics plan, and pro-forma financial model are located in VDR Folder 4.1."
+                    },
+                    {
+                        title: "Growth Lever 2: Full Adoption of BIM & Prefabrication",
+                        description: "Address the company's primary technological gap by investing in Building Information Modeling (BIM) capabilities and expanding the Phoenix facility for modular pre-fabrication.",
+                        impact: "Improve construction gross margins by 200 basis points.",
+                        status: "Initial vendor quotes and a detailed ROI analysis are available for review.",
+                        evidence: "Vendor proposals, ROI analysis spreadsheet, and a capital expenditure plan are available in VDR Folder 4.2."
+                    },
+                    {
+                        title: "Growth Lever 3: Strategic \"Acqui-Hire\" of a Tech-Forward Competitor",
+                        description: "Acquire a smaller, local competitor known for its expertise in BIM and smart building systems to accelerate technology adoption and reshape the culture.",
+                        impact: "~$1M in synergistic EBITDA, plus accelerates the timeline of Growth Lever 2 by 18-24 months.",
+                        status: "A target list of three potential acquisition candidates has been compiled.",
+                        evidence: "Target company profiles and a preliminary synergy model can be found in VDR Folder 4.3."
+                    }
+                ]
+            }
+        };
+
+        // --- RENDER FUNCTIONS ---
+        function createTable(headers, rows) {
+            const headerHtml = headers.map(h => `<th scope="col" class="p-3">${h}</th>`).join('');
+            const bodyHtml = rows.map(row => {
+                const rowHtml = Object.values(row).map((cell, index) => {
+                    let cellClass = index === 0 ? 'font-semibold text-gray-700' : 'text-gray-600';
+                    if (headers[index] === 'Uplift' && cell.toString().startsWith('+')) {
+                        cellClass += ' text-green-600 font-bold';
+                    }
+                    return `<td class="p-3 ${cellClass}">${cell}</td>`;
+                }).join('');
+                return `<tr class="border-b hover:bg-gray-50">${rowHtml}</tr>`;
+            }).join('');
+
+            return `
+                <div class="overflow-x-auto rounded-lg border">
+                    <table class="w-full text-sm text-left">
+                        <thead class="bg-gray-100 text-xs text-gray-700 uppercase">
+                            <tr>${headerHtml}</tr>
+                        </thead>
+                        <tbody>${bodyHtml}</tbody>
+                    </table>
+                </div>`;
+        }
+        
+        function renderValuationCards() {
+            const container = document.getElementById('valuation-cards-container');
+            const valuationData = analysisData.executiveSummary.valuation.rows;
+            let cardsHtml = '';
+
+            valuationData.forEach(item => {
+                cardsHtml += `
+                    <div class="valuation-item bg-gray-50 border rounded-lg shadow-sm p-4 text-center h-40 flex flex-col justify-between" data-state="0">
+                        <div>
+                             <div class="h-6 flex justify-center items-center mb-1">
+                                <span class="state-indicator text-xs font-semibold px-2 py-0.5 rounded-full bg-gray-200 text-gray-800" data-indicator-state="0">Initial</span>
+                                <span class="state-indicator text-xs font-semibold px-2 py-0.5 rounded-full bg-gray-200 text-gray-800 hidden" data-indicator-state="1">Expected Exit</span>
+                                <span class="state-indicator text-xs font-semibold px-2 py-0.5 rounded-full bg-gray-200 text-gray-800 hidden" data-indicator-state="2">Uplift</span>
+                             </div>
+                            <p class="font-bold text-gray-700 text-sm">${item.metric}</p>
+                        </div>
+                        <div class="valuation-content-area relative h-16 flex items-center justify-center">
+                            <!-- State 0: Initial -->
+                            <div class="valuation-content" data-content-state="0">
+                                <p class="text-2xl font-bold text-gray-900">${item.pre}</p>
+                            </div>
+                            <!-- State 1: Exit -->
+                            <div class="valuation-content hidden" data-content-state="1">
+                                <p class="text-2xl font-bold text-gray-900">${item.post}</p>
+                            </div>
+                            <!-- State 2: Uplift -->
+                            <div class="valuation-content hidden" data-content-state="2">
+                                <p class="text-2xl font-bold text-gray-900">${item.uplift}</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-center items-center space-x-2">
+                            <span class="dot w-2 h-2 rounded-full bg-gray-800" data-dot-state="0"></span>
+                            <span class="dot w-2 h-2 rounded-full bg-gray-300" data-dot-state="1"></span>
+                            <span class="dot w-2 h-2 rounded-full bg-gray-300" data-dot-state="2"></span>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = cardsHtml;
+            
+            // Add click listeners to cycle through states
+            document.querySelectorAll('.valuation-item').forEach(card => {
+                card.addEventListener('click', () => {
+                    let currentState = parseInt(card.dataset.state);
+                    let nextState = (currentState + 1) % 3;
+                    card.dataset.state = nextState;
+
+                    card.querySelectorAll('[data-content-state]').forEach(contentEl => {
+                        contentEl.classList.toggle('hidden', parseInt(contentEl.dataset.contentState) !== nextState);
+                    });
+                    
+                    card.querySelectorAll('[data-indicator-state]').forEach(indicatorEl => {
+                         indicatorEl.classList.toggle('hidden', parseInt(indicatorEl.dataset.indicatorState) !== nextState);
+                    });
+
+                    card.querySelectorAll('.dot').forEach(dot => {
+                        const dotState = parseInt(dot.dataset.dotState);
+                        dot.classList.remove('bg-gray-800', 'bg-gray-300');
+                        if (dotState === nextState) {
+                            dot.classList.add('bg-gray-800');
+                        } else {
+                            dot.classList.add('bg-gray-300');
+                        }
+                    });
+                });
+            });
+        }
+
+        function renderExecutiveSummary() {
+            const exec = analysisData.executiveSummary;
+            return `
+                <div class="bg-green-50 p-6 border-2 border-dashed border-green-300 rounded-xl shadow-inner">
+                    <h3 class="subsection-title mt-0 text-green-800">The Transformation Narrative</h3>
+                    <p class="text-green-700 leading-relaxed">${exec.narrative}</p>
+                    <h3 class="subsection-title text-green-800">Investment Thesis Recap</h3>
+                    <p class="text-green-700 leading-relaxed">${exec.thesisRecap}</p>
+                </div>
+            `;
+        }
+
+        function renderPerformanceVsObjectives() {
+            const perf = analysisData.performanceVsObjectives;
+            const statusIcons = {
+                'Achieved': `<svg class="w-5 h-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>`,
+                'Partially Achieved': `<svg class="w-5 h-5 text-yellow-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 102 0V6zM9 13a1 1 0 112 0 1 1 0 01-2 0z" clip-rule="evenodd" /></svg>`,
+                'Missed Target': `<svg class="w-5 h-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" /></svg>`,
+                'Exceeded Target': `<svg class="w-5 h-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" /></svg>`
+            };
+            
+            let objectivesHtml = perf.objectives.map((obj, index) => {
+                let keyResultsHtml = obj.keyResults.map(kr => {
+                    let kpisHtml = kr.kpis.map(kpi => `
+                        <li class="flex items-start space-x-3">
+                            <div class="flex-shrink-0">${statusIcons[kpi.status] || ''}</div>
+                            <p class="text-sm text-gray-600"><strong class="text-gray-800">${kpi.title}:</strong> ${kpi.detail}</p>
+                        </li>
+                    `).join('');
+
+                    return `
+                        <div class="bg-white rounded-lg p-4 border border-gray-200">
+                            <h4 class="font-semibold text-gray-800">${kr.title}</h4>
+                            <p class="text-sm text-gray-500 mt-1 mb-3">${kr.description}</p>
+                            <ul class="space-y-2">${kpisHtml}</ul>
+                        </div>
+                    `;
+                }).join('');
+
+                return `
+                    <div class="timeline-item relative pl-12 pb-8">
+                        <!-- Timeline Node and Line -->
+                        <div class="absolute left-5 top-1 w-2 h-2 mt-1.5 rounded-full bg-green-500 ring-4 ring-white"></div>
+                        <div class="absolute left-6 top-2 h-full w-0.5 bg-gray-200"></div>
+
+                        <!-- Timeline Header (Accordion Trigger) -->
+                        <div class="timeline-header flex items-center space-x-4 cursor-pointer group">
+                             <div class="flex-shrink-0 w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center font-bold">${index + 1}</div>
+                             <div class="flex-grow">
+                                <h3 class="text-xl font-bold text-gray-800 group-hover:text-green-600">${obj.title}</h3>
+                             </div>
+                             <svg class="timeline-icon w-6 h-6 text-gray-400 group-hover:text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                        </div>
+
+                        <!-- Timeline Content (Accordion Panel) -->
+                        <div class="timeline-content">
+                            <p class="italic text-gray-600 mb-4">${obj.rationale}</p>
+                            <div class="space-y-4">${keyResultsHtml}</div>
+                            <div class="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                                <p class="text-sm"><strong class="font-semibold text-gray-800">Financial Impact:</strong> An estimated ${obj.financialImpact}.</p>
+                                <p class="text-sm mt-2"><strong class="font-semibold text-gray-800">Lessons Learned:</strong> ${obj.lessonsLearned}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            return `
+                <div>
+                    <h2 class="section-title">The Transformation Journey</h2>
+                    <p class="text-gray-600 leading-relaxed mb-8">${perf.intro}</p>
+                    <div class="relative">${objectivesHtml}</div>
+                </div>
+            `;
+        }
+
+        function renderFinancialTransformation() {
+            const fin = analysisData.financialTransformation;
+            const bridge = fin.ebitdaBridge;
+            let wcItemsHtml = fin.workingCapital.items.map(item => `
+                <div class="wc-item border border-gray-200 rounded-lg">
+                    <div class="wc-header flex justify-between items-center p-4 cursor-pointer">
+                        <h4 class="font-semibold text-gray-800">${item.title}</h4>
+                        <svg class="wc-icon w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                    </div>
+                    <div class="wc-accordion-content px-4">
+                        <div class="border-t pt-3 text-sm space-y-2">
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Before:</span>
+                                <span class="font-medium text-gray-800">${item.before}</span>
+                            </div>
+                             <div class="flex justify-between">
+                                <span class="text-gray-500">After:</span>
+                                <span class="font-medium text-green-600">${item.after}</span>
+                            </div>
+                             <p class="text-xs text-gray-500 pt-2">${item.impact}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            return `
+                <div>
+                    <h2 class="section-title">${bridge.title}</h2>
+                    <p class="text-sm text-gray-500 mt-1 mb-6 text-center">(Values in Millions USD)</p>
+                    <div class="w-full h-96 mb-6">
+                        <canvas id="ebitdaBridgeChart"></canvas>
+                    </div>
+                    <div id="bridge-narrative" class="p-4 bg-gray-100 rounded-lg text-center text-gray-700 min-h-[60px] flex items-center justify-center"></div>
+                    <div class="flex justify-center space-x-4 mt-4">
+                        <button id="prev-bridge-step" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed">Previous</button>
+                        <button id="next-bridge-step" class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed">Next</button>
+                    </div>
+                     <div id="bridge-summary" class="mt-8 pt-6 border-t border-gray-200 hidden">
+                        <h3 class="text-lg font-semibold text-gray-700 mb-3">Transformation Summary</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                            <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                                <p class="font-semibold text-green-800">Total Value Added:</p>
+                                <p class="text-2xl font-bold text-green-600">$4.01M</p>
+                            </div>
+                            <div class="bg-red-50 p-4 rounded-lg border border-red-200">
+                                <p class="font-semibold text-red-800">Total Investments & Headwinds:</p>
+                                <p class="text-2xl font-bold text-red-600">($1.50M)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="subsection-title mt-12">${fin.workingCapital.title}</h3>
+                    <div class="space-y-4">${wcItemsHtml}</div>
+                     <p class="mt-4 text-center font-semibold text-gray-700">${fin.workingCapital.netImpact}</p>
+                </div>
+            `;
+        }
+        
+        function renderOrgMaturity() {
+            const org = analysisData.orgMaturity;
+            const icons = {
+                Management: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>`,
+                Systems: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" /></svg>`,
+                'Revenue Model': `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>`,
+                'Organizational Dynamics': `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>`
+            };
+
+            let cardsHtml = org.rows.map(row => `
+                <div class="maturity-card bg-white rounded-lg shadow-md border border-gray-200 p-6 flex flex-col">
+                    <div class="flex items-center space-x-4">
+                        ${icons[row.category]}
+                        <h4 class="text-lg font-bold text-gray-800">${row.category}</h4>
+                    </div>
+                    <div class="maturity-card-content flex-grow mt-4">
+                        <div class="before-state">
+                            <p class="text-xs font-semibold uppercase text-red-500 tracking-wider">Initial State (High Risk)</p>
+                            <p class="mt-2 text-sm text-gray-600">${row.initial}</p>
+                        </div>
+                        <div class="after-state hidden">
+                            <p class="text-xs font-semibold uppercase text-green-500 tracking-wider">Transformed State (Lower Risk)</p>
+                            <p class="mt-2 text-sm text-gray-800">${row.transformed}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            return `
+                <div>
+                    <h2 class="section-title">Organizational Maturity Scorecard</h2>
+                    <div class="flex justify-center items-center my-8 space-x-3">
+                        <span class="text-sm font-medium text-gray-600">Initial State</span>
+                        <button id="maturity-toggle" class="relative inline-flex items-center h-6 rounded-full w-11 transition-colors bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                            <span class="inline-block w-4 h-4 transform bg-white rounded-full transition-transform translate-x-1"></span>
+                        </button>
+                        <span class="text-sm font-medium text-gray-600">Transformed State</span>
+                    </div>
+                    <div id="maturity-cards-container" class="grid grid-cols-1 md:grid-cols-2 gap-8">${cardsHtml}</div>
+                </div>
+            `;
+        }
+
+        function renderExitReadiness() {
+            const exit = analysisData.exitReadiness;
+            
+            let cardsHtml = exit.rows.map((item, index) => `
+                <div class="readiness-card border rounded-lg p-3 flex items-center space-x-3 hover:bg-gray-50" data-index="${index}">
+                    <span class="w-3 h-3 rounded-full bg-${item.status.toLowerCase()}-500 flex-shrink-0"></span>
+                    <span class="text-sm font-medium text-gray-700">${item.area}</span>
+                </div>
+            `).join('');
+
+            return `
+                <div>
+                    <h2 class="section-title">Exit Readiness Scorecard</h2>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+                        <div class="flex items-center justify-center">
+                            <div class="w-full h-80 md:h-96">
+                                <canvas id="readiness-radar-chart"></canvas>
+                            </div>
+                        </div>
+                        <div class="flex flex-col justify-center">
+                             <div id="readiness-commentary" class="p-6 bg-gray-50 rounded-lg border min-h-[150px] transition-all duration-300">
+                                <h4 id="commentary-title" class="font-bold text-lg text-gray-800"></h4>
+                                <p id="commentary-text" class="mt-2 text-gray-600"></p>
+                             </div>
+                        </div>
+                    </div>
+                    <div class="mt-8 grid grid-cols-2 sm:grid-cols-3 gap-4">${cardsHtml}</div>
+                </div>
+            `;
+        }
+
+        function renderMarketLandscape() {
+            const market = analysisData.marketLandscape;
+            let buyerCardsHtml = market.buyers.map(buyer => `
+                <div class="buyer-card-container h-80">
+                    <div class="buyer-card w-full h-full">
+                        <!-- Card Front -->
+                        <div class="buyer-card-face bg-white border rounded-lg shadow-md p-6 text-center">
+                            <h4 class="text-2xl font-bold text-gray-800">${buyer.type} Buyer</h4>
+                            <p class="mt-4 text-gray-600">${buyer.description}</p>
+                            <button class="mt-6 text-sm font-semibold text-green-600 hover:text-green-800">View Thesis →</button>
+                        </div>
+                        <!-- Card Back -->
+                        <div class="buyer-card-face buyer-card-back bg-gray-800 text-white rounded-lg shadow-md p-6">
+                            <h5 class="text-lg font-bold text-green-400">Acquisition Thesis for a ${buyer.type} Buyer</h5>
+                            <p class="mt-4 text-gray-300 italic">"${buyer.thesis}"</p>
+                             <button class="mt-6 text-sm font-semibold text-green-400 hover:text-white">← Back to Profile</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            return `
+                <div>
+                    <h2 class="section-title">Market & Buyer Landscape</h2>
+                    
+                    <div class="subsection-title">The Market</div>
+                    <div class="p-6 bg-gray-100 rounded-lg border">
+                        <p class="text-gray-700">${market.conditions}</p>
+                    </div>
+
+                    <div class="subsection-title">The Players: Target Buyer Profiles</div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">${buyerCardsHtml}</div>
+
+                    <div class="subsection-title">The Pitch: Our Positioning Strategy</div>
+                    <div class="bg-white p-6 rounded-lg border shadow-md">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                             <div class="text-center">
+                                <h5 class="font-bold text-lg text-green-600">The De-Risked Platform</h5>
+                                <p class="text-sm text-gray-600 mt-2">We emphasize the successful transformation, professional management, and high-margin recurring revenue.</p>
+                            </div>
+                            <div class="text-center">
+                                <h5 class="font-bold text-lg text-blue-600">The Upside Opportunity</h5>
+                                 <p class="text-sm text-gray-600 mt-2">We position unresolved challenges like culture and tech adoption as clear, addressable Phase 2 opportunities.</p>
+                            </div>
+                        </div>
+                        <div class="text-center mt-4">
+                            <p class="text-gray-700 font-semibold">Narrative: <span class="italic">"A Successful Transformation with Built-in Upside"</span></p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderGrowthOpportunities() {
+            const growth = analysisData.growthOpportunities;
+            let leversHtml = growth.levers.map((lever, index) => `
+                <div class="lever border border-gray-200 rounded-lg overflow-hidden">
+                    <div class="lever-header flex justify-between items-center p-4 cursor-pointer bg-gray-50 hover:bg-gray-100">
+                        <div class="flex items-center space-x-4">
+                            <span class="flex items-center justify-center w-8 h-8 rounded-full bg-green-100 text-green-700 font-bold">${index + 1}</span>
+                            <h4 class="font-semibold text-gray-800">${lever.title}</h4>
+                        </div>
+                        <svg class="lever-icon w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
+                    </div>
+                    <div class="lever-content bg-white">
+                        <div class="p-6 border-t border-gray-200">
+                            <p class="text-gray-600 mb-6">${lever.description}</p>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+                                <div class="p-4 bg-blue-50 rounded-lg text-center">
+                                    <p class="font-semibold text-blue-800">Estimated Impact</p>
+                                    <p class="mt-1 text-lg font-bold text-blue-600">${lever.impact}</p>
+                                </div>
+                                <div class="p-4 bg-yellow-50 rounded-lg text-center">
+                                    <p class="font-semibold text-yellow-800">Status of Execution</p>
+                                    <p class="mt-1 text-lg font-bold text-yellow-600">${lever.status}</p>
+                                </div>
+                                <div class="p-4 bg-gray-100 rounded-lg text-center">
+                                    <p class="font-semibold text-gray-800">Supporting Evidence</p>
+                                    <p class="mt-1 text-sm text-gray-600">${lever.evidence}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            return `
+                <div>
+                    <h2 class="section-title">The Growth Playbook</h2>
+                    <p class="text-gray-600 leading-relaxed mb-8">${growth.intro}</p>
+                    <div class="space-y-4">${leversHtml}</div>
+                </div>
+            `;
+        }
+
+        function initializeTimelineAccordions() {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            timelineItems.forEach(item => {
+                const header = item.querySelector('.timeline-header');
+                header.addEventListener('click', () => {
+                    timelineItems.forEach(otherItem => {
+                        if (otherItem !== item) otherItem.classList.remove('open');
+                    });
+                    item.classList.toggle('open');
+                });
+            });
+        }
+        
+        function initializeWcAccordions() {
+            document.querySelectorAll('.wc-item .wc-header').forEach(header => {
+                header.addEventListener('click', () => {
+                    header.parentElement.classList.toggle('open');
+                });
+            });
+        }
+
+        let bridgeChartInstance = null;
+        let bridgeInitialized = false;
+        function initializeInteractiveBridge() {
+            if (bridgeInitialized) return;
+            bridgeInitialized = true;
+
+            const bridgeData = analysisData.financialTransformation.ebitdaBridge.data;
+            const ctx = document.getElementById('ebitdaBridgeChart').getContext('2d');
+            const narrativeEl = document.getElementById('bridge-narrative');
+            const summaryEl = document.getElementById('bridge-summary');
+            const prevBtn = document.getElementById('prev-bridge-step');
+            const nextBtn = document.getElementById('next-bridge-step');
+            let currentStep = 1;
+
+            const updateChart = () => {
+                const dataToShow = bridgeData.slice(0, currentStep);
+                const labels = dataToShow.map(d => d.label);
+                const data = [];
+                const backgroundColors = [];
+                let runningTotal = 0;
+
+                const colors = {
+                    positive: 'rgba(34, 197, 94, 0.8)',
+                    negative: 'rgba(239, 68, 68, 0.8)',
+                    total: 'rgba(59, 130, 246, 0.8)'
+                };
+
+                dataToShow.forEach(item => {
+                    if (item.type === 'total') {
+                        data.push([0, item.value]);
+                        backgroundColors.push(colors.total);
+                        runningTotal = item.value;
+                    } else {
+                        const start = runningTotal;
+                        const end = runningTotal + item.value;
+                        data.push([start, end]);
+                        backgroundColors.push(item.type === 'positive' ? colors.positive : colors.negative);
+                        runningTotal = end;
+                    }
+                });
+
+                if (bridgeChartInstance) bridgeChartInstance.destroy();
+
+                bridgeChartInstance = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{ data: data, backgroundColor: backgroundColors, borderWidth: 1 }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: { y: { beginAtZero: true, title: { display: true, text: 'EBITDA ($M)' } } }
+                    }
+                });
+                
+                narrativeEl.textContent = dataToShow[currentStep - 1].description;
+                prevBtn.disabled = currentStep <= 1;
+                
+                if (currentStep >= bridgeData.length) {
+                    nextBtn.textContent = 'Reset';
+                } else {
+                    nextBtn.textContent = 'Next';
+                }
+                summaryEl.classList.toggle('hidden', currentStep < bridgeData.length);
+            };
+
+            prevBtn.addEventListener('click', () => {
+                if (currentStep > 1) {
+                    currentStep--;
+                    updateChart();
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (nextBtn.textContent === 'Reset') {
+                    currentStep = 1;
+                } else if (currentStep < bridgeData.length) {
+                    currentStep++;
+                }
+                updateChart();
+            });
+
+            updateChart();
+        }
+
+        let maturityInitialized = false;
+        function initializeOrgMaturity() {
+            if (maturityInitialized) return;
+            maturityInitialized = true;
+
+            const toggle = document.getElementById('maturity-toggle');
+            const cards = document.querySelectorAll('.maturity-card');
+            
+            toggle.addEventListener('click', () => {
+                const isTransformed = toggle.classList.toggle('bg-green-500');
+                toggle.classList.toggle('bg-gray-300', !isTransformed);
+                toggle.querySelector('span').classList.toggle('translate-x-5', isTransformed);
+
+                cards.forEach(card => {
+                    card.querySelector('.before-state').classList.toggle('hidden', isTransformed);
+                    card.querySelector('.after-state').classList.toggle('hidden', !isTransformed);
+                });
+            });
+        }
+        
+        let readinessInitialized = false;
+        function initializeExitReadinessDashboard() {
+            if (readinessInitialized) return;
+            readinessInitialized = true;
+
+            const readinessData = analysisData.exitReadiness.rows;
+            const commentaryTitle = document.getElementById('commentary-title');
+            const commentaryText = document.getElementById('commentary-text');
+            const cards = document.querySelectorAll('.readiness-card');
+            
+            const statusMap = { 'Green': 3, 'Yellow': 2, 'Red': 1 };
+            const statusColors = { 'Green': 'rgba(34, 197, 94, 0.4)', 'Yellow': 'rgba(234, 179, 8, 0.4)', 'Red': 'rgba(239, 68, 68, 0.4)' };
+            const statusBorderColors = { 'Green': 'rgb(22, 163, 74)', 'Yellow': 'rgb(202, 138, 4)', 'Red': 'rgb(220, 38, 38)' };
+
+            const chartData = {
+                labels: readinessData.map(item => item.area.replace(' & ', ' & \n')),
+                datasets: [{
+                    label: 'Readiness Score',
+                    data: readinessData.map(item => statusMap[item.status]),
+                    backgroundColor: readinessData.map(item => statusColors[item.status]),
+                    borderColor: readinessData.map(item => statusBorderColors[item.status]),
+                    borderWidth: 2,
+                    pointBackgroundColor: readinessData.map(item => statusBorderColors[item.status]),
+                    pointHoverBorderColor: '#fff',
+                    pointHoverRadius: 7
+                }]
+            };
+
+            const ctx = document.getElementById('readiness-radar-chart').getContext('2d');
+            const radarChart = new Chart(ctx, {
+                type: 'radar',
+                data: chartData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#e5e7eb' },
+                            grid: { color: '#e5e7eb' },
+                            pointLabels: { font: { size: 10 } },
+                            ticks: {
+                                display: false,
+                                stepSize: 1,
+                                max: 3,
+                                min: 0
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                             callbacks: {
+                                label: (context) => `${context.dataset.label}: ${context.raw}`
+                            }
+                        }
+                    }
+                }
+            });
+
+            function updateDisplay(index) {
+                const item = readinessData[index];
+                commentaryTitle.textContent = item.area;
+                commentaryText.textContent = item.commentary;
+
+                cards.forEach((card, i) => {
+                    card.classList.toggle('active', i === index);
+                });
+            }
+
+            cards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const index = parseInt(card.dataset.index);
+                    updateDisplay(index);
+                });
+            });
+            
+            document.getElementById('readiness-radar-chart').onclick = (evt) => {
+                const points = radarChart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, true);
+                if (points.length) {
+                    const firstPoint = points[0];
+                    updateDisplay(firstPoint.index);
+                }
+            };
+
+            // Initialize with the first item
+            updateDisplay(0);
+        }
+
+        let marketInitialized = false;
+        function initializeMarketLandscape() {
+            if(marketInitialized) return;
+            marketInitialized = true;
+
+            document.querySelectorAll('.buyer-card-container').forEach(cardContainer => {
+                cardContainer.addEventListener('click', () => {
+                    cardContainer.querySelector('.buyer-card').classList.toggle('is-flipped');
+                });
+            });
+        }
+
+        let growthInitialized = false;
+        function initializeGrowthLevers() {
+            if (growthInitialized) return;
+            growthInitialized = true;
+
+            const levers = document.querySelectorAll('.lever');
+            levers.forEach(lever => {
+                const header = lever.querySelector('.lever-header');
+                header.addEventListener('click', () => {
+                    levers.forEach(otherLever => {
+                        if (otherLever !== lever) {
+                            otherLever.classList.remove('open');
+                        }
+                    });
+                    lever.classList.toggle('open');
+                });
+            });
+        }
+        
+        // --- DYNAMIC PAGE AND TAB INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const pageContainer = document.getElementById('page-implementation-journey');
+            const tabsContainer = document.getElementById('tabs-container');
+            const tabContentContainer = document.getElementById('tab-content-container');
+
+            if (!pageContainer || !tabsContainer || !tabContentContainer) return;
+
+            renderValuationCards();
+
+            const tabConfig = [
+                { id: 'summary', name: 'Executive<br>Summary', render: renderExecutiveSummary },
+                { id: 'performance', name: 'Performance<br>vs. Objectives', render: renderPerformanceVsObjectives },
+                { id: 'financials', name: 'Financial<br>Transformation', render: renderFinancialTransformation },
+                { id: 'maturity', name: 'Organizational<br>Maturity', render: renderOrgMaturity },
+                { id: 'readiness', name: 'Exit<br>Readiness', render: renderExitReadiness },
+                { id: 'market', name: 'Market<br>Landscape', render: renderMarketLandscape },
+                { id: 'growth', name: 'Growth<br>Opportunities', render: renderGrowthOpportunities }
+            ];
+
+            let tabsHtml = '';
+            let contentHtml = '';
+
+            tabConfig.forEach(tab => {
+                tabsHtml += `<button class="tab-button" data-tab="${tab.id}">${tab.name}</button>`;
+                contentHtml += `<div id="${tab.id}" class="tab-content">${tab.render()}</div>`;
+            });
+
+            tabsContainer.innerHTML = tabsHtml;
+            tabContentContainer.innerHTML = contentHtml;
+
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            function switchTab(tabId) {
+                tabButtons.forEach(button => button.classList.toggle('active', button.dataset.tab === tabId));
+                tabContents.forEach(content => content.classList.toggle('active', content.id === tabId));
+                
+                if(tabId === 'performance') initializeTimelineAccordions();
+                if(tabId === 'financials') {
+                    initializeInteractiveBridge();
+                    initializeWcAccordions();
+                }
+                if(tabId === 'maturity') initializeOrgMaturity();
+                if(tabId === 'readiness') initializeExitReadinessDashboard();
+                if(tabId === 'market') initializeMarketLandscape();
+                if(tabId === 'growth') initializeGrowthLevers();
+            }
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => switchTab(button.dataset.tab));
+            });
+
+            if (tabButtons.length > 0) {
+                switchTab(tabConfig[0].id);
+            }
+
+            pageContainer.style.display = 'block';
+            pageContainer.classList.add('fade-in');
+        });
+
+        // --- HEADER AND FOOTER ---
+        async function loadComponents() {
+            try {
+                const [headerResponse, footerResponse] = await Promise.all([
+                    fetch("https://jawnlam.github.io/ExitReadyAdvisors/header.html"),
+                    fetch("https://jawnlam.github.io/ExitReadyAdvisors/footer.html")
+                ]);
+
+                if (!headerResponse.ok) throw new Error('Header failed to load.');
+                if (!footerResponse.ok) throw new Error('Footer failed to load.');
+
+                const headerData = await headerResponse.text();
+                const footerData = await footerResponse.text();
+                
+                document.querySelector("#header-placeholder").innerHTML = headerData;
+                document.querySelector("#footer-placeholder").innerHTML = footerData;
+
+            } catch (error) {
+                console.error('Error loading components:', error);
+                document.querySelector("#header-placeholder").innerHTML = '<div class="bg-gray-800 text-white p-4 text-center">Header could not be loaded.</div>';
+                document.querySelector("#footer-placeholder").innerHTML = '<div class="bg-gray-800 text-white p-4 text-center">Footer could not be loaded.</div>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadComponents);
+    </script>
+
+</body>
+</html>
