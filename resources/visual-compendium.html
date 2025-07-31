@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Visual Compendium of Business Value</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Plotly.js for charting (updated version) -->
+    <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .chart-container {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: box-shadow 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+        }
+        .chart-container:hover {
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        h1, h2, h3, h4 {
+            font-weight: 600;
+        }
+        /* Styles for custom tables */
+        .custom-table { width: 100%; border-collapse: collapse; flex-grow: 1; }
+        .custom-table th, .custom-table td { text-align: left; padding: 0.75rem; border-bottom: 1px solid #e2e8f0; }
+        .custom-table th { background-color: #f1f5f9; }
+        .custom-table td:not(:first-child) { text-align: center; }
+        .sparkline-cell { height: 50px; }
+        .rag-red { background-color: #fee2e2; color: #991b1b; }
+        .rag-amber { background-color: #fef3c7; color: #92400e; }
+        .rag-green { background-color: #dcfce7; color: #166534; }
+        .scorecard-category { font-weight: 600; background-color: #f8fafc; }
+        .org-chart { display: flex; justify-content: space-around; align-items: center; text-align: center; height: 100%; }
+        .org-box { border: 2px solid #3b82f6; padding: 1rem; border-radius: 0.5rem; background-color: #eff6ff; }
+        .org-arrow { font-size: 2rem; color: #6b7280; }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-slate-900">A Visual Compendium of Business Value</h1>
+            <p class="mt-3 text-lg text-slate-600">Common charts used in M&A, investment banking, and private equity.</p>
+        </header>
+
+        <!-- Main Sections Container -->
+        <div class="grid grid-cols-1 gap-20">
+
+            <!-- =================================== -->
+            <!-- 1. VALUATION OUTPUT VISUALIZATIONS  -->
+            <!-- =================================== -->
+            <section class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-bold text-center mb-10 border-b-2 border-slate-200 pb-5">Valuation Output Visualizations</h2>
+                
+                <!-- 1.1 Valuation Range Displays -->
+                <div class="mb-12">
+                    <h3 class="text-2xl font-semibold mb-6 text-slate-800">Valuation Range Displays</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Football Field Chart</h4>
+                            <p class="text-slate-600 mb-6">Compares valuation ranges from different methodologies.</p>
+                            <div id="footballFieldChart" class="w-full h-96"></div>
+                        </div>
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Tornado/Sensitivity Chart</h4>
+                            <p class="text-slate-600 mb-6">Illustrates the impact of key assumptions on valuation.</p>
+                            <div id="tornadoChart" class="w-full h-96"></div>
+                        </div>
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Waterfall Chart</h4>
+                            <p class="text-slate-600 mb-6">Bridges Enterprise Value to Equity Value.</p>
+                            <div id="waterfallChart" class="w-full h-96"></div>
+                        </div>
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Valuation Heat Map</h4>
+                            <p class="text-slate-600 mb-6">Displays valuation across two key drivers.</p>
+                            <div id="heatMap" class="w-full h-96"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1.2 Comparable Company Analysis -->
+                <div class="mb-12">
+                    <h3 class="text-2xl font-semibold mb-6 text-slate-800">Comparable Company Analysis</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Trading Multiples Scatter Plot</h4>
+                            <p class="text-slate-600 mb-6">Plots valuation multiple against a growth metric.</p>
+                            <div id="scatterPlot" class="w-full h-96"></div>
+                        </div>
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Quartile Box Plot</h4>
+                            <p class="text-slate-600 mb-6">Shows the distribution of a valuation multiple across a peer set.</p>
+                            <div id="boxPlot" class="w-full h-96"></div>
+                        </div>
+                         <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Radar Chart</h4>
+                            <p class="text-slate-600 mb-6">Compares a company against peers across multiple metrics.</p>
+                            <div id="radarChart" class="w-full h-96"></div>
+                        </div>
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Bubble Chart</h4>
+                            <p class="text-slate-600 mb-6">Compares three variables, such as growth and profitability.</p>
+                            <div id="bubbleChart" class="w-full h-96"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 1.3 Precedent Transaction Analysis -->
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6 text-slate-800">Precedent Transaction Analysis</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">M&A Activity Timeline</h4>
+                            <p class="text-slate-600 mb-6">Shows historical M&A deals in a sector.</p>
+                            <div id="timelineChart" class="w-full h-96"></div>
+                        </div>
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Acquisition Premium Histogram</h4>
+                            <p class="text-slate-600 mb-6">Displays the distribution of premiums paid.</p>
+                            <div id="premiumHistogram" class="w-full h-96"></div>
+                        </div>
+                         <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Deal Multiple Trend Line</h4>
+                            <p class="text-slate-600 mb-6">Tracks the evolution of average transaction multiples.</p>
+                            <div id="trendLineChart" class="w-full h-96"></div>
+                        </div>
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Geographic M&A Heat Map</h3>
+                            <p class="text-slate-600 mb-6">Visualizes transaction volume across different regions.</p>
+                            <div id="geoHeatMap" class="w-full h-96"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ====================================== -->
+            <!-- 2. FINANCIAL PERFORMANCE VISUALIZATIONS  -->
+            <!-- ====================================== -->
+            <section class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-bold text-center mb-10 border-b-2 border-slate-200 pb-5">Financial Performance Visualizations</h2>
+
+                <!-- 2.1 Historical Performance -->
+                <div class="mb-12">
+                    <h3 class="text-2xl font-semibold mb-6 text-slate-800">Historical Performance</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Revenue Bridge Chart</h4>
+                            <p class="text-slate-600 mb-6">Shows year-over-year changes in revenue by driver.</p>
+                            <div id="bridgeChart" class="w-full h-96"></div>
+                        </div>
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Stacked Area Chart</h4>
+                            <p class="text-slate-600 mb-6">Illustrates the evolution of revenue mix over time.</p>
+                            <div id="stackedAreaChart" class="w-full h-96"></div>
+                        </div>
+                         <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Indexed Growth Chart</h4>
+                            <p class="text-slate-600 mb-6">Compares company growth against the market or peers.</p>
+                            <div id="indexedLineChart" class="w-full h-96"></div>
+                        </div>
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Cohort Retention Curve</h3>
+                            <p class="text-slate-600 mb-6">Analyzes customer retention over time by cohort.</p>
+                            <div id="cohortChart" class="w-full h-96"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2.2 Profitability Analysis -->
+                <div class="mb-12">
+                    <h3 class="text-2xl font-semibold mb-6 text-slate-800">Profitability Analysis</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Margin Walk Chart</h4>
+                            <p class="text-slate-600 mb-6">Shows the progression from Gross to Net Margin.</p>
+                            <div id="marginWalkChart" class="w-full h-96"></div>
+                        </div>
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Cost Structure Donut Chart</h4>
+                            <p class="text-slate-600 mb-6">Provides a breakdown of operating expenses.</p>
+                            <div id="costStructureChart" class="w-full h-96"></div>
+                        </div>
+                         <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Unit Economics Waterfall</h4>
+                            <p class="text-slate-600 mb-6">Analyzes the contribution margin on a per-unit basis.</p>
+                            <div id="unitEconomicsChart" class="w-full h-96"></div>
+                        </div>
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Margin Benchmarking</h3>
+                            <p class="text-slate-600 mb-6">Compares company margins against industry peers.</p>
+                            <div id="benchmarkingChart" class="w-full h-96"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2.3 Cash Flow Visualizations -->
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6 text-slate-800">Cash Flow Visualizations</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Cash Flow Waterfall</h4>
+                            <p class="text-slate-600 mb-6">Shows the bridge from Operating to Free Cash Flow.</p>
+                            <div id="cashFlowWaterfall" class="w-full h-96"></div>
+                        </div>
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Working Capital Cycle</h4>
+                            <p class="text-slate-600 mb-6">Visualizes DPO, DSO, and DIO.</p>
+                            <div id="workingCapitalCycle" class="w-full h-96"></div>
+                        </div>
+                         <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Cash Conversion Bridge</h4>
+                            <p class="text-slate-600 mb-6">Reconciles EBITDA to cash flow.</p>
+                            <div id="cashConversionBridge" class="w-full h-96"></div>
+                        </div>
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">CapEx Intensity Trends</h3>
+                            <p class="text-slate-600 mb-6">Tracks maintenance vs. growth capital expenditures.</p>
+                            <div id="capexTrends" class="w-full h-96"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ====================================== -->
+            <!-- 3. MARKET & COMPETITIVE VISUALIZATIONS -->
+            <!-- ====================================== -->
+            <section class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-bold text-center mb-10 border-b-2 border-slate-200 pb-5">Market & Competitive Visualizations</h2>
+
+                <!-- 3.1 Market Analysis -->
+                <div class="mb-12">
+                    <h3 class="text-2xl font-semibold mb-6 text-slate-800">Market Analysis</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">TAM/SAM/SOM Nested Circles</h4>
+                            <p class="text-slate-600 mb-6">Visualizes the total market opportunity.</p>
+                            <div id="tamSamSomChart" class="w-full h-96"></div>
+                        </div>
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Market Share Evolution</h4>
+                            <p class="text-slate-600 mb-6">Shows how market share has changed over time.</p>
+                            <div id="marketShareChart" class="w-full h-96"></div>
+                        </div>
+                         <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Growth Driver Tree</h4>
+                            <p class="text-slate-600 mb-6">Decomposes the drivers of market growth.</p>
+                            <div id="growthDriverTree" class="w-full h-96"></div>
+                        </div>
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Market Adoption S-Curve</h3>
+                            <p class="text-slate-600 mb-6">Illustrates the maturity and adoption of a technology.</p>
+                            <div id="sCurveChart" class="w-full h-96"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 3.2 Competitive Positioning -->
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6 text-slate-800">Competitive Positioning</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Perceptual Map</h4>
+                            <p class="text-slate-600 mb-6">A 2x2 matrix for positioning competitors.</p>
+                            <div id="perceptualMap" class="w-full h-96"></div>
+                        </div>
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Harvey Balls Comparison</h4>
+                            <p class="text-slate-600 mb-6">Compares features or capabilities across peers.</p>
+                            <div id="harveyBallsChart" class="w-full h-96 overflow-x-auto"></div>
+                        </div>
+                         <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Market Share Pie Chart</h4>
+                            <p class="text-slate-600 mb-6">Shows the relative positioning of competitors.</p>
+                            <div id="marketSharePieChart" class="w-full h-96"></div>
+                        </div>
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Value Chain Flow Chart</h3>
+                            <p class="text-slate-600 mb-6">Illustrates competitive dynamics across the value chain.</p>
+                            <div id="valueChainChart" class="w-full h-96"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+             <!-- ====================================== -->
+            <!-- 4. OPERATIONAL PERFORMANCE VISUALIZATIONS -->
+            <!-- ====================================== -->
+            <section class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-bold text-center mb-10 border-b-2 border-slate-200 pb-5">Operational Performance Visualizations</h2>
+
+                <!-- 4.1 KPI Dashboards -->
+                <div class="mb-12">
+                    <h3 class="text-2xl font-semibold mb-6 text-slate-800">KPI Dashboards</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Gauge Charts</h4>
+                            <p class="text-slate-600 mb-6">Tracks performance of a key metric against its target.</p>
+                            <div id="gaugeCharts" class="w-full h-96 grid grid-cols-2 gap-4"></div>
+                        </div>
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Sparklines Table</h4>
+                            <p class="text-slate-600 mb-6">Shows miniature trendlines within a data table.</p>
+                            <div id="sparklinesTable" class="w-full h-96 overflow-x-auto"></div>
+                        </div>
+                         <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Traffic Light Table</h4>
+                            <p class="text-slate-600 mb-6">Uses RAG status to indicate performance.</p>
+                            <div id="trafficLightTable" class="w-full h-96 overflow-x-auto"></div>
+                        </div>
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Balanced Scorecard</h3>
+                            <p class="text-slate-600 mb-6">Provides a multi-metric view of performance.</p>
+                            <div id="balancedScorecard" class="w-full h-96 overflow-x-auto"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4.2 Customer Analytics -->
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6 text-slate-800">Customer Analytics</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Customer Concentration</h4>
+                            <p class="text-slate-600 mb-6">Shows revenue distribution across top customers.</p>
+                            <div id="customerConcentrationChart" class="w-full h-96"></div>
+                        </div>
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Churn Waterfall</h4>
+                            <p class="text-slate-600 mb-6">Analyzes the components of customer churn.</p>
+                            <div id="churnWaterfall" class="w-full h-96"></div>
+                        </div>
+                         <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">LTV/CAC Ratio</h4>
+                            <p class="text-slate-600 mb-6">Compares customer lifetime value to acquisition cost.</p>
+                            <div id="ltvCacChart" class="w-full h-96"></div>
+                        </div>
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">NPS Trend Line</h3>
+                            <p class="text-slate-600 mb-6">Tracks Net Promoter Score over time.</p>
+                            <div id="npsTrendLine" class="w-full h-96"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- ====================================== -->
+            <!-- 5. DEAL STRUCTURE VISUALIZATIONS       -->
+            <!-- ====================================== -->
+            <section class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-bold text-center mb-10 border-b-2 border-slate-200 pb-5">Deal Structure Visualizations</h2>
+
+                <!-- 5.1 Transaction Structure -->
+                <div class="mb-12">
+                    <h3 class="text-2xl font-semibold mb-6 text-slate-800">Transaction Structure</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Sources & Uses</h4>
+                            <p class="text-slate-600 mb-6">Details the funding and allocation of capital in a transaction.</p>
+                            <div id="sourcesAndUsesTable" class="w-full h-96 overflow-x-auto"></div>
+                        </div>
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Organizational Charts</h4>
+                            <p class="text-slate-600 mb-6">Shows the structure before and after the transaction.</p>
+                            <div id="orgCharts" class="w-full h-96"></div>
+                        </div>
+                         <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Ownership Waterfall</h4>
+                            <p class="text-slate-600 mb-6">Illustrates equity dilution from a new funding round.</p>
+                            <div id="ownershipWaterfall" class="w-full h-96"></div>
+                        </div>
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Earn-out Scenarios</h3>
+                            <p class="text-slate-600 mb-6">Shows the probability distribution of potential earn-out payments.</p>
+                            <div id="earnoutScenarios" class="w-full h-96"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5.2 Returns Analysis -->
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6 text-slate-800">Returns Analysis</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">IRR Sensitivity Table</h4>
+                            <p class="text-slate-600 mb-6">Shows IRR across different entry and exit multiples.</p>
+                            <div id="irrSensitivityTable" class="w-full h-96 overflow-x-auto"></div>
+                        </div>
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">J-Curve</h4>
+                            <p class="text-slate-600 mb-6">Illustrates the typical cash flow profile of a fund.</p>
+                            <div id="jCurveChart" class="w-full h-96"></div>
+                        </div>
+                         <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Multiple Expansion Bridge</h4>
+                            <p class="text-slate-600 mb-6">Decomposes the drivers of equity value creation.</p>
+                            <div id="multipleExpansionBridge" class="w-full h-96"></div>
+                        </div>
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Portfolio Construction</h3>
+                            <p class="text-slate-600 mb-6">Shows the allocation of a fund across different sectors.</p>
+                            <div id="portfolioConstructionChart" class="w-full h-96"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- ====================================== -->
+            <!-- 6. RISK & SCENARIO VISUALIZATIONS      -->
+            <!-- ====================================== -->
+            <section class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-bold text-center mb-10 border-b-2 border-slate-200 pb-5">Risk & Scenario Visualizations</h2>
+
+                <!-- 6.1 Scenario Analysis -->
+                <div class="mb-12">
+                    <h3 class="text-2xl font-semibold mb-6 text-slate-800">Scenario Analysis</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Scenario Comparison</h4>
+                            <p class="text-slate-600 mb-6">Compares key metrics across different operating scenarios.</p>
+                            <div id="scenarioComparisonTable" class="w-full h-96 overflow-x-auto"></div>
+                        </div>
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Probability Tree</h4>
+                            <p class="text-slate-600 mb-6">Visualizes outcomes and probabilities for a decision.</p>
+                            <div id="probabilityTree" class="w-full h-96"></div>
+                        </div>
+                         <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Monte Carlo Simulation</h4>
+                            <p class="text-slate-600 mb-6">Shows the distribution of potential outcomes.</p>
+                            <div id="monteCarloHistogram" class="w-full h-96"></div>
+                        </div>
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Stress Test Heat Map</h3>
+                            <p class="text-slate-600 mb-6">Analyzes the breaking point of a key metric.</p>
+                            <div id="stressTestHeatMap" class="w-full h-96"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6.2 Risk Assessment -->
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6 text-slate-800">Risk Assessment</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Risk Matrix</h4>
+                            <p class="text-slate-600 mb-6">Plots risks on a probability vs. impact grid.</p>
+                            <div id="riskMatrix" class="w-full h-96"></div>
+                        </div>
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Bow-Tie Diagram</h4>
+                            <p class="text-slate-600 mb-6">Visualizes the causes, event, and consequences of a risk.</p>
+                            <div id="bowTieDiagram" class="w-full h-96"></div>
+                        </div>
+                         <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Risk Register Heat Map</h4>
+                            <p class="text-slate-600 mb-6">Shows the severity of risks across different categories.</p>
+                            <div id="riskRegisterHeatMap" class="w-full h-96"></div>
+                        </div>
+                        <div class="chart-container">
+                            <h4 class="text-xl mb-2 text-slate-900">Correlation Matrix</h3>
+                            <p class="text-slate-600 mb-6">Shows the interdependencies between different risks.</p>
+                            <div id="correlationMatrix" class="w-full h-96"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script>
+        // Common layout settings for all charts
+        const commonLayout = {
+            font: { family: 'Inter, sans-serif', color: '#334155' /* slate-700 */ },
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: '#f1f5f9', /* slate-100 */
+            xaxis: { gridcolor: '#e2e8f0' /* slate-200 */ },
+            yaxis: { gridcolor: '#e2e8f0' /* slate-200 */ },
+        };
+
+        // --- Valuation Range Displays ---
+        function createFootballFieldChart() {
+            const methodologies = ['Public Comps (EV/EBITDA)', 'Precedent Transactions', 'Discounted Cash Flow (DCF)', 'Leveraged Buyout (LBO)'];
+            const lowVals = [150, 165, 180, 140];
+            const highVals = [190, 210, 240, 175];
+            const traces = methodologies.map((method, i) => ({ x: [highVals[i] - lowVals[i]], y: [method], base: [lowVals[i]], type: 'bar', orientation: 'h', name: method, hoverinfo: 'text', hovertext: `Range: $${lowVals[i]}M - $${highVals[i]}M`, marker: { color: '#3b82f6', line: { color: '#1e40af', width: 1 } } }));
+            const layout = { ...commonLayout, title: {text:'Valuation Summary ($M)', x: 0.5}, margin: { l: 200, r: 30, b: 50, t: 50, pad: 4 }, xaxis: { title: 'Enterprise Value ($M)', automargin: true }, yaxis: { automargin: true }, showlegend: false, barmode: 'stack', shapes: [ { type: 'line', x0: 185, x1: 185, y0: -0.5, y1: methodologies.length - 0.5, line: { color: '#ef4444', width: 2, dash: 'dash' } } ], annotations: [ { x: 185, y: methodologies.length - 0.7, text: 'Offer Price: $185M', showarrow: false, xanchor: 'left', font: { color: '#ef4444' } } ] };
+            Plotly.newPlot('footballFieldChart', traces, layout, {responsive: true});
+        }
+        function createTornadoChart() {
+            const baseValuation = 210;
+            const sensitivities = [ { label: 'Exit Multiple (+/- 1.0x)', low: 185, high: 235 }, { label: 'WACC (+/- 0.5%)', low: 195, high: 225 }, { label: 'Revenue Growth (+/- 1.0%)', low: 200, high: 220 }, { label: 'EBITDA Margin (+/- 0.5%)', low: 205, high: 215 } ];
+            sensitivities.sort((a, b) => (b.high - b.low) - (a.high - a.low));
+            const labels = sensitivities.map(s => s.label);
+            const traceLow = { x: sensitivities.map(s => s.low - baseValuation), y: labels, base: baseValuation, type: 'bar', orientation: 'h', name: 'Downside', hoverinfo: 'x+y', marker: { color: '#f87171' } };
+            const traceHigh = { x: sensitivities.map(s => s.high - baseValuation), y: labels, base: baseValuation, type: 'bar', orientation: 'h', name: 'Upside', hoverinfo: 'x+y', marker: { color: '#60a5fa' } };
+            const layout = { ...commonLayout, title: {text:'Sensitivity to Key Assumptions', x: 0.5}, margin: { l: 200, r: 30, b: 50, t: 80, pad: 4 }, xaxis: { title: 'Enterprise Value ($M)' }, yaxis: { automargin: true }, barmode: 'relative', legend: { x: 0.5, xanchor: 'center', y: 1.15, orientation: 'h' }, shapes: [{ type: 'line', x0: baseValuation, x1: baseValuation, y0: -0.5, y1: labels.length - 0.5, line: { color: '#4b5563', width: 2, dash: 'dot' } }], annotations: [{ x: baseValuation, y: labels.length - 0.2, text: `Base Case: $${baseValuation}M`, showarrow: false, xanchor: 'center', font: { color: '#4b5563' } }] };
+            Plotly.newPlot('tornadoChart', [traceLow, traceHigh], layout, {responsive: true});
+        }
+        function createWaterfallChart() {
+            const data = [{ type: 'waterfall', orientation: 'v', measure: [ 'absolute', 'relative', 'relative', 'relative', 'total' ], x: [ 'Enterprise Value', 'Add: Cash', 'Less: Debt', 'Less: Minority Int.', 'Equity Value' ], text: [ '$210M', '+$20M', '-$50M', '-$5M', '$175M' ], y: [210, 20, -50, -5, 175], textposition: 'inside', textfont: { color: 'white', size: 14 }, cliponaxis: false, connector: { line: { color: 'rgb(63, 63, 63)' } }, increasing: { marker: { color: '#22c55e' } }, decreasing: { marker: { color: '#ef4444' } }, totals: { marker: { color: '#3b82f6' } } }];
+            const layout = { ...commonLayout, title: {text:"Enterprise to Equity Value Bridge ($M)", x: 0.5}, margin: { l: 80, r: 30, b: 120, t: 50, pad: 4 }, yaxis: { title: "Value ($M)" }, xaxis: { automargin: true } };
+            Plotly.newPlot('waterfallChart', data, layout, {responsive: true});
+        }
+        function createHeatMap() {
+            const exitMultiples = [8.0, 8.5, 9.0, 9.5, 10.0];
+            const ebitdaMargins = [20, 21, 22, 23, 24];
+            const valuationMatrix = ebitdaMargins.map(margin => exitMultiples.map(multiple => Math.round(100 * (margin / 20) * (multiple / 9.0))));
+            const textMatrix = valuationMatrix.map(row => row.map(val => `$${val}M`));
+            const data = [{ z: valuationMatrix, x: exitMultiples.map(String), y: ebitdaMargins.map(m => `${m}%`), type: 'heatmap', hoverongaps: false, colorscale: 'Blues', reversescale: false, showscale: true, text: textMatrix, hoverinfo: 'x+y+text', texttemplate: '%{text}', font: { color: valuationMatrix.flat().map(v => v > 110 ? 'white' : 'black') } }];
+            const layout = { ...commonLayout, title: {text:'Valuation Matrix ($M)', x: 0.5}, margin: { l: 150, r: 30, b: 80, t: 80, pad: 4 }, xaxis: { title: 'Exit Multiple (EV/EBITDA)', side: 'bottom' }, yaxis: { title: 'Terminal EBITDA Margin (%)', automargin: true } };
+            Plotly.newPlot('heatMap', data, layout, {responsive: true});
+        }
+
+        // --- Comparable Company Analysis ---
+        function createScatterPlot() {
+            const peers = [ { name: 'Peer A', growth: 8, multiple: 10.5 }, { name: 'Peer B', growth: 10, multiple: 12.0 }, { name: 'Peer C', growth: 12, multiple: 13.5 }, { name: 'Peer D', growth: 6, multiple: 9.0 }, { name: 'Peer E', growth: 15, multiple: 14.0 } ];
+            const target = { name: 'Target Co.', growth: 11, multiple: 11.5 };
+            const tracePeers = { x: peers.map(p => p.growth), y: peers.map(p => p.multiple), text: peers.map(p => p.name), mode: 'markers', type: 'scatter', name: 'Peer Companies', marker: { color: '#3b82f6', size: 10 } };
+            const traceTarget = { x: [target.growth], y: [target.multiple], text: [target.name], mode: 'markers', type: 'scatter', name: 'Target Company', marker: { color: '#ef4444', size: 14, symbol: 'star' } };
+            const layout = { ...commonLayout, title: {text:'EV/EBITDA Multiple vs. Revenue Growth', x: 0.5}, xaxis: { title: 'Projected Revenue Growth (%)' }, yaxis: { title: 'EV / LTM EBITDA' }, showlegend: true, legend: { x: 0.05, y: 0.95 } };
+            Plotly.newPlot('scatterPlot', [tracePeers, traceTarget], layout, {responsive: true});
+        }
+        function createBoxPlot() {
+            const peerMultiples = [10.5, 12.0, 13.5, 9.0, 14.0, 11.0, 9.8, 12.5];
+            const targetMultiple = 11.5;
+            const traceBox = { y: peerMultiples, type: 'box', name: 'Peer Group Distribution', marker: { color: '#3b82f6' } };
+            const traceTarget = { y: [targetMultiple], type: 'scatter', mode: 'markers', name: 'Target Co.', marker: { color: '#ef4444', size: 12, symbol: 'diamond' } };
+            const layout = { ...commonLayout, title: {text:'EV / LTM EBITDA Multiple Distribution', x: 0.5}, yaxis: { title: 'EV / LTM EBITDA' }, showlegend: false };
+            Plotly.newPlot('boxPlot', [traceBox, traceTarget], layout, {responsive: true});
+        }
+        function createRadarChart() {
+            const categories = ['Valuation (P/E)', 'Profitability (Margin)', 'Growth (YoY %)', 'Size (Revenue)', 'Leverage (D/E)'];
+            const targetData = [15, 25, 10, 500, 0.5];
+            const peerAvgData = [18, 22, 8, 750, 0.8];
+            const traceTarget = { type: 'scatterpolar', r: targetData, theta: categories, fill: 'toself', name: 'Target Co.', marker: { color: '#ef4444' } };
+            const tracePeers = { type: 'scatterpolar', r: peerAvgData, theta: categories, fill: 'toself', name: 'Peer Average', marker: { color: 'rgba(59, 130, 246, 0.6)' } };
+            const layout = { ...commonLayout, title: {text:'Company Positioning vs. Peers', x: 0.5}, polar: { radialaxis: { visible: true, range: [0, 26] } }, showlegend: true, legend: { x: 0.5, y: -0.1, xanchor: 'center', orientation: 'h'} };
+            Plotly.newPlot('radarChart', [traceTarget, tracePeers], layout, {responsive: true});
+        }
+        function createBubbleChart() {
+            const companies = [ { name: 'Peer A', growth: 8, multiple: 10.5, size: 1200 }, { name: 'Peer B', growth: 10, multiple: 12.0, size: 2500 }, { name: 'Peer C', growth: 12, multiple: 13.5, size: 800 }, { name: 'Peer D', growth: 6, multiple: 9.0, size: 3500 }, { name: 'Target Co.', growth: 11, multiple: 11.5, size: 1800 } ];
+            const trace = { x: companies.map(c => c.growth), y: companies.map(c => c.multiple), text: companies.map(c => `${c.name}<br>Market Cap: $${c.size}M`), mode: 'markers', marker: { size: companies.map(c => c.size / 100), color: companies.map(c => c.multiple), colorscale: 'Blues', showscale: true, colorbar: { title: 'EV/EBITDA' } } };
+            const layout = { ...commonLayout, title: {text:'Market Landscape', x: 0.5}, xaxis: { title: 'Revenue Growth (%)' }, yaxis: { title: 'EV / LTM EBITDA' }, showlegend: false };
+            Plotly.newPlot('bubbleChart', [trace], layout, {responsive: true});
+        }
+
+        // --- Precedent Transaction Analysis ---
+        function createTimelineChart() {
+            const deals = [ { date: '2021-03-15', multiple: 11.2, size: 500 }, { date: '2021-08-20', multiple: 12.5, size: 800 }, { date: '2022-01-10', multiple: 10.8, size: 300 }, { date: '2022-09-05', multiple: 13.1, size: 1200 }, { date: '2023-05-25', multiple: 12.8, size: 950 } ];
+            const trace = { x: deals.map(d => d.date), y: deals.map(d => d.multiple), mode: 'markers+lines', type: 'scatter', name: 'Transaction Multiple', text: deals.map(d => `Deal Size: $${d.size}M`), marker: { size: deals.map(d => d.size / 50), color: '#3b82f6' }, line: { dash: 'dot', color: '#60a5fa' } };
+            const layout = { ...commonLayout, title: {text:'Historical M&A Transaction Multiples', x: 0.5}, xaxis: { title: 'Announcement Date' }, yaxis: { title: 'EV / EBITDA Multiple' } };
+            Plotly.newPlot('timelineChart', [trace], layout, {responsive: true});
+        }
+        function createPremiumHistogram() {
+            const premiums = [25, 30, 15, 40, 35, 28, 22, 33, 45, 18, 26, 38]; // Premiums in %
+            const trace = { x: premiums, type: 'histogram', name: 'Acquisition Premiums', marker: { color: '#3b82f6' }, autobinx: false, xbins: { start: 10, end: 50, size: 5 } };
+            const layout = { ...commonLayout, title: {text:'Distribution of Acquisition Premiums', x: 0.5}, xaxis: { title: 'Premium Paid (%)' }, yaxis: { title: 'Number of Deals' }, bargap: 0.1 };
+            Plotly.newPlot('premiumHistogram', [trace], layout, {responsive: true});
+        }
+        function createTrendLineChart() {
+            const years = ['2019', '2020', '2021', '2022', '2023'];
+            const multiples = [9.8, 10.5, 12.1, 11.8, 12.5];
+            const trace = { x: years, y: multiples, mode: 'lines+markers', type: 'scatter', name: 'Average Multiple', line: { color: '#3b82f6', width: 3 } };
+            const layout = { ...commonLayout, title: {text:'Sector Deal Multiples Over Time', x: 0.5}, xaxis: { title: 'Year' }, yaxis: { title: 'Average EV / EBITDA Multiple', range: [8, 14] } };
+            Plotly.newPlot('trendLineChart', [trace], layout, {responsive: true});
+        }
+        function createGeoHeatMap() {
+            const data = [{
+                type: 'choropleth',
+                locations: ['USA', 'CAN', 'GBR', 'DEU', 'FRA', 'JPN', 'CHN'],
+                z: [150, 45, 60, 75, 55, 80, 110], // Transaction Volume (e.g., # of deals)
+                text: ['United States', 'Canada', 'United Kingdom', 'Germany', 'France', 'Japan', 'China'],
+                colorscale: 'Blues',
+                autocolorscale: false,
+                reversescale: false,
+                marker: { line: { color: 'rgb(180,180,180)', width: 0.5 } },
+                colorbar: { title: 'Number of Deals' }
+            }];
+            const layout = { ...commonLayout, title: {text: 'Global M&A Activity by Region', x: 0.5}, geo: { showframe: false, showcoastlines: false, projection: { type: 'mercator' } } };
+            Plotly.newPlot('geoHeatMap', data, layout, {responsive: true});
+        }
+
+        // --- Financial Performance Visualizations ---
+        function createBridgeChart() {
+            const data = [{
+                type: 'waterfall',
+                orientation: 'v',
+                measure: ['absolute', 'relative', 'relative', 'relative', 'total'],
+                x: ['2022 Revenue', 'Volume Growth', 'Price Increases', 'FX Impact', '2023 Revenue'],
+                text: ['$100M', '+$15M', '+$5M', '-$2M', '$118M'],
+                y: [100, 15, 5, -2, 118],
+                textposition: 'inside', textfont: { color: 'white', size: 14 }, cliponaxis: false,
+                connector: { line: { color: 'rgb(63, 63, 63)' } },
+                increasing: { marker: { color: '#22c55e' } },
+                decreasing: { marker: { color: '#ef4444' } },
+                totals: { marker: { color: '#3b82f6' } }
+            }];
+            const layout = { ...commonLayout, title: {text:"YoY Revenue Bridge ($M)", x: 0.5}, margin: { l: 80, r: 30, b: 120, t: 50, pad: 4 }, yaxis: { title: "Revenue ($M)" } };
+            Plotly.newPlot('bridgeChart', data, layout, {responsive: true});
+        }
+        function createStackedAreaChart() {
+            const years = ['2020', '2021', '2022', '2023'];
+            const productA = { x: years, y: [20, 25, 30, 35], stackgroup: 'one', name: 'Product A', line: {color: '#3b82f6'} };
+            const productB = { x: years, y: [15, 18, 22, 28], stackgroup: 'one', name: 'Product B', line: {color: '#60a5fa'} };
+            const services = { x: years, y: [10, 12, 15, 20], stackgroup: 'one', name: 'Services', line: {color: '#93c5fd'} };
+            const layout = { ...commonLayout, title: {text:'Revenue Mix Evolution', x: 0.5}, yaxis: { title: 'Revenue ($M)' }, legend: {x: 0.5, xanchor: 'center', y: -0.2, orientation: 'h'} };
+            Plotly.newPlot('stackedAreaChart', [productA, productB, services], layout, {responsive: true});
+        }
+        function createIndexedLineChart() {
+            const dates = ['2022-01-01', '2022-04-01', '2022-07-01', '2022-10-01', '2023-01-01', '2023-04-01'];
+            const companyGrowth = [100, 105, 110, 118, 125, 135];
+            const peerAvgGrowth = [100, 103, 106, 109, 112, 115];
+            const marketGrowth = [100, 102, 104, 105, 107, 108];
+            const traceCompany = { x: dates, y: companyGrowth, mode: 'lines', name: 'Target Co.', line: { color: '#ef4444', width: 4 } };
+            const tracePeers = { x: dates, y: peerAvgGrowth, mode: 'lines', name: 'Peer Average', line: { color: '#3b82f6', dash: 'dash' } };
+            const traceMarket = { x: dates, y: marketGrowth, mode: 'lines', name: 'Market Index', line: { color: '#6b7280', dash: 'dot' } };
+            const layout = { ...commonLayout, title: {text:'Indexed Revenue Growth (Q1 2022 = 100)', x: 0.5}, yaxis: { title: 'Indexed Value' }, showlegend: true, legend: {x: 0.5, xanchor: 'center', y: -0.2, orientation: 'h'} };
+            Plotly.newPlot('indexedLineChart', [traceCompany, tracePeers, traceMarket], layout, {responsive: true});
+        }
+        function createCohortChart() {
+            const data = [{
+                z: [
+                    [100, 95, 90, 85, 80, 75],
+                    [null, 100, 96, 92, 88, 84],
+                    [null, null, 100, 97, 94, 91],
+                    [null, null, null, 100, 98, 95],
+                    [null, null, null, null, 100, 99],
+                    [null, null, null, null, null, 100]
+                ],
+                x: ['Month 1', 'Month 2', 'Month 3', 'Month 4', 'Month 5', 'Month 6'],
+                y: ['Jan Cohort', 'Feb Cohort', 'Mar Cohort', 'Apr Cohort', 'May Cohort', 'Jun Cohort'],
+                type: 'heatmap',
+                colorscale: 'Greens',
+                showscale: true,
+                colorbar: {title: 'Retention %'},
+                text: [
+                    ['100%', '95%', '90%', '85%', '80%', '75%'],
+                    ['', '100%', '96%', '92%', '88%', '84%'],
+                    ['', '', '100%', '97%', '94%', '91%'],
+                    ['', '', '', '100%', '98%', '95%'],
+                    ['', '', '', '', '100%', '99%'],
+                    ['', '', '', '', '', '100%']
+                ],
+                texttemplate: "%{text}",
+                hoverongaps: false
+            }];
+            const layout = { ...commonLayout, title: {text:'Monthly Customer Retention by Cohort', x: 0.5}, xaxis: {side: 'top'} };
+            Plotly.newPlot('cohortChart', data, layout, {responsive: true});
+        }
+
+        // --- Profitability Analysis ---
+        function createMarginWalkChart() {
+            const data = [{
+                type: 'waterfall',
+                orientation: 'v',
+                measure: ['absolute', 'relative', 'total', 'relative', 'total', 'relative', 'total'],
+                x: ['Gross Margin', 'Less: S&GA', 'EBITDA Margin', 'Less: D&A', 'EBIT Margin', 'Less: Taxes', 'Net Margin'],
+                y: [60, -25, 35, -10, 25, -5, 20],
+                text: ['60%', '-25%', '35%', '-10%', '25%', '-5%', '20%'],
+                textposition: 'outside',
+                connector: { line: { color: 'rgb(63, 63, 63)' } },
+                increasing: { marker: { color: '#22c55e' } },
+                decreasing: { marker: { color: '#ef4444' } },
+                totals: { marker: { color: '#3b82f6' } }
+            }];
+            const layout = { ...commonLayout, title: {text:"Margin Progression (%)", x: 0.5}, yaxis: { title: "Margin (%)" } };
+            Plotly.newPlot('marginWalkChart', data, layout, {responsive: true});
+        }
+        function createCostStructureChart() {
+            const data = [{
+                values: [45, 25, 15, 15],
+                labels: ['Sales & Marketing', 'R&D', 'G&A', 'Other OpEx'],
+                type: 'pie',
+                hole: .4,
+                hoverinfo: 'label+percent',
+                textinfo: 'label+percent',
+                textfont: { size: 14 },
+                marker: { colors: ['#3b82f6', '#60a5fa', '#93c5fd', '#bfdbfe'] }
+            }];
+            const layout = { ...commonLayout, title: {text:"Operating Expense Breakdown", x: 0.5}, showlegend: false, annotations: [ { font: { size: 20 }, showarrow: false, text: 'OpEx', x: 0.5, y: 0.5 } ] };
+            Plotly.newPlot('costStructureChart', data, layout, {responsive: true});
+        }
+        function createUnitEconomicsChart() {
+            const data = [{
+                type: 'waterfall',
+                orientation: 'v',
+                measure: ['absolute', 'relative', 'total', 'relative', 'total'],
+                x: ['Revenue per Unit', 'Less: COGS', 'Gross Profit', 'Less: Var. S&M', 'Contribution Margin'],
+                y: [100, -40, 60, -20, 40],
+                text: ['$100', '-$40', '$60', '-$20', '$40'],
+                textposition: 'outside',
+                connector: { line: { color: 'rgb(63, 63, 63)' } },
+                increasing: { marker: { color: '#22c55e' } },
+                decreasing: { marker: { color: '#ef4444' } },
+                totals: { marker: { color: '#3b82f6' } }
+            }];
+            const layout = { ...commonLayout, title: {text:"Contribution Margin per Unit", x: 0.5}, yaxis: { title: "Value per Unit ($)" } };
+            Plotly.newPlot('unitEconomicsChart', data, layout, {responsive: true});
+        }
+        function createBenchmarkingChart() {
+            const peers = ['Target Co.', 'Peer A', 'Peer B', 'Peer C', 'Industry Avg.'];
+            const grossMargins = [60, 65, 58, 62, 61];
+            const ebitdaMargins = [35, 40, 33, 38, 37];
+            const trace1 = { x: peers, y: grossMargins, name: 'Gross Margin', type: 'bar', marker: {color: '#3b82f6'} };
+            const trace2 = { x: peers, y: ebitdaMargins, name: 'EBITDA Margin', type: 'bar', marker: {color: '#93c5fd'} };
+            const layout = { ...commonLayout, title: {text:"Profitability vs. Peers (%)", x: 0.5}, barmode: 'group', yaxis: {title: 'Margin (%)'}, legend: {x: 0.5, xanchor: 'center', y: -0.3, orientation: 'h'} };
+            Plotly.newPlot('benchmarkingChart', [trace1, trace2], layout, {responsive: true});
+        }
+
+        // --- Cash Flow Visualizations ---
+        function createCashFlowWaterfall() {
+            const data = [{
+                type: 'waterfall',
+                measure: ['absolute', 'relative', 'total', 'relative', 'relative', 'total'],
+                x: ['Operating Cash Flow', 'Less: CapEx', 'Free Cash Flow (Unlevered)', 'Less: Interest', 'Less: Debt Paydown', 'Free Cash Flow (Levered)'],
+                y: [50, -15, 35, -5, -10, 20],
+                text: ['$50M', '-$15M', '$35M', '-$5M', '-$10M', '$20M'],
+                textposition: 'outside',
+                connector: { line: { color: 'rgb(63, 63, 63)' } },
+                increasing: { marker: { color: '#22c55e' } },
+                decreasing: { marker: { color: '#ef4444' } },
+                totals: { marker: { color: '#3b82f6' } }
+            }];
+            const layout = { ...commonLayout, title: {text:"Free Cash Flow Bridge ($M)", x: 0.5}, yaxis: { title: "Cash Flow ($M)" } };
+            Plotly.newPlot('cashFlowWaterfall', data, layout, {responsive: true});
+        }
+        function createWorkingCapitalCycle() {
+            const data = [
+                { x: [0, 45], y: [2, 2], mode: 'lines', name: 'DSO (45 days)', line: {color: '#3b82f6', width: 4} },
+                { x: [45, 95], y: [1.5, 1.5], mode: 'lines', name: 'DIO (50 days)', line: {color: '#ef4444', width: 4} },
+                { x: [0, -30], y: [1, 1], mode: 'lines', name: 'DPO (30 days)', line: {color: '#22c55e', width: 4} }
+            ];
+            const cashConversionCycle = 45 + 50 - 30;
+            const layout = {
+                ...commonLayout,
+                title: {text:`Cash Conversion Cycle: ${cashConversionCycle} Days`, x: 0.5},
+                xaxis: { title: 'Days', range: [-40, 110] },
+                yaxis: { showticklabels: false, showgrid: false, zeroline: false },
+                showlegend: true,
+                legend: {x: 0.5, xanchor: 'center', y: -0.3, orientation: 'h'}
+            };
+            Plotly.newPlot('workingCapitalCycle', data, layout, {responsive: true});
+        }
+        function createCashConversionBridge() {
+             const data = [{
+                type: 'waterfall',
+                measure: ['absolute', 'relative', 'relative', 'relative', 'total'],
+                x: ['EBITDA', 'Less: Cash Taxes', 'Less: Δ NWC', 'Less: CapEx', 'Unlevered FCF'],
+                y: [80, -15, -5, -20, 40],
+                text: ['$80M', '-$15M', '-$5M', '-$20M', '$40M'],
+                textposition: 'outside',
+                connector: { line: { color: 'rgb(63, 63, 63)' } },
+                increasing: { marker: { color: '#22c55e' } },
+                decreasing: { marker: { color: '#ef4444' } },
+                totals: { marker: { color: '#3b82f6' } }
+            }];
+            const layout = { ...commonLayout, title: {text:"EBITDA to Cash Conversion ($M)", x: 0.5}, yaxis: { title: "Cash Flow ($M)" } };
+            Plotly.newPlot('cashConversionBridge', data, layout, {responsive: true});
+        }
+        function createCapexTrends() {
+            const years = ['2020', '2021', '2022', '2023'];
+            const maintenanceCapex = { x: years, y: [10, 11, 12, 13], name: 'Maintenance CapEx', type: 'bar', marker: {color: '#3b82f6'} };
+            const growthCapex = { x: years, y: [5, 8, 15, 10], name: 'Growth CapEx', type: 'bar', marker: {color: '#93c5fd'} };
+            const layout = { ...commonLayout, barmode: 'stack', title: {text:"CapEx Intensity Trends ($M)", x: 0.5}, yaxis: {title: 'Capital Expenditure ($M)'}, legend: {x: 0.5, xanchor: 'center', y: -0.3, orientation: 'h'} };
+            Plotly.newPlot('capexTrends', [maintenanceCapex, growthCapex], layout, {responsive: true});
+        }
+
+        // --- Market & Competitive Visualizations ---
+        function createTamSamSomChart() {
+            const layout = {
+                ...commonLayout,
+                title: {text: 'Market Opportunity Sizing', x: 0.5},
+                xaxis: { showgrid: false, zeroline: false, showticklabels: false, range: [-1.2, 1.2] },
+                yaxis: { showgrid: false, zeroline: false, showticklabels: false, range: [-1.2, 1.2], scaleanchor: "x", scaleratio: 1 },
+                shapes: [
+                    { type: 'circle', x0: -1, y0: -1, x1: 1, y1: 1, fillcolor: '#bfdbfe', line: { color: '#93c5fd' } },
+                    { type: 'circle', x0: -0.7, y0: -0.7, x1: 0.7, y1: 0.7, fillcolor: '#60a5fa', line: { color: '#3b82f6' } },
+                    { type: 'circle', x0: -0.4, y0: -0.4, x1: 0.4, y1: 0.4, fillcolor: '#3b82f6', line: { color: '#1e40af' } },
+                ],
+                annotations: [
+                    { x: 0, y: 0.85, text: '<b>TAM</b><br>Total Addressable Market<br>$50B', showarrow: false, font: {color: '#1e3a8a'} },
+                    { x: 0, y: 0.55, text: '<b>SAM</b><br>Serviceable Available Market<br>$20B', showarrow: false, font: {color: 'white'} },
+                    { x: 0, y: 0, text: '<b>SOM</b><br>Serviceable Obtainable<br>Market<br>$2B', showarrow: false, font: {color: 'white'} },
+                ]
+            };
+            Plotly.newPlot('tamSamSomChart', [], layout, {responsive: true});
+        }
+        function createMarketShareChart() {
+            const years = ['2021', '2022', '2023'];
+            const trace1 = { x: years, y: [20, 22, 25], name: 'Company A', type: 'bar', marker: {color: '#ef4444'} };
+            const trace2 = { x: years, y: [30, 28, 27], name: 'Company B', type: 'bar', marker: {color: '#3b82f6'} };
+            const trace3 = { x: years, y: [15, 18, 22], name: 'Company C', type: 'bar', marker: {color: '#22c55e'} };
+            const trace4 = { x: years, y: [35, 32, 26], name: 'Other', type: 'bar', marker: {color: '#a8a29e'} };
+            const layout = { ...commonLayout, barmode: 'stack', title: {text: 'Market Share Evolution (%)', x: 0.5}, yaxis: {title: 'Market Share (%)'}, legend: {x: 0.5, xanchor: 'center', y: -0.3, orientation: 'h'} };
+            Plotly.newPlot('marketShareChart', [trace1, trace2, trace3, trace4], layout, {responsive: true});
+        }
+        function createGrowthDriverTree() {
+            const data = [{
+                type: "treemap",
+                labels: ["Market Growth", "Americas", "EMEA", "APAC", "New Customers", "Upsell", "Price Increase"],
+                parents: ["", "Market Growth", "Market Growth", "Market Growth", "Americas", "Americas", "EMEA"],
+                values:  [65, 14, 30, 21, 6, 6, 2],
+                textinfo: "label+value",
+                marker: {colors: ['#a5f3fc', '#67e8f9', '#22d3ee', '#06b6d4', '#0e7490', '#155e75', '#164e63']}
+            }];
+            const layout = { ...commonLayout, title: {text: 'Market Growth Decomposition ($M)', x: 0.5} };
+            Plotly.newPlot('growthDriverTree', data, layout, {responsive: true});
+        }
+        function createSCurveChart() {
+            const x = Array.from({length: 100}, (_, i) => i / 10); // Time
+            const y = x.map(t => 1 / (1 + Math.exp(-1 * (t - 5))) * 100); // Sigmoid function for S-curve
+            const trace = { x: x, y: y, mode: 'lines', line: { color: '#3b82f6', width: 3 } };
+            const layout = { ...commonLayout, title: {text: 'Technology Adoption S-Curve', x: 0.5}, xaxis: {title: 'Time (Years)'}, yaxis: {title: 'Market Penetration (%)', range: [0, 105]} };
+            Plotly.newPlot('sCurveChart', [trace], layout, {responsive: true});
+        }
+        function createPerceptualMap() {
+            const competitors = [
+                { name: 'Target Co.', quality: 7, price: 6, symbol: 'star', color: '#ef4444', size: 16 },
+                { name: 'Peer A', quality: 8, price: 8, symbol: 'circle', color: '#3b82f6', size: 12 },
+                { name: 'Peer B', quality: 5, price: 9, symbol: 'circle', color: '#3b82f6', size: 12 },
+                { name: 'Peer C', quality: 4, price: 4, symbol: 'circle', color: '#3b82f6', size: 12 },
+                { name: 'Peer D', quality: 9, price: 5, symbol: 'circle', color: '#3b82f6', size: 12 },
+            ];
+            const trace = {
+                x: competitors.map(c => c.quality),
+                y: competitors.map(c => c.price),
+                text: competitors.map(c => c.name),
+                mode: 'markers+text',
+                textposition: 'top center',
+                marker: {
+                    size: competitors.map(c => c.size),
+                    color: competitors.map(c => c.color),
+                    symbol: competitors.map(c => c.symbol),
+                }
+            };
+            const layout = {
+                ...commonLayout,
+                title: {text: 'Competitive Positioning Map', x: 0.5},
+                xaxis: { title: 'Perceived Quality / Features', range: [0, 10] },
+                yaxis: { title: 'Relative Price Point', range: [0, 10] },
+                showlegend: false,
+                shapes: [
+                    { type: 'line', x0: 5, y0: 0, x1: 5, y1: 10, line: {color: '#9ca3af', width: 1, dash: 'dot'} },
+                    { type: 'line', x0: 0, y0: 5, x1: 10, y1: 5, line: {color: '#9ca3af', width: 1, dash: 'dot'} }
+                ]
+            };
+            Plotly.newPlot('perceptualMap', [trace], layout, {responsive: true});
+        }
+        function createHarveyBallsChart() {
+            const container = document.getElementById('harveyBallsChart');
+            const data = {
+                headers: ['Feature', 'Target Co.', 'Peer A', 'Peer B'],
+                rows: [
+                    { feature: 'Price', values: [75, 100, 50] },
+                    { feature: 'Technology', values: [100, 75, 75] },
+                    { feature: 'Support', values: [50, 25, 100] },
+                    { feature: 'Brand', values: [75, 50, 50] }
+                ]
+            };
+
+            const getHarveyBallSVG = (percentage) => {
+                const r = 12;
+                const cx = 15;
+                const cy = 15;
+                if (percentage === 0) return `<svg width="30" height="30"><circle cx="${cx}" cy="${cy}" r="${r}" stroke="#9ca3af" stroke-width="1" fill="white"/></svg>`;
+                if (percentage === 100) return `<svg width="30" height="30"><circle cx="${cx}" cy="${cy}" r="${r}" fill="#3b82f6"/></svg>`;
+                
+                const angle = (percentage / 100) * 360;
+                const x = cx + r * Math.sin(angle * Math.PI / 180);
+                const y = cy - r * Math.cos(angle * Math.PI / 180);
+                const largeArc = percentage > 50 ? 1 : 0;
+
+                return `<svg width="30" height="30">
+                    <circle cx="${cx}" cy="${cy}" r="${r}" stroke="#9ca3af" stroke-width="1" fill="white"/>
+                    <path d="M${cx},${cy} L${cx},${cy-r} A${r},${r} 0 ${largeArc},1 ${x},${y} z" fill="#3b82f6"/>
+                </svg>`;
+            };
+
+            let tableHTML = '<table class="custom-table">';
+            // Header
+            tableHTML += '<thead><tr>';
+            data.headers.forEach(h => tableHTML += `<th>${h}</th>`);
+            tableHTML += '</tr></thead>';
+            // Body
+            tableHTML += '<tbody>';
+            data.rows.forEach(row => {
+                tableHTML += `<tr><td>${row.feature}</td>`;
+                row.values.forEach(val => {
+                    tableHTML += `<td>${getHarveyBallSVG(val)}</td>`;
+                });
+                tableHTML += '</tr>';
+            });
+            tableHTML += '</tbody></table>';
+            
+            container.innerHTML = tableHTML;
+        }
+        function createMarketSharePieChart() {
+            const data = [{
+                values: [40, 25, 15, 10, 10],
+                labels: ['Market Leader', 'Target Co.', 'Peer A', 'Peer B', 'Other'],
+                type: 'pie',
+                hoverinfo: 'label+percent',
+                textinfo: 'label+percent',
+                marker: { colors: ['#3b82f6', '#ef4444', '#60a5fa', '#93c5fd', '#a8a29e'] }
+            }];
+            const layout = { ...commonLayout, title: {text:"Current Market Share", x: 0.5}, showlegend: true, legend: {x: 0.5, xanchor: 'center', y: -0.2, orientation: 'h'} };
+            Plotly.newPlot('marketSharePieChart', data, layout, {responsive: true});
+        }
+        function createValueChainChart() {
+            const layout = {
+                ...commonLayout,
+                title: {text: 'Simplified Industry Value Chain', x: 0.5},
+                xaxis: { showgrid: false, zeroline: false, showticklabels: false, range: [0, 10] },
+                yaxis: { showgrid: false, zeroline: false, showticklabels: false, range: [0, 4] },
+                shapes: [
+                    { type: 'rect', x0: 0.5, y0: 1.5, x1: 2.5, y1: 2.5, fillcolor: '#e0f2fe', line: { color: '#0ea5e9' } },
+                    { type: 'rect', x0: 3, y0: 1.5, x1: 5, y1: 2.5, fillcolor: '#e0f2fe', line: { color: '#0ea5e9' } },
+                    { type: 'rect', x0: 5.5, y0: 1.5, x1: 7.5, y1: 2.5, fillcolor: '#e0f2fe', line: { color: '#0ea5e9' } },
+                    { type: 'rect', x0: 8, y0: 1.5, x1: 10, y1: 2.5, fillcolor: '#e0f2fe', line: { color: '#0ea5e9' } },
+                ],
+                annotations: [
+                    { x: 1.5, y: 2, text: '<b>R&D</b>', showarrow: false },
+                    { x: 4, y: 2, text: '<b>Manufacturing</b>', showarrow: false },
+                    { x: 6.5, y: 2, text: '<b>Marketing</b>', showarrow: false },
+                    { x: 9, y: 2, text: '<b>Distribution</b>', showarrow: false },
+                    // Arrows
+                    { x: 2.75, y: 2, showarrow: true, arrowhead: 2, ax: -20, ay: 0 },
+                    { x: 5.25, y: 2, showarrow: true, arrowhead: 2, ax: -20, ay: 0 },
+                    { x: 7.75, y: 2, showarrow: true, arrowhead: 2, ax: -20, ay: 0 },
+                ]
+            };
+            Plotly.newPlot('valueChainChart', [], layout, {responsive: true});
+        }
+
+        // --- Operational Performance ---
+        function createGaugeCharts() {
+            const container = document.getElementById('gaugeCharts');
+            const kpis = [
+                { title: 'Customer Sat.', value: 82, target: 80, range: [0, 100] },
+                { title: 'Employee Churn', value: 12, target: 10, range: [0, 25] }
+            ];
+
+            kpis.forEach((kpi, i) => {
+                const div = document.createElement('div');
+                div.id = `gauge-${i}`;
+                container.appendChild(div);
+
+                const data = [{
+                    type: "indicator",
+                    mode: "gauge+number",
+                    value: kpi.value,
+                    title: { text: kpi.title, font: {size: 16} },
+                    gauge: {
+                        axis: { range: kpi.range, tickwidth: 1, tickcolor: "darkblue" },
+                        bar: { color: "#3b82f6" },
+                        steps: [
+                            { range: [kpi.range[0], kpi.target * 0.8], color: "#fee2e2" },
+                            { range: [kpi.target * 0.8, kpi.target], color: "#fef3c7" },
+                            { range: [kpi.target, kpi.range[1]], color: "#dcfce7" }
+                        ],
+                        threshold: {
+                            line: { color: "red", width: 4 },
+                            thickness: 0.75,
+                            value: kpi.target
+                        }
+                    }
+                }];
+                const layout = { ...commonLayout, margin: { t: 25, b: 25, l: 25, r: 25 } };
+                Plotly.newPlot(div.id, data, layout, {responsive: true});
+            });
+        }
+        function createSparklinesTable() {
+            const container = document.getElementById('sparklinesTable');
+            const data = {
+                headers: ['Region', 'Sales ($M)', 'QoQ Growth', '6-Mo Trend'],
+                rows: [
+                    { region: 'Americas', sales: 12.5, growth: '5.2%', trend: [10, 11, 11.5, 12, 11.8, 12.5] },
+                    { region: 'EMEA', sales: 8.2, growth: '-1.5%', trend: [9, 8.8, 8.5, 8.6, 8.3, 8.2] },
+                    { region: 'APAC', sales: 6.8, growth: '8.1%', trend: [5, 5.5, 5.8, 6.2, 6.5, 6.8] }
+                ]
+            };
+            
+            let tableHTML = '<table class="custom-table">';
+            tableHTML += '<thead><tr>' + data.headers.map(h => `<th>${h}</th>`).join('') + '</tr></thead>';
+            tableHTML += '<tbody>';
+            data.rows.forEach((row, i) => {
+                tableHTML += `<tr>
+                    <td>${row.region}</td>
+                    <td>${row.sales}</td>
+                    <td>${row.growth}</td>
+                    <td class="sparkline-cell" id="sparkline-${i}"></td>
+                </tr>`;
+            });
+            tableHTML += '</tbody></table>';
+            container.innerHTML = tableHTML;
+
+            // Now inject sparklines
+            data.rows.forEach((row, i) => {
+                const trace = { x: Array.from(Array(row.trend.length).keys()), y: row.trend, type: 'scatter', mode: 'lines', line: {color: '#3b82f6', width: 2} };
+                const layout = {
+                    ...commonLayout,
+                    margin: { t: 5, b: 5, l: 5, r: 5 },
+                    showlegend: false,
+                    xaxis: { showticklabels: false, showgrid: false, zeroline: false },
+                    yaxis: { showticklabels: false, showgrid: false, zeroline: false }
+                };
+                Plotly.newPlot(`sparkline-${i}`, [trace], layout, {staticPlot: true, responsive: true});
+            });
+        }
+        function createTrafficLightTable() {
+            const container = document.getElementById('trafficLightTable');
+            const data = {
+                headers: ['Metric', 'Actual', 'Target', 'Status'],
+                rows: [
+                    { metric: 'Customer Acquisition Cost', actual: '$120', target: '$100', status: 'red' },
+                    { metric: 'Customer Lifetime Value', actual: '$450', target: '$480', status: 'amber' },
+                    { metric: 'On-time Delivery', actual: '98%', target: '95%', status: 'green' },
+                    { metric: 'Website Uptime', actual: '99.95%', target: '99.9%', status: 'green' }
+                ]
+            };
+            
+            let tableHTML = '<table class="custom-table">';
+            tableHTML += '<thead><tr>' + data.headers.map(h => `<th>${h}</th>`).join('') + '</tr></thead>';
+            tableHTML += '<tbody>';
+            data.rows.forEach(row => {
+                tableHTML += `<tr>
+                    <td>${row.metric}</td>
+                    <td>${row.actual}</td>
+                    <td>${row.target}</td>
+                    <td class="rag-${row.status}">${row.status.charAt(0).toUpperCase() + row.status.slice(1)}</td>
+                </tr>`;
+            });
+            tableHTML += '</tbody></table>';
+            container.innerHTML = tableHTML;
+        }
+        function createBalancedScorecard() {
+             const container = document.getElementById('balancedScorecard');
+             const data = [
+                { cat: 'Financial', metric: 'Revenue Growth', target: '15%', actual: '18%', status: 'green' },
+                { cat: 'Financial', metric: 'Net Margin', target: '12%', actual: '11%', status: 'amber' },
+                { cat: 'Customer', metric: 'NPS Score', target: '50', actual: '55', status: 'green' },
+                { cat: 'Customer', metric: 'Customer Churn', target: '< 5%', actual: '5.5%', status: 'red' },
+                { cat: 'Internal Process', metric: 'Production Efficiency', target: '95%', actual: '96%', status: 'green' },
+                { cat: 'Learning & Growth', metric: 'Employee Turnover', target: '< 10%', actual: '12%', status: 'red' },
+             ];
+
+            let tableHTML = '<table class="custom-table">';
+            tableHTML += '<thead><tr><th>Perspective</th><th>Metric</th><th>Target</th><th>Actual</th><th>Status</th></tr></thead>';
+            tableHTML += '<tbody>';
+            let currentCategory = '';
+            data.forEach(row => {
+                if (row.cat !== currentCategory) {
+                    tableHTML += `<tr><td colspan="5" class="scorecard-category">${row.cat}</td></tr>`;
+                    currentCategory = row.cat;
+                }
+                tableHTML += `<tr>
+                    <td></td>
+                    <td>${row.metric}</td>
+                    <td>${row.target}</td>
+                    <td>${row.actual}</td>
+                    <td class="rag-${row.status}"></td>
+                </tr>`;
+            });
+            tableHTML += '</tbody></table>';
+            container.innerHTML = tableHTML;
+        }
+        
+        // --- Customer Analytics ---
+        function createCustomerConcentrationChart() {
+            const customers = ['Customer 1', 'Customer 2', 'Customer 3', 'Customer 4', 'Customer 5', 'Other'];
+            const revenue = [25, 18, 12, 8, 5, 32];
+            const trace = { x: customers, y: revenue, type: 'bar', marker: {color: '#3b82f6'} };
+            const layout = { ...commonLayout, title: {text: 'Revenue by Customer (%)', x: 0.5}, yaxis: {title: 'Revenue Contribution (%)'} };
+            Plotly.newPlot('customerConcentrationChart', [trace], layout, {responsive: true});
+        }
+        function createChurnWaterfall() {
+            const data = [{
+                type: 'waterfall',
+                measure: ['absolute', 'relative', 'relative', 'total'],
+                x: ['Beginning Customers', 'New Customers', 'Churned Customers', 'Ending Customers'],
+                y: [1000, 200, -50, 1150],
+                text: ['1,000', '+200', '-50', '1,150'],
+                textposition: 'outside',
+                connector: { line: { color: 'rgb(63, 63, 63)' } },
+                increasing: { marker: { color: '#22c55e' } },
+                decreasing: { marker: { color: '#ef4444' } },
+                totals: { marker: { color: '#3b82f6' } }
+            }];
+            const layout = { ...commonLayout, title: {text:"Quarterly Customer Churn", x: 0.5}, yaxis: { title: "Number of Customers" } };
+            Plotly.newPlot('churnWaterfall', data, layout, {responsive: true});
+        }
+        function createLtvCacChart() {
+            const ltv = 450;
+            const cac = 120;
+            const ratio = (ltv / cac).toFixed(1) + 'x';
+            const payback = 8; // months
+            const trace = {
+                x: ['LTV', 'CAC'],
+                y: [ltv, cac],
+                type: 'bar',
+                marker: { color: ['#3b82f6', '#ef4444'] }
+            };
+            const layout = {
+                ...commonLayout,
+                title: {text: `LTV/CAC Ratio: ${ratio}`, x: 0.5},
+                yaxis: {title: 'Value ($)'},
+                showlegend: false,
+                annotations: [{
+                    x: 0.5, y: ltv * 0.8,
+                    text: `Payback Period: ${payback} months`,
+                    showarrow: false,
+                    font: { color: '#4b5563', size: 14 }
+                }]
+            };
+            Plotly.newPlot('ltvCacChart', [trace], layout, {responsive: true});
+        }
+        function createNpsTrendLine() {
+            const quarters = ['Q1 22', 'Q2 22', 'Q3 22', 'Q4 22', 'Q1 23', 'Q2 23'];
+            const nps = [45, 48, 52, 50, 55, 58];
+            const trace = { x: quarters, y: nps, mode: 'lines+markers', type: 'scatter', line: { color: '#3b82f6', width: 3 } };
+            const layout = { ...commonLayout, title: {text:'Net Promoter Score (NPS) Over Time', x: 0.5}, yaxis: { title: 'NPS Score', range: [0, 100] } };
+            Plotly.newPlot('npsTrendLine', [trace], layout, {responsive: true});
+        }
+
+        // --- Deal Structure Visualizations ---
+        function createSourcesAndUsesTable() {
+            const container = document.getElementById('sourcesAndUsesTable');
+            const data = {
+                sources: [
+                    { item: 'New Debt', value: 100 },
+                    { item: 'Rollover Equity', value: 50 },
+                    { item: 'Sponsor Equity', value: 75 }
+                ],
+                uses: [
+                    { item: 'Purchase Equity', value: 175 },
+                    { item: 'Refinance Debt', value: 40 },
+                    { item: 'Fees & Expenses', value: 10 }
+                ]
+            };
+            const total = data.sources.reduce((sum, item) => sum + item.value, 0);
+
+            let tableHTML = `<div class="grid grid-cols-2 gap-4">
+                <div>
+                    <h3 class="font-bold text-lg mb-2">Sources</h3>
+                    <table class="custom-table"><tbody>`;
+            data.sources.forEach(s => {
+                tableHTML += `<tr><td>${s.item}</td><td class="text-right">$${s.value}M</td></tr>`;
+            });
+            tableHTML += `<tr class="font-bold bg-slate-100"><td>Total Sources</td><td class="text-right">$${total}M</td></tr>`;
+            tableHTML += `</tbody></table></div><div>
+                    <h3 class="font-bold text-lg mb-2">Uses</h3>
+                    <table class="custom-table"><tbody>`;
+            data.uses.forEach(u => {
+                tableHTML += `<tr><td>${u.item}</td><td class="text-right">$${u.value}M</td></tr>`;
+            });
+            tableHTML += `<tr class="font-bold bg-slate-100"><td>Total Uses</td><td class="text-right">$${total}M</td></tr>`;
+            tableHTML += `</tbody></table></div></div>`;
+            container.innerHTML = tableHTML;
+        }
+        function createOrgCharts() {
+            const container = document.getElementById('orgCharts');
+            container.innerHTML = `
+                <div class="grid grid-cols-3 items-center text-center h-full">
+                    <div><h4 class="font-bold mb-4">Pre-Transaction</h4><div class="org-box">Acquirer</div></div>
+                    <div class="org-arrow">&rarr;</div>
+                    <div><h4 class="font-bold mb-4">Post-Transaction</h4><div class="org-box">Acquirer<div class="org-box mt-4 !bg-blue-100">Target Co.</div></div></div>
+                </div>
+            `;
+        }
+        function createOwnershipWaterfall() {
+            const data = [{
+                type: 'waterfall',
+                measure: ['absolute', 'relative', 'relative', 'total'],
+                x: ['Founders', 'Less: Series A', 'Less: Series B', 'Pro-forma Ownership'],
+                y: [100, -20, -15, 65],
+                text: ['100%', '-20%', '-15%', '65%'],
+                textposition: 'outside',
+                connector: { line: { color: 'rgb(63, 63, 63)' } },
+                increasing: { marker: { color: '#22c55e' } },
+                decreasing: { marker: { color: '#ef4444' } },
+                totals: { marker: { color: '#3b82f6' } }
+            }];
+            const layout = { ...commonLayout, title: {text:"Founder Equity Dilution", x: 0.5}, yaxis: { title: "Ownership (%)", range: [0, 105] } };
+            Plotly.newPlot('ownershipWaterfall', data, layout, {responsive: true});
+        }
+        function createEarnoutScenarios() {
+            // Generate random data for Monte Carlo simulation
+            const values = Array.from({length: 1000}, () => Math.random() * 20 + 5); // Random values between 5 and 25
+            const trace = { x: values, type: 'histogram', marker: { color: '#3b82f6' } };
+            const layout = { ...commonLayout, title: {text:'Distribution of Potential Earn-out Payments ($M)', x: 0.5}, xaxis: { title: 'Earn-out Payment ($M)' }, yaxis: { title: 'Frequency' } };
+            Plotly.newPlot('earnoutScenarios', [trace], layout, {responsive: true});
+        }
+
+        // --- Returns Analysis ---
+        function createIrrSensitivityTable() {
+            const container = document.getElementById('irrSensitivityTable');
+            const entryMultiples = [8, 9, 10];
+            const exitMultiples = [10, 11, 12];
+            const data = [
+                [22, 25, 28],
+                [18, 21, 24],
+                [15, 18, 20]
+            ];
+
+            let tableHTML = '<table class="custom-table text-center">';
+            tableHTML += '<thead><tr><th rowspan="2" class="text-left align-bottom">Entry Multiple</th><th colspan="3">Exit Multiple</th></tr>';
+            tableHTML += '<tr>';
+            exitMultiples.forEach(h => tableHTML += `<th>${h}.0x</th>`);
+            tableHTML += '</tr></thead><tbody>';
+            data.forEach((row, i) => {
+                tableHTML += `<tr><th class="text-left">${entryMultiples[i]}.0x</th>`;
+                row.forEach(cell => {
+                    const color = cell > 24 ? 'rag-green' : cell > 19 ? 'rag-amber' : 'rag-red';
+                    tableHTML += `<td class="${color}">${cell}%</td>`;
+                });
+                tableHTML += '</tr>';
+            });
+            tableHTML += '</tbody></table>';
+            container.innerHTML = tableHTML;
+        }
+        function createJCurveChart() {
+            const years = [0, 1, 2, 3, 4, 5];
+            const cashFlows = [-100, -50, 20, 50, 80, 120];
+            const cumulativeFlows = cashFlows.reduce((acc, val, i) => {
+                acc.push((acc[i-1] || 0) + val);
+                return acc;
+            }, []);
+            
+            const trace = { x: years, y: cumulativeFlows, type: 'scatter', mode: 'lines', line: { color: '#3b82f6', width: 3, shape: 'spline' }};
+            const layout = { ...commonLayout, title: {text: 'Private Equity Fund J-Curve', x: 0.5}, xaxis: {title: 'Year'}, yaxis: {title: 'Cumulative Cash Flow ($M)', zeroline: true, zerolinewidth: 2, zerolinecolor: '#9ca3af'} };
+            Plotly.newPlot('jCurveChart', [trace], layout, {responsive: true});
+        }
+        function createMultipleExpansionBridge() {
+            const data = [{
+                type: 'waterfall',
+                measure: ['absolute', 'relative', 'relative', 'relative', 'total'],
+                x: ['Entry Equity', 'EBITDA Growth', 'Multiple Expansion', 'Debt Paydown', 'Exit Equity'],
+                y: [100, 50, 30, 20, 200],
+                text: ['$100M', '+$50M', '+$30M', '+$20M', '$200M'],
+                textposition: 'outside',
+                connector: { line: { color: 'rgb(63, 63, 63)' } },
+                increasing: { marker: { color: '#22c55e' } },
+                totals: { marker: { color: '#3b82f6' } }
+            }];
+            const layout = { ...commonLayout, title: {text:"Value Creation Bridge ($M)", x: 0.5}, yaxis: { title: "Equity Value ($M)" } };
+            Plotly.newPlot('multipleExpansionBridge', data, layout, {responsive: true});
+        }
+        function createPortfolioConstructionChart() {
+            const data = [{
+                values: [30, 25, 20, 15, 10],
+                labels: ['Technology', 'Healthcare', 'Industrials', 'Consumer', 'Financials'],
+                type: 'pie',
+                hole: .4,
+                hoverinfo: 'label+percent',
+                textinfo: 'label+percent',
+            }];
+            const layout = { ...commonLayout, title: {text:"Fund Portfolio by Sector", x: 0.5}, showlegend: true, legend: {x: 0.5, xanchor: 'center', y: -0.2, orientation: 'h'} };
+            Plotly.newPlot('portfolioConstructionChart', data, layout, {responsive: true});
+        }
+
+        // --- Risk & Scenario Visualizations ---
+        function createScenarioComparisonTable() {
+            const container = document.getElementById('scenarioComparisonTable');
+            const data = {
+                headers: ['Metric', 'Downside', 'Base Case', 'Upside'],
+                rows: [
+                    { metric: 'Revenue Growth', values: ['5%', '10%', '15%'] },
+                    { metric: 'EBITDA Margin', values: ['18%', '20%', '22%'] },
+                    { metric: 'Implied Valuation', values: ['$180M', '$210M', '$250M'] }
+                ]
+            };
+            
+            let tableHTML = '<table class="custom-table">';
+            tableHTML += '<thead><tr>' + data.headers.map(h => `<th>${h}</th>`).join('') + '</tr></thead>';
+            tableHTML += '<tbody>';
+            data.rows.forEach(row => {
+                tableHTML += `<tr><td>${row.metric}</td>`;
+                row.values.forEach(val => {
+                    tableHTML += `<td>${val}</td>`;
+                });
+                tableHTML += '</tr>';
+            });
+            tableHTML += '</tbody></table>';
+            container.innerHTML = tableHTML;
+        }
+        function createProbabilityTree() {
+            const trace = {
+                x: [0, 2, 2, 4, 4, 4, 4],
+                y: [2, 3, 1, 3.5, 2.5, 1.5, 0.5],
+                mode: 'markers+text',
+                text: ['Decision', 'High Growth (60%)', 'Low Growth (40%)', 'Success ($50M)', 'Failure ($10M)', 'Success ($20M)', 'Failure (-$5M)'],
+                textposition: 'right',
+                marker: { size: 20, color: '#3b82f6' }
+            };
+            const layout = {
+                ...commonLayout,
+                title: {text: 'Decision Tree Analysis', x: 0.5},
+                xaxis: { showticklabels: false, showgrid: false, zeroline: false },
+                yaxis: { showticklabels: false, showgrid: false, zeroline: false },
+                showlegend: false,
+                shapes: [
+                    { type: 'line', x0: 0, y0: 2, x1: 2, y1: 3 },
+                    { type: 'line', x0: 0, y0: 2, x1: 2, y1: 1 },
+                    { type: 'line', x0: 2, y0: 3, x1: 4, y1: 3.5 },
+                    { type: 'line', x0: 2, y0: 3, x1: 4, y1: 2.5 },
+                    { type: 'line', x0: 2, y0: 1, x1: 4, y1: 1.5 },
+                    { type: 'line', x0: 2, y0: 1, x1: 4, y1: 0.5 },
+                ]
+            };
+            Plotly.newPlot('probabilityTree', [trace], layout, {responsive: true});
+        }
+        function createMonteCarloHistogram() {
+            const values = Array.from({length: 2000}, () => (Math.random() + Math.random() + Math.random()) * 30 + 150); // Normal-ish distribution
+            const trace = { x: values, type: 'histogram', marker: { color: '#3b82f6' } };
+            const layout = { ...commonLayout, title: {text:'Monte Carlo Simulation of Valuation ($M)', x: 0.5}, xaxis: { title: 'Valuation Outcome ($M)' }, yaxis: { title: 'Frequency' } };
+            Plotly.newPlot('monteCarloHistogram', [trace], layout, {responsive: true});
+        }
+        function createStressTestHeatMap() {
+            const costIncrease = ['+0%', '+5%', '+10%', '+15%'];
+            const demandDrop = ['-0%', '-10%', '-20%', '-30%'];
+            const ebitdaImpact = [
+                [35.0, 31.5, 28.0, 24.5],
+                [33.2, 29.7, 26.2, 22.7],
+                [31.5, 28.0, 24.5, 21.0],
+                [29.7, 26.2, 22.7, 19.2]
+            ];
+            const text = ebitdaImpact.map(row => row.map(val => `$${val.toFixed(1)}M`));
+            const data = [{
+                z: ebitdaImpact,
+                x: costIncrease,
+                y: demandDrop,
+                type: 'heatmap',
+                colorscale: 'Reds',
+                reversescale: true,
+                text: text,
+                texttemplate: '%{text}'
+            }];
+            const layout = { ...commonLayout, title: {text:'EBITDA Stress Test ($M)', x: 0.5}, xaxis: {title: 'Cost Increase'}, yaxis: {title: 'Demand Drop'} };
+            Plotly.newPlot('stressTestHeatMap', data, layout, {responsive: true});
+        }
+        function createRiskMatrix() {
+            const data = [{
+                x: [1, 2, 3, 4, 5],
+                y: [1, 2, 3, 4, 5],
+                z: [
+                    [1, 2, 3, 4, 5],
+                    [2, 4, 6, 8, 10],
+                    [3, 6, 9, 12, 15],
+                    [4, 8, 12, 16, 20],
+                    [5, 10, 15, 20, 25]
+                ],
+                type: 'heatmap',
+                colorscale: [
+                    [0, '#dcfce7'], [0.25, '#fef3c7'], [1, '#fee2e2']
+                ],
+                showscale: false
+            }];
+            const layout = {
+                ...commonLayout,
+                title: {text: 'Risk Matrix', x: 0.5},
+                xaxis: {title: 'Impact', tickvals: [1, 2, 3, 4, 5], ticktext: ['Low', '', '', '', 'High']},
+                yaxis: {title: 'Probability', tickvals: [1, 2, 3, 4, 5], ticktext: ['Low', '', '', '', 'High']}
+            };
+            Plotly.newPlot('riskMatrix', data, layout, {responsive: true});
+        }
+        function createBowTieDiagram() {
+            const layout = {
+                ...commonLayout,
+                title: {text: 'Bow-Tie Risk Diagram', x: 0.5},
+                xaxis: { showgrid: false, zeroline: false, showticklabels: false, range: [0, 10] },
+                yaxis: { showgrid: false, zeroline: false, showticklabels: false, range: [0, 6] },
+                shapes: [
+                    // Center Event
+                    { type: 'rect', x0: 4, y0: 2.5, x1: 6, y1: 3.5, fillcolor: '#f87171', line: { color: '#b91c1c' } },
+                    // Causes
+                    { type: 'rect', x0: 1, y0: 4, x1: 3, y1: 5, fillcolor: '#e0f2fe', line: { color: '#0ea5e9' } },
+                    { type: 'rect', x0: 1, y0: 1, x1: 3, y1: 2, fillcolor: '#e0f2fe', line: { color: '#0ea5e9' } },
+                    // Consequences
+                    { type: 'rect', x0: 7, y0: 4, x1: 9, y1: 5, fillcolor: '#e0f2fe', line: { color: '#0ea5e9' } },
+                    { type: 'rect', x0: 7, y0: 1, x1: 9, y1: 2, fillcolor: '#e0f2fe', line: { color: '#0ea5e9' } },
+                ],
+                annotations: [
+                    { x: 5, y: 3, text: '<b>Risk Event</b>', showarrow: false, font: {color: 'white'} },
+                    { x: 2, y: 4.5, text: 'Cause A', showarrow: false },
+                    { x: 2, y: 1.5, text: 'Cause B', showarrow: false },
+                    { x: 8, y: 4.5, text: 'Consequence X', showarrow: false },
+                    { x: 8, y: 1.5, text: 'Consequence Y', showarrow: false },
+                    // Arrows
+                    { x: 3.5, y: 4.5, showarrow: true, arrowhead: 2, ax: -40, ay: -35 },
+                    { x: 3.5, y: 1.5, showarrow: true, arrowhead: 2, ax: -40, ay: 35 },
+                    { x: 6.5, y: 4.5, showarrow: true, arrowhead: 2, ax: 40, ay: -35 },
+                    { x: 6.5, y: 1.5, showarrow: true, arrowhead: 2, ax: 40, ay: 35 },
+                ]
+            };
+            Plotly.newPlot('bowTieDiagram', [], layout, {responsive: true});
+        }
+        function createRiskRegisterHeatMap() {
+            const data = [{
+                z: [[5, 1, 3], [2, 4, 1], [3, 2, 5]],
+                x: ['Financial', 'Operational', 'Strategic'],
+                y: ['Risk A', 'Risk B', 'Risk C'],
+                type: 'heatmap',
+                colorscale: [[0, '#dcfce7'], [0.5, '#fef3c7'], [1, '#fee2e2']],
+                text: [['High', 'Low', 'Med'], ['Low', 'Med', 'Low'], ['Med', 'Low', 'High']],
+                texttemplate: '%{text}'
+            }];
+            const layout = { ...commonLayout, title: {text: 'Risk Register Severity', x: 0.5}, xaxis: {side: 'top'} };
+            Plotly.newPlot('riskRegisterHeatMap', data, layout, {responsive: true});
+        }
+        function createCorrelationMatrix() {
+            const data = [{
+                z: [[1.0, 0.8, -0.2], [0.8, 1.0, 0.5], [-0.2, 0.5, 1.0]],
+                x: ['Market Risk', 'Credit Risk', 'Operational Risk'],
+                y: ['Market Risk', 'Credit Risk', 'Operational Risk'],
+                type: 'heatmap',
+                colorscale: 'RdBu',
+                zmin: -1, zmax: 1
+            }];
+            const layout = { ...commonLayout, title: {text: 'Risk Correlation Matrix', x: 0.5} };
+            Plotly.newPlot('correlationMatrix', data, layout, {responsive: true});
+        }
+
+
+        // Create all charts on page load
+        window.onload = function() {
+            // Valuation Output Visualizations
+            createFootballFieldChart();
+            createTornadoChart();
+            createWaterfallChart();
+            createHeatMap();
+            createScatterPlot();
+            createBoxPlot();
+            createRadarChart();
+            createBubbleChart();
+            createTimelineChart();
+            createPremiumHistogram();
+            createTrendLineChart();
+            createGeoHeatMap();
+            
+            // Financial Performance Visualizations
+            createBridgeChart();
+            createStackedAreaChart();
+            createIndexedLineChart();
+            createCohortChart();
+            createMarginWalkChart();
+            createCostStructureChart();
+            createUnitEconomicsChart();
+            createBenchmarkingChart();
+            createCashFlowWaterfall();
+            createWorkingCapitalCycle();
+            createCashConversionBridge();
+            createCapexTrends();
+
+            // Market & Competitive Visualizations
+            createTamSamSomChart();
+            createMarketShareChart();
+            createGrowthDriverTree();
+            createSCurveChart();
+            createPerceptualMap();
+            createHarveyBallsChart();
+            createMarketSharePieChart();
+            createValueChainChart();
+
+            // Operational Performance Visualizations
+            createGaugeCharts();
+            createSparklinesTable();
+            createTrafficLightTable();
+            createBalancedScorecard();
+            createCustomerConcentrationChart();
+            createChurnWaterfall();
+            createLtvCacChart();
+            createNpsTrendLine();
+
+            // Deal Structure Visualizations
+            createSourcesAndUsesTable();
+            createOrgCharts();
+            createOwnershipWaterfall();
+            createEarnoutScenarios();
+            createIrrSensitivityTable();
+            createJCurveChart();
+            createMultipleExpansionBridge();
+            createPortfolioConstructionChart();
+
+            // Risk & Scenario Visualizations
+            createScenarioComparisonTable();
+            createProbabilityTree();
+            createMonteCarloHistogram();
+            createStressTestHeatMap();
+            createRiskMatrix();
+            createBowTieDiagram();
+            createRiskRegisterHeatMap();
+            createCorrelationMatrix();
+        };
+
+    </script>
+</body>
+</html>
