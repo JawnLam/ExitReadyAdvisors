@@ -1,0 +1,1282 @@
+{
+  "manual": {
+    "title": "Financial Statements Preparation Sequence with Intelligent Gap-Filling: Comprehensive Instruction Manual",
+    "version": "2.0",
+    "overview": {
+      "core_principle": "The four core financial statements must be prepared in a specific logical sequence because each statement builds on information from the previous one",
+      "primary_mission": "Transform incomplete financial data into comprehensive, CPA-ready financial statements through intelligent, context-aware gap-filling while maintaining statement interdependency",
+      "purpose": "This framework prioritizes proactive completion over defensive prevention - making smart assumptions, documenting them transparently, and ensuring they align with industry standards to satisfy specialist CPA scrutiny",
+      "supreme_directive": "Seed documents represent immutable truth - every assumption must preserve and enhance their credibility, never contradict or undermine them",
+      "contextual_awareness": "All assumptions must be modulated by macroeconomic conditions and adjusted for entities that are genuine outliers or disruptors"
+    },
+    "seed_document_integrity": {
+      "supreme_authority_principle": "Seed documents represent immutable gospel truth that must never be contradicted, undermined, or rendered implausible by any LLM-generated content",
+      "core_tenets": {
+        "absolute_primacy": "Every fact, figure, ratio, and relationship in seed documents is sacrosanct and unchangeable",
+        "plausibility_preservation": "No assumption or estimate may make seed document information appear unrealistic, questionable, or internally inconsistent",
+        "retroactive_validation": "All gap-fills must enhance, not diminish, the credibility of seed document data"
+      },
+      "enforcement_mechanisms": [
+        {
+          "mechanism": "Immutable Fact Registry",
+          "description": "Extract and catalog every factual element from seed documents as unchangeable truth",
+          "implementation": [
+            "Create comprehensive list of all explicit facts from seed documents",
+            "Include all numbers, dates, names, relationships, and ratios",
+            "Mark these as 'locked' - no assumption may alter or contradict them",
+            "Any attempt to override triggers immediate rejection"
+          ]
+        },
+        {
+          "mechanism": "Plausibility Boundary Analysis",
+          "description": "Ensure all assumptions preserve the reasonableness of seed data",
+          "implementation": [
+            "For every seed fact, establish 'plausibility boundaries' for related estimates",
+            "Example: If seed shows 15% net margin, don't assume 50% gross margin",
+            "Example: If seed shows $1M revenue, don't assume $10M in inventory",
+            "Test each assumption: 'Does this make the seed data look wrong?'"
+          ]
+        },
+        {
+          "mechanism": "Contextual Consistency Preservation",
+          "description": "All gap-fills must fit the narrative implied by seed documents",
+          "implementation": [
+            "Infer the 'story' told by seed document patterns",
+            "Ensure assumptions continue this story logically",
+            "Reject any assumption that would require reinterpreting seed data",
+            "Maintain the business trajectory implied by available information"
+          ]
+        },
+        {
+          "mechanism": "Retroactive Credibility Check",
+          "description": "Verify that final statements make seed data appear more, not less, credible",
+          "implementation": [
+            "After each assumption, ask: 'Does this strengthen the seed data's credibility?'",
+            "If seed data now seems unlikely given the assumption, reject and revise",
+            "Final statements must make seed documents look prescient, not mistaken",
+            "All additions must feel like natural extensions of seed reality"
+          ]
+        }
+      ],
+      "hierarchy_override": {
+        "rule": "Seed Document Integrity supersedes ALL other framework elements",
+        "implications": [
+          "Industry benchmarks yield to seed document patterns",
+          "Regulatory defaults adjust to preserve seed data credibility",
+          "Peer comparisons are secondary to seed document consistency",
+          "Even accounting equations flex (with documentation) to preserve seed truth"
+        ]
+      },
+      "sacred_data_types": [
+        {
+          "type": "Explicit Numbers",
+          "treatment": "Exact replication required, no rounding or adjustment",
+          "example": "If seed shows $1,234,567 in revenue, this exact figure must appear"
+        },
+        {
+          "type": "Calculated Ratios",
+          "treatment": "Preserve both components and relationship",
+          "example": "If seed implies 23.7% gross margin, maintain this precisely"
+        },
+        {
+          "type": "Temporal Sequences",
+          "treatment": "Respect growth patterns and trends",
+          "example": "If seed shows declining revenue, don't assume growth without justification"
+        },
+        {
+          "type": "Operational Relationships",
+          "treatment": "Maintain business model integrity",
+          "example": "If seed shows high R&D spend, don't assume manufacturing focus"
+        }
+      ],
+      "violation_prevention_protocol": {
+        "pre_assumption_check": "Before any gap-fill, verify it won't contradict or undermine seed data",
+        "consistency_test": "Will this assumption require reinterpreting any seed document fact?",
+        "plausibility_test": "Does this assumption make seed data seem unrealistic?",
+        "narrative_test": "Does this assumption fit the story told by seed documents?",
+        "rejection_criteria": "If any test fails, assumption must be revised or abandoned"
+      },
+      "integration_requirements": {
+        "universal_application": "Every framework element must respect seed document integrity",
+        "assumption_constraint": "All assumptions must enhance seed document credibility",
+        "validation_priority": "Seed consistency checks precede all other validations",
+        "documentation_emphasis": "Clearly show how each assumption preserves seed truth"
+      }
+    },
+    "intelligent_financial_statement_completion_framework": {
+      "title": "Adaptive Financial Statement Generation: Intelligent Gap-Filling Framework",
+      "version": "2.0",
+      "core_philosophy": {
+        "mission": "Transform incomplete financial data into comprehensive, CPA-ready financial statements through intelligent, context-aware gap-filling",
+        "principle": "When seed documents have gaps, the LLM must fill them with professionally defensible assumptions that would satisfy a specialist CPA's scrutiny",
+        "approach": "Proactive completion over defensive prevention - make smart assumptions, document them transparently, and ensure they align with industry standards",
+        "foundational_constraint": "All gap-filling must preserve and enhance the integrity of seed document information"
+      },
+      "business_context_analysis": {
+        "primary_directive": "BEFORE any statement preparation, the LLM must establish comprehensive business context derived from and consistent with seed documents",
+        "seed_document_primacy": "All context analysis must treat seed documents as the authoritative source - any inferences must strengthen, not weaken, their credibility",
+        "required_analysis": {
+          "entity_profiling": {
+            "sector_identification": {
+              "instruction": "Determine primary sector (e.g., Technology, Healthcare, Manufacturing, Financial Services)",
+              "sources": ["Company description in seed documents", "Revenue sources", "Asset composition", "Industry codes if available"],
+              "gap_filling": "If unclear, infer from primary revenue streams and asset types"
+            },
+            "subsector_classification": {
+              "instruction": "Identify specific subsector (e.g., SaaS, Biotech, Heavy Manufacturing, Investment Banking)",
+              "methodology": "Analyze revenue model, R&D intensity, asset turnover patterns",
+              "gap_filling": "Use business model indicators to classify precisely"
+            },
+            "industry_positioning": {
+              "instruction": "Determine market position (startup, growth, mature, declining)",
+              "indicators": ["Revenue growth patterns", "R&D spending", "Capital structure", "Asset age"],
+              "gap_filling": "Infer from financial ratios and growth trajectories"
+            },
+            "geographic_footprint": {
+              "instruction": "Identify operational geography and regulatory environment",
+              "analysis": ["Currency usage", "Regulatory disclosures", "Tax rates", "Entity names"],
+              "gap_filling": "Default to seed document indicators, apply regional standards"
+            }
+          },
+          "competitive_benchmarking": {
+            "instruction": "Establish industry peer group for assumption validation",
+            "methodology": [
+              "Identify 5-10 comparable companies in same subsector",
+              "Extract key financial ratios and accounting policies",
+              "Establish 'normal ranges' for critical assumptions"
+            ],
+            "application": "Use peer medians as defaults when specific data is missing",
+            "key_metrics": [
+              "Gross margin ranges",
+              "Operating expense ratios",
+              "Working capital cycles",
+              "Depreciation rates",
+              "Bad debt provisions",
+              "Inventory valuation methods"
+            ]
+          },
+          "macroeconomic_module": {
+            "purpose": "Capture broader economic conditions that must modulate all assumptions to ensure realism for the specific reporting period and geography",
+            "critical_importance": "Macro factors can dramatically affect financial assumptions - ignoring them risks creating unrealistic statements that undermine seed document credibility",
+            "required_macro_factors": {
+              "inflation_environment": {
+                "metrics": ["CPI/PPI rates", "Core inflation", "Sector-specific inflation"],
+                "impact_areas": [
+                  "Inventory valuation (LIFO vs FIFO implications)",
+                  "Wage growth assumptions",
+                  "Operating expense escalation",
+                  "Asset replacement costs"
+                ],
+                "adjustment_protocol": "In high inflation, LIFO reduces taxes; FIFO shows higher profits. Adjust assumptions accordingly."
+              },
+              "interest_rate_regime": {
+                "metrics": ["Central bank rates", "Corporate bond spreads", "LIBOR/SOFR"],
+                "impact_areas": [
+                  "Discount rates for present value calculations",
+                  "Cost of debt assumptions",
+                  "Working capital financing costs",
+                  "Pension obligation discounting"
+                ],
+                "adjustment_protocol": "Higher rates increase financing costs and reduce present values; affects pension obligations, lease liabilities, and fair value calculations"
+              },
+              "gdp_and_economic_cycle": {
+                "metrics": ["GDP growth", "Output gap", "Leading indicators", "Recession probability"],
+                "impact_areas": [
+                  "Revenue growth ceilings",
+                  "Bad debt provision levels",
+                  "Inventory obsolescence rates",
+                  "Capital expenditure patterns"
+                ],
+                "adjustment_protocol": "Recession conditions require conservative assumptions (higher bad debt, lower growth); expansion allows optimistic projections (lower provisions, higher growth)"
+              },
+              "currency_and_trade": {
+                "metrics": ["Exchange rates", "Trade balances", "Tariff regimes"],
+                "impact_areas": [
+                  "Foreign currency translation",
+                  "Import cost assumptions",
+                  "Export competitiveness",
+                  "Hedging requirements"
+                ],
+                "adjustment_protocol": "Strong domestic currency reduces import costs but hurts exports"
+              },
+              "credit_conditions": {
+                "metrics": ["Credit spreads", "Default rates", "Banking sector health"],
+                "impact_areas": [
+                  "Customer payment patterns",
+                  "Allowance for credit losses",
+                  "Financing availability",
+                  "Supplier payment terms"
+                ],
+                "adjustment_protocol": "Tight credit requires higher bad debt reserves and conservative receivables assumptions"
+              }
+            },
+            "temporal_alignment": {
+              "requirement": "Macro factors must match the specific reporting period",
+              "sources": ["Central bank data", "Economic indicators for the period", "Contemporary analyst reports"],
+              "example": "For December 2023 financials, use Q4 2023 macro data, not current conditions",
+              "critical_warning": "NEVER apply current economic conditions to historical financial statements - always use period-specific data"
+            },
+            "geographic_specificity": {
+              "requirement": "Apply macro factors specific to entity's operational geography",
+              "multi_geography": "Weight factors by revenue/asset distribution across regions",
+              "emerging_vs_developed": "Adjust volatility assumptions based on market maturity"
+            },
+            "integration_with_assumptions": {
+              "hierarchical_adjustment": "Macro factors modulate but don't override seed document patterns",
+              "documentation": "Every macro-influenced assumption must cite specific economic conditions",
+              "consistency_check": "Ensure macro adjustments don't contradict seed document trajectory",
+              "outlier_interaction": "For identified outliers, macro sensitivities may be amplified or inverted",
+              "example": "A disruptive fintech may thrive in high interest environments while traditional banks struggle"
+            }
+          }
+        }
+      },
+      "intelligent_gap_detection": {
+        "scanning_protocol": {
+          "instruction": "Systematically identify all missing data points needed for complete statements",
+          "macro_awareness": "Consider what additional data is needed to properly apply macroeconomic adjustments",
+          "outlier_awareness": "Identify if missing data prevents proper outlier detection",
+          "categories": [
+            {
+              "category": "Structural Gaps",
+              "examples": ["Missing account categories", "Incomplete trial balance", "Absent prior period data"],
+              "detection": "Compare seed documents against standard chart of accounts for the industry"
+            },
+            {
+              "category": "Transactional Gaps",
+              "examples": ["Unspecified depreciation", "Missing tax provisions", "Unclear accruals"],
+              "detection": "Identify standard transactions that must exist but aren't documented"
+            },
+            {
+              "category": "Contextual Gaps",
+              "examples": ["Reporting period unclear", "Geographic operations ambiguous", "Industry classification missing"],
+              "detection": "Identify missing context needed for macro analysis and outlier detection"
+            },
+            {
+              "category": "Disclosure Gaps",
+              "examples": ["Accounting policy choices", "Segment information", "Related party details"],
+              "detection": "Compare against industry-standard disclosure requirements"
+            }
+          ]
+        }
+      },
+      "assumption_generation_engine": {
+        "hierarchy_of_sources": {
+          "instruction": "Apply assumptions in priority order, documenting source and confidence level, with seed document integrity as the overriding constraint",
+          "supreme_constraint": "No assumption at any level may contradict or undermine seed document credibility",
+          "priority_levels": [
+            {
+              "level": 1,
+              "source": "Direct Evidence",
+              "description": "Explicit data from seed documents",
+              "confidence": "95-100%",
+              "documentation": "Cite exact source location"
+            },
+            {
+              "level": 2,
+              "source": "Implied Evidence",
+              "description": "Logical inference from available data",
+              "confidence": "85-95%",
+              "documentation": "Show calculation/logic chain",
+              "examples": [
+                "Depreciation rate implied by asset age and accumulated depreciation",
+                "Tax rate calculated from tax expense and pre-tax income",
+                "Inventory method inferred from COGS patterns"
+              ]
+            },
+            {
+              "level": 3,
+              "source": "Industry Standards",
+              "description": "Common practices for the specific subsector",
+              "confidence": "75-85% for standard companies, 25-50% for identified outliers",
+              "documentation": "Cite industry source or peer practices",
+              "outlier_adjustment": "Subject to Outlier_Management_Protocol - may be reduced or ignored for genuine disruptors",
+              "application_note": "Weight = 1 / (1 + outlier_score) - extreme outliers may have near-zero industry benchmark weight",
+              "examples": [
+                "Standard software capitalization rates for SaaS companies",
+                "Typical warranty provisions for manufacturing sector",
+                "Common lease terms for retail subsector"
+              ]
+            },
+            {
+              "level": 4,
+              "source": "Regulatory Defaults",
+              "description": "Minimum requirements or safe harbors",
+              "confidence": "70-75%",
+              "documentation": "Reference specific regulation",
+              "examples": [
+                "MACRS depreciation schedules",
+                "Statutory tax rates by jurisdiction",
+                "Minimum pension funding requirements"
+              ]
+            },
+            {
+              "level": 5,
+              "source": "Conservative Estimates",
+              "description": "Prudent assumptions when no better data exists",
+              "confidence": "60-70%",
+              "documentation": "Explain conservatism principle applied",
+              "examples": [
+                "Higher-end bad debt provisions",
+                "Shorter useful lives for assets",
+                "Full accrual for potential liabilities"
+              ]
+            }
+          ]
+        },
+        "outlier_management_protocol": {
+          "purpose": "Prevent inappropriate normalization of entities with unique or disruptive business models that legitimately deviate from industry norms",
+          "critical_principle": "When seed data shows genuine differentiation, the framework must support and amplify this uniqueness rather than suppress it",
+          "detection_mechanisms": [
+            {
+              "mechanism": "Deviation Analysis",
+              "description": "Quantify how far seed metrics deviate from industry benchmarks",
+              "implementation": [
+                "Calculate z-scores for key metrics vs industry peers",
+                "Flag metrics >2 standard deviations from industry mean",
+                "Identify patterns of systematic deviation across multiple metrics",
+                "Distinguish between random variation and systematic differentiation"
+              ],
+              "threshold": "3+ metrics with >2σ deviation = potential outlier"
+            },
+            {
+              "mechanism": "Business Model Innovation Detection",
+              "description": "Identify indicators of disruptive or novel business approaches",
+              "signals": [
+                "Unusual revenue recognition patterns",
+                "Atypical asset-light or asset-heavy structures",
+                "Non-standard customer acquisition costs",
+                "Novel monetization strategies",
+                "Extreme R&D intensity or complete absence",
+                "Unconventional working capital cycles"
+              ],
+              "documentation": "Document specific innovations observed in seed data"
+            },
+            {
+              "mechanism": "Growth Trajectory Analysis",
+              "description": "Assess if growth patterns indicate disruption rather than typical evolution",
+              "indicators": [
+                "Hypergrowth exceeding industry norms by >3x",
+                "Margin expansion contrary to industry lifecycle",
+                "Market share gains implying disruption",
+                "Non-linear scaling patterns"
+              ],
+              "implication": "Disruptive growth requires non-standard assumption frameworks"
+            }
+          ],
+          "adjustment_protocols": {
+            "benchmark_weighting": {
+              "standard_company": "Industry benchmarks weighted at 100%",
+              "moderate_outlier": "Industry benchmarks weighted at 50-75%",
+              "significant_outlier": "Industry benchmarks weighted at 25-50%",
+              "extreme_disruptor": "Industry benchmarks weighted at 0-25%",
+              "weighting_formula": "Weight = 1 / (1 + outlier_score)"
+            },
+            "assumption_modification": {
+              "principle": "Replace industry-standard assumptions with entity-specific patterns",
+              "examples": [
+                "If SaaS company shows 150% net revenue retention vs 110% industry standard, project continuation",
+                "If manufacturer shows 3x industry inventory turns, don't normalize to average",
+                "If tech company operates with negative working capital, preserve this advantage"
+              ],
+              "documentation": "Explicitly state why industry norms were discarded"
+            },
+            "narrative_preservation": {
+              "requirement": "Gap-fills must amplify the unique story told by seed data",
+              "approach": [
+                "Identify the 'disruption narrative' in seed documents",
+                "Ensure all assumptions support this narrative",
+                "Project the innovative trajectory forward",
+                "Resist regression to the mean"
+              ]
+            }
+          },
+          "integration_safeguards": {
+            "reality_check": "Even outliers must obey laws of physics and economics",
+            "regulatory_floor": "Outlier status doesn't exempt from regulatory requirements",
+            "macro_sensitivity": {
+              "principle": "Disruptors may respond differently to macro conditions",
+              "examples": [
+                "Tech disruptors may benefit from rising rates if competitors struggle more",
+                "Asset-light models may be less affected by inflation than traditional peers",
+                "Counter-cyclical business models may thrive in recessions"
+              ],
+              "documentation": "Explain how outlier status affects macro sensitivity"
+            },
+            "documentation_emphasis": "Outlier assumptions require 2x normal documentation"
+          },
+          "decision_tree": {
+            "step_1": "Calculate deviation metrics from seed data",
+            "step_2": "If >3 metrics show >2σ deviation, activate protocol",
+            "step_3": "Identify specific innovation patterns",
+            "step_4": "Reduce industry benchmark weights accordingly",
+            "step_5": "Apply macroeconomic adjustments considering outlier's unique response patterns",
+            "step_6": "Generate assumptions that preserve unique characteristics while reflecting macro reality",
+            "step_7": "Document why standard approaches were modified and how macro factors were adjusted"
+          }
+        },
+        "sector_specific_assumptions": {
+          "technology": {
+            "revenue_recognition": "Consider SaaS metrics, ARR, deferred revenue patterns",
+            "r&d_treatment": "Capitalize vs expense based on subsector norms",
+            "intangibles": "Customer acquisition costs, software development",
+            "key_ratios": "Rule of 40, CAC payback, gross margin targets"
+          },
+          "manufacturing": {
+            "inventory_valuation": {
+              "principle": "FIFO/LIFO based on inflation environment",
+              "decision_logic": "High inflation → LIFO reduces taxable income; Low/deflation → FIFO shows better margins",
+              "macro_integration": "Must align with actual inflation rates during reporting period"
+            },
+            "depreciation": "Units of production vs straight-line by asset type",
+            "warranty_reserves": "Historical claim rates by product line adjusted for economic conditions",
+            "key_ratios": "Inventory turnover, asset utilization, ROIC"
+          },
+          "financial_services": {
+            "loan_provisions": {
+              "principle": "Expected credit loss models adjusted for macro conditions",
+              "macro_factors": "Higher unemployment → increased provisions; Credit tightening → higher defaults",
+              "forward_looking": "Must incorporate economic forecasts relevant to loan portfolio"
+            },
+            "fair_value": "Level 1/2/3 hierarchies for investments",
+            "regulatory_capital": "Tier 1/2 requirements",
+            "key_ratios": "NIM (highly sensitive to rate environment), efficiency ratio, ROE"
+          },
+          "healthcare": {
+            "revenue_cycle": "Gross charges vs net realizable value",
+            "bad_debt": "Historical collection rates by payor",
+            "compliance_costs": "HIPAA, clinical trial expenses",
+            "key_ratios": "Days in AR, payor mix, EBITDA margins"
+          },
+          "retail": {
+            "inventory_reserves": "Obsolescence by category",
+            "lease_accounting": "Operating vs finance by location type",
+            "seasonal_patterns": "Working capital normalization",
+            "key_ratios": "Same-store sales, inventory turns, gross margin"
+          }
+        }
+      },
+      "output_confidence_stratification": {
+        "high_confidence_items": "Direct from seed documents or clear industry standards",
+        "medium_confidence_items": "Peer-benchmarked or regulation-derived assumptions properly adjusted for macro and outlier factors",
+        "low_confidence_items": "Conservative estimates requiring further review, especially where macro uncertainty or outlier status creates complexity",
+        "flagging_system": "Highlight low-confidence items for human expert validation with clear explanation of uncertainty sources"
+      },
+      "framework_integration_summary": {
+        "macro_and_outlier_synergy": "The macroeconomic module and outlier management protocol work together to ensure assumptions are both contextually appropriate and entity-specific",
+        "hierarchy_of_application": [
+          "1. Seed document facts (immutable)",
+          "2. Macro context for the specific period/geography",
+          "3. Outlier detection and adjustment",
+          "4. Industry benchmarks (weighted by outlier status)",
+          "5. Professional judgment filling remaining gaps"
+        ],
+        "quality_assurance": "Every assumption must pass three tests: preserves seed integrity, reflects macro reality, and respects entity uniqueness"
+      }
+    },
+    "why_sequential_preparation_matters": {
+      "critical_principle": "Financial statements are interconnected documents where the output of one statement becomes the necessary input for another",
+      "consequences_of_wrong_order": [
+        "Incomplete or inaccurate information",
+        "Reconciliation errors", 
+        "Inconsistent financial reporting",
+        "Potential compliance issues"
+      ]
+    },
+    "required_sequence": {
+      "step_0": {
+        "name": "Business Context Establishment & Adjusted Trial Balance (ATB) Completion",
+        "type": "PREREQUISITE",
+        "order": 0,
+        "purpose": "Establish comprehensive business context and complete the ATB through intelligent gap-filling. The ATB is a listing of all company accounts and their balances after all adjusting entries have been recorded",
+        "enhanced_actions": [
+          "Profile entity using available seed data",
+          "Analyze macroeconomic conditions for reporting period and geography",
+          "Perform outlier detection to identify if entity is a genuine disruptor",
+          "Identify peer companies and extract benchmarks with appropriate weights",
+          "Catalog all missing ATB accounts typical for the industry",
+          "Generate missing account balances using macro-adjusted assumption hierarchy",
+          "Apply outlier protocol if entity deviates significantly from norms",
+          "Ensure mathematical balance while preserving business model uniqueness"
+        ],
+        "gap_filling_examples": [
+          "If depreciation expense exists but accumulated depreciation is missing, calculate based on asset age while ensuring the result makes the seed expense figure appear accurate",
+          "If revenue exists but no deferred revenue, check industry norms but ensure any estimate aligns with the revenue recognition pattern implied by seed data",
+          "If inventory exists but no obsolescence reserve, apply industry-standard rates that make the seed inventory value appear reasonable"
+        ],
+        "why_essential": [
+          "Accuracy: If the ATB is incorrect, all subsequent financial statements will be flawed",
+          "Verification: It confirms that the accounting equation remains balanced (Total Debits = Total Credits) after adjustments",
+          "Foundation: Provides the clean, adjusted account balances needed for accurate statement preparation",
+          "Completeness: Ensures all industry-typical accounts are represented, even if initially missing"
+        ],
+        "action_item": "Verify that the ATB is complete and balanced before proceeding to Step 1. Fill any gaps using the assumption generation engine",
+        "critical_checkpoint": "Total Debits = Total Credits",
+        "dependencies": ["All adjusting entries completed", "Business context established", "Gap analysis performed"],
+        "time_perspective": "Snapshot in Time",
+        "key_output": "Complete, balanced account listing with documented assumptions"
+      },
+      "step_1": {
+        "name": "Income Statement with Intelligent Completion",
+        "type": "FIRST STATEMENT",
+        "order": 1,
+        "purpose": "Calculates Net Income (or Net Loss) for the reporting period with intelligent gap-filling for missing components",
+        "gap_filling_protocols": {
+          "revenue_completion": [
+            "If only net revenue provided, estimate gross revenue and deductions based on industry",
+            "Adjust growth assumptions based on GDP trends and economic cycle position",
+            "If missing seasonal patterns, apply subsector-typical seasonality modified by macro conditions",
+            "Generate segment breakdowns if required for the entity size",
+            "For outliers, preserve unique revenue patterns rather than normalizing"
+          ],
+          "expense_completion": [
+            "Apply industry-standard cost structure if major categories missing",
+            "Adjust for inflation impact on operating expenses and COGS",
+            "Factor in interest rate environment for financing costs",
+            "Bad debt provisions must reflect current credit conditions and economic cycle",
+            "Estimate D&A if not provided using asset base and sector norms",
+            "Calculate implied compensation ratios considering labor market conditions",
+            "For disruptors, allow for non-standard expense structures"
+          ],
+          "tax_provision": [
+            "If missing, calculate using effective rates for geography/industry",
+            "Consider deferred tax implications based on balance sheet items",
+            "Apply NOL carryforwards if suggested by prior losses",
+            "Adjust for any macro-driven tax policy changes in the period"
+          ]
+        },
+        "time_frame": "Covers a period of time (e.g., 'For the Year Ended December 31, 2024')",
+        "key_output": "Net Income",
+        "why_first": "Net income is the cornerstone metric needed for both the equity statement and cash flow statement calculations",
+        "dependencies": ["Revenue & Expense accounts from ATB", "Industry benchmarks", "Tax rate assumptions"],
+        "time_perspective": "Period of Time",
+        "note_comprehensive_income": {
+          "condition": "If the company has Other Comprehensive Income (OCI) items",
+          "requirement": "A Statement of Comprehensive Income must be prepared immediately after the Income Statement",
+          "flow": "The total Comprehensive Income will also flow into the Statement of Shareholders' Equity"
+        }
+      },
+      "regulatory_compliance": {
+        "purpose": "Systematic controls to ensure adherence to applicable accounting standards and regulatory requirements while allowing for professional judgment in gap-filling",
+        "core_mechanisms": [
+          {
+            "mechanism": "Standard-Specific Disclosure Triggers",
+            "description": "Automated identification and enforcement of required disclosures based on applicable accounting standards",
+            "implementation": [
+              "GAAP triggers: Activate ASC-specific disclosure requirements based on transaction types and account balances",
+              "IFRS triggers: Apply IAS/IFRS disclosure requirements with materiality hierarchy per IAS 1.51",
+              "SEC triggers: Identify SEC reporting requirements for public companies",
+              "Industry-specific triggers: Apply specialized disclosure requirements (banking, insurance, etc.)"
+            ],
+            "compliance_benefit": "Ensures no mandatory disclosures are missed through systematic standard-specific checks",
+            "gap_filling_allowance": "When specific data is unavailable, use industry-standard disclosures with appropriate caveats"
+          },
+          {
+            "mechanism": "Automated XBRL/ESG Tagging Hooks",
+            "description": "Prepare statements with built-in tagging capabilities for regulatory filing requirements",
+            "implementation": [
+              "XBRL taxonomy mapping: Pre-map financial statement line items to standard XBRL tags",
+              "ESG disclosure hooks: Identify sustainability and ESG reporting requirements",
+              "Regulatory filing preparation: Structure data for automated filing system integration",
+              "Tagging validation: Verify tag completeness and accuracy"
+            ],
+            "compliance_benefit": "Streamlines regulatory filing process and reduces filing errors through automated tagging"
+          },
+          {
+            "mechanism": "Justified Omissions and Assumptions",
+            "description": "Document rationale for both omitted disclosures and gap-filling assumptions",
+            "implementation": [
+              "Standard disclosure checklist: Systematic review of all potentially applicable disclosures",
+              "Omission documentation: Mandatory 'N/A' justification with rationale for each omitted item",
+              "Assumption documentation: Clear explanation of basis for all gap-filling estimates",
+              "Management assertion: Explicit confirmation that all material items have been disclosed or appropriately estimated"
+            ],
+            "compliance_benefit": "Provides transparency for both omissions and professional estimates"
+          }
+        ]
+      },
+      "audit_trail_integrity": {
+        "purpose": "Comprehensive documentation and traceability system for all financial statement preparation decisions, changes, and gap-filling assumptions",
+        "core_mechanisms": [
+          {
+            "mechanism": "Version-Controlled Change Logs",
+            "description": "Complete audit trail of all statement revisions and modifications",
+            "implementation": [
+              "Timestamp all changes: Record exact date/time of every modification",
+              "Change rationale: Require justification for every modification",
+              "Before/after comparison: Maintain record of what changed and by how much",
+              "Rollback capability: Ability to revert to any previous version",
+              "Assumption tracking: Log all gap-filling decisions with supporting rationale"
+            ],
+            "audit_benefit": "Provides complete transparency for external auditors and regulatory review"
+          },
+          {
+            "mechanism": "Confidence Scoring for Estimates and Gap-Fills",
+            "description": "Systematic assessment and documentation of estimation uncertainty and assumption quality",
+            "implementation": [
+              "Confidence scale: 0-100% confidence scoring for all estimates and judgments",
+              "Source hierarchy: Link confidence to assumption generation engine levels (1-5)",
+              "Threshold flagging: Automatically flag estimates with confidence <85% for human review",
+              "Uncertainty documentation: Record basis for confidence assessment",
+              "Sensitivity analysis: Document impact of estimation changes on financial statements",
+              "Expert review triggers: Route low-confidence items to subject matter experts"
+            ],
+            "audit_benefit": "Provides auditors with clear assessment of estimation risk and management judgment quality"
+          },
+          {
+            "mechanism": "Assumption Transparency Logs",
+            "description": "Complete documentation of all implicit and explicit assumptions used in statement preparation",
+            "implementation": [
+              "Assumption catalog: Comprehensive list of all assumptions made during preparation",
+              "Method documentation: Record depreciation methods, inventory valuation, etc.",
+              "Policy elections: Document all accounting policy choices and their rationale",
+              "Estimate basis: Record supporting data and methodology for all estimates",
+              "Industry benchmarking: Document peer comparisons used for gap-filling",
+              "Change tracking: Log any changes to assumptions with justification"
+            ],
+            "audit_benefit": "Ensures all preparation assumptions are transparent and defensible"
+          }
+        ]
+      },
+      "cross_statement_validation": {
+        "purpose": "Systematic verification of consistency and accuracy across all financial statements while allowing for documented assumptions",
+        "core_mechanisms": [
+          {
+            "mechanism": "Automated 3-Way Reconciliation Checks",
+            "description": "Comprehensive cross-verification of figures across Income Statement, Balance Sheet, and Cash Flow Statement",
+            "implementation": [
+              "Net Income reconciliation: IS Net Income = (Ending RE - Beginning RE - Dividends + Other Equity Changes)",
+              "Cash reconciliation: CFS Net Change in Cash = (Ending Cash BS - Beginning Cash BS)",
+              "Equity reconciliation: Ending Equity per Equity Statement = Ending Equity per Balance Sheet",
+              "Operating cash flow tie: CFS Operating Activities starting point = IS Net Income (indirect method)",
+              "Working capital analysis: Verify all Balance Sheet changes flow correctly to Cash Flow Statement"
+            ],
+            "validation_benefit": "Ensures mathematical consistency and identifies discrepancies before statements are finalized",
+            "gap_filling_note": "When data is missing, use industry-standard relationships to maintain reconciliation integrity"
+          },
+          {
+            "mechanism": "Temporal Alignment Enforcement",
+            "description": "Systematic verification that all statements cover consistent time periods and reference dates",
+            "implementation": [
+              "Period consistency: Verify all 'period' statements reference same timeframe (e.g., 'For the Year Ended December 31, 2024')",
+              "Date alignment: Ensure Balance Sheet 'as of' date matches period end date for other statements",
+              "Prior period verification: Confirm beginning balances match prior period ending balances",
+              "Comparative period validation: Verify consistency of multi-period presentations",
+              "Cut-off testing: Ensure transactions are recorded in correct periods"
+            ],
+            "validation_benefit": "Prevents temporal misalignment that could distort financial performance and position reporting"
+          },
+          {
+            "mechanism": "Dependency-Aware Regeneration",
+            "description": "Intelligent system that understands statement interdependencies and manages cascading updates",
+            "implementation": [
+              "Dependency mapping: Track which statements depend on outputs from other statements",
+              "Update sequencing: Ensure updates follow proper preparation sequence (Steps 0-5)",
+              "Cascading validation: When one statement changes, validate all dependent statements",
+              "Consistency preservation: Maintain data integrity during partial regeneration",
+              "Change impact analysis: Assess downstream effects of any input modifications",
+              "Assumption propagation: Ensure gap-filling assumptions cascade appropriately"
+            ],
+            "validation_benefit": "Ensures all interdependent statements remain synchronized and accurate when changes occur"
+          }
+        ]
+      },
+      "error_propagation_containment": {
+        "purpose": "Systematic controls to ensure quality while allowing for professional judgment in gap-filling",
+        "core_mechanisms": [
+          {
+            "mechanism": "Accounting Equation Checks with Professional Flexibility",
+            "description": "Continuous validation of fundamental accounting principles while allowing for documented assumptions",
+            "implementation": [
+              "Step 0: Enforce Total Debits = Total Credits in ATB with <0.01% tolerance after gap-filling",
+              "Step 3: Enforce Assets = Liabilities + Equity with <0.01% tolerance including estimated items", 
+              "All Steps: Verify mathematical accuracy before proceeding to next step",
+              "Document all balancing entries required for gap-filling"
+            ],
+            "quality_benefit": "Maintains fundamental integrity while allowing for necessary professional estimates"
+          },
+          {
+            "mechanism": "Consistency Locks with Override Documentation",
+            "description": "Maintain statement consistency while allowing for justified professional adjustments",
+            "implementation": [
+              "Require full-set regeneration when any input changes",
+              "Allow override with documented business rationale",
+              "Lock interdependent figures across statements during processing",
+              "Maintain transactional integrity - either all statements update successfully or none do"
+            ],
+            "quality_benefit": "Ensures consistency while permitting necessary professional judgment"
+          },
+          {
+            "mechanism": "Intelligent Error Handling",
+            "description": "Distinguish between true errors and acceptable gap-filling estimates",
+            "implementation": [
+              "If ATB shows imbalance beyond tolerance, attempt intelligent rebalancing before halting",
+              "If prior period data unavailable, use industry benchmarks with documentation",
+              "If Net Income calculation requires estimates, proceed with confidence scoring",
+              "Generate diagnostic reports highlighting all assumptions and estimates"
+            ],
+            "quality_benefit": "Enables completion of statements while maintaining transparency about uncertainties"
+          }
+        ],
+        "quality_protocol": {
+          "assumption_validation": "Validate all gap-filling assumptions against industry benchmarks",
+          "sensitivity_analysis": "Test impact of key assumptions on final results",
+          "peer_comparison": "Compare final ratios to industry peers as reasonableness check",
+          "cpa_review_preparation": "Flag all significant assumptions for specialist review"
+        }
+      },
+      "step_2": {
+        "name": "Statement of Shareholders' Equity with Assumption Layer", 
+        "type": "SECOND STATEMENT",
+        "order": 2,
+        "purpose": "Explains how Net Income and other equity transactions affected the company's equity accounts during the period, with intelligent fills for missing data",
+        "intelligent_fills": [
+          "If dividend history missing, estimate based on profitability, industry payout ratios, and capital availability in current credit environment",
+          "For outliers/disruptors, expect lower or zero dividends as they prioritize growth investment",
+          "In tight credit conditions, mature companies may reduce dividends to preserve cash",
+          "For stock compensation, use industry benchmarks for employee ownership adjusted for talent market conditions",
+          "Estimate share repurchases based on cash flow, peer practices, and interest rate environment (high rates may favor buybacks over dividends)"
+        ],
+        "dependencies": [
+          "Beginning Retained Earnings balance (from prior period's Balance Sheet or industry estimate)",
+          "Net Income from the Income Statement (Step 1)",
+          "Dividends paid, stock issuances, stock repurchases (actual or estimated)"
+        ],
+        "calculation_formula": "Beginning Retained Earnings + Net Income (from Income Statement) - Dividends Paid + Other Equity Changes = Ending Retained Earnings",
+        "time_frame": "Covers a period of time (e.g., 'For the Year Ended December 31, 2024')",
+        "key_output": "Ending Shareholders' Equity",
+        "time_perspective": "Period of Time"
+      },
+      "step_3": {
+        "name": "Balance Sheet Synthesis",
+        "type": "THIRD STATEMENT", 
+        "order": 3,
+        "purpose": "Presents the company's financial position at a specific point in time with intelligent completion of missing items",
+        "smart_completion": {
+          "working_capital": [
+            "Apply industry-standard DSO, DPO, DIO if details missing",
+            "Adjust for credit conditions and customer payment patterns in the macro environment",
+            "Use peer working capital ratios to fill gaps (with outlier-adjusted weights)",
+            "Consider seasonal adjustments based on period-end date",
+            "For disruptors, preserve non-standard working capital cycles if evident"
+          ],
+          "long_term_items": [
+            "Estimate useful lives if accumulated depreciation unclear",
+            "Apply debt/equity ratios typical for the industry maturity",
+            "Adjust leverage assumptions based on prevailing interest rates and credit availability",
+            "Include standard accruals (bonuses, taxes, etc.) if missing",
+            "For outliers, allow for unconventional capital structures"
+          ],
+          "intangibles": [
+            "For tech: Include capitalized development if R&D significant",
+            "For acquisitive companies: Estimate goodwill based on patterns",
+            "Apply industry-specific intangible categories",
+            "Consider inflation impact on replacement costs and fair values"
+          ]
+        },
+        "dependencies": [
+          "Ending Retained Earnings from the Statement of Shareholders' Equity (Step 2)",
+          "Asset and Liability account balances as of period end (actual or estimated)"
+        ],
+        "time_frame": "Shows a snapshot in time (e.g., 'As of December 31, 2024')",
+        "key_equation": "Assets = Liabilities + Shareholders' Equity",
+        "key_outputs": [
+          "Ending Cash Balance - Needed for Cash Flow Statement reconciliation",
+          "Complete Asset/Liability positions - Used for Cash Flow Statement analysis"
+        ],
+        "time_perspective": "Snapshot in Time"
+      },
+      "step_4": {
+        "name": "Statement of Cash Flows with Intelligent Construction",
+        "type": "FOURTH STATEMENT",
+        "order": 4,
+        "purpose": "Explains the change in cash balance during the period with intelligent bridging for missing details",
+        "bridging_logic": [
+          "If detailed cash flow missing, construct from balance sheet changes",
+          "Apply industry-standard non-cash adjustments",
+          "Factor in working capital changes driven by macro credit conditions",
+          "Use typical capex/revenue ratios if investing detail missing (adjusted for economic cycle)",
+          "Infer financing activities from debt and equity changes considering interest rate environment",
+          "For outliers, preserve unique cash generation patterns"
+        ],
+        "dependencies": [
+          "Net Income from Income Statement (Step 1) - starting point for Operating Activities",
+          "Beginning Balance Sheet (prior period or estimated) and Ending Balance Sheet (Step 3)",
+          "Cash balances from both Balance Sheets"
+        ],
+        "time_frame": "Covers a period of time (e.g., 'For the Year Ended December 31, 2024')",
+        "critical_reconciliation": "Cash at Beginning of Period (Prior Balance Sheet) + Net Increase/(Decrease) in Cash (from Cash Flow activities) = Cash at End of Period (Current Balance Sheet)",
+        "why_last": "This statement requires completed information from all other statements to properly analyze and reconcile cash movements",
+        "time_perspective": "Period of Time",
+        "methodology_note": {
+          "method": "Indirect Method", 
+          "description": "This sequence heavily relies on the Indirect Method for preparing the Operating Activities section, which starts with Net Income",
+          "reinforcement": "This reinforces why the Income Statement must be prepared before the Cash Flow Statement"
+        }
+      },
+      "step_5": {
+        "name": "Notes Generation with Sector Intelligence",
+        "type": "FINAL COMPONENT",
+        "order": 5,
+        "purpose": "To provide required disclosures with intelligent generation of standard content based on industry norms",
+        "auto_generated_disclosures": [
+          "Create accounting policies based on industry standards (adjusted for outlier status)",
+          "Disclose key macroeconomic assumptions used in estimates",
+          "Document if entity is treated as industry outlier and why",
+          "Generate segment reporting using business unit inference",
+          "Develop risk disclosures specific to sector and macro environment",
+          "Include competitive positioning discussion",
+          "Add forward-looking statements appropriate to industry and economic conditions"
+        ],
+        "dependencies": [
+          "Finalized figures from all four core financial statements",
+          "Compliance with applicable accounting standards (GAAP, IFRS, etc.)",
+          "Supporting documentation and detailed analysis",
+          "Industry-specific disclosure requirements"
+        ],
+        "why_last": "The Notes cannot be finalized until the numbers in the core statements are complete, as they provide context and detailed explanations for those specific numbers",
+        "key_components": [
+          "Summary of significant accounting policies (actual or industry-standard)",
+          "Detailed breakdowns of major balance sheet items", 
+          "Commitments and contingencies (known or typical for industry)",
+          "Subsequent events",
+          "Segment reporting (if applicable)",
+          "Fair value measurements and disclosures",
+          "Management assumptions and estimates documentation"
+        ],
+        "time_perspective": "Supporting Detail",
+        "key_output": "Complete Disclosure with Transparent Assumptions"
+      }
+    },
+    "llm_assurance_framework": {
+      "purpose": "Quality control and governance layer ensuring LLM-generated financial statements meet professional standards while prioritizing completeness through intelligent gap-filling",
+      "application_scope": "Applied continuously throughout Steps 0-5 with emphasis on enabling professional judgment",
+      "hallucination_prevention_subordinated": {
+        "principle": "Prevent only nonsensical hallucinations, not professional estimates",
+        "allowed_creative_fills": [
+          "Industry-standard assumptions without specific documentation",
+          "Peer-benchmarked estimates for missing data",
+          "Regulatory defaults when entity-specific data unavailable",
+          "Professional judgment simulating experienced CPA decisions"
+        ],
+        "prevented_hallucinations": [
+          "Any information that contradicts or undermines seed document facts",
+          "Assumptions that make seed data appear implausible or inconsistent",
+          "Numbers that violate accounting equations",
+          "Assumptions outside industry possibility ranges",
+          "Regulatory non-compliance without justification",
+          "Internal inconsistencies between statements",
+          "Any gap-fill that requires reinterpreting seed document information"
+        ],
+        "core_mechanisms": [
+          {
+            "mechanism": "Source Documentation with Flexibility",
+            "description": "Require source references while allowing for professional estimates",
+            "implementation": "LLM must cite exact source OR document assumption basis using hierarchy of sources",
+            "quality_benefit": "Maintains traceability while enabling necessary gap-filling"
+          },
+          {
+            "mechanism": "Materiality-Based Review", 
+            "description": "Focus human review on material items while allowing automated filling of immaterial gaps",
+            "implementation": "Flag only variances exceeding 0.5% of total assets AND lacking strong assumption basis",
+            "quality_benefit": "Efficient use of human expertise while enabling comprehensive completion"
+          },
+          {
+            "mechanism": "Professional Judgment Documentation",
+            "description": "Replace negative assurance with positive documentation of professional estimates", 
+            "implementation": [
+              "Document basis for all estimates using assumption hierarchy",
+              "Provide confidence scores for all gap-filled items",
+              "Include sensitivity analysis for key assumptions"
+            ],
+            "quality_benefit": "Transparency about uncertainties while enabling statement completion"
+          }
+        ]
+      },
+      "input_validation_rules": {
+        "seed_document_supremacy": "All seed document facts are immutable - no assumption may contradict or undermine them",
+        "data_source_verification": "LLM must cite exact source OR document assumption basis with confidence score",
+        "temporal_consistency_check": "Enforce matching period coverage across all statements (e.g., all must reference 'FY2024')",
+        "materiality_thresholds": {
+          "threshold": "0.5% of total assets",
+          "rule": "Flag variances exceeding threshold WITHOUT strong assumption documentation for review"
+        }
+      },
+      "calculation_integrity_checks": [
+        {
+          "checkpoint": "Net Income Reconciliation",
+          "rule": "Cross-verify IS Net Income = (Total Rev - Total Exp) AND = (Ending RE - Beginning RE - Dividends + Other Equity Changes)",
+          "gap_filling_allowance": "May estimate dividends or other equity changes if needed to maintain reconciliation",
+          "applicable_steps": ["Step 1", "Step 2"]
+        },
+        {
+          "checkpoint": "Cash Flow Reconciliation", 
+          "rule": "Δ Cash per CFS MUST equal (Ending Cash per BS - Beginning Cash per BS)",
+          "gap_filling_allowance": "May construct cash flow details from balance sheet changes if direct data unavailable",
+          "applicable_steps": ["Step 3", "Step 4"]
+        },
+        {
+          "checkpoint": "Accounting Equation",
+          "rule": "Enforce Assets = Liabilities + Equity with <0.01% tolerance",
+          "gap_filling_allowance": "May create balancing entries with clear documentation",
+          "applicable_steps": ["Step 0", "Step 3"]
+        }
+      ],
+      "disclosure_completeness": {
+        "required_disclosures_checklist": [
+          "GAAP/IFRS-mandated footnotes",
+          "Related-party transactions", 
+          "Segment reporting (if applicable)",
+          "Subsequent events analysis",
+          "Risk exposure quantification",
+          "Key assumptions and estimates used in gap-filling"
+        ],
+        "professional_completion_rules": [
+          "If specific data unavailable, use industry-standard language with appropriate caveats",
+          "Document all assumptions made in preparing disclosures",
+          "Include sensitivity analysis for material estimates"
+        ],
+        "applicable_step": "Step 5"
+      },
+      "version_control_audit": {
+        "change_tracking": "Log all statement revisions with timestamp + rationale, including gap-filling decisions",
+        "consistency_lock": "Maintain full-set consistency while documenting any override rationales"
+      },
+      "llm_governance_rules": {
+        "assumption_transparency": "LLM must surface all assumptions with confidence scores and industry benchmarks",
+        "confidence_scoring": {
+          "rule": "Attach confidence scores (0-100%) to all estimates/judgments based on assumption hierarchy", 
+          "threshold": "Flag scores <85% for human review, but allow completion with documentation"
+        },
+        "intelligent_completion": "When data is missing, proceed with best available assumption rather than halting"
+      },
+      "regulatory_anchoring": {
+        "standard_specific_rules": [
+          "IFRS: Apply IAS 1.51 materiality hierarchy in disclosures",
+          "GAAP: Enforce ASC 230 cash flow categorization rules", 
+          "SEC: Embed XBRL tagging requirements"
+        ],
+        "gap_filling_compliance": "Use regulatory safe harbors and industry practices when specific guidance unavailable"
+      }
+    },
+    "iterative_refinement_process": {
+      "instruction": "After initial completion, refine assumptions based on internal consistency and seed document integrity",
+      "primary_validation": "Do all assumptions preserve and enhance seed document credibility?",
+      "refinement_checks": [
+        "Does every assumption strengthen the believability of seed data?",
+        "Are macro adjustments appropriate for the specific time period and geography?",
+        "If entity is an outlier, are we preserving rather than suppressing its uniqueness?",
+        "Do the margins make sense for the competitive position indicated in seed documents?",
+        "Are the growth rates consistent with both macro conditions and seed patterns?",
+        "Do the cash conversion cycles match the operational model implied by seed data?",
+        "Are the financial ratios within ranges that make seed data look accurate?",
+        "Have we avoided inappropriately normalizing a disruptor to industry averages?",
+        "Would a reader viewing the complete statements find the seed data more credible?"
+      ],
+      "adjustment_protocol": "Revise any assumption that creates inconsistency with seed documents or makes them appear questionable"
+    },
+    "quality_assurance_framework": {
+      "cpa_scrutiny_preparation": {
+        "seed_document_validation": {
+          "primary_test": "Would a CPA find the seed documents more credible after reviewing our complete statements?",
+          "consistency_requirement": "Every assumption must make seed data appear prescient rather than mistaken",
+          "narrative_coherence": "The complete story must feel like a natural extension of seed document facts"
+        },
+        "documentation_requirements": [
+          "Every assumption must show how it preserves seed document integrity",
+          "Explicit traceability from seed facts to final figures",
+          "Clear explanation of how gaps were filled without undermining seed credibility",
+          "Industry comparisons must be consistent with seed document patterns",
+          "Regulatory compliance must align with seed document context",
+          "All estimates must show calculation methodology that respects seed constraints"
+        ],
+        "red_flag_avoidance": [
+          "Ensure margins align with competitive positioning",
+          "Verify tax rates match geographic operations",
+          "Confirm depreciation methods match asset types",
+          "Validate working capital cycles are industry-appropriate"
+        ],
+        "specialist_perspective": {
+          "instruction": "Consider what a CPA specializing in this industry would examine",
+          "areas": [
+            "Industry-specific KPIs and their calculation",
+            "Regulatory compliance unique to sector",
+            "Common audit adjustments for the industry",
+            "Typical management judgments required"
+          ]
+        }
+      }
+    },
+    "summary_reference_table": [
+      {
+        "statement": "Business Context & Adjusted Trial Balance",
+        "order": 0,
+        "dependencies": ["Seed documents", "Macro analysis", "Outlier detection", "Industry analysis", "All adjusting entries"],
+        "time_perspective": "Snapshot in Time", 
+        "key_output": "Complete balanced account listing with contextually-aware assumptions"
+      },
+      {
+        "statement": "Income Statement",
+        "order": 1,
+        "dependencies": ["Revenue & Expense accounts", "Industry benchmarks"],
+        "time_perspective": "Period of Time",
+        "key_output": "Net Income with gap-filled components"
+      },
+      {
+        "statement": "Statement of Shareholders' Equity", 
+        "order": 2,
+        "dependencies": ["Prior equity + Net Income + Dividends (actual or estimated)"],
+        "time_perspective": "Period of Time",
+        "key_output": "Ending Equity"
+      },
+      {
+        "statement": "Balance Sheet",
+        "order": 3, 
+        "dependencies": ["Asset/Liability accounts + Ending Equity (with intelligent fills)"],
+        "time_perspective": "Snapshot in Time",
+        "key_output": "Complete Financial Position"
+      },
+      {
+        "statement": "Statement of Cash Flows",
+        "order": 4,
+        "dependencies": ["Net Income + Both Balance Sheets (may be constructed)"],
+        "time_perspective": "Period of Time", 
+        "key_output": "Cash Reconciliation"
+      },
+      {
+        "statement": "Notes to Financial Statements",
+        "order": 5,
+        "dependencies": ["All completed statements + Industry requirements"],
+        "time_perspective": "Supporting Detail",
+        "key_output": "Complete Disclosure with Assumptions"
+      }
+    ],
+    "implementation_checklist": {
+      "before_you_begin": [
+        "Analyze business context and identify industry/subsector",
+        "Research macroeconomic conditions for the specific reporting period and geography",
+        "Perform outlier detection analysis on available seed metrics",
+        "Gather all available seed documents and data",
+        "Research industry peers and benchmarks with appropriate weighting adjustments", 
+        "Document all data gaps requiring assumptions",
+        "Establish confidence scoring methodology",
+        "Determine if entity requires special treatment as industry disruptor"
+      ],
+      "step_by_step_process": [
+        {
+          "step": 0,
+          "action": "Establish business context and complete Adjusted Trial Balance with gap-filling",
+          "verification": "Total Debits = Total Credits with all accounts represented",
+          "gap_filling_checks": [
+            "Complete macroeconomic analysis for reporting period and geography",
+            "Perform outlier detection analysis on seed document metrics",
+            "Adjust industry benchmark weights if entity is genuine disruptor",
+            "All industry-typical accounts included with macro-adjusted assumptions",
+            "Missing balances estimated using assumption hierarchy with outlier adjustments",
+            "Business context fully documented including macro factors",
+            "Peer benchmarks established with appropriate weighting"
+          ]
+        },
+        {
+          "step": 1, 
+          "action": "Complete Income Statement with intelligent fills for missing components",
+          "verification": "Net Income calculation with documented assumptions",
+          "gap_filling_checks": [
+            "Revenue components estimated if needed",
+            "Expense ratios aligned with industry",
+            "Tax provisions calculated appropriately",
+            "All assumptions documented with confidence scores"
+          ]
+        },
+        {
+          "step": 2,
+          "action": "Prepare Statement of Shareholders' Equity with estimated transactions if needed",
+          "verification": "Equity reconciliation with assumption documentation",
+          "gap_filling_checks": [
+            "Dividend policy estimated if not specified",
+            "Stock compensation benchmarked to peers",
+            "Other equity changes documented"
+          ]
+        },
+        {
+          "step": 3,
+          "action": "Complete Balance Sheet with industry-appropriate fills",
+          "verification": "Balance Sheet equation maintained with all positions",
+          "gap_filling_checks": [
+            "Working capital ratios industry-appropriate",
+            "Long-term assets/liabilities complete",
+            "Intangibles properly represented",
+            "All estimates documented"
+          ]
+        },
+        {
+          "step": 4,
+          "action": "Construct Cash Flow Statement using available data and standard bridges",
+          "verification": "Cash reconciliation with clear methodology",
+          "gap_filling_checks": [
+            "Operating activities properly adjusted",
+            "Investing/financing activities inferred if needed",
+            "All construction logic documented"
+          ]
+        },
+        {
+          "step": 5,
+          "action": "Generate comprehensive Notes with industry-standard content",
+          "verification": "Complete disclosure package",
+          "gap_filling_checks": [
+            "All required disclosures addressed",
+            "Accounting policies documented",
+            "Key assumptions transparently presented",
+            "Industry-specific content included"
+          ]
+        }
+      ],
+      "final_verification": [
+        "Confirm absolute preservation of all seed document facts and relationships",
+        "Verify that every assumption enhances rather than undermines seed credibility",
+        "Ensure the complete narrative extends logically from seed document patterns",
+        "Validate that no gap-fill requires reinterpretation of seed data",
+        "Confirm all macro adjustments are appropriate for the reporting period",
+        "Verify outlier adjustments preserve rather than suppress uniqueness",
+        "Check that industry benchmark weights reflect entity's true position",
+        "Confirm all statements mathematically reconcile",
+        "Verify all gaps have been addressed with documented assumptions",
+        "Ensure confidence scores are attached to all estimates",
+        "Check that final ratios align with patterns implied by seed documents",
+        "Validate CPA review readiness with assumption transparency",
+        "Confirm regulatory compliance with appropriate documentation",
+        "Review completeness against industry peer disclosures",
+        "Ensure audit trail captures all gap-filling decisions",
+        "Verify macro factors are period and geography-specific",
+        "Final test: Do the complete statements make seed documents appear more accurate and insightful?"
+      ]
+    },
+    "key_success_factors": [
+      {
+        "factor": "Preserve Seed Document Sanctity",
+        "description": "Treat every fact in seed documents as immutable truth that must be preserved, enhanced, and never undermined"
+      },
+      {
+        "factor": "Prioritize Completeness",
+        "description": "Fill all gaps with defensible assumptions rather than leaving statements incomplete"
+      },
+      {
+        "factor": "Document Everything",
+        "description": "Every assumption, estimate, and gap-fill must have clear documentation and rationale"
+      },
+      {
+        "factor": "Apply Contextual Intelligence",
+        "description": "Use macroeconomic conditions and outlier detection to ensure assumptions are realistic for the specific entity and time period"
+      },
+      {
+        "factor": "Preserve Uniqueness",
+        "description": "When entity is a genuine outlier, support rather than suppress its differentiation from industry norms"
+      },
+      {
+        "factor": "Maintain Professional Standards",
+        "description": "Ensure all gap-fills would withstand scrutiny from a specialist CPA"
+      },
+      {
+        "factor": "Apply Systematic Approach",
+        "description": "Use the assumption hierarchy consistently across all statements"
+      },
+      {
+        "factor": "Balance Accuracy and Completeness",
+        "description": "Make reasonable estimates to complete statements while maintaining fundamental integrity"
+      },
+      {
+        "factor": "Prepare for Review",
+        "description": "Structure all work to facilitate efficient CPA review with clear assumption documentation"
+      }
+    ],
+    "data_flow_connections": [
+      {
+        "from": "Business Context Analysis (including Macro & Outlier)",
+        "to": "All Statements",
+        "data": "Macro-adjusted benchmarks, outlier-weighted comparisons, sector norms",
+        "type": "contextual_foundation"
+      },
+      {
+        "from": "Adjusted Trial Balance",
+        "to": "Income Statement", 
+        "data": "Revenue and Expense account balances (actual or estimated)",
+        "type": "direct_input"
+      },
+      {
+        "from": "Adjusted Trial Balance",
+        "to": "Balance Sheet",
+        "data": "Asset and Liability account balances (with gap fills)", 
+        "type": "direct_input"
+      },
+      {
+        "from": "Income Statement",
+        "to": "Statement of Shareholders' Equity",
+        "data": "Net Income",
+        "type": "critical_dependency"
+      },
+      {
+        "from": "Statement of Shareholders' Equity", 
+        "to": "Balance Sheet",
+        "data": "Ending Equity balance",
+        "type": "critical_dependency"
+      },
+      {
+        "from": "Income Statement",
+        "to": "Statement of Cash Flows",
+        "data": "Net Income (starting point for Operating Activities)",
+        "type": "critical_dependency"
+      },
+      {
+        "from": "Balance Sheet (Beginning and Ending)",
+        "to": "Statement of Cash Flows", 
+        "data": "Account balance changes and cash reconciliation",
+        "type": "critical_dependency"
+      },
+      {
+        "from": "All Financial Statements",
+        "to": "Notes to Financial Statements",
+        "data": "Finalized figures and all assumptions for disclosure",
+        "type": "supporting_detail"
+      }
+    ],
+    "common_errors_to_avoid": [
+      "Creating any information that contradicts seed document facts",
+      "Making assumptions that render seed data implausible or questionable",
+      "Failing to preserve the narrative coherence implied by seed documents",
+      "Using industry benchmarks that conflict with seed document patterns",
+      "Ignoring macroeconomic conditions relevant to the reporting period",
+      "Inappropriately normalizing genuine outliers to industry averages",
+      "Applying current macro conditions to historical reporting periods",
+      "Failing to adjust assumptions for geographic-specific economic factors",
+      "Over-weighting industry benchmarks for disruptive business models",
+      "Generating ratios or relationships inconsistent with seed data",
+      "Leaving statements incomplete rather than making reasonable assumptions",
+      "Making assumptions without documentation or industry support",
+      "Using generic estimates rather than sector-specific benchmarks",
+      "Failing to maintain mathematical relationships between statements",
+      "Omitting confidence scores on estimated items",
+      "Creating assumptions that contradict business context",
+      "Missing industry-standard accounts or disclosures",
+      "Inadequate documentation for CPA review",
+      "Assumptions outside reasonable industry ranges",
+      "Inconsistent application of estimation methodology"
+    ],
+    "compliance_considerations": {
+      "gaap_requirements": "US Generally Accepted Accounting Principles with appropriate estimates",
+      "ifrs_requirements": "International Financial Reporting Standards with professional judgment", 
+      "sec_requirements": "Securities and Exchange Commission filing requirements with transparent assumptions",
+      "audit_trail": "Complete documentation of all assumptions and gap-filling decisions",
+      "regulatory_anchoring": {
+        "ifrs_specific": "Apply IAS 1.51 materiality hierarchy with documented estimates",
+        "gaap_specific": "Enforce ASC 230 cash flow categorization with constructed details if needed",
+        "sec_specific": "Embed XBRL tagging with appropriate estimate flags"
+      },
+      "professional_standards": {
+        "cpa_readiness": "All assumptions must withstand specialist scrutiny",
+        "documentation_quality": "Clear audit trail from seed data to final statements",
+        "transparency_requirement": "Full disclosure of estimation methodology",
+        "industry_alignment": "Consistency with sector-specific practices"
+      }
+    }
+  }
+}

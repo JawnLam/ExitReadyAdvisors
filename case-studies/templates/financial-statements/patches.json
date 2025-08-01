@@ -1,0 +1,311 @@
+{
+  "intelligent_financial_statement_completion_framework": {
+    "title": "Adaptive Financial Statement Generation: Intelligent Gap-Filling Framework",
+    "version": "2.0",
+    "core_philosophy": {
+      "mission": "Transform incomplete financial data into comprehensive, CPA-ready financial statements through intelligent, context-aware gap-filling",
+      "principle": "When seed documents have gaps, the LLM must fill them with professionally defensible assumptions that would satisfy a specialist CPA's scrutiny",
+      "approach": "Proactive completion over defensive prevention - make smart assumptions, document them transparently, and ensure they align with industry standards"
+    },
+    "business_context_analysis": {
+      "primary_directive": "BEFORE any statement preparation, the LLM must establish comprehensive business context",
+      "required_analysis": {
+        "entity_profiling": {
+          "sector_identification": {
+            "instruction": "Determine primary sector (e.g., Technology, Healthcare, Manufacturing, Financial Services)",
+            "sources": ["Company description in seed documents", "Revenue sources", "Asset composition", "Industry codes if available"],
+            "gap_filling": "If unclear, infer from primary revenue streams and asset types"
+          },
+          "subsector_classification": {
+            "instruction": "Identify specific subsector (e.g., SaaS, Biotech, Heavy Manufacturing, Investment Banking)",
+            "methodology": "Analyze revenue model, R&D intensity, asset turnover patterns",
+            "gap_filling": "Use business model indicators to classify precisely"
+          },
+          "industry_positioning": {
+            "instruction": "Determine market position (startup, growth, mature, declining)",
+            "indicators": ["Revenue growth patterns", "R&D spending", "Capital structure", "Asset age"],
+            "gap_filling": "Infer from financial ratios and growth trajectories"
+          },
+          "geographic_footprint": {
+            "instruction": "Identify operational geography and regulatory environment",
+            "analysis": ["Currency usage", "Regulatory disclosures", "Tax rates", "Entity names"],
+            "gap_filling": "Default to seed document indicators, apply regional standards"
+          }
+        },
+        "competitive_benchmarking": {
+          "instruction": "Establish industry peer group for assumption validation",
+          "methodology": [
+            "Identify 5-10 comparable companies in same subsector",
+            "Extract key financial ratios and accounting policies",
+            "Establish 'normal ranges' for critical assumptions"
+          ],
+          "application": "Use peer medians as defaults when specific data is missing",
+          "key_metrics": [
+            "Gross margin ranges",
+            "Operating expense ratios",
+            "Working capital cycles",
+            "Depreciation rates",
+            "Bad debt provisions",
+            "Inventory valuation methods"
+          ]
+        }
+      }
+    },
+    "intelligent_gap_detection": {
+      "scanning_protocol": {
+        "instruction": "Systematically identify all missing data points needed for complete statements",
+        "categories": [
+          {
+            "category": "Structural Gaps",
+            "examples": ["Missing account categories", "Incomplete trial balance", "Absent prior period data"],
+            "detection": "Compare seed documents against standard chart of accounts for the industry"
+          },
+          {
+            "category": "Transactional Gaps",
+            "examples": ["Unspecified depreciation", "Missing tax provisions", "Unclear accruals"],
+            "detection": "Identify standard transactions that must exist but aren't documented"
+          },
+          {
+            "category": "Disclosure Gaps",
+            "examples": ["Accounting policy choices", "Segment information", "Related party details"],
+            "detection": "Compare against industry-standard disclosure requirements"
+          }
+        ]
+      }
+    },
+    "assumption_generation_engine": {
+      "hierarchy_of_sources": {
+        "instruction": "Apply assumptions in priority order, documenting source and confidence level",
+        "priority_levels": [
+          {
+            "level": 1,
+            "source": "Direct Evidence",
+            "description": "Explicit data from seed documents",
+            "confidence": "95-100%",
+            "documentation": "Cite exact source location"
+          },
+          {
+            "level": 2,
+            "source": "Implied Evidence",
+            "description": "Logical inference from available data",
+            "confidence": "85-95%",
+            "documentation": "Show calculation/logic chain",
+            "examples": [
+              "Depreciation rate implied by asset age and accumulated depreciation",
+              "Tax rate calculated from tax expense and pre-tax income",
+              "Inventory method inferred from COGS patterns"
+            ]
+          },
+          {
+            "level": 3,
+            "source": "Industry Standards",
+            "description": "Common practices for the specific subsector",
+            "confidence": "75-85%",
+            "documentation": "Cite industry source or peer practices",
+            "examples": [
+              "Standard software capitalization rates for SaaS companies",
+              "Typical warranty provisions for manufacturing sector",
+              "Common lease terms for retail subsector"
+            ]
+          },
+          {
+            "level": 4,
+            "source": "Regulatory Defaults",
+            "description": "Minimum requirements or safe harbors",
+            "confidence": "70-75%",
+            "documentation": "Reference specific regulation",
+            "examples": [
+              "MACRS depreciation schedules",
+              "Statutory tax rates by jurisdiction",
+              "Minimum pension funding requirements"
+            ]
+          },
+          {
+            "level": 5,
+            "source": "Conservative Estimates",
+            "description": "Prudent assumptions when no better data exists",
+            "confidence": "60-70%",
+            "documentation": "Explain conservatism principle applied",
+            "examples": [
+              "Higher-end bad debt provisions",
+              "Shorter useful lives for assets",
+              "Full accrual for potential liabilities"
+            ]
+          }
+        ]
+      },
+      "sector_specific_assumptions": {
+        "technology": {
+          "revenue_recognition": "Consider SaaS metrics, ARR, deferred revenue patterns",
+          "r&d_treatment": "Capitalize vs expense based on subsector norms",
+          "intangibles": "Customer acquisition costs, software development",
+          "key_ratios": "Rule of 40, CAC payback, gross margin targets"
+        },
+        "manufacturing": {
+          "inventory_valuation": "FIFO/LIFO based on inflation environment",
+          "depreciation": "Units of production vs straight-line by asset type",
+          "warranty_reserves": "Historical claim rates by product line",
+          "key_ratios": "Inventory turnover, asset utilization, ROIC"
+        },
+        "financial_services": {
+          "loan_provisions": "Expected credit loss models",
+          "fair_value": "Level 1/2/3 hierarchies for investments",
+          "regulatory_capital": "Tier 1/2 requirements",
+          "key_ratios": "NIM, efficiency ratio, ROE"
+        },
+        "healthcare": {
+          "revenue_cycle": "Gross charges vs net realizable value",
+          "bad_debt": "Historical collection rates by payor",
+          "compliance_costs": "HIPAA, clinical trial expenses",
+          "key_ratios": "Days in AR, payor mix, EBITDA margins"
+        },
+        "retail": {
+          "inventory_reserves": "Obsolescence by category",
+          "lease_accounting": "Operating vs finance by location type",
+          "seasonal_patterns": "Working capital normalization",
+          "key_ratios": "Same-store sales, inventory turns, gross margin"
+        }
+      }
+    },
+    "enhanced_statement_preparation_sequence": {
+      "step_0_enhanced": {
+        "name": "Business Context Establishment & ATB Completion",
+        "new_actions": [
+          "Profile entity using available seed data",
+          "Identify peer companies and extract benchmarks",
+          "Catalog all missing ATB accounts typical for the industry",
+          "Generate missing account balances using assumption hierarchy",
+          "Ensure mathematical balance while preserving business logic"
+        ],
+        "gap_filling_examples": [
+          "If depreciation expense exists but accumulated depreciation is missing, calculate based on asset age",
+          "If revenue exists but no deferred revenue, check industry norms for prepayment patterns",
+          "If inventory exists but no obsolescence reserve, apply industry-standard rates"
+        ]
+      },
+      "step_1_enhanced": {
+        "name": "Income Statement Intelligent Completion",
+        "gap_filling_protocols": {
+          "revenue_completion": [
+            "If only net revenue provided, estimate gross revenue and deductions based on industry",
+            "If missing seasonal patterns, apply subsector-typical seasonality",
+            "Generate segment breakdowns if required for the entity size"
+          ],
+          "expense_completion": [
+            "Apply industry-standard cost structure if major categories missing",
+            "Estimate D&A if not provided using asset base and sector norms",
+            "Calculate implied compensation ratios for missing SG&A detail"
+          ],
+          "tax_provision": [
+            "If missing, calculate using effective rates for geography/industry",
+            "Consider deferred tax implications based on balance sheet items",
+            "Apply NOL carryforwards if suggested by prior losses"
+          ]
+        }
+      },
+      "step_2_enhanced": {
+        "name": "Equity Statement Assumption Layer",
+        "intelligent_fills": [
+          "If dividend history missing, estimate based on profitability and industry payout ratios",
+          "For stock compensation, use industry benchmarks for employee ownership",
+          "Estimate share repurchases based on cash flow and peer practices"
+        ]
+      },
+      "step_3_enhanced": {
+        "name": "Balance Sheet Synthesis",
+        "smart_completion": {
+          "working_capital": [
+            "Apply industry-standard DSO, DPO, DIO if details missing",
+            "Use peer working capital ratios to fill gaps",
+            "Consider seasonal adjustments based on period-end date"
+          ],
+          "long_term_items": [
+            "Estimate useful lives if accumulated depreciation unclear",
+            "Apply debt/equity ratios typical for the industry maturity",
+            "Include standard accruals (bonuses, taxes, etc.) if missing"
+          ],
+          "intangibles": [
+            "For tech: Include capitalized development if R&D significant",
+            "For acquisitive companies: Estimate goodwill based on patterns",
+            "Apply industry-specific intangible categories"
+          ]
+        }
+      },
+      "step_4_enhanced": {
+        "name": "Cash Flow Intelligent Construction",
+        "bridging_logic": [
+          "If detailed cash flow missing, construct from balance sheet changes",
+          "Apply industry-standard non-cash adjustments",
+          "Use typical capex/revenue ratios if investing detail missing",
+          "Infer financing activities from debt and equity changes"
+        ]
+      },
+      "step_5_enhanced": {
+        "name": "Notes Generation with Sector Intelligence",
+        "auto_generated_disclosures": [
+          "Create accounting policies based on industry standards",
+          "Generate segment reporting using business unit inference",
+          "Develop risk disclosures specific to sector",
+          "Include competitive positioning discussion",
+          "Add forward-looking statements appropriate to industry"
+        ]
+      }
+    },
+    "quality_assurance_framework": {
+      "cpa_scrutiny_preparation": {
+        "documentation_requirements": [
+          "Every assumption must have documented rationale",
+          "Industry comparisons must be specific and current",
+          "Regulatory compliance must be jurisdiction-specific",
+          "All estimates must show calculation methodology"
+        ],
+        "red_flag_avoidance": [
+          "Ensure margins align with competitive positioning",
+          "Verify tax rates match geographic operations",
+          "Confirm depreciation methods match asset types",
+          "Validate working capital cycles are industry-appropriate"
+        ],
+        "specialist_perspective": {
+          "instruction": "Consider what a CPA specializing in this industry would examine",
+          "areas": [
+            "Industry-specific KPIs and their calculation",
+            "Regulatory compliance unique to sector",
+            "Common audit adjustments for the industry",
+            "Typical management judgments required"
+          ]
+        }
+      }
+    },
+    "hallucination_prevention_subordinated": {
+      "principle": "Prevent only nonsensical hallucinations, not professional estimates",
+      "allowed_creative_fills": [
+        "Industry-standard assumptions without specific documentation",
+        "Peer-benchmarked estimates for missing data",
+        "Regulatory defaults when entity-specific data unavailable",
+        "Professional judgment simulating experienced CPA decisions"
+      ],
+      "prevented_hallucinations": [
+        "Numbers that violate accounting equations",
+        "Assumptions outside industry possibility ranges",
+        "Regulatory non-compliance without justification",
+        "Internal inconsistencies between statements"
+      ]
+    },
+    "iterative_refinement_process": {
+      "instruction": "After initial completion, refine assumptions based on internal consistency",
+      "refinement_checks": [
+        "Do the margins make sense for the competitive position?",
+        "Are the growth rates consistent with industry maturity?",
+        "Do the cash conversion cycles match operational model?",
+        "Are the financial ratios within peer ranges?"
+      ],
+      "adjustment_protocol": "Revise assumptions that create outlier metrics unless justified by unique circumstances"
+    },
+    "output_confidence_stratification": {
+      "high_confidence_items": "Direct from seed documents or clear industry standards",
+      "medium_confidence_items": "Peer-benchmarked or regulation-derived assumptions",
+      "low_confidence_items": "Conservative estimates requiring further review",
+      "flagging_system": "Highlight low-confidence items for human expert validation"
+    }
+  }
+}
