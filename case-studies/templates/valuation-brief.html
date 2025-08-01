@@ -3,7 +3,7 @@
 
     <!--
     /----------------------------------------------------------------------------------------------------\
-    | LAST UPDATE: 2507232318…Wed_Jul_23_2025_1118PM                                                     |
+    | LAST UPDATE: 2507311914…Thu_Jul_31_2025_0714PM                                                     |
     | https://gemini.google.com/app/81c9008b893c0b7e                                                     |
     | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/case-studies/templates/valuation-brief.html |
     \----------------------------------------------------------------------------------------------------/
@@ -19,6 +19,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         /* Custom styles and animations */
         body {
@@ -37,62 +39,217 @@
             animation: fadeIn 0.8s ease-in-out forwards;
         }
         
-        /* Tab styling */
+        /* --- TAB STYLING --- */
+
+        /* This is the main selector for each tab button. */
         .tab-button {
-            position: relative; /* For pseudo-element positioning */
-            overflow: hidden;   /* To contain the animation */
-            z-index: 1;         /* To keep text on top */
-            transition: color 0.3s ease, border-color 0.3s ease;
-            border-bottom: 3px solid transparent;
-            padding: 1rem 0.5rem;
-            font-size: 0.875rem;
-            font-weight: 500;
-            flex-shrink: 0;
-            white-space: nowrap;
-            color: #6B7280; /* text-gray-500 */
+            /* --- ANIMATION & TRANSITION --- */
+            transition: all 0.3s ease; /* Makes all changes (color, border, etc.) animate smoothly over 0.3 seconds. */
+            position: relative; /* Necessary for positioning the ::after pseudo-element for the hover effect. */
+            overflow: hidden;   /* Keeps the hover effect contained within the button's rounded corners. */
+            z-index: 1;         /* Ensures the button text appears above the hover background effect. */
+
+            /* --- LOOK & BORDERS --- */
+            border-bottom: 3px solid transparent; /* Creates a transparent border at the bottom, which will get a color on hover/active. */
+            border-radius: 0.375rem 0.375rem 0 0; /* Rounds the top-left and top-right corners. */
+            font-weight: 600; /* Sets the font to semi-bold. */
+
+            /* --- SIZE & PLACEMENT --- */
+            /* Font size is now controlled by JavaScript */
+            padding: 0.75rem 0.25rem; /* Adds padding inside the button (top/bottom and left/right). */
+            margin: 0 2px;          /* Adds a small margin between the tabs. */
+            min-height: 55px;       /* Ensures all tabs have the same minimum height. */
+            display: flex;          /* Uses flexbox for alignment. */
+            align-items: center;    /* Vertically centers the text. */
+            justify-content: center;/* Horizontally centers the text. */
+            flex-grow: 1;           /* Allows the tabs to grow and fill the available space equally. */
+            text-align: center;     /* Centers the text (useful for multi-line text). */
         }
 
-        /* Pseudo-element for the bottom-up hover animation */
-        .tab-button::before {
-            content: '';
-            position: absolute;
+        /* This creates a pseudo-element that's used for the background hover animation. */
+        .tab-button::after {
+            content: ''; /* Required for a pseudo-element to appear. */
+            position: absolute; /* Positions it relative to the .tab-button. */
             bottom: 0;
             left: 0;
             right: 0;
-            height: 0;
-            background-color: #DBEAFE; /* bg-blue-100 */
-            border-radius: 0.375rem 0.375rem 0 0;
-            transition: height 0.3s ease-out;
-            z-index: -1; /* Behind the text */
+            height: 0; /* Starts with zero height, so it's invisible. */
+            background-color: #DBEAFE; /* The light blue background color for the effect. */
+            transition: height 0.3s ease; /* Animates the height change over 0.3 seconds. */
+            z-index: -1; /* Places it behind the button's text. */
         }
 
-        /* Hover state for non-active tabs */
-        .tab-button:not(.active):hover::before {
-            height: 100%; /* Animate the background fill */
+        /* --- HOVER & ACTIVE STATES --- */
+
+        /* This block controls the animation when you hover over a tab that is NOT active. */
+        .tab-button:not(.active):hover::after {
+            height: 100%; /* The background grows to fill the full height of the tab on hover. */
         }
-        
+
+        /* This styles the tab text and border on hover when it is NOT active. */
         .tab-button:not(.active):hover {
-            color: #2563EB; /* text-blue-600 */
-            border-bottom-color: #3B82F6; /* border-blue-500 */
+            color: #2563EB; /* Changes text color to blue. */
+            border-bottom-color: #3B82F6; /* Changes the bottom border color to a brighter blue. */
         }
 
-        /* Active tab styling with blue accents and border */
+        /* This styles a tab when it IS the active tab. */
         .tab-button.active {
-            background-color: #DBEAFE; /* bg-blue-100 */
-            color: #2563EB; /* text-blue-600 */
-            border: 1px solid #2563EB; /* border-blue-600 */
-            border-bottom: 3px solid #3B82F6; /* border-blue-500 */
-            border-radius: 0.375rem 0.375rem 0 0;
+            background-color: #DBEAFE; /* Sets the light blue background color. */
+            color: #2563EB; /* Sets the text color to blue. */
+            border-bottom-color: #3B82F6; /* Sets the bottom border color. */
+            box-shadow: 0 0 0 1px #3B82F6; /* Adds a subtle 1px blue outline. */
         }
 
-        /* Tab content styling */
+        /* This styles a tab when it is NOT active. */
+        .tab-button:not(.active) {
+            color: #6B7280; /* Sets the default text color to gray. */
+        }
+
+        /* --- TAB CONTENT STYLING --- */
+
+        /* By default, all tab content is hidden. */
         .tab-content {
             display: none;
         }
+
+        /* When a tab content panel has the 'active' class, it becomes visible. */
         .tab-content.active {
+            display: block; /* Changes display from 'none' to 'block' to show it. */
+            animation: fadeIn 0.5s ease-in-out; /* Applies a fade-in animation. */
+        }
+
+        /* --- INTERACTIVE MARKET SLIDER STYLING --- */
+        .market-slider-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.75rem;
+        }
+        .market-slider-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 300%; /* 3 slides */
+        }
+        .market-slide {
+            width: calc(100% / 3);
+            flex-shrink: 0;
+            padding: 2rem;
+            background-color: #f0f9ff; /* A very light blue */
+        }
+        .slider-nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid #d1d5db;
+            border-radius: 9999px;
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .slider-nav-button:hover {
+            background-color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .slider-nav-button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        
+        /* --- OPERATIONS TAB: INTERACTIVE INFOGRAPHIC --- */
+        .operations-infographic-card {
+            background-color: #f9fafb;
+            border-radius: 0.75rem;
+            border: 1px solid #e5e7eb;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .operations-infographic-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-color: #3B82F6;
+        }
+
+        /* --- MODAL STYLING --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            transition: opacity 0.3s ease;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay:not(.hidden) .modal-content {
+            transform: scale(1);
+        }
+
+        /* --- DEAL TIMELINE STYLING --- */
+        .deal-timeline-nav {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+        }
+        .deal-timeline-nav::before {
+            content: '';
+            position: absolute;
+            bottom: 2rem;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background-color: #d1d5db;
+            z-index: 1;
+        }
+        .timeline-milestone {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            z-index: 2;
+        }
+        .milestone-icon {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 9999px;
+            background-color: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            border: 2px solid #e5e7eb;
+        }
+        .timeline-milestone.active .milestone-icon {
+            background-color: #DBEAFE;
+            border-color: #3B82F6;
+            transform: scale(1.1);
+        }
+        .timeline-milestone-content {
+            display: none;
+        }
+        .timeline-milestone-content.active {
             display: block;
-            /* Animation for tab content switching */
-            animation: fadeIn 0.5s ease-in-out;
+            animation: fadeIn 0.5s ease;
         }
     </style>
 </head>
@@ -151,10 +308,10 @@
         <main>
             <!-- Tab Navigation -->
             <div class="border-b border-gray-200 mb-6">
-                <nav class="-mb-px flex space-x-4 overflow-x-auto" aria-label="Tabs">
+                <nav class="-mb-px flex" aria-label="Tabs">
                     <button class="tab-button" data-tab="overview">Overview</button>
                     <button class="tab-button" data-tab="financials">Financials</button>
-                    <button class="tab-button" data-tab="market">Market</button>
+                    <button class="tab-button" data-tab="market">Market Analysis</button>
                     <button class="tab-button" data-tab="operations">Operations</button>
                     <button class="tab-button" data-tab="deal-opportunities">Deal Structure</button>
                 </nav>
@@ -195,7 +352,7 @@
                     <div>
                         <h3 class="text-xl font-bold text-gray-800 mb-3">Financial Statements</h3>
                         <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700">
-                            <li><a href="#" class="text-blue-600 hover:underline">Balance Sheet</a></li>
+                            <li><a href="balance-sheet.html" class="text-blue-600 hover:underline">Balance Sheet</a></li>
                             <li><a href="#" class="text-blue-600 hover:underline">Income Statement</a></li>
                             <li><a href="#" class="text-blue-600 hover:underline">Statement of Cash Flows</a></li>
                         </ul>
@@ -203,102 +360,165 @@
                 </div>
 
                 <!-- Market Panel -->
-                <div id="market" class="tab-content space-y-8">
-                    <div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3">Market & Competitive Landscape</h3>
-                        <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700">
-                            <li><strong class="font-semibold text-gray-800">Market Position:</strong> A dominant regional player with a service area covering high-growth markets in the Southwest, positioned to capitalize on continued commercial and industrial development.</li>
-                            <li><strong class="font-semibold text-gray-800">Competitive Advantage:</strong> Unlike smaller, local competitors, the company's multi-state footprint, sophisticated project management systems, and four-decade-long relationships with national builders create a significant competitive moat.</li>
-                            <li><strong class="font-semibold text-gray-800">Growth Opportunities:</strong> The company has clear, actionable pathways for expansion, including entering the robust Texas market, increasing its footprint in the hospitality sector, and launching a tech-forward division focused on smart building systems and energy-efficient solutions.</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3">Customer Portfolio Deep Dive</h3>
-                        <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700">
-                            <li><strong class="font-semibold text-gray-800">Client Retention:</strong> The company boasts a near-100% repeat business rate from its core clients, reflecting deep trust and consistent project execution.</li>
-                            <li><strong class="font-semibold text-gray-800">Contract Structure:</strong> Long-term master service agreements are in place with key clients, providing a predictable and recurring revenue stream.</li>
-                            <li><strong class="font-semibold text-gray-800">Project Backlog:</strong> With $88 million in active and awarded work, the company has strong revenue visibility for the next 18-24 months.</li>
-                            <li><strong class="font-semibold text-gray-800">Concentration Risk:</strong> The client base is well-diversified, with no single client accounting for more than 15% of annual revenue, mitigating concentration risk.</li>
-                            <li><strong class="font-semibold text-gray-800">Case Studies:</strong> A portfolio of completed large-scale projects is available, demonstrating the company's ability to manage complex, multi-million-dollar installations profitably and on schedule.</li>
-                        </ul>
+                <div id="market" class="tab-content">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2 text-center">A Story of Market Dominance</h3>
+                    <p class="text-center text-gray-600 mb-6">Navigate through our key market strengths.</p>
+                    <div class="market-slider-container">
+                        <div class="market-slider-track">
+                            <!-- Slide 1: Market Position -->
+                            <div class="market-slide text-center">
+                                <i class="fas fa-map-marker-alt text-5xl text-blue-500 mb-4"></i>
+                                <h4 class="text-xl font-bold text-blue-800 mb-2">Market Position</h4>
+                                <p class="text-gray-700">A dominant regional player with a service area covering high-growth markets in the Southwest, positioned to capitalize on continued commercial and industrial development.</p>
+                            </div>
+                            <!-- Slide 2: Competitive Advantage -->
+                            <div class="market-slide text-center">
+                                <i class="fas fa-shield-alt text-5xl text-blue-500 mb-4"></i>
+                                <h4 class="text-xl font-bold text-blue-800 mb-2">Competitive Advantage</h4>
+                                <p class="text-gray-700">Unlike smaller, local competitors, the company's multi-state footprint, sophisticated project management systems, and four-decade-long relationships with national builders create a significant competitive moat.</p>
+                            </div>
+                            <!-- Slide 3: Growth Opportunities -->
+                            <div class="market-slide text-center">
+                                <i class="fas fa-rocket text-5xl text-blue-500 mb-4"></i>
+                                <h4 class="text-xl font-bold text-blue-800 mb-2">Growth Opportunities</h4>
+                                <p class="text-gray-700">Clear, actionable pathways for expansion, including entering the robust Texas market, increasing its footprint in the hospitality sector, and launching a tech-forward division focused on smart building systems.</p>
+                            </div>
+                        </div>
+                        <!-- Navigation Buttons -->
+                        <button id="prev-slide" class="slider-nav-button left-2"><i class="fas fa-chevron-left text-gray-600"></i></button>
+                        <button id="next-slide" class="slider-nav-button right-2"><i class="fas fa-chevron-right text-gray-600"></i></button>
                     </div>
                 </div>
+
 
                 <!-- Operations Panel -->
-                <div id="operations" class="tab-content space-y-8">
-                    <div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3">Operational Assets & Facilities</h3>
-                        <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700">
-                            <li><strong class="font-semibold text-gray-800">Facilities:</strong> The company operates from three strategically located facilities in Phoenix, Salt Lake City, and Denver, all of which are owned and included in the sale.</li>
-                            <li><strong class="font-semibold text-gray-800">Equipment (FF&E):</strong> The sale includes a well-maintained fleet of vehicles and state-of-the-art equipment valued at approximately $5.4 million, with minimal near-term capital expenditure requirements.</li>
-                            <li><strong class="font-semibold text-gray-800">Inventory Strategy:</strong> A robust inventory management system ensures that essential components and materials are readily available, minimizing project delays and enhancing service efficiency.</li>
-                        </ul>
-                    </div>
-                     <div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3">Technology & Operational Systems</h3>
-                        <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700">
-                            <li><strong class="font-semibold text-gray-800">Project Management:</strong> The company utilizes advanced project management software to streamline scheduling, resource allocation, and budget tracking, ensuring operational efficiency across all projects.</li>
-                            <li><strong class="font-semibold text-gray-800">Proprietary Processes:</strong> Over the past 45 years, Johnson & Sons has developed proprietary installation techniques and quality control checklists that ensure consistent, high-quality outcomes, differentiating the company from its competitors.</li>
-                            <li><strong class="font-semibold text-gray-800">Scalability:</strong> The current operational infrastructure and systems are highly scalable, supporting significant growth without requiring major additional investment.</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3">Management & Workforce</h3>
-                        <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700">
-                            <li><strong class="font-semibold text-gray-800">Leadership Team:</strong> A seasoned and fully autonomous leadership team manages daily operations, with an average tenure of over 15 years. This team is capable of driving growth and executing the company's strategic vision independently.</li>
-                            <li><strong class="font-semibold text-gray-800">Workforce:</strong> The company employs a dedicated team of over 110 skilled technicians, project managers, and support staff. Low employee turnover and a strong company culture are central to its success.</li>
-                            <li><strong class="font-semibold text-gray-800">Training & Development:</strong> Johnson & Sons invests heavily in continuous training and professional development, ensuring its team remains at the forefront of industry standards and new technologies.</li>
-                            <li><strong class="font-semibold text-gray-800">Owner Dependence:</strong> The business is not dependent on the owner for day-to-day operations, with established systems and a strong management team in place to ensure a seamless transition of leadership.</li>
-                        </ul>
+                <div id="operations" class="tab-content">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2 text-center">The Engine of Excellence</h3>
+                    <p class="text-center text-gray-600 mb-8">Explore the core components of our operational strength. Click each pillar to learn more.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Card 1: Assets & Facilities -->
+                        <div class="operations-infographic-card" data-modal-target="modal-assets">
+                            <i class="fas fa-warehouse text-4xl text-blue-500 mb-4"></i>
+                            <h4 class="text-lg font-bold text-gray-800">Assets & Facilities</h4>
+                            <p class="text-sm text-gray-600 mt-2">Robust physical infrastructure and inventory management.</p>
+                        </div>
+                        <!-- Card 2: Technology & Systems -->
+                        <div class="operations-infographic-card" data-modal-target="modal-tech">
+                           <i class="fas fa-cogs text-4xl text-blue-500 mb-4"></i>
+                            <h4 class="text-lg font-bold text-gray-800">Technology & Systems</h4>
+                            <p class="text-sm text-gray-600 mt-2">Proprietary processes and scalable, efficient platforms.</p>
+                        </div>
+                        <!-- Card 3: Management & Workforce -->
+                        <div class="operations-infographic-card" data-modal-target="modal-workforce">
+                            <i class="fas fa-users text-4xl text-blue-500 mb-4"></i>
+                            <h4 class="text-lg font-bold text-gray-800">Management & Workforce</h4>
+                            <p class="text-sm text-gray-600 mt-2">Experienced leadership and a highly skilled team.</p>
+                        </div>
                     </div>
                 </div>
 
+
                 <!-- Deal Structure & Opportunities Panel -->
-                <div id="deal-opportunities" class="tab-content space-y-8">
-                    <div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3">Transaction</h3>
-                        <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700">
-                            <li><strong class="font-semibold text-gray-800">Structure:</strong> The transaction is anticipated as an asset sale to provide a step-up in basis for the buyer; however, a stock sale may also be considered.</li>
-                            <li><strong class="font-semibold text-gray-800">Financing:</strong> A combination of third-party debt and seller financing is proposed to facilitate the acquisition.</li>
-                            <li><strong class="font-semibold text-gray-800">Seller Role:</strong> The owner will commit to a 24-36 month transition period in a full-time capacity, followed by a flexible advisory role.</li>
-                            <li><strong class="font-semibold text-gray-800">Working Capital:</strong> A normalized net working capital target will be established and adjusted at closing.</li>
-                            <li><strong class="font-semibold text-gray-800">Escrow:</strong> A portion of the proceeds will be held in escrow to cover any potential post-closing indemnification claims.</li>
-                        </ul>
+                <div id="deal-opportunities" class="tab-content">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2 text-center">The Anatomy of the Deal</h3>
+                    <p class="text-center text-gray-600 mb-8">Follow the timeline to understand each phase of the opportunity.</p>
+                    
+                    <!-- Timeline Navigation -->
+                    <div class="deal-timeline-nav">
+                        <div class="timeline-milestone active" data-content="timeline-transaction">
+                            <div class="milestone-icon"><i class="fas fa-handshake text-3xl text-blue-600"></i></div>
+                            <p class="text-sm font-semibold mt-2">Transaction</p>
+                        </div>
+                        <div class="timeline-milestone" data-content="timeline-transition">
+                            <div class="milestone-icon"><i class="fas fa-people-arrows text-3xl text-blue-600"></i></div>
+                            <p class="text-sm font-semibold mt-2">Transition</p>
+                        </div>
+                        <div class="timeline-milestone" data-content="timeline-valuation">
+                            <div class="milestone-icon"><i class="fas fa-calculator text-3xl text-blue-600"></i></div>
+                            <p class="text-sm font-semibold mt-2">Valuation</p>
+                        </div>
+                        <div class="timeline-milestone" data-content="timeline-future">
+                            <div class="milestone-icon"><i class="fas fa-chart-line text-3xl text-blue-600"></i></div>
+                            <p class="text-sm font-semibold mt-2">The Future</p>
+                        </div>
                     </div>
-                    <div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3">Transition</h3>
-                        <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700">
-                            <li><strong class="font-semibold text-gray-800">Continuity:</strong> The existing leadership team, with an average tenure of over 15 years, will remain to ensure operational stability and continuity.</li>
-                            <li><strong class="font-semibold text-gray-800">Knowledge Transfer:</strong> A comprehensive transition plan will be executed to transfer all critical knowledge, systems access, and client relationships.</li>
-                            <li><strong class="font-semibold text-gray-800">Employee Retention:</strong> Key employee retention agreements will be established to secure top talent following the acquisition.</li>
-                            <li><strong class="font-semibold text-gray-800">Client Communication:</strong> A joint communication strategy will be developed to inform clients and stakeholders of the ownership change, ensuring the integrity of the relationship.</li>
-                        </ul>
-                    </div>
-                     <div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3">Key Transaction Issues</h3>
-                        <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700">
-                            <li><strong class="font-semibold text-gray-800">Seller Role:</strong> The owner's 24-36 month transition commitment is critical for transferring key relationships and strategic knowledge.</li>
-                            <li><strong class="font-semibold text-gray-800">Contract Novation:</strong> Transferring the $88M backlog and master service agreements will require proactive client consent and negotiation.</li>
-                            <li><strong class="font-semibold text-gray-800">Management Retention:</strong> Securing the long-tenured leadership team post-acquisition is essential for operational stability and continued growth.</li>
-                            <li><strong class="font-semibold text-gray-800">Real Estate:</strong> The sale of three owned operational hubs requires separate valuation and presents an opportunity for a sale-leaseback arrangement.</li>
-                            <li><strong class="font-semibold text-gray-800">Working Capital:</strong> The $4.5M net working capital peg is a key financial term that will require careful due diligence and negotiation.</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3">Valuation</h3>
-                        <p class="text-gray-700 leading-relaxed">The asking price of $51,250,000 is based on a multiple of Adjusted EBITDA, reflecting the company's strong market position, recurring revenue, and significant growth potential. A detailed valuation report is available to qualified buyers.</p>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3">Growth & Risks</h3>
-                        <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700">
-                            <li><strong class="font-semibold text-gray-800">Growth:</strong> Expansion into the Texas market and the high-tech building systems sector represent significant, untapped revenue streams.</li>
-                            <li><strong class="font-semibold text-gray-800">Risks:</strong> Market risks include potential downturns in the commercial construction sector and dependency on key material suppliers. These are mitigated by a diversified client base and strong supplier relationships.</li>
-                        </ul>
+                    
+                    <!-- Timeline Content Display Area -->
+                    <div class="timeline-content-container bg-gray-50 p-6 rounded-lg">
+                        <div id="timeline-transaction" class="timeline-milestone-content active">
+                            <h4 class="text-xl font-bold text-gray-800 mb-3">The Transaction</h4>
+                            <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700">
+                                <li><strong>Structure:</strong> Anticipated as an asset sale for a step-up in basis; stock sale also considered.</li>
+                                <li><strong>Financing:</strong> A combination of third-party debt and seller financing is proposed.</li>
+                                <li><strong>Working Capital:</strong> A normalized net working capital target will be established and adjusted at closing.</li>
+                            </ul>
+                        </div>
+                        <div id="timeline-transition" class="timeline-milestone-content">
+                            <h4 class="text-xl font-bold text-gray-800 mb-3">The Transition</h4>
+                            <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700">
+                                <li><strong>Seller Role:</strong> The owner will commit to a 24-36 month transition period, followed by a flexible advisory role.</li>
+                                <li><strong>Continuity:</strong> The existing leadership team (average tenure 15+ years) will remain.</li>
+                                <li><strong>Key Issues:</strong> Proactive client consent for contract novation and securing the management team are critical.</li>
+                            </ul>
+                        </div>
+                        <div id="timeline-valuation" class="timeline-milestone-content">
+                            <h4 class="text-xl font-bold text-gray-800 mb-3">The Valuation</h4>
+                            <p class="text-gray-700 leading-relaxed">The asking price of <strong>$51,250,000</strong> is based on a multiple of Adjusted EBITDA, reflecting the company's strong market position, recurring revenue, and significant growth potential. A detailed valuation report is available to qualified buyers.</p>
+                        </div>
+                        <div id="timeline-future" class="timeline-milestone-content">
+                            <h4 class="text-xl font-bold text-gray-800 mb-3">The Future: Growth & Risks</h4>
+                             <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700">
+                                <li><strong>Growth:</strong> Expansion into the Texas market and the high-tech building systems sector represent significant, untapped revenue streams.</li>
+                                <li><strong>Risks:</strong> Market risks include potential downturns in the commercial construction sector and dependency on key material suppliers, mitigated by a diversified client base and strong supplier relationships.</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </main>
     </div>
+
+    <!-- Modals for Operations Tab -->
+    <div id="modal-assets" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-800">Assets & Facilities</h3>
+                <button class="modal-close text-gray-500 hover:text-gray-800">&times;</button>
+            </div>
+            <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700">
+                <li>Three strategically located, owned facilities in Phoenix, Salt Lake City, and Denver.</li>
+                <li>A well-maintained fleet and state-of-the-art equipment valued at approximately $5.4 million.</li>
+                <li>A robust inventory management system to minimize project delays.</li>
+            </ul>
+        </div>
+    </div>
+    <div id="modal-tech" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-800">Technology & Systems</h3>
+                <button class="modal-close text-gray-500 hover:text-gray-800">&times;</button>
+            </div>
+            <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700">
+                <li>Advanced software for streamlined scheduling, resource allocation, and budget tracking.</li>
+                <li>45 years of developed proprietary techniques and quality control checklists.</li>
+                <li>Highly scalable infrastructure and systems supporting significant growth.</li>
+            </ul>
+        </div>
+    </div>
+    <div id="modal-workforce" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-800">Management & Workforce</h3>
+                <button class="modal-close text-gray-500 hover:text-gray-800">&times;</button>
+            </div>
+            <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700">
+                <li>A seasoned, autonomous leadership team with an average tenure of over 15 years.</li>
+                <li>A dedicated team of over 110 skilled technicians, project managers, and support staff.</li>
+                <li>The business is not dependent on the owner for day-to-day operations.</li>
+            </ul>
+        </div>
+    </div>
+
 
     <!-- Footer Placeholder -->
     <footer id="footer-placeholder"></footer>
@@ -309,6 +529,24 @@
     \-------------------/
     -->
     <script>
+        /**
+         * Adjusts the font size of tabs to fit their container width.
+         */
+        function adjustTabFontSize() {
+            const tabs = document.querySelectorAll('.tab-button');
+            tabs.forEach(tab => {
+                const tabWidth = tab.offsetWidth;
+                // This scaling factor can be adjusted to get the desired look.
+                // A smaller divisor means a larger font.
+                const newSize = tabWidth / 10; 
+                
+                // Set min and max font sizes to prevent text from being too small or large.
+                const clampedSize = Math.max(12, Math.min(16, newSize)); 
+
+                tab.style.fontSize = `${clampedSize}px`;
+            });
+        }
+
         /**
          * Initializes the mobile menu toggle functionality.
          * This should be called after the header content is loaded.
@@ -396,7 +634,7 @@
 
             const tabButtons = document.querySelectorAll('.tab-button');
             const tabContents = document.querySelectorAll('.tab-content');
-
+            
             function switchTab(tabId) {
                 tabButtons.forEach(button => {
                     button.classList.toggle('active', button.dataset.tab === tabId);
@@ -415,6 +653,86 @@
             if (tabButtons.length > 0) {
                 switchTab(tabButtons[0].dataset.tab);
             }
+            
+            // Adjust font sizes on initial load
+            adjustTabFontSize();
+
+            // --- MARKET SLIDER LOGIC ---
+            const track = document.querySelector('.market-slider-track');
+            if (track) {
+                const slides = Array.from(track.children);
+                const nextButton = document.getElementById('next-slide');
+                const prevButton = document.getElementById('prev-slide');
+                let slideIndex = 0;
+
+                const updateSlider = () => {
+                    track.style.transform = `translateX(-${slideIndex * (100 / slides.length)}%)`;
+                    prevButton.disabled = slideIndex === 0;
+                    nextButton.disabled = slideIndex === slides.length - 1;
+                };
+
+                nextButton.addEventListener('click', () => {
+                    if (slideIndex < slides.length - 1) {
+                        slideIndex++;
+                        updateSlider();
+                    }
+                });
+
+                prevButton.addEventListener('click', () => {
+                    if (slideIndex > 0) {
+                        slideIndex--;
+                        updateSlider();
+                    }
+                });
+
+                updateSlider(); // Set initial state
+            }
+
+            // --- OPERATIONS MODAL LOGIC ---
+            const modalTriggers = document.querySelectorAll('[data-modal-target]');
+            modalTriggers.forEach(trigger => {
+                trigger.addEventListener('click', () => {
+                    const modalId = trigger.getAttribute('data-modal-target');
+                    const modal = document.getElementById(modalId);
+                    if (modal) {
+                        modal.classList.remove('hidden');
+                    }
+                });
+            });
+
+            const modals = document.querySelectorAll('.modal-overlay');
+            modals.forEach(modal => {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal || e.target.closest('.modal-close')) {
+                        modal.classList.add('hidden');
+                    }
+                });
+            });
+
+            // --- DEAL TIMELINE LOGIC ---
+            const milestones = document.querySelectorAll('.timeline-milestone');
+            const milestoneContents = document.querySelectorAll('.timeline-milestone-content');
+
+            milestones.forEach(milestone => {
+                milestone.addEventListener('click', () => {
+                    const contentId = milestone.dataset.content;
+
+                    milestones.forEach(m => m.classList.remove('active'));
+                    milestone.classList.add('active');
+
+                    milestoneContents.forEach(c => c.classList.remove('active'));
+                    document.getElementById(contentId).classList.add('active');
+                });
+            });
+        });
+
+        // Adjust font sizes on window resize
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                adjustTabFontSize();
+            }, 100); // Debounce to avoid performance issues
         });
     </script>
 
