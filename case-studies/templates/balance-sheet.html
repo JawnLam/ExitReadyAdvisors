@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+    <!-- 
+    /-------------------------------------------------------------------------\
+    | LAST UPDATE: 2507311846…Thu_Jul_31_2025_0646PM                          |
+    | https://gemini.google.com/app/8a73b2be7803285b                          |
+    \-------------------------------------------------------------------------/
+    -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Johnson & Sons - Balance Sheet</title>
+    <!-- Scripts & Fonts for Header/Footer -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles for Balance Sheet Content -->
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            margin: 0; /* Reset margin */
+            background-color: #f5f5f5;
+        }
+        .balance-sheet-container {
+            max-width: 900px;
+            margin: 40px auto; /* Add margin for spacing from header/footer */
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px double #2c3e50;
+            padding-bottom: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+            font-size: 28px;
+        }
+        h2 {
+            color: #34495e;
+            font-size: 20px;
+            margin-top: 0;
+            margin-bottom: 5px;
+            font-weight: normal;
+        }
+        h3 {
+            color: #2c3e50;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+            font-size: 18px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+        }
+        td {
+            padding: 8px 5px;
+            border-bottom: 1px solid #ecf0f1;
+            font-size: 14px;
+        }
+        .indent1 { padding-left: 30px; }
+        .indent2 {
+            padding-left: 60px;
+            font-style: italic;
+            color: #555;
+        }
+        .amount {
+            text-align: right;
+            width: 150px;
+            font-family: 'Courier New', monospace;
+        }
+        .subtotal {
+            font-weight: bold;
+            border-top: 1px solid #bdc3c7;
+            border-bottom: 3px double #7f8c8d;
+            background-color: #f8f9fa;
+        }
+        .total {
+            font-weight: bold;
+            font-size: 16px;
+            border-top: 2px solid #2c3e50;
+            border-bottom: 4px double #2c3e50;
+            background-color: #e8f4f8;
+        }
+        .section-total {
+            font-weight: bold;
+            border-top: 1px solid #bdc3c7;
+            background-color: #fafafa;
+        }
+        .footnote {
+            font-size: 11px;
+            color: #555;
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            border-radius: 5px;
+        }
+        .footnote h4 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        .company-info {
+            font-size: 12px;
+            color: #7f8c8d;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header Placeholder -->
+    <header id="header-placeholder"></header>
+
+    <!-- Main Content - Balance Sheet -->
+    <main>
+        <div class="balance-sheet-container">
+            <div class="header">
+                <h1>JOHNSON & SONS HEATING, PLUMBING, & AIR</h1>
+                <h2>Consolidated Balance Sheet</h2>
+                <h2>As of December 31, 2024</h2>
+            </div>
+            
+            <h3>ASSETS</h3>
+            <table>
+                <tr>
+                    <td><strong>Current Assets:</strong></td>
+                    <td class="amount"></td>
+                </tr>
+                <tr>
+                    <td class="indent1">Cash and Cash Equivalents</td>
+                    <td class="amount">$1,125,000</td>
+                </tr>
+                <tr>
+                    <td class="indent1">Restricted Cash</td>
+                    <td class="amount">$275,000</td>
+                </tr>
+                <tr>
+                    <td class="indent1">Accounts Receivable - Trade</td>
+                    <td class="amount">$9,450,000</td>
+                </tr>
+                <tr>
+                    <td class="indent2">Less: Allowance for Doubtful Accounts</td>
+                    <td class="amount">($175,000)</td>
+                </tr>
+                <tr>
+                    <td class="indent1">Retainage Receivable</td>
+                    <td class="amount">$1,875,000</td>
+                </tr>
+                <tr>
+                    <td class="indent1">Costs in Excess of Billings</td>
+                    <td class="amount">$2,650,000</td>
+                </tr>
+                <tr>
+                    <td class="indent1">Inventory - Materials and Supplies</td>
+                    <td class="amount">$1,800,000</td>
+                </tr>
+                <tr>
+                    <td class="indent1">Prepaid Expenses and Other</td>
+                    <td class="amount">$500,000</td>
+                </tr>
+                <tr class="section-total">
+                    <td class="indent1">Total Current Assets</td>
+                    <td class="amount">$17,500,000</td>
+                </tr>
+                
+                <tr><td>&nbsp;</td><td></td></tr>
+                
+                <tr>
+                    <td><strong>Property, Plant & Equipment:</strong></td>
+                    <td class="amount"></td>
+                </tr>
+                <tr>
+                    <td class="indent1">Land</td>
+                    <td class="amount">$1,500,000</td>
+                </tr>
+                <tr>
+                    <td class="indent1">Buildings & Improvements</td>
+                    <td class="amount">$4,700,000</td>
+                </tr>
+                <tr>
+                    <td class="indent1">Machinery & Fabrication Equipment</td>
+                    <td class="amount">$3,200,000</td>
+                </tr>
+                <tr>
+                    <td class="indent1">Vehicles & Mobile Equipment</td>
+                    <td class="amount">$2,200,000</td>
+                </tr>
+                <tr>
+                    <td class="indent1">Tools & Shop Equipment</td>
+                    <td class="amount">$850,000</td>
+                </tr>
+                <tr>
+                    <td class="indent1">Office Equipment & Furniture</td>
+                    <td class="amount">$550,000</td>
+                </tr>
+                <tr>
+                    <td class="indent1">Construction in Progress</td>
+                    <td class="amount">$150,000</td>
+                </tr>
+                <tr>
+                    <td class="indent2">Less: Accumulated Depreciation</td>
+                    <td class="amount">($3,550,000)</td>
+                </tr>
+                <tr class="section-total">
+                    <td class="indent1">Net Property, Plant & Equipment</td>
+                    <td class="amount">$9,600,000</td>
+                </tr>
+
+                <tr><td>&nbsp;</td><td></td></tr>
+
+                <tr>
+                    <td><strong>Other Assets:</strong></td>
+                    <td class="amount"></td>
+                </tr>
+                <tr>
+                    <td class="indent1">Customer Relationships (net)</td>
+                    <td class="amount">$650,000</td>
+                </tr>
+                <tr>
+                    <td class="indent1">Trade Name & Trademarks</td>
+                    <td class="amount">$275,000</td>
+                </tr>
+                <tr>
+                    <td class="indent1">Non-Compete Agreements</td>
+                    <td class="amount">$50,000</td>
+                </tr>
+                <tr>
+                    <td class="indent1">Software & Technology</td>
+                    <td class="amount">$125,000</td>
+                </tr>
+                <tr>
+                    <td class="indent1">Other Non-Current Assets</td>
+                    <td class="amount">$250,000</td>
+                </tr>
+                <tr>
+                    <td class="indent1">Deferred Tax Assets</td>
+                    <td class="amount">$50,000</td>
+                </tr>
+                <tr class="section-total">
+                    <td class="indent1">Total Other Assets</td>
+                    <td class="amount">$1,400,000</td>
+                </tr>
+                
+                <tr class="total">
+                    <td><strong>TOTAL ASSETS</strong></td>
+                    <td class="amount"><strong>$28,500,000</strong></td>
+                </tr>
+            </table>
+            
+            <h3>LIABILITIES AND SHAREHOLDERS' EQUITY</h3>
+            <table>
+                <tr>
+                    <td><strong>Current Liabilities:</strong></td>
+                    <td class="amount"></td>
+                </tr>
+                <tr>
+                    <td class="indent1">Accounts Payable - Trade</td>
+                    <td class="amount">$3,850,000</td>
+                </tr>
+                <tr>
+                    <td class="indent1">Subcontractor Payables</td>
+                    <td class="amount">$2,475,000</td>
+                </tr>
+                <tr>
+                    <td class="indent1">Accrued Payroll & Benefits</td>
+                    <td class="amount">$1,125,000</td>
+                </tr>
+                <tr>
+                    <td class="indent1">Billings in Excess of Costs</td>
+                    <td class="amount">$3,875,000</td>
+                </tr>
+                <tr>
+                    <td class="indent1">Retainage Payable</td>
+                    <td class="amount">$625,000</td>
+                </tr>
+                <tr>
+                    <td class="indent1">Accrued Insurance</td>
+                    <td class="amount">$325,000</td>
+                </tr>
+                <tr>
+                    <td class="indent1">Current Portion of Long-Term Debt</td>
+                    <td class="amount">$350,000</td>
+                </tr>
+                <tr>
+                    <td class="indent1">Income Taxes Payable (S-Corp)</td>
+                    <td class="amount">$0</td>
+                </tr>
+                <tr>
+                    <td class="indent1">Other Accrued Liabilities</td>
+                    <td class="amount">$375,000</td>
+                </tr>
+                <tr class="section-total">
+                    <td class="indent1">Total Current Liabilities</td>
+                    <td class="amount">$13,000,000</td>
+                </tr>
+                
+                <tr><td>&nbsp;</td><td></td></tr>
+
+                <tr>
+                    <td><strong>Long-Term Debt:</strong></td>
+                    <td class="amount"></td>
+                </tr>
+                <tr>
+                    <td class="indent1">Revolving Line of Credit</td>
+                    <td class="amount">$5,000,000</td>
+                </tr>
+                <tr>
+                    <td class="indent1">Equipment Term Loans</td>
+                    <td class="amount">$2,250,000</td>
+                </tr>
+                <tr>
+                    <td class="indent1">Mortgage Notes Payable</td>
+                    <td class="amount">$2,500,000</td>
+                </tr>
+                <tr class="section-total">
+                    <td class="indent1">Total Long-Term Debt</td>
+                    <td class="amount">$9,750,000</td>
+                </tr>
+                
+                <tr><td>&nbsp;</td><td></td></tr>
+
+                <tr>
+                    <td><strong>Other Long-Term Liabilities:</strong></td>
+                    <td class="amount"></td>
+                </tr>
+                <tr>
+                    <td class="indent1">Deferred Compensation</td>
+                    <td class="amount">$275,000</td>
+                </tr>
+                <tr>
+                    <td class="indent1">Other Non-Current Liabilities</td>
+                    <td class="amount">$225,000</td>
+                </tr>
+                <tr class="section-total">
+                    <td class="indent1">Total Other Long-Term Liabilities</td>
+                    <td class="amount">$500,000</td>
+                </tr>
+                
+                <tr class="subtotal">
+                    <td><strong>Total Liabilities</strong></td>
+                    <td class="amount"><strong>$23,250,000</strong></td>
+                </tr>
+
+                <tr><td>&nbsp;</td><td></td></tr>
+
+                <tr>
+                    <td><strong>Shareholders' Equity:</strong></td>
+                    <td class="amount"></td>
+                </tr>
+                <tr>
+                    <td class="indent1">Common Stock (1,000 shares, $100 par)</td>
+                    <td class="amount">$100,000</td>
+                </tr>
+                <tr>
+                    <td class="indent1">Additional Paid-In Capital</td>
+                    <td class="amount">$500,000</td>
+                </tr>
+                <tr>
+                    <td class="indent1">Retained Earnings</td>
+                    <td class="amount">$9,650,000</td>
+                </tr>
+                <tr>
+                    <td class="indent1">Distributions to Shareholders (2024)</td>
+                    <td class="amount">($5,000,000)</td>
+                </tr>
+                <tr class="subtotal">
+                    <td><strong>Total Shareholders' Equity</strong></td>
+                    <td class="amount"><strong>$5,250,000</strong></td>
+                </tr>
+                
+                <tr class="total">
+                    <td><strong>TOTAL LIABILITIES AND SHAREHOLDERS' EQUITY</strong></td>
+                    <td class="amount"><strong>$28,500,000</strong></td>
+                </tr>
+            </table>
+            
+            <div class="footnote">
+                <h4>Notes to Financial Statements:</h4>
+                <p><strong>Note 1 - Basis of Presentation:</strong> These financial statements are prepared on the accrual basis of accounting in accordance with U.S. GAAP. The percentage-of-completion method is used for long-term construction contracts.</p>
+                <p><strong>Note 2 - Working Capital:</strong> Net Working Capital as of December 31, 2024: $4,500,000 (Current Assets of $17,500,000 less Current Liabilities of $13,000,000)</p>
+                <p><strong>Note 3 - Project Backlog:</strong> The company has approximately $88,000,000 in signed contracts and awarded projects not yet reflected in revenue, providing significant revenue visibility for the next 18-24 months.</p>
+                <p><strong>Note 4 - Credit Facilities:</strong> The company maintains a $5,000,000 revolving credit facility secured by accounts receivable and inventory. The facility bears interest at Prime + 1.5% and matures in 2026.</p>
+                <p><strong>Note 5 - Interest-Bearing Debt:</strong> Total interest-bearing debt as of December 31, 2024: $9,750,000, consisting of the revolving line of credit ($5,000,000), equipment loans ($2,250,000), and mortgage notes ($2,500,000).</p>
+                <p><strong>Note 6 - Revenue Recognition:</strong> The company recognizes revenue using the percentage-of-completion method, measured by the percentage of costs incurred to date to estimated total costs for each contract.</p>
+                <p><strong>Note 7 - Property & Equipment:</strong> Depreciation is computed using the straight-line method over the following estimated useful lives: Buildings (30 years), Equipment (5-10 years), Vehicles (5 years), Office Equipment (3-7 years). The three owned facilities (Phoenix, Salt Lake City, and Denver) totaling approximately 75,000 sq. ft. are included in the sale.</p>
+                <p><strong>Note 8 - Income Taxes:</strong> As an S-Corporation, the company's income is passed through to its shareholders for federal income tax purposes. The company is subject to certain state and local taxes.</p>
+                <p><strong>Note 9 - Subsequent Events:</strong> The company has evaluated subsequent events through the date these financial statements were available to be issued and determined no material events requiring disclosure have occurred.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Placeholder -->
+    <footer id="footer-placeholder"></footer>
+
+    <!-- 
+    /-------------------\
+    | HEADER AND FOOTER |
+    \-------------------/
+    -->
+    <script>
+        /**
+         * Fetches and injects the header and footer components concurrently.
+         * This function is called once the initial HTML document has been completely loaded and parsed.
+         */
+        async function loadComponents() {
+            try {
+                // Promise.all allows us to fetch both resources at the same time (concurrently).
+                const [headerResponse, footerResponse] = await Promise.all([
+                    fetch("https://jawnlam.github.io/ExitReadyAdvisors/header.html"),
+                    fetch("https://jawnlam.github.io/ExitReadyAdvisors/footer.html")
+                ]);
+
+                // Check both responses for errors.
+                if (!headerResponse.ok) throw new Error(`Header failed to load: ${headerResponse.statusText}`);
+                if (!footerResponse.ok) throw new Error(`Footer failed to load: ${footerResponse.statusText}`);
+
+                // Get the text content from both responses.
+                const headerData = await headerResponse.text();
+                const footerData = await footerResponse.text();
+                
+                // Inject the HTML into the placeholder elements.
+                document.querySelector("#header-placeholder").innerHTML = headerData;
+                document.querySelector("#footer-placeholder").innerHTML = footerData;
+
+            } catch (error) {
+                console.error('Error loading components:', error);
+                // Display fallback content if any part of the loading process fails.
+                document.querySelector("#header-placeholder").innerHTML = '<div class="bg-gray-800 text-white p-4 text-center">Header could not be loaded.</div>';
+                document.querySelector("#footer-placeholder").innerHTML = '<div class="bg-gray-800 text-white p-4 text-center">Footer could not be loaded.</div>';
+            }
+        }
+
+        // It's best practice to run this script after the DOM is fully loaded.
+        document.addEventListener('DOMContentLoaded', loadComponents);
+    </script>
+
+</body>
+</html>
