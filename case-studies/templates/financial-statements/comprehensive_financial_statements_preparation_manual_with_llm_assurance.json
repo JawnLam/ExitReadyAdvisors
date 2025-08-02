@@ -462,7 +462,39 @@
         "low_confidence_items": "Conservative estimates requiring further review, especially where macro uncertainty or outlier status creates complexity",
         "flagging_system": "Highlight low-confidence items for human expert validation with clear explanation of uncertainty sources"
       },
-      "framework_integration_summary": {
+        "practical_application_examples": {
+          "example_1_profitable_manufacturer": {
+            "scenario": "Stable manufacturing company with $10M pre-tax income",
+            "calculation": {
+              "primary_benchmark": "Pre-tax income at 5% = $500,000",
+              "secondary_benchmark": "Revenue of $100M at 1% = $1,000,000",
+              "selected_materiality": "$500,000 (more restrictive)",
+              "performance_materiality": "$375,000 (75% due to stable history)"
+            },
+            "qualitative_override": "Inventory error of $200,000 that violates debt covenant is material despite being below threshold"
+          },
+          "example_2_breakeven_saas": {
+            "scenario": "High-growth SaaS with minimal profit, $50M revenue",
+            "calculation": {
+              "primary_benchmark": "Revenue at 1% = $500,000",
+              "secondary_benchmark": "Total assets of $30M at 1% = $300,000",
+              "selected_materiality": "$400,000 (blended approach)",
+              "performance_materiality": "$200,000 (50% due to rapid growth)"
+            },
+            "qualitative_factors": "Any item affecting ARR growth rate or churn metrics is material"
+          },
+          "example_3_regulated_bank": {
+            "scenario": "Community bank with regulatory focus",
+            "calculation": {
+              "primary_benchmark": "Total assets of $500M at 0.5% = $2,500,000",
+              "regulatory_override": "Tier 1 capital ratio proximity reduces to $1,000,000",
+              "selected_materiality": "$1,000,000",
+              "specific_accounts": "Loan loss provisions at $250,000 (25% of overall)"
+            },
+            "qualitative_imperative": "Any item affecting regulatory ratios is automatically material"
+          }
+        },
+        "framework_integration_summary": {
         "macro_and_outlier_synergy": "The macroeconomic module and outlier management protocol work together to ensure assumptions are both contextually appropriate and entity-specific",
         "hierarchy_of_application": [
           "1. Seed document facts (immutable)",
@@ -493,10 +525,12 @@
           "Profile entity using available seed data",
           "Analyze macroeconomic conditions for reporting period and geography",
           "Perform outlier detection to identify if entity is a genuine disruptor",
+          "Calculate dynamic materiality using appropriate benchmarks and qualitative factors",
           "Identify peer companies and extract benchmarks with appropriate weights",
           "Catalog all missing ATB accounts typical for the industry",
           "Generate missing account balances using macro-adjusted assumption hierarchy",
           "Apply outlier protocol if entity deviates significantly from norms",
+          "Focus detailed gap-filling on material areas identified by dynamic analysis",
           "Ensure mathematical balance while preserving business model uniqueness"
         ],
         "gap_filling_examples": [
@@ -522,6 +556,14 @@
         "order": 1,
         "purpose": "Calculates Net Income (or Net Loss) for the reporting period with intelligent gap-filling for missing components",
         "gap_filling_protocols": {
+          "materiality_aware_approach": {
+            "principle": "Apply detailed analysis to material items; use simplified estimates for immaterial items",
+            "process": [
+              "Calculate materiality thresholds using Dynamic Materiality Engine",
+              "Identify qualitatively material areas regardless of size",
+              "Allocate gap-filling effort proportionally to materiality"
+            ]
+          },
           "revenue_completion": [
             "If only net revenue provided, estimate gross revenue and deductions based on industry",
             "Adjust growth assumptions based on GDP trends and economic cycle position",
@@ -878,7 +920,7 @@
           {
             "mechanism": "Materiality-Based Review", 
             "description": "Focus human review on material items while allowing automated filling of immaterial gaps",
-            "implementation": "Flag only variances exceeding 0.5% of total assets AND lacking strong assumption basis",
+            "implementation": "Apply Dynamic Materiality Engine to identify items requiring human review based on both quantitative and qualitative factors",
             "quality_benefit": "Efficient use of human expertise while enabling comprehensive completion"
           },
           {
@@ -893,13 +935,293 @@
           }
         ]
       },
+      "dynamic_materiality_engine": {
+        "purpose": "Apply professional judgment to materiality assessments using both quantitative and qualitative factors that reflect actual CPA decision-making",
+        "core_principle": "Materiality is not just about size - it's about what would influence the economic decisions of financial statement users",
+        "quantitative_materiality": {
+          "benchmark_selection_hierarchy": {
+            "instruction": "Select the most appropriate benchmark based on entity characteristics and user needs",
+            "decision_tree": [
+              {
+                "condition": "Profit-oriented entity with stable earnings",
+                "primary_benchmark": "Pre-tax income",
+                "typical_range": "3-10%",
+                "rationale": "Earnings are the primary focus for investors"
+              },
+              {
+                "condition": "Entity with volatile or break-even earnings",
+                "primary_benchmark": "Revenue",
+                "typical_range": "0.5-2%",
+                "rationale": "Income-based measures unreliable when earnings fluctuate"
+              },
+              {
+                "condition": "Asset-intensive industries (real estate, banking)",
+                "primary_benchmark": "Total assets",
+                "typical_range": "0.25-1%",
+                "rationale": "Asset base drives value and operations"
+              },
+              {
+                "condition": "Service industries or asset-light businesses",
+                "primary_benchmark": "Revenue or expenses",
+                "typical_range": "1-3%",
+                "rationale": "Limited assets make asset-based measures inappropriate"
+              },
+              {
+                "condition": "Not-for-profit entities",
+                "primary_benchmark": "Total expenses or revenue",
+                "typical_range": "0.5-2%",
+                "rationale": "Focus on resource utilization rather than profit"
+              },
+              {
+                "condition": "Start-up or high-growth entities",
+                "primary_benchmark": "Equity or revenue",
+                "typical_range": "2-5%",
+                "rationale": "Traditional metrics may not reflect economic reality"
+              }
+            ]
+          },
+          "multi_benchmark_approach": {
+            "instruction": "Calculate materiality using multiple benchmarks and use professional judgment to select or blend",
+            "methodology": [
+              "Calculate using primary benchmark",
+              "Calculate using 1-2 secondary benchmarks",
+              "Consider the range and select appropriate level",
+              "Document rationale for final selection"
+            ],
+            "blending_formula": "Consider weighted average if multiple benchmarks equally relevant"
+          },
+          "benchmark_adjustments": {
+            "normalizing_adjustments": [
+              "Remove unusual or non-recurring items from earnings",
+              "Average earnings over 3-5 years if volatile",
+              "Adjust for known future changes (e.g., major acquisition)"
+            ],
+            "industry_calibration": "Adjust percentages based on industry norms and entity-specific factors",
+            "size_considerations": {
+              "smaller_entities": "May use higher percentages due to inherent risk",
+              "larger_entities": "May use lower percentages due to absolute dollar impact"
+            }
+          }
+        },
+        "qualitative_materiality_triggers": {
+          "automatic_material_items": {
+            "instruction": "These items are ALWAYS material regardless of amount",
+            "categories": [
+              {
+                "category": "Debt Covenant Impacts",
+                "examples": [
+                  "Any item that causes or cures a covenant violation",
+                  "Items affecting covenant calculation ratios",
+                  "Reclassifications impacting covenant measurements"
+                ],
+                "documentation": "Must disclose proximity to covenant thresholds"
+              },
+              {
+                "category": "Profitability Shifts",
+                "examples": [
+                  "Turning a profit into a loss (or vice versa)",
+                  "Changing trend from increasing to decreasing earnings",
+                  "Meeting or missing analyst consensus estimates"
+                ],
+                "documentation": "Highlight impact on earnings trajectory"
+              },
+              {
+                "category": "Regulatory Compliance",
+                "examples": [
+                  "Items affecting regulatory capital ratios",
+                  "Environmental compliance thresholds",
+                  "Tax qualification requirements"
+                ],
+                "documentation": "Cite specific regulations affected"
+              },
+              {
+                "category": "Compensation Triggers",
+                "examples": [
+                  "Items affecting bonus calculations",
+                  "Metrics tied to stock compensation vesting",
+                  "EBITDA adjustments affecting earnouts"
+                ],
+                "documentation": "Note connection to compensation arrangements"
+              },
+              {
+                "category": "Segment Reporting",
+                "examples": [
+                  "Items changing segment profitability rankings",
+                  "Affecting decision to report/not report a segment",
+                  "Inter-segment pricing changes"
+                ],
+                "documentation": "Show impact on segment analysis"
+              },
+              {
+                "category": "Related Party Transactions",
+                "examples": [
+                  "Any transaction with management or directors",
+                  "Transactions with significant shareholders",
+                  "Below-market pricing arrangements"
+                ],
+                "documentation": "Full disclosure regardless of size"
+              },
+              {
+                "category": "Fraud or Illegal Acts",
+                "examples": [
+                  "Any amount involving management fraud",
+                  "Illegal payments or bribes",
+                  "Regulatory violations with penalties"
+                ],
+                "documentation": "Requires special audit consideration"
+              }
+            ]
+          },
+          "contextual_materiality_factors": {
+            "instruction": "Consider these factors that may lower materiality thresholds",
+            "factors": [
+              {
+                "factor": "High Risk Areas",
+                "adjustment": "Lower threshold by 25-50%",
+                "examples": ["Complex estimates", "New accounting standards", "Areas of known control weakness"]
+              },
+              {
+                "factor": "User Sensitivity",
+                "adjustment": "Lower threshold based on user focus",
+                "examples": ["IPO in process", "Lending negotiations", "M&A activity"]
+              },
+              {
+                "factor": "Cumulative Effect",
+                "adjustment": "Consider aggregate of individually immaterial items",
+                "examples": ["Multiple small errors in same direction", "Pattern of adjustments"]
+              },
+              {
+                "factor": "Nature of Item",
+                "adjustment": "Certain items material by nature",
+                "examples": ["Accounting policy changes", "Correction of prior errors", "Discontinued operations"]
+              }
+            ]
+          }
+        },
+        "performance_materiality": {
+          "purpose": "Set lower thresholds for testing to reduce aggregation risk",
+          "typical_range": "50-75% of overall materiality",
+          "factors_for_lower_percentage": [
+            "First year audit/preparation",
+            "History of errors",
+            "Weak internal controls",
+            "Complex business or transactions"
+          ]
+        },
+        "specific_account_materiality": {
+          "purpose": "Lower thresholds for particularly sensitive accounts",
+          "examples": [
+            {
+              "account": "Cash",
+              "rationale": "High inherent risk and user focus",
+              "typical_threshold": "20-30% of overall materiality"
+            },
+            {
+              "account": "Related Party Receivables",
+              "rationale": "Qualitative significance",
+              "typical_threshold": "5-10% of overall materiality"
+            },
+            {
+              "account": "Contingent Liabilities",
+              "rationale": "Estimation uncertainty",
+              "typical_threshold": "25-50% of overall materiality"
+            }
+          ]
+        },
+        "documentation_requirements": {
+          "quantitative_support": [
+            "Show calculation of all benchmarks considered",
+            "Document rationale for benchmark selection",
+            "Explain any normalizing adjustments",
+            "Justify final materiality level selected"
+          ],
+          "qualitative_documentation": [
+            "List all qualitative factors considered",
+            "Document why certain items are material regardless of size",
+            "Explain any industry-specific considerations",
+            "Note any entity-specific sensitive areas"
+          ],
+          "ongoing_reassessment": [
+            "Reassess if entity characteristics change",
+            "Update for significant events or transactions",
+            "Document any mid-period adjustments"
+          ]
+        },
+        "integration_with_framework": {
+          "assumption_evaluation": "Use dynamic materiality to assess which assumptions require highest confidence",
+          "gap_filling_priority": "Focus detailed work on material areas; use simplified approaches for immaterial items",
+          "disclosure_decisions": "Material items require full disclosure even if industry practice varies",
+          "outlier_consideration": "Disruptive entities may have different materiality considerations than peers",
+          "macro_sensitivity": {
+            "principle": "Economic volatility may lower materiality thresholds",
+            "examples": [
+              "High inflation periods: Users more sensitive to inventory/COGS methods",
+              "Rising rates: Focus on debt refinancing and interest coverage",
+              "Recession: Emphasis on liquidity and going concern"
+            ]
+          },
+          "synergistic_effects": {
+            "outlier_materiality": "Disruptors may have different 'material to users' considerations - focus on growth metrics over profitability",
+            "macro_materiality": "Economic stress increases importance of covenant compliance and liquidity measures",
+            "combined_impact": "Outliers in volatile economies require most nuanced materiality assessments"
+          }
+        },
+        "industry_specific_materiality": {
+          "technology_sector": {
+            "key_benchmarks": "Revenue or R&D expense",
+            "qualitative_triggers": ["Customer concentration", "Deferred revenue changes", "Stock compensation"],
+            "unique_considerations": "ARR/MRR metrics may be more material than GAAP revenue"
+          },
+          "financial_services": {
+            "key_benchmarks": "Assets or regulatory capital",
+            "qualitative_triggers": ["Regulatory ratios", "Credit losses", "Interest rate sensitivity"],
+            "unique_considerations": "Small changes can trigger regulatory intervention"
+          },
+          "manufacturing": {
+            "key_benchmarks": "Revenue or gross profit",
+            "qualitative_triggers": ["Inventory valuation", "Warranty reserves", "Supply chain disruption"],
+            "unique_considerations": "Inventory methods highly material in inflationary periods"
+          },
+          "healthcare": {
+            "key_benchmarks": "Revenue or operating expenses",
+            "qualitative_triggers": ["Payor mix changes", "Regulatory compliance", "Bad debt levels"],
+            "unique_considerations": "Reimbursement rate changes always material"
+          },
+          "retail": {
+            "key_benchmarks": "Revenue or same-store sales",
+            "qualitative_triggers": ["Inventory obsolescence", "Lease obligations", "Seasonal variations"],
+            "unique_considerations": "Comparable store metrics material to investors"
+          },
+          "energy": {
+            "key_benchmarks": "Revenue or proved reserves",
+            "qualitative_triggers": ["Commodity price assumptions", "Depletion rates", "Environmental obligations"],
+            "unique_considerations": "Reserve estimates and pricing assumptions always material"
+          }
+        },
+        "professional_judgment_emphasis": {
+          "key_principle": "No mechanical formula replaces professional judgment",
+          "considerations": [
+            "What would influence an informed user's decisions?",
+            "What are the entity's specific circumstances?",
+            "What is the regulatory and stakeholder environment?",
+            "How do quantitative and qualitative factors interact?"
+          ],
+          "cpa_mindset": "When in doubt, err on the side of lower materiality thresholds"
+        }
+      },
       "input_validation_rules": {
         "seed_document_supremacy": "All seed document facts are immutable - no assumption may contradict or undermine them",
         "data_source_verification": "LLM must cite exact source OR document assumption basis with confidence score",
         "temporal_consistency_check": "Enforce matching period coverage across all statements (e.g., all must reference 'FY2024')",
-        "materiality_thresholds": {
-          "threshold": "0.5% of total assets",
-          "rule": "Flag variances exceeding threshold WITHOUT strong assumption documentation for review"
+        "materiality_application": {
+          "instruction": "Apply Dynamic Materiality Engine rather than static thresholds",
+          "process": [
+            "Calculate materiality using appropriate benchmarks for entity type",
+            "Consider all qualitative materiality triggers",
+            "Apply performance materiality for detailed testing",
+            "Document materiality judgments thoroughly"
+          ],
+          "review_threshold": "Items exceeding performance materiality automatically flagged for human review"
         }
       },
       "calculation_integrity_checks": [
@@ -907,18 +1229,21 @@
           "checkpoint": "Net Income Reconciliation",
           "rule": "Cross-verify IS Net Income = (Total Rev - Total Exp) AND = (Ending RE - Beginning RE - Dividends + Other Equity Changes)",
           "gap_filling_allowance": "May estimate dividends or other equity changes if needed to maintain reconciliation",
+          "materiality_application": "Apply performance materiality threshold to reconciliation differences",
           "applicable_steps": ["Step 1", "Step 2"]
         },
         {
           "checkpoint": "Cash Flow Reconciliation", 
           "rule": "Δ Cash per CFS MUST equal (Ending Cash per BS - Beginning Cash per BS)",
           "gap_filling_allowance": "May construct cash flow details from balance sheet changes if direct data unavailable",
+          "materiality_application": "Cash reconciliation differences subject to lower specific account materiality",
           "applicable_steps": ["Step 3", "Step 4"]
         },
         {
           "checkpoint": "Accounting Equation",
-          "rule": "Enforce Assets = Liabilities + Equity with <0.01% tolerance",
+          "rule": "Enforce Assets = Liabilities + Equity with tolerance based on dynamic materiality",
           "gap_filling_allowance": "May create balancing entries with clear documentation",
+          "materiality_application": "Tolerance = Lesser of 0.01% or 10% of performance materiality",
           "applicable_steps": ["Step 0", "Step 3"]
         }
       ],
@@ -994,7 +1319,9 @@
           "Ensure margins align with competitive positioning",
           "Verify tax rates match geographic operations",
           "Confirm depreciation methods match asset types",
-          "Validate working capital cycles are industry-appropriate"
+          "Validate working capital cycles are industry-appropriate",
+          "Check all qualitative materiality triggers (debt covenants, profitability shifts, compensation impacts)",
+          "Ensure no items that would be material to specific users are misclassified as immaterial"
         ],
         "specialist_perspective": {
           "instruction": "Consider what a CPA specializing in this industry would examine",
@@ -1056,6 +1383,8 @@
         "Analyze business context and identify industry/subsector",
         "Research macroeconomic conditions for the specific reporting period and geography",
         "Perform outlier detection analysis on available seed metrics",
+        "Calculate preliminary materiality using Dynamic Materiality Engine",
+        "Identify potential qualitative materiality triggers (debt covenants, compensation metrics, etc.)",
         "Gather all available seed documents and data",
         "Research industry peers and benchmarks with appropriate weighting adjustments", 
         "Document all data gaps requiring assumptions",
@@ -1070,6 +1399,8 @@
           "gap_filling_checks": [
             "Complete macroeconomic analysis for reporting period and geography",
             "Perform outlier detection analysis on seed document metrics",
+            "Calculate dynamic materiality thresholds using appropriate benchmarks",
+            "Identify all qualitative materiality triggers relevant to the entity",
             "Adjust industry benchmark weights if entity is genuine disruptor",
             "All industry-typical accounts included with macro-adjusted assumptions",
             "Missing balances estimated using assumption hierarchy with outlier adjustments",
@@ -1139,6 +1470,9 @@
         "Confirm all macro adjustments are appropriate for the reporting period",
         "Verify outlier adjustments preserve rather than suppress uniqueness",
         "Check that industry benchmark weights reflect entity's true position",
+        "Validate dynamic materiality calculations and documentation",
+        "Ensure all qualitatively material items are properly identified and disclosed",
+        "Verify performance materiality properly applied to testing and assumptions",
         "Confirm all statements mathematically reconcile",
         "Verify all gaps have been addressed with documented assumptions",
         "Ensure confidence scores are attached to all estimates",
@@ -1148,6 +1482,7 @@
         "Review completeness against industry peer disclosures",
         "Ensure audit trail captures all gap-filling decisions",
         "Verify macro factors are period and geography-specific",
+        "Confirm no material items have been treated as immaterial through mechanical application of thresholds",
         "Final test: Do the complete statements make seed documents appear more accurate and insightful?"
       ]
     },
@@ -1163,6 +1498,10 @@
       {
         "factor": "Document Everything",
         "description": "Every assumption, estimate, and gap-fill must have clear documentation and rationale"
+      },
+      {
+        "factor": "Apply Dynamic Materiality",
+        "description": "Use both quantitative and qualitative factors to identify what matters to financial statement users, not just mechanical percentages"
       },
       {
         "factor": "Apply Contextual Intelligence",
@@ -1249,6 +1588,13 @@
       "Applying current macro conditions to historical reporting periods",
       "Failing to adjust assumptions for geographic-specific economic factors",
       "Over-weighting industry benchmarks for disruptive business models",
+      "Using mechanical materiality thresholds without professional judgment",
+      "Missing qualitatively material items by focusing only on percentages",
+      "Applying asset-based materiality to asset-light businesses",
+      "Ignoring items that affect debt covenants or regulatory compliance",
+      "Failing to consider cumulative effect of individually immaterial items",
+      "Using same materiality for all accounts regardless of risk",
+      "Not documenting materiality judgments and benchmark selection",
       "Generating ratios or relationships inconsistent with seed data",
       "Leaving statements incomplete rather than making reasonable assumptions",
       "Making assumptions without documentation or industry support",
