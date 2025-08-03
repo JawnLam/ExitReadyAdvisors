@@ -3,7 +3,7 @@
 
     <!--
     /----------------------------------------------------------------------------------------------------\
-    | LAST UPDATE: 2508031406…Sun_Aug_03_2025_0206PM                                                     |
+    | LAST UPDATE: 2508031427…Sun_Aug_03_2025_0227PM                                                      |
     | https://gemini.google.com/app/81c9008b893c0b7e                                                     |
     | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/case-studies/templates/valuation-brief.html |
     \----------------------------------------------------------------------------------------------------/
@@ -168,7 +168,7 @@
             font-weight: 600;
         }
 
-        /* --- MARKET ANALYSIS: FLIP CARDS --- */
+        /* --- MARKET ANALYSIS & OPERATIONS: FLIP CARDS --- */
         .flip-card-container {
             perspective: 1000px;
         }
@@ -380,11 +380,11 @@
                      <p class="text-center text-gray-600 mb-8">Click any card to reveal more details.</p>
                      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <!-- Card 1: Competitive Landscape -->
-                        <div class="flip-card-container h-64">
+                        <div class="flip-card-container">
                             <div class="flip-card-inner">
                                 <div class="flip-card-front">
                                     <i class="fas fa-shield-alt text-4xl text-blue-500 mb-4"></i>
-                                    <h4 class="text-xl font-bold text-gray-800">Competitive Landscape</h4>
+                                    <h4 class="text-xl font-bold text-gray-800 text-center">Competitive Landscape</h4>
                                 </div>
                                 <div class="flip-card-back">
                                     <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700 text-sm">
@@ -395,11 +395,11 @@
                             </div>
                         </div>
                         <!-- Card 2: Customer Base -->
-                         <div class="flip-card-container h-64">
+                         <div class="flip-card-container">
                             <div class="flip-card-inner">
                                 <div class="flip-card-front">
                                     <i class="fas fa-users text-4xl text-blue-500 mb-4"></i>
-                                    <h4 class="text-xl font-bold text-gray-800">Customer Base</h4>
+                                    <h4 class="text-xl font-bold text-gray-800 text-center">Customer Base</h4>
                                 </div>
                                 <div class="flip-card-back">
                                     <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700 text-sm">
@@ -412,11 +412,11 @@
                             </div>
                         </div>
                         <!-- Card 3: Strategic Positioning -->
-                        <div class="flip-card-container h-64">
+                        <div class="flip-card-container">
                            <div class="flip-card-inner">
                                 <div class="flip-card-front">
                                     <i class="fas fa-bullseye text-4xl text-blue-500 mb-4"></i>
-                                    <h4 class="text-xl font-bold text-gray-800">Strategic Positioning</h4>
+                                    <h4 class="text-xl font-bold text-gray-800 text-center">Strategic Positioning</h4>
                                 </div>
                                 <div class="flip-card-back">
                                     <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700 text-sm">
@@ -438,11 +438,11 @@
                     <p class="text-center text-gray-600 mb-8">Explore the core components of our operational strength. Click each card to learn more.</p>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <!-- Card 1: Assets & Facilities -->
-                        <div class="flip-card-container h-64">
+                        <div class="flip-card-container">
                             <div class="flip-card-inner">
                                 <div class="flip-card-front">
                                     <i class="fas fa-warehouse text-4xl text-blue-500 mb-4"></i>
-                                    <h4 class="text-xl font-bold text-gray-800">Assets & Facilities</h4>
+                                    <h4 class="text-xl font-bold text-gray-800 text-center">Assets & Facilities</h4>
                                 </div>
                                 <div class="flip-card-back">
                                     <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700 text-sm">
@@ -454,11 +454,11 @@
                             </div>
                         </div>
                         <!-- Card 2: Technology & Systems -->
-                        <div class="flip-card-container h-64">
+                        <div class="flip-card-container">
                             <div class="flip-card-inner">
                                 <div class="flip-card-front">
                                     <i class="fas fa-cogs text-4xl text-blue-500 mb-4"></i>
-                                    <h4 class="text-xl font-bold text-gray-800">Technology & Systems</h4>
+                                    <h4 class="text-xl font-bold text-gray-800 text-center">Technology & Systems</h4>
                                 </div>
                                 <div class="flip-card-back">
                                     <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700 text-sm">
@@ -470,11 +470,11 @@
                             </div>
                         </div>
                         <!-- Card 3: Management & Workforce -->
-                        <div class="flip-card-container h-64">
+                        <div class="flip-card-container">
                             <div class="flip-card-inner">
                                 <div class="flip-card-front">
                                     <i class="fas fa-users text-4xl text-blue-500 mb-4"></i>
-                                    <h4 class="text-xl font-bold text-gray-800">Management & Workforce</h4>
+                                    <h4 class="text-xl font-bold text-gray-800 text-center">Management & Workforce</h4>
                                 </div>
                                 <div class="flip-card-back">
                                     <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700 text-sm">
@@ -690,6 +690,47 @@
                 document.querySelector("#footer-placeholder").innerHTML = '<div class="bg-gray-800 text-white p-4 text-center">Footer could not be loaded.</div>';
             }
         }
+        
+        /**
+         * Adjusts the height of flip cards to fit their content.
+         */
+        function adjustFlipCardHeights() {
+            const tabsWithCards = ['#market', '#operations'];
+            tabsWithCards.forEach(tabSelector => {
+                const tab = document.querySelector(tabSelector);
+                if (!tab) return;
+
+                const cards = tab.querySelectorAll('.flip-card-container');
+                if (cards.length === 0) return;
+
+                let maxHeight = 0;
+
+                // First pass: reset heights and find the max required height
+                cards.forEach(card => {
+                    card.style.height = 'auto';
+                    const front = card.querySelector('.flip-card-front');
+                    const back = card.querySelector('.flip-card-back');
+                    front.style.height = 'auto';
+                    back.style.height = 'auto';
+
+                    const frontHeight = front.scrollHeight;
+                    const backHeight = back.scrollHeight;
+                    const cardMaxHeight = Math.max(frontHeight, backHeight, 16 * 16); // min-height of h-64
+                    if (cardMaxHeight > maxHeight) {
+                        maxHeight = cardMaxHeight;
+                    }
+                });
+
+                // Second pass: apply the max height to all cards in the group
+                cards.forEach(card => {
+                    card.style.height = `${maxHeight}px`;
+                    const front = card.querySelector('.flip-card-front');
+                    const back = card.querySelector('.flip-card-back');
+                    front.style.height = `${maxHeight}px`;
+                    back.style.height = `${maxHeight}px`;
+                });
+            });
+        }
 
         // Main DOMContentLoaded listener
         document.addEventListener('DOMContentLoaded', () => {
@@ -713,6 +754,8 @@
                 tabContents.forEach(content => {
                     content.classList.toggle('active', content.id === tabId);
                 });
+                // Adjust flip card heights when a tab is switched
+                adjustFlipCardHeights();
             }
 
             tabButtons.forEach(button => {
@@ -865,14 +908,18 @@
                     document.getElementById(contentId).classList.add('active');
                 });
             });
+            
+            // Adjust flip card heights on initial load
+            adjustFlipCardHeights();
         });
 
-        // Adjust font sizes on window resize
+        // Adjust font sizes and flip card heights on window resize
         let resizeTimer;
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(() => {
                 adjustTabFontSize();
+                adjustFlipCardHeights();
             }, 100); // Debounce to avoid performance issues
         });
     </script>
