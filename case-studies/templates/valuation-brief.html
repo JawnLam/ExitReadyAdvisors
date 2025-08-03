@@ -3,7 +3,7 @@
 
     <!--
     /----------------------------------------------------------------------------------------------------\
-    | LAST UPDATE: 2507311935…Thu_Jul_31_2025_0735PM                                                      |
+    | LAST UPDATE: 2508031323…Sun_Aug_03_2025_0123PM                                                      |
     | https://gemini.google.com/app/81c9008b893c0b7e                                                     |
     | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/case-studies/templates/valuation-brief.html |
     \----------------------------------------------------------------------------------------------------/
@@ -117,92 +117,72 @@
             display: block; /* Changes display from 'none' to 'block' to show it. */
             animation: fadeIn 0.5s ease-in-out; /* Applies a fade-in animation. */
         }
-
-        /* --- INTERACTIVE MARKET SLIDER STYLING --- */
-        .market-slider-container {
-            position: relative;
-            overflow: hidden;
-            border-radius: 0.75rem;
-        }
-        .market-slider-track {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-            width: 300%; /* 3 slides */
-        }
-        .market-slide {
-            width: calc(100% / 3);
-            flex-shrink: 0;
-            padding: 2rem;
-            background-color: #f0f9ff; /* A very light blue */
-        }
-        .slider-nav-button {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: rgba(255, 255, 255, 0.8);
-            border: 1px solid #d1d5db;
-            border-radius: 9999px;
-            width: 2.5rem;
-            height: 2.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .slider-nav-button:hover {
-            background-color: white;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-        .slider-nav-button:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
         
-        /* --- OPERATIONS TAB: INTERACTIVE INFOGRAPHIC --- */
-        .operations-infographic-card {
-            background-color: #f9fafb;
+        /* --- FINANCIALS TAB STYLING --- */
+        .financial-statement-button {
+            transition: all 0.3s ease;
+            width: 100%;
+            text-align: left;
+            padding: 1.125rem 1.5rem; /* Increased padding */
+            font-size: 1.125rem; /* text-lg */
+            font-weight: 500;
+            color: #4b5563; /* text-gray-600 */
+            border-left: 4px solid transparent;
+        }
+        .financial-statement-button:hover {
+            background-color: #eff6ff; /* bg-blue-50 */
+            color: #1d4ed8; /* text-blue-700 */
+            border-left-color: #93c5fd; /* border-blue-300 */
+        }
+        .financial-statement-button.active {
+            background-color: #dbeafe; /* bg-blue-100 */
+            color: #1e40af; /* text-blue-800 */
+            border-left-color: #2563eb; /* border-blue-600 */
+            font-weight: 600;
+        }
+
+        /* --- MARKET ANALYSIS & OPERATIONS: FLIP CARDS --- */
+        .flip-card-container {
+            perspective: 1000px;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flip-card-container.active .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
             border-radius: 0.75rem;
             border: 1px solid #e5e7eb;
             padding: 1.5rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
         }
-        .operations-infographic-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            border-color: #3B82F6;
-        }
-
-        /* --- MODAL STYLING --- */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
+        .flip-card-front {
+            background-color: #f9fafb;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            z-index: 50;
-            transition: opacity 0.3s ease;
+            cursor: pointer;
         }
-        .modal-content {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 0.75rem;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            transform: scale(0.95);
-            transition: transform 0.3s ease;
+        .flip-card-back {
+            background-color: #eff6ff;
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
         }
-        .modal-overlay:not(.hidden) .modal-content {
-            transform: scale(1);
-        }
-
+        
         /* --- DEAL TIMELINE STYLING --- */
         .deal-timeline-nav {
             display: flex;
@@ -262,8 +242,11 @@
 
         <!-- Page Header Component -->
         <header class="grid grid-cols-1 md:grid-cols-2 bg-white rounded-xl overflow-hidden shadow-lg mb-8">
-            <div class="flex items-center justify-center h-48 md:h-auto bg-blue-100">
-                <img src="https://placehold.co/600x400/DBEAFE/2563EB?text=J%26S" alt="Johnson & Sons Heating, Plumbing, & Air" class="object-cover w-full h-full">
+            <div id="hero-image-container" class="flex items-center justify-center h-48 md:h-auto bg-blue-100" style="max-height: 300px;">
+                <img src="./images/1.jpg" 
+                     alt="Johnson & Sons Heating, Plumbing, & Air" 
+                     class="object-cover w-full h-full"
+                     onerror="this.style.display='none'; document.getElementById('hero-image-container').innerHTML = `<div class='p-8 text-blue-600'>This page is a structured overview of the business. It provides a concise assessment of the company's operations, market position, key financial metrics (including estimates where necessary), assets, and workforce. Crucially, it identifies and explains the most critical transaction considerations and transition factors specific to this business, presented in a clear format designed to facilitate ease of evaluation.</div>`">
             </div>
             <div class="p-8">
                 <h1 class="text-3xl font-bold text-gray-900">Johnson & Sons Heating, Plumbing, & Air</h1>
@@ -334,85 +317,134 @@
                 </div>
                 
                 <!-- Financials Panel -->
-                <div id="financials" class="tab-content space-y-8">
-                    <div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3">Financial Overview</h3>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                            <div class="bg-gray-50 p-4 rounded-lg border"><p class="text-sm text-gray-600">Total Assets</p><p class="text-xl font-semibold text-gray-800">$28,500,000</p></div>
-                            <div class="bg-gray-50 p-4 rounded-lg border"><p class="text-sm text-gray-600">Total Liabilities</p><p class="text-xl font-semibold text-gray-800">$9,750,000</p></div>
-                            <div class="bg-gray-50 p-4 rounded-lg border"><p class="text-sm text-gray-600">Gross Revenue</p><p class="text-xl font-semibold text-gray-800">$68,850,000</p></div>
-                            <div class="bg-gray-50 p-4 rounded-lg border"><p class="text-sm text-gray-600">Adjusted Free Cash Flow</p><p class="text-xl font-semibold text-gray-800">$10,450,000</p></div>
-                            <div class="bg-gray-50 p-4 rounded-lg border"><p class="text-sm text-gray-600">Adjusted EBITDA</p><p class="text-xl font-semibold text-gray-800">$8,540,000</p></div>
-                            <div class="bg-gray-50 p-4 rounded-lg border"><p class="text-sm text-gray-600">Real Estate (Owned)</p><p class="text-xl font-semibold text-gray-800">$6,200,000</p></div>
-                            <div class="bg-gray-50 p-4 rounded-lg border"><p class="text-sm text-gray-600">Inventory</p><p class="text-xl font-semibold text-gray-800">$1,800,000</p></div>
-                            <div class="bg-gray-50 p-4 rounded-lg border"><p class="text-sm text-gray-600">FF&E</p><p class="text-xl font-semibold text-gray-800">$5,400,000</p></div>
-                            <div class="bg-gray-50 p-4 rounded-lg border"><p class="text-sm text-gray-600">Net Working Capital</p><p class="text-xl font-semibold text-gray-800">$4,500,000</p></div>
+                <div id="financials" class="tab-content">
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <!-- Vertical Button Navigation -->
+                        <div class="flex flex-col space-y-2 md:w-1/4">
+                            <button class="financial-statement-button" data-src="./financial-statements/adjusted-trial-balance.html" data-fallback-id="atb">Adjusted Trial Balance</button>
+                            <button class="financial-statement-button" data-src="./financial-statements/income-statement.html" data-fallback-id="is">Income Statement</button>
+                            <button class="financial-statement-button" data-src="./financial-statements/statement-of-equity.html" data-fallback-id="soe">Statement of Equity</button>
+                            <button class="financial-statement-button" data-src="./financial-statements/balance-sheet.html" data-fallback-id="bs">Balance Sheet</button>
+                            <button class="financial-statement-button" data-src="./financial-statements/statement-of-cash-flows.html" data-fallback-id="socf">Statement of Cash Flows</button>
+                            <button class="financial-statement-button" data-src="./financial-statements/closing-disclosures.html" data-fallback-id="cd">Closing Disclosures</button>
                         </div>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3">Financial Statements</h3>
-                        <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700">
-                            <li><a href="balance-sheet.html" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Balance Sheet</a></li>
-                            <li><a href="income-statement.html" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Income Statement</a></li>
-                            <li><a href="statement-of-cash-flows.html" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Statement of Cash Flows</a></li>
-                        </ul>
+                        <!-- Iframe Display Area -->
+                        <div class="flex-grow">
+                            <iframe id="financial-iframe" class="w-full border border-gray-300 rounded-lg" style="height: 576px;"></iframe>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Market Panel -->
                 <div id="market" class="tab-content">
-                    <h3 class="text-2xl font-bold text-gray-800 mb-2 text-center">A Story of Market Dominance</h3>
-                    <p class="text-center text-gray-600 mb-6">Navigate through our key market strengths.</p>
-                    <div class="market-slider-container">
-                        <div class="market-slider-track">
-                            <!-- Slide 1: Market Position -->
-                            <div class="market-slide text-center">
-                                <i class="fas fa-map-marker-alt text-5xl text-blue-500 mb-4"></i>
-                                <h4 class="text-xl font-bold text-blue-800 mb-2">Market Position</h4>
-                                <p class="text-gray-700">A dominant regional player with a service area covering high-growth markets in the Southwest, positioned to capitalize on continued commercial and industrial development.</p>
-                            </div>
-                            <!-- Slide 2: Competitive Advantage -->
-                            <div class="market-slide text-center">
-                                <i class="fas fa-shield-alt text-5xl text-blue-500 mb-4"></i>
-                                <h4 class="text-xl font-bold text-blue-800 mb-2">Competitive Advantage</h4>
-                                <p class="text-gray-700">Unlike smaller, local competitors, the company's multi-state footprint, sophisticated project management systems, and four-decade-long relationships with national builders create a significant competitive moat.</p>
-                            </div>
-                            <!-- Slide 3: Growth Opportunities -->
-                            <div class="market-slide text-center">
-                                <i class="fas fa-rocket text-5xl text-blue-500 mb-4"></i>
-                                <h4 class="text-xl font-bold text-blue-800 mb-2">Growth Opportunities</h4>
-                                <p class="text-gray-700">Clear, actionable pathways for expansion, including entering the robust Texas market, increasing its footprint in the hospitality sector, and launching a tech-forward division focused on smart building systems.</p>
+                     <h3 class="text-2xl font-bold text-gray-800 mb-2 text-center">Market & Competitive Strengths</h3>
+                     <p class="text-center text-gray-600 mb-8">Click any card to reveal more details.</p>
+                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Card 1: Competitive Landscape -->
+                        <div class="flip-card-container h-64">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-shield-alt text-4xl text-blue-500 mb-4"></i>
+                                    <h4 class="text-xl font-bold text-gray-800">Competitive Landscape</h4>
+                                </div>
+                                <div class="flip-card-back">
+                                    <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700 text-sm">
+                                        <li><strong>Market Position:</strong> A dominant regional player positioned to capitalize on continued commercial and industrial development.</li>
+                                        <li><strong>Competitive Advantage:</strong> A multi-state footprint, sophisticated systems, and long-term relationships create a significant competitive moat.</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                        <!-- Navigation Buttons -->
-                        <button id="prev-slide" class="slider-nav-button left-2"><i class="fas fa-chevron-left text-gray-600"></i></button>
-                        <button id="next-slide" class="slider-nav-button right-2"><i class="fas fa-chevron-right text-gray-600"></i></button>
-                    </div>
+                        <!-- Card 2: Customer Base -->
+                         <div class="flip-card-container h-64">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-users text-4xl text-blue-500 mb-4"></i>
+                                    <h4 class="text-xl font-bold text-gray-800">Customer Base</h4>
+                                </div>
+                                <div class="flip-card-back">
+                                    <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700 text-sm">
+                                        <li><strong>Client Retention:</strong> Near-100% repeat business rate from core clients.</li>
+                                        <li><strong>Contract Structure:</strong> Long-term master service agreements provide predictable, recurring revenue.</li>
+                                        <li><strong>Project Backlog:</strong> $88 million in active work provides strong revenue visibility.</li>
+                                        <li><strong>Risk Mitigation:</strong> No single client accounts for more than 15% of annual revenue.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card 3: Strategic Positioning -->
+                        <div class="flip-card-container h-64">
+                           <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-bullseye text-4xl text-blue-500 mb-4"></i>
+                                    <h4 class="text-xl font-bold text-gray-800">Strategic Positioning</h4>
+                                </div>
+                                <div class="flip-card-back">
+                                    <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700 text-sm">
+                                        <li><strong>Market Opportunity:</strong> Expanding addressable market due to population growth and corporate relocations.</li>
+                                        <li><strong>Industry Trends:</strong> Growing emphasis on green building and energy efficiency.</li>
+                                        <li><strong>Barriers to Entry:</strong> High capital requirements, licensing, and deep-seated relationships.</li>
+                                        <li><strong>Pricing Power:</strong> Reputation for quality allows for premium pricing.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                     </div>
                 </div>
 
 
                 <!-- Operations Panel -->
                 <div id="operations" class="tab-content">
                     <h3 class="text-2xl font-bold text-gray-800 mb-2 text-center">The Engine of Excellence</h3>
-                    <p class="text-center text-gray-600 mb-8">Explore the core components of our operational strength. Click each pillar to learn more.</p>
+                    <p class="text-center text-gray-600 mb-8">Explore the core components of our operational strength. Click each card to learn more.</p>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <!-- Card 1: Assets & Facilities -->
-                        <div class="operations-infographic-card" data-modal-target="modal-assets">
-                            <i class="fas fa-warehouse text-4xl text-blue-500 mb-4"></i>
-                            <h4 class="text-lg font-bold text-gray-800">Assets & Facilities</h4>
-                            <p class="text-sm text-gray-600 mt-2">Robust physical infrastructure and inventory management.</p>
+                        <div class="flip-card-container h-64">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-warehouse text-4xl text-blue-500 mb-4"></i>
+                                    <h4 class="text-xl font-bold text-gray-800">Assets & Facilities</h4>
+                                </div>
+                                <div class="flip-card-back">
+                                    <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700 text-sm">
+                                        <li>Three strategically located, owned facilities in Phoenix, Salt Lake City, and Denver.</li>
+                                        <li>A well-maintained fleet and state-of-the-art equipment valued at approximately $5.4 million.</li>
+                                        <li>A robust inventory management system to minimize project delays.</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                         <!-- Card 2: Technology & Systems -->
-                        <div class="operations-infographic-card" data-modal-target="modal-tech">
-                           <i class="fas fa-cogs text-4xl text-blue-500 mb-4"></i>
-                            <h4 class="text-lg font-bold text-gray-800">Technology & Systems</h4>
-                            <p class="text-sm text-gray-600 mt-2">Proprietary processes and scalable, efficient platforms.</p>
+                        <div class="flip-card-container h-64">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-cogs text-4xl text-blue-500 mb-4"></i>
+                                    <h4 class="text-xl font-bold text-gray-800">Technology & Systems</h4>
+                                </div>
+                                <div class="flip-card-back">
+                                    <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700 text-sm">
+                                        <li>Advanced software for streamlined scheduling, resource allocation, and budget tracking.</li>
+                                        <li>45 years of developed proprietary techniques and quality control checklists.</li>
+                                        <li>Highly scalable infrastructure and systems supporting significant growth.</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                         <!-- Card 3: Management & Workforce -->
-                        <div class="operations-infographic-card" data-modal-target="modal-workforce">
-                            <i class="fas fa-users text-4xl text-blue-500 mb-4"></i>
-                            <h4 class="text-lg font-bold text-gray-800">Management & Workforce</h4>
-                            <p class="text-sm text-gray-600 mt-2">Experienced leadership and a highly skilled team.</p>
+                        <div class="flip-card-container h-64">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-users text-4xl text-blue-500 mb-4"></i>
+                                    <h4 class="text-xl font-bold text-gray-800">Management & Workforce</h4>
+                                </div>
+                                <div class="flip-card-back">
+                                    <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700 text-sm">
+                                        <li>A seasoned, autonomous leadership team with an average tenure of over 15 years.</li>
+                                        <li>A dedicated team of over 110 skilled technicians, project managers, and support staff.</li>
+                                        <li>The business is not dependent on the owner for day-to-day operations.</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -657,36 +689,64 @@
             // Adjust font sizes on initial load
             adjustTabFontSize();
 
-            // --- MARKET SLIDER LOGIC ---
-            const track = document.querySelector('.market-slider-track');
-            if (track) {
-                const slides = Array.from(track.children);
-                const nextButton = document.getElementById('next-slide');
-                const prevButton = document.getElementById('prev-slide');
-                let slideIndex = 0;
+            // --- FINANCIALS TAB LOGIC ---
+            const financialButtons = document.querySelectorAll('.financial-statement-button');
+            const iframe = document.getElementById('financial-iframe');
+            const fallbackContent = {
+                atb: "An Adjusted Trial Balance is an internal document that lists the general ledger accounts and their balances after all adjusting entries have been posted. It is used to verify the mathematical equality of debits and credits before the preparation of the financial statements.",
+                is: "An Income Statement, also known as the profit and loss (P&L) statement, reports a company's financial performance over a specific accounting period. It summarizes revenues, expenses, gains, and losses, culminating in the net income or loss for the period.",
+                soe: "The Statement of Equity, or Statement of Retained Earnings, details the change in a company's equity over an accounting period. It reconciles the beginning and ending equity balances by accounting for items such as profits, losses, and dividend payments.",
+                bs: "A Balance Sheet is a snapshot of a company's financial health at a single point in time. It presents a company's assets, liabilities, and owners' equity, adhering to the fundamental accounting equation: Assets = Liabilities + Equity.",
+                socf: "The Statement of Cash Flows provides aggregate data regarding all cash inflows a company receives from its ongoing operations and external investment sources, as well as all cash outflows that pay for business activities and investments during a given period.",
+                cd: "A Closing Disclosure is a five-page form that provides final details about the mortgage loan you have selected. It includes the loan terms, your projected monthly payments, and how much you will pay in fees and other costs to get your mortgage (closing costs)."
+            };
 
-                const updateSlider = () => {
-                    track.style.transform = `translateX(-${slideIndex * (100 / slides.length)}%)`;
-                    prevButton.disabled = slideIndex === 0;
-                    nextButton.disabled = slideIndex === slides.length - 1;
-                };
+            async function loadFinancialStatement(button) {
+                if (!iframe) return;
 
-                nextButton.addEventListener('click', () => {
-                    if (slideIndex < slides.length - 1) {
-                        slideIndex++;
-                        updateSlider();
+                const src = button.dataset.src;
+                const fallbackId = button.dataset.fallbackId;
+
+                try {
+                    const response = await fetch(src);
+                    if (response.ok) {
+                        iframe.src = src;
+                    } else {
+                        throw new Error('File not found');
                     }
-                });
-
-                prevButton.addEventListener('click', () => {
-                    if (slideIndex > 0) {
-                        slideIndex--;
-                        updateSlider();
-                    }
-                });
-
-                updateSlider(); // Set initial state
+                } catch (error) {
+                    const definition = fallbackContent[fallbackId] || "No definition available.";
+                    const content = `<div style="padding: 1.5rem; font-family: 'Inter', sans-serif;">
+                                        <h4 style="font-weight: 600; color: #1f2937;">We're sorry that the current file is unavailable.</h4>
+                                        <p style="margin-top: 1rem; color: #4b5563;">${definition}</p>
+                                     </div>`;
+                    iframe.srcdoc = content;
+                }
             }
+            
+            financialButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    financialButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    loadFinancialStatement(button);
+                });
+            });
+
+            // Load the first financial statement by default
+            if (financialButtons.length > 0) {
+                financialButtons[0].classList.add('active');
+                loadFinancialStatement(financialButtons[0]);
+            }
+
+
+            // --- MARKET ANALYSIS: FLIP CARD LOGIC ---
+            const flipCards = document.querySelectorAll('.flip-card-container');
+            flipCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    card.classList.toggle('active');
+                });
+            });
+
 
             // --- OPERATIONS MODAL LOGIC ---
             const modalTriggers = document.querySelectorAll('[data-modal-target]');
