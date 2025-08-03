@@ -3,7 +3,7 @@
 
     <!--
     /----------------------------------------------------------------------------------------------------\
-    | LAST UPDATE: 2508031427…Sun_Aug_03_2025_0227PM                                                      |
+    | LAST UPDATE: 2508031432…Sun_Aug_03_2025_0232PM                                                      |
     | https://gemini.google.com/app/81c9008b893c0b7e                                                     |
     | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/case-studies/templates/valuation-brief.html |
     \----------------------------------------------------------------------------------------------------/
@@ -780,10 +780,17 @@
             const zoomOutButton = document.getElementById('zoom-out');
             const zoomResetButton = document.getElementById('zoom-reset');
             let currentZoom = 1;
+            let isPanning = false;
+            let start = { x: 0, y: 0 };
+            let scroll = { left: 0, top: 0 };
 
             function applyZoom() {
-                iframe.style.transform = `scale(${currentZoom})`;
-                iframe.style.transformOrigin = '0 0';
+                if (iframe && iframe.contentDocument && iframe.contentDocument.body) {
+                    iframe.contentDocument.body.style.transform = `scale(${currentZoom})`;
+                    iframe.contentDocument.body.style.transformOrigin = '0 0';
+                    iframe.contentDocument.body.style.overflow = 'auto';
+                    iframe.contentDocument.body.style.userSelect = 'none';
+                }
             }
 
             if (financialNavTrigger) {
@@ -805,8 +812,7 @@
                 if (!iframe) return;
                 
                 currentZoom = 1;
-                applyZoom();
-
+                
                 const src = button.dataset.src;
                 const fallbackId = button.dataset.fallbackId;
 
@@ -814,6 +820,18 @@
                     const response = await fetch(src);
                     if (response.ok) {
                         iframe.src = src;
+                        iframe.onload = () => {
+                            applyZoom();
+                            iframe.contentDocument.body.style.cursor = 'grab';
+                            iframe.contentDocument.body.addEventListener('mousedown', (e) => {
+                                isPanning = true;
+                                start.x = e.pageX - iframe.offsetLeft;
+                                start.y = e.pageY - iframe.offsetTop;
+                                scroll.left = iframe.contentWindow.scrollX;
+                                scroll.top = iframe.contentWindow.scrollY;
+                                iframe.contentDocument.body.style.cursor = 'grabbing';
+                            });
+                        };
                     } else {
                         throw new Error('File not found');
                     }
@@ -859,6 +877,29 @@
                 zoomResetButton.addEventListener('click', () => {
                     currentZoom = 1;
                     applyZoom();
+                });
+            }
+            
+            // Panning logic
+            if (iframe) {
+                 iframe.contentWindow.addEventListener('mousemove', (e) => {
+                    if (!isPanning) return;
+                    e.preventDefault();
+                    const x = e.pageX - iframe.offsetLeft;
+                    const y = e.pageY - iframe.offsetTop;
+                    const walkX = (x - start.x) * 2; // Adjust multiplier for scroll speed
+                    const walkY = (y - start.y) * 2;
+                    iframe.contentWindow.scrollTo(scroll.left - walkX, scroll.top - walkY);
+                });
+                
+                iframe.contentWindow.addEventListener('mouseup', () => {
+                    isPanning = false;
+                    if(iframe.contentDocument.body) iframe.contentDocument.body.style.cursor = 'grab';
+                });
+                
+                iframe.contentWindow.addEventListener('mouseleave', () => {
+                    isPanning = false;
+                    if(iframe.contentDocument.body) iframe.contentDocument.body.style.cursor = 'grab';
                 });
             }
 
