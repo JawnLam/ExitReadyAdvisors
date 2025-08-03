@@ -3,7 +3,7 @@
 
     <!--
     /----------------------------------------------------------------------------------------------------\
-    | LAST UPDATE: 2508031323…Sun_Aug_03_2025_0123PM                                                      |
+    | LAST UPDATE: 2508031406…Sun_Aug_03_2025_0206PM                                                     |
     | https://gemini.google.com/app/81c9008b893c0b7e                                                     |
     | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/case-studies/templates/valuation-brief.html |
     \----------------------------------------------------------------------------------------------------/
@@ -119,12 +119,39 @@
         }
         
         /* --- FINANCIALS TAB STYLING --- */
+        .financials-container {
+            position: relative;
+            overflow: hidden; /* This is the key change to hide the sliding panel */
+            height: 576px; /* Match the iframe height */
+            border-radius: 0.5rem; /* To clip the panel's corners */
+        }
+        #financial-nav-panel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 280px;
+            background-color: white;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 40;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border-right: 1px solid #e5e7eb;
+        }
+        #financial-nav-panel.open {
+            transform: translateX(0);
+        }
+        #financial-nav-trigger {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            z-index: 30;
+        }
         .financial-statement-button {
             transition: all 0.3s ease;
             width: 100%;
             text-align: left;
-            padding: 1.125rem 1.5rem; /* Increased padding */
-            font-size: 1.125rem; /* text-lg */
+            padding: 0.75rem 1.5rem;
             font-weight: 500;
             color: #4b5563; /* text-gray-600 */
             border-left: 4px solid transparent;
@@ -141,7 +168,7 @@
             font-weight: 600;
         }
 
-        /* --- MARKET ANALYSIS & OPERATIONS: FLIP CARDS --- */
+        /* --- MARKET ANALYSIS: FLIP CARDS --- */
         .flip-card-container {
             perspective: 1000px;
         }
@@ -318,19 +345,31 @@
                 
                 <!-- Financials Panel -->
                 <div id="financials" class="tab-content">
-                    <div class="flex flex-col md:flex-row gap-6">
-                        <!-- Vertical Button Navigation -->
-                        <div class="flex flex-col space-y-2 md:w-1/4">
-                            <button class="financial-statement-button" data-src="./financial-statements/adjusted-trial-balance.html" data-fallback-id="atb">Adjusted Trial Balance</button>
-                            <button class="financial-statement-button" data-src="./financial-statements/income-statement.html" data-fallback-id="is">Income Statement</button>
-                            <button class="financial-statement-button" data-src="./financial-statements/statement-of-equity.html" data-fallback-id="soe">Statement of Equity</button>
-                            <button class="financial-statement-button" data-src="./financial-statements/balance-sheet.html" data-fallback-id="bs">Balance Sheet</button>
-                            <button class="financial-statement-button" data-src="./financial-statements/statement-of-cash-flows.html" data-fallback-id="socf">Statement of Cash Flows</button>
-                            <button class="financial-statement-button" data-src="./financial-statements/closing-disclosures.html" data-fallback-id="cd">Closing Disclosures</button>
+                    <div class="financials-container">
+                        <button id="financial-nav-trigger" class="bg-white/75 p-3 rounded-full shadow-lg border">
+                            <i class="fas fa-bars text-blue-600"></i>
+                        </button>
+                        <!-- Slide-over Navigation -->
+                        <div id="financial-nav-panel" class="p-4">
+                             <h4 class="text-lg font-bold text-gray-800 mb-4">Financial Statements</h4>
+                            <div class="flex flex-col space-y-2">
+                                <button class="financial-statement-button" data-src="./financial-statements/adjusted-trial-balance.html" data-fallback-id="atb">Adjusted Trial Balance</button>
+                                <button class="financial-statement-button" data-src="./financial-statements/income-statement.html" data-fallback-id="is">Income Statement</button>
+                                <button class="financial-statement-button" data-src="./financial-statements/statement-of-equity.html" data-fallback-id="soe">Statement of Equity</button>
+                                <button class="financial-statement-button" data-src="./financial-statements/balance-sheet.html" data-fallback-id="bs">Balance Sheet</button>
+                                <button class="financial-statement-button" data-src="./financial-statements/statement-of-cash-flows.html" data-fallback-id="socf">Statement of Cash Flows</button>
+                                <button class="financial-statement-button" data-src="./financial-statements/closing-disclosures.html" data-fallback-id="cd">Closing Disclosures</button>
+                            </div>
                         </div>
                         <!-- Iframe Display Area -->
-                        <div class="flex-grow">
-                            <iframe id="financial-iframe" class="w-full border border-gray-300 rounded-lg" style="height: 576px;"></iframe>
+                        <div class="w-full h-full">
+                            <iframe id="financial-iframe" class="w-full h-full border-0 rounded-lg"></iframe>
+                        </div>
+                        <!-- Zoom Controls -->
+                        <div class="absolute bottom-4 right-4 flex space-x-2">
+                            <button id="zoom-in" class="bg-white/75 p-2 rounded-full shadow-lg border w-10 h-10 flex items-center justify-center"><i class="fas fa-plus text-blue-600"></i></button>
+                            <button id="zoom-out" class="bg-white/75 p-2 rounded-full shadow-lg border w-10 h-10 flex items-center justify-center"><i class="fas fa-minus text-blue-600"></i></button>
+                            <button id="zoom-reset" class="bg-white/75 p-2 rounded-full shadow-lg border w-10 h-10 flex items-center justify-center"><i class="fas fa-sync-alt text-blue-600"></i></button>
                         </div>
                     </div>
                 </div>
@@ -692,6 +731,24 @@
             // --- FINANCIALS TAB LOGIC ---
             const financialButtons = document.querySelectorAll('.financial-statement-button');
             const iframe = document.getElementById('financial-iframe');
+            const financialNavPanel = document.getElementById('financial-nav-panel');
+            const financialNavTrigger = document.getElementById('financial-nav-trigger');
+            const zoomInButton = document.getElementById('zoom-in');
+            const zoomOutButton = document.getElementById('zoom-out');
+            const zoomResetButton = document.getElementById('zoom-reset');
+            let currentZoom = 1;
+
+            function applyZoom() {
+                iframe.style.transform = `scale(${currentZoom})`;
+                iframe.style.transformOrigin = '0 0';
+            }
+
+            if (financialNavTrigger) {
+                financialNavTrigger.addEventListener('click', () => {
+                    financialNavPanel.classList.toggle('open');
+                });
+            }
+
             const fallbackContent = {
                 atb: "An Adjusted Trial Balance is an internal document that lists the general ledger accounts and their balances after all adjusting entries have been posted. It is used to verify the mathematical equality of debits and credits before the preparation of the financial statements.",
                 is: "An Income Statement, also known as the profit and loss (P&L) statement, reports a company's financial performance over a specific accounting period. It summarizes revenues, expenses, gains, and losses, culminating in the net income or loss for the period.",
@@ -703,6 +760,9 @@
 
             async function loadFinancialStatement(button) {
                 if (!iframe) return;
+                
+                currentZoom = 1;
+                applyZoom();
 
                 const src = button.dataset.src;
                 const fallbackId = button.dataset.fallbackId;
@@ -729,6 +789,7 @@
                     financialButtons.forEach(btn => btn.classList.remove('active'));
                     button.classList.add('active');
                     loadFinancialStatement(button);
+                    financialNavPanel.classList.remove('open'); // Close panel on selection
                 });
             });
 
@@ -736,6 +797,26 @@
             if (financialButtons.length > 0) {
                 financialButtons[0].classList.add('active');
                 loadFinancialStatement(financialButtons[0]);
+            }
+            
+            // Zoom functionality
+            if (zoomInButton) {
+                zoomInButton.addEventListener('click', () => {
+                    currentZoom += 0.1;
+                    applyZoom();
+                });
+            }
+            if (zoomOutButton) {
+                zoomOutButton.addEventListener('click', () => {
+                    currentZoom = Math.max(0.5, currentZoom - 0.1);
+                    applyZoom();
+                });
+            }
+            if (zoomResetButton) {
+                zoomResetButton.addEventListener('click', () => {
+                    currentZoom = 1;
+                    applyZoom();
+                });
             }
 
 
