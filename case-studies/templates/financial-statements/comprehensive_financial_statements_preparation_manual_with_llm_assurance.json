@@ -7,7 +7,11 @@
       "primary_mission": "Transform incomplete financial data into comprehensive, CPA-ready financial statements through intelligent, context-aware gap-filling while maintaining statement interdependency",
       "purpose": "This framework prioritizes proactive completion over defensive prevention - making smart assumptions, documenting them transparently, and ensuring they align with industry standards to satisfy specialist CPA scrutiny",
       "supreme_directive": "Seed documents represent immutable truth - every assumption must preserve and enhance their credibility, never contradict or undermine them",
-      "contextual_awareness": "All assumptions must be modulated by macroeconomic conditions and adjusted for entities that are genuine outliers or disruptors"
+      "contextual_awareness": "All assumptions must be modulated by macroeconomic conditions and adjusted for entities that are genuine outliers or disruptors",
+      "internal_processing_only": {
+        "confidence_scores": "All confidence scores (e.g., 'Confidence: 85%') are for LLM internal decision-making ONLY and must NEVER appear in final statement outputs",
+        "internal_markers": "Any notation indicating uncertainty, confidence levels, or assumption quality must be excluded from all artifacts"
+      }
     },
     "seed_document_integrity": {
       "supreme_authority_principle": "Seed documents represent immutable gospel truth that must never be contradicted, undermined, or rendered implausible by any LLM-generated content",
@@ -1207,7 +1211,13 @@
             "How do quantitative and qualitative factors interact?"
           ],
           "cpa_mindset": "When in doubt, err on the side of lower materiality thresholds"
-        }
+        },
+        "prohibited_in_final_output": [
+          "Confidence percentages (e.g., 'Confidence: 90%')",
+          "Internal processing notes",
+          "Assumption quality indicators",
+          "Any language suggesting uncertainty beyond standard disclaimer language"
+        ]
       },
       "input_validation_rules": {
         "seed_document_supremacy": "All seed document facts are immutable - no assumption may contradict or undermine them",
@@ -1331,6 +1341,11 @@
             "Common audit adjustments for the industry",
             "Typical management judgments required"
           ]
+        },
+        "final_output_sanitization": {
+          "rule": "Before creating any artifact, remove ALL internal confidence notations",
+          "check": "Final statements must appear as if prepared by a CPA with full confidence in all numbers",
+          "professional_standard": "Include assumptions in notes section using professional language, never with percentage confidence scores"
         }
       }
     },
