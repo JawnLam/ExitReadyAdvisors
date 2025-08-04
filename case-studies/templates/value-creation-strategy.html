@@ -2,12 +2,12 @@
 <html lang="en" class="scroll-smooth">
 
     <!--
-	/------------------------------------------------------------------------------------------------------------\
-	| LAST UPDATE: 2507261419…Sat_Jul_26_2025_0219PM                                                             |
-	| https://gemini.google.com/app/2245d1ce65e5ab37                                                             |
-	| https://github.com/JawnLam/ExitReadyAdvisors/edit/main/case-studies/templates/value-creation-strategy.html |
-	\------------------------------------------------------------------------------------------------------------/
-	-->
+    /------------------------------------------------------------------------------------------------------------\
+    | LAST UPDATE: 2507261419…Sat_Jul_26_2025_0219PM                                                             |
+    | https://gemini.google.com/app/b3a910595226fe6a                                                             |
+    | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/case-studies/templates/value-creation-strategy.html |
+    \------------------------------------------------------------------------------------------------------------/
+    -->
 
 <head>
     <meta charset="UTF-8">
@@ -37,18 +37,26 @@
             animation: fadeIn 0.8s ease-in-out forwards;
         }
         
-        /* Tab styling */
+        /* --- TAB STYLING (Updated per Style Guide) --- */
         .tab-button {
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
             z-index: 1;
-            transition: all 0.3s ease;
             border-bottom: 3px solid transparent;
-            padding: 1rem 0.75rem;
-            font-size: 0.875rem;
+            border-radius: 0.375rem 0.375rem 0 0;
             font-weight: 600;
-            flex-shrink: 0;
-            white-space: nowrap;
+            font-size: 0.75rem; /* Base font size, will be adjusted by JS */
+            line-height: 1.2; /* Adjusted for better multi-line spacing */
+            padding: 0.75rem 0.25rem;
+            margin: 0 2px;
+            min-height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            text-align: center;
+            /* 'white-space: nowrap;' removed to allow text wrapping */
         }
 
         .tab-button::after {
@@ -56,7 +64,7 @@
             position: absolute;
             bottom: 0;
             left: 0;
-            width: 100%;
+            right: 0;
             height: 0;
             background-color: #fef9c3; /* yellow-100 */
             transition: height 0.3s ease;
@@ -75,9 +83,8 @@
         .tab-button.active {
             background-color: #fef9c3; /* yellow-100 */
             color: #ca8a04; /* yellow-600 */
-            border: 1px solid #ca8a04; /* yellow-600 */
-            border-bottom: 3px solid #eab308; /* yellow-500 */
-            border-radius: 0.375rem 0.375rem 0 0;
+            border-bottom-color: #eab308; /* yellow-500 */
+            box-shadow: 0 0 0 1px #eab308; /* Subtle yellow outline */
         }
 
         .tab-button:not(.active) {
@@ -112,12 +119,18 @@
     <main id="page-value-creation-strategy" class="max-w-7xl mx-auto py-8" style="display: none;">
 
         <!-- PageHeader Component -->
-        <header class="grid grid-cols-1 md:grid-cols-2 bg-white rounded-xl overflow-hidden shadow-lg">
-            <div class="flex items-center justify-center h-48 md:h-auto">
-                <img src="https://images.unsplash.com/photo-1627993312204-1a9383fd4b9a?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
-                     alt="Modern electrical grid infrastructure" 
+        <header class="grid grid-cols-1 md:grid-cols-2 bg-white rounded-xl overflow-hidden shadow-lg max-h-[300px]">
+            <div class="flex items-center justify-center h-full">
+                <img src="./images/2.jpg" 
+                     alt="An execution roadmap for an investment thesis" 
                      class="object-cover w-full h-full"
-                     onerror="this.onerror=null;this.src='https://placehold.co/600x400/000000/FFFFFF?text=J%26S';">
+                     onerror="this.style.display='none'; document.getElementById('image-fallback').style.display='flex';">
+                
+                <div id="image-fallback" class="hidden h-full w-full flex-col items-start justify-center bg-yellow-50 p-8 text-left">
+                    <p class="text-yellow-800 leading-relaxed">
+                        This page is an execution roadmap detailing the strategic plan to realize the investment thesis for this opportunity. It outlines prioritized objectives, defines measurable key results for each objective, and establishes specific performance indicators (KPIs) to track progress. This structured hierarchy provides a clear, actionable framework for driving value creation post-acquisition.
+                    </p>
+                </div>
             </div>
             <div class="p-8 flex flex-col justify-start">
                 <h1 class="text-3xl font-bold text-gray-900 mt-1">Johnson & Sons Heating, Plumbing, & Air</h1>
@@ -150,7 +163,7 @@
         <div>
             <!-- Tab Navigation -->
             <div class="border-b border-gray-200 px-6 mb-8">
-                <nav class="-mb-px flex space-x-4 overflow-x-auto" aria-label="Tabs" id="tabs-container">
+                <nav class="-mb-px flex" aria-label="Tabs" id="tabs-container">
                     <!-- Tabs will be dynamically generated here -->
                 </nav>
             </div>
@@ -368,6 +381,60 @@
             });
         }
         
+        // --- FONT SIZING UTILITIES ---
+        /**
+         * Debounce function to limit the rate at which a function gets called.
+         * @param {Function} func The function to debounce.
+         * @param {number} wait The delay in milliseconds.
+         * @returns {Function} The debounced function.
+         */
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        /**
+         * Dynamically adjusts tab font sizes for uniformity, allowing for multi-line text.
+         * It calculates the largest possible font size for each tab that allows its content to fit,
+         * then applies the smallest of these calculated sizes to all tabs.
+         */
+        function adjustTabFontSize() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            if (tabButtons.length === 0) return;
+
+            const MAX_FONT_SIZE = 16; // Start with a larger potential font size
+            const MIN_FONT_SIZE = 8;  // A reasonable lower limit
+            const optimalFontSizes = [];
+
+            // 1. Calculate the largest possible font size for each tab individually
+            tabButtons.forEach(button => {
+                let currentSize = MAX_FONT_SIZE;
+                button.style.fontSize = currentSize + 'px';
+
+                // Reduce font size until the tab's content fits vertically
+                while (button.scrollHeight > button.clientHeight && currentSize > MIN_FONT_SIZE) {
+                    currentSize -= 0.5; // Decrement font size slowly
+                    button.style.fontSize = currentSize + 'px';
+                }
+                optimalFontSizes.push(currentSize);
+            });
+
+            // 2. Identify the smallest of the calculated optimal font sizes
+            const uniformFontSize = Math.min(...optimalFontSizes);
+
+            // 3. Apply that single, uniform font size to all tabs
+            tabButtons.forEach(button => {
+                button.style.fontSize = uniformFontSize + 'px';
+            });
+        }
+        
         // --- DYNAMIC PAGE AND TAB INITIALIZATION ---
         document.addEventListener('DOMContentLoaded', () => {
             const pageContainer = document.getElementById('page-value-creation-strategy');
@@ -432,6 +499,12 @@
             
             // Initialize all accordions after rendering content
             initializeAccordions();
+
+            // Adjust tab font sizes after they are rendered
+            adjustTabFontSize();
+
+            // Add a debounced resize listener to re-calculate on window size changes
+            window.addEventListener('resize', debounce(adjustTabFontSize, 150));
 
             // Fade in the whole page
             pageContainer.style.display = 'block';
