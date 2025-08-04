@@ -22,7 +22,8 @@
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <!-- PDF.js -->
-    <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
     <style>
         /* Custom styles and animations */
         body {
@@ -789,7 +790,7 @@
             // --- FINANCIALS TAB LOGIC ---
             function initializeFinancialsTab() {
                 const { pdfjsLib } = window;
-                pdfjsLib.GlobalWorkerOptions.workerSrc = `//mozilla.github.io/pdf.js/build/pdf.worker.js`;
+                pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js`;
 
                 const financialButtons = document.querySelectorAll('.financial-statement-button');
                 const financialNavPanel = document.getElementById('financial-nav-panel');
@@ -810,6 +811,15 @@
                     pageRendering = false,
                     pageNumPending = null,
                     scale = 1.5;
+                
+                const fallbackContent = {
+                    atb: "An Adjusted Trial Balance is an internal document that lists the general ledger accounts and their balances after all adjusting entries have been posted. It is used to verify the mathematical equality of debits and credits before the preparation of the financial statements.",
+                    is: "An Income Statement, also known as the profit and loss (P&L) statement, reports a company's financial performance over a specific accounting period. It summarizes revenues, expenses, gains, and losses, culminating in the net income or loss for the period.",
+                    soe: "The Statement of Equity, or Statement of Retained Earnings, details the change in a company's equity over an accounting period. It reconciles the beginning and ending equity balances by accounting for items such as profits, losses, and dividend payments.",
+                    bs: "A Balance Sheet is a snapshot of a company's financial health at a single point in time. It presents a company's assets, liabilities, and owners' equity, adhering to the fundamental accounting equation: Assets = Liabilities + Equity.",
+                    socf: "The Statement of Cash Flows provides aggregate data regarding all cash inflows a company receives from its ongoing operations and external investment sources, as well as all cash outflows that pay for business activities and investments during a given period.",
+                    cd: "A Closing Disclosure is a five-page form that provides final details about the mortgage loan you have selected. It includes the loan terms, your projected monthly payments, and how much you will pay in fees and other costs to get your mortgage (closing costs)."
+                };
 
                 function renderPage(num) {
                     pageRendering = true;
