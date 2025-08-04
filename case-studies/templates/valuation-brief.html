@@ -3,7 +3,7 @@
 
     <!--
     /----------------------------------------------------------------------------------------------------\
-    | LAST UPDATE: 2508031442…Sun_Aug_03_2025_0242PM                                                      |
+    | LAST UPDATE: 2508031432…Sun_Aug_03_2025_0232PM                                                      |
     | https://gemini.google.com/app/81c9008b893c0b7e                                                     |
     | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/case-studies/templates/valuation-brief.html |
     \----------------------------------------------------------------------------------------------------/
@@ -786,11 +786,10 @@
 
             function applyZoom() {
                 if (iframe && iframe.contentDocument && iframe.contentDocument.body) {
-                    const body = iframe.contentDocument.body;
-                    body.style.transform = `scale(${currentZoom})`;
-                    body.style.transformOrigin = '0 0';
-                    body.style.overflow = 'auto';
-                    body.style.userSelect = 'none';
+                    iframe.contentDocument.body.style.transform = `scale(${currentZoom})`;
+                    iframe.contentDocument.body.style.transformOrigin = '0 0';
+                    iframe.contentDocument.body.style.overflow = 'auto';
+                    iframe.contentDocument.body.style.userSelect = 'none';
                 }
             }
 
@@ -823,16 +822,14 @@
                         iframe.src = src;
                         iframe.onload = () => {
                             applyZoom();
-                            const iframeBody = iframe.contentDocument.body;
-                            iframeBody.style.cursor = 'grab';
-                            
-                            iframeBody.addEventListener('mousedown', (e) => {
+                            iframe.contentDocument.body.style.cursor = 'grab';
+                            iframe.contentDocument.body.addEventListener('mousedown', (e) => {
                                 isPanning = true;
-                                start.x = e.pageX;
-                                start.y = e.pageY;
+                                start.x = e.pageX - iframe.offsetLeft;
+                                start.y = e.pageY - iframe.offsetTop;
                                 scroll.left = iframe.contentWindow.scrollX;
                                 scroll.top = iframe.contentWindow.scrollY;
-                                iframeBody.style.cursor = 'grabbing';
+                                iframe.contentDocument.body.style.cursor = 'grabbing';
                             });
                         };
                     } else {
@@ -883,23 +880,28 @@
                 });
             }
             
-            // Panning logic for the main document
-            document.addEventListener('mousemove', (e) => {
-                if (!isPanning) return;
-                e.preventDefault();
-                const x = e.pageX;
-                const y = e.pageY;
-                const walkX = (x - start.x);
-                const walkY = (y - start.y);
-                iframe.contentWindow.scrollTo(scroll.left - walkX, scroll.top - walkY);
-            });
-            
-            document.addEventListener('mouseup', () => {
-                isPanning = false;
-                if(iframe && iframe.contentDocument && iframe.contentDocument.body) {
-                    iframe.contentDocument.body.style.cursor = 'grab';
-                }
-            });
+            // Panning logic
+            if (iframe) {
+                 iframe.contentWindow.addEventListener('mousemove', (e) => {
+                    if (!isPanning) return;
+                    e.preventDefault();
+                    const x = e.pageX - iframe.offsetLeft;
+                    const y = e.pageY - iframe.offsetTop;
+                    const walkX = (x - start.x) * 2; // Adjust multiplier for scroll speed
+                    const walkY = (y - start.y) * 2;
+                    iframe.contentWindow.scrollTo(scroll.left - walkX, scroll.top - walkY);
+                });
+                
+                iframe.contentWindow.addEventListener('mouseup', () => {
+                    isPanning = false;
+                    if(iframe.contentDocument.body) iframe.contentDocument.body.style.cursor = 'grab';
+                });
+                
+                iframe.contentWindow.addEventListener('mouseleave', () => {
+                    isPanning = false;
+                    if(iframe.contentDocument.body) iframe.contentDocument.body.style.cursor = 'grab';
+                });
+            }
 
 
             // --- MARKET ANALYSIS: FLIP CARD LOGIC ---
