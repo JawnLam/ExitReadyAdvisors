@@ -3,7 +3,7 @@
 
     <!--
     /----------------------------------------------------------------------------------------------------\
-    | LAST UPDATE: 2508031432…Sun_Aug_03_2025_0232PM                                                      |
+    | LAST UPDATE: 2508040404…Sun_Aug_03_2025_0904PM                                                      |
     | https://gemini.google.com/app/81c9008b893c0b7e                                                     |
     | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/case-studies/templates/valuation-brief.html |
     \----------------------------------------------------------------------------------------------------/
@@ -601,20 +601,56 @@
     -->
     <script>
         /**
-         * Adjusts the font size of tabs to fit their container width.
+         * Adjusts tab font sizes for uniform appearance based on the tab requiring the smallest font.
+         * 1. Calculates the largest possible font size for each tab to fit its content.
+         * 2. Identifies the smallest of these calculated font sizes.
+         * 3. Applies that single, uniform font size to all tabs.
          */
         function adjustTabFontSize() {
             const tabs = document.querySelectorAll('.tab-button');
-            tabs.forEach(tab => {
-                const tabWidth = tab.offsetWidth;
-                // This scaling factor can be adjusted to get the desired look.
-                // A smaller divisor means a larger font.
-                const newSize = tabWidth / 10; 
-                
-                // Set min and max font sizes to prevent text from being too small or large.
-                const clampedSize = Math.max(12, Math.min(16, newSize)); 
+            if (tabs.length === 0) return;
 
-                tab.style.fontSize = `${clampedSize}px`;
+            const calculatedFontSizes = [];
+
+            // First, reset all font sizes to a baseline to ensure consistent measurement from the CSS stylesheet.
+            tabs.forEach(tab => {
+                tab.style.fontSize = ''; 
+            });
+
+            // Steps 1 & 2: Calculate the ideal font size for each tab and find the minimum.
+            tabs.forEach(tab => {
+                const style = window.getComputedStyle(tab);
+                // Get the available width for text inside the tab (element's width minus horizontal padding).
+                const padding = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+                const availableWidth = tab.clientWidth - padding;
+
+                // Get the natural, un-wrapped width of the text content.
+                const textWidth = tab.scrollWidth;
+                
+                // Get the current font size as defined in the stylesheet.
+                const currentFontSize = parseFloat(style.fontSize);
+
+                let idealSize;
+                if (textWidth > availableWidth) {
+                    // If the text overflows, calculate the scaled-down font size needed to fit.
+                    const scaleFactor = availableWidth / textWidth;
+                    idealSize = currentFontSize * scaleFactor;
+                } else {
+                    // If the text already fits, its current font size is the ideal maximum for this tab.
+                    idealSize = currentFontSize;
+                }
+                calculatedFontSizes.push(idealSize);
+            });
+
+            // Find the smallest of all the calculated ideal font sizes.
+            const smallestSize = Math.min(...calculatedFontSizes);
+
+            // Set a practical minimum (12px) and maximum (16px) for the final font size.
+            const finalSize = Math.max(12, Math.min(16, smallestSize));
+
+            // Step 3: Apply the single, uniform font size to all tabs.
+            tabs.forEach(tab => {
+                tab.style.fontSize = `${finalSize}px`;
             });
         }
 
