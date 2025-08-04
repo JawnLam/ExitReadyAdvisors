@@ -3,7 +3,7 @@
 
     <!--
     /----------------------------------------------------------------------------------------------------\
-    | LAST UPDATE: 2508031442…Sun_Aug_03_2025_0242PM                                                      |
+    | LAST UPDATE: 2508031938…Sun_Aug_03_2025_0738PM                                                      |
     | https://gemini.google.com/app/81c9008b893c0b7e                                                     |
     | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/case-studies/templates/valuation-brief.html |
     \----------------------------------------------------------------------------------------------------/
@@ -621,16 +621,26 @@
          */
         function adjustTabFontSize() {
             const tabs = document.querySelectorAll('.tab-button');
-            tabs.forEach(tab => {
-                const tabWidth = tab.offsetWidth;
-                // This scaling factor can be adjusted to get the desired look.
-                // A smaller divisor means a larger font.
-                const newSize = tabWidth / 10; 
-                
-                // Set min and max font sizes to prevent text from being too small or large.
-                const clampedSize = Math.max(12, Math.min(16, newSize)); 
+            const optimalFontSizes = [];
 
-                tab.style.fontSize = `${clampedSize}px`;
+            // First pass: calculate the optimal font size for each tab
+            tabs.forEach(tab => {
+                let fontSize = 16; // Start with max font size
+                tab.style.fontSize = `${fontSize}px`;
+                // Iteratively decrease font size until text fits
+                while (tab.scrollWidth > tab.clientWidth && fontSize > 12) {
+                    fontSize--;
+                    tab.style.fontSize = `${fontSize}px`;
+                }
+                optimalFontSizes.push(fontSize);
+            });
+
+            // Find the smallest optimal font size
+            const minFontSize = Math.min(...optimalFontSizes);
+
+            // Second pass: apply the uniform font size to all tabs
+            tabs.forEach(tab => {
+                tab.style.fontSize = `${minFontSize}px`;
             });
         }
 
@@ -789,7 +799,10 @@
 
             // --- FINANCIALS TAB LOGIC ---
             function initializeFinancialsTab() {
-                const { pdfjsLib } = window;
+                if (typeof pdfjsLib === 'undefined') {
+                    console.error('PDF.js is not loaded.');
+                    return;
+                }
                 pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js`;
 
                 const financialButtons = document.querySelectorAll('.financial-statement-button');
