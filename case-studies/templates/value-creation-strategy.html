@@ -465,7 +465,7 @@
             tabsHtml += `<button class="tab-button" data-tab="metrics">Map of Metrics</button>`;
             contentHtml += `
                 <div id="metrics" class="tab-content">
-                     <iframe src="https://jawnlam.github.io/ExitReadyAdvisors/case-studies/templates/map-of-metrics.html" class="w-full h-full min-h-[75vh]" frameborder="0" title="Map of Metrics Visualization"></iframe>
+                     <iframe src="./interactive-elements/map-of-metrics.html" class="w-full h-full min-h-[75vh]" frameborder="0" title="Map of Metrics Visualization"></iframe>
                 </div>
             `;
 
@@ -500,14 +500,16 @@
             // Initialize all accordions after rendering content
             initializeAccordions();
 
-            // Adjust tab font sizes after they are rendered
+            // Make the container visible so its elements have dimensions for calculation
+            pageContainer.style.display = 'block';
+
+            // Now that it's visible, calculate the font sizes
             adjustTabFontSize();
 
             // Add a debounced resize listener to re-calculate on window size changes
             window.addEventListener('resize', debounce(adjustTabFontSize, 150));
 
-            // Fade in the whole page
-            pageContainer.style.display = 'block';
+            // Finally, trigger the fade-in animation
             pageContainer.classList.add('fade-in');
         });
 
