@@ -21,6 +21,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- PDF.js -->
+    <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
     <style>
         /* Custom styles and animations */
         body {
@@ -119,11 +121,11 @@
         }
         
         /* --- FINANCIALS TAB STYLING --- */
-        .financials-container {
+        #financials-viewer-container {
             position: relative;
-            overflow: hidden; /* This is the key change to hide the sliding panel */
-            height: 576px; /* Match the iframe height */
-            border-radius: 0.5rem; /* To clip the panel's corners */
+            overflow: hidden;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
         }
         #financial-nav-panel {
             position: absolute;
@@ -167,17 +169,13 @@
             border-left-color: #2563eb; /* border-blue-600 */
             font-weight: 600;
         }
-        #iframe-wrapper {
-            width: 100%;
-            height: 100%;
-            cursor: grab;
+        #pdf-viewer {
+            height: 600px;
+            overflow: auto;
         }
-        #iframe-wrapper.grabbing {
-            cursor: grabbing;
-        }
-        #financial-iframe {
-            pointer-events: none; /* Critical for allowing wrapper to handle mouse events */
-            user-select: none;
+        #pdf-canvas {
+            display: block;
+            margin: 0 auto;
         }
 
         /* --- MARKET ANALYSIS & OPERATIONS: FLIP CARDS --- */
@@ -357,7 +355,7 @@
                 
                 <!-- Financials Panel -->
                 <div id="financials" class="tab-content">
-                    <div class="financials-container">
+                    <div id="financials-viewer-container">
                         <button id="financial-nav-trigger" class="bg-white/75 p-3 rounded-full shadow-lg border">
                             <i class="fas fa-bars text-blue-600"></i>
                         </button>
@@ -365,23 +363,28 @@
                         <div id="financial-nav-panel" class="p-4">
                              <h4 class="text-lg font-bold text-gray-800 mb-4">Financial Statements</h4>
                             <div class="flex flex-col space-y-2">
-                                <button class="financial-statement-button" data-src="./financial-statements/adjusted-trial-balance.html" data-fallback-id="atb">Adjusted Trial Balance</button>
-                                <button class="financial-statement-button" data-src="./financial-statements/income-statement.html" data-fallback-id="is">Income Statement</button>
-                                <button class="financial-statement-button" data-src="./financial-statements/statement-of-equity.html" data-fallback-id="soe">Statement of Equity</button>
-                                <button class="financial-statement-button" data-src="./financial-statements/balance-sheet.html" data-fallback-id="bs">Balance Sheet</button>
-                                <button class="financial-statement-button" data-src="./financial-statements/statement-of-cash-flows.html" data-fallback-id="socf">Statement of Cash Flows</button>
-                                <button class="financial-statement-button" data-src="./financial-statements/closing-disclosures.html" data-fallback-id="cd">Closing Disclosures</button>
+                                <button class="financial-statement-button" data-src="./financial-statements/adjusted-trial-balance.pdf" data-fallback-id="atb">Adjusted Trial Balance</button>
+                                <button class="financial-statement-button" data-src="./financial-statements/income-statement.pdf" data-fallback-id="is">Income Statement</button>
+                                <button class="financial-statement-button" data-src="./financial-statements/statement-of-equity.pdf" data-fallback-id="soe">Statement of Equity</button>
+                                <button class="financial-statement-button" data-src="./financial-statements/balance-sheet.pdf" data-fallback-id="bs">Balance Sheet</button>
+                                <button class="financial-statement-button" data-src="./financial-statements/statement-of-cash-flows.pdf" data-fallback-id="socf">Statement of Cash Flows</button>
+                                <button class="financial-statement-button" data-src="./financial-statements/closing-disclosures.pdf" data-fallback-id="cd">Closing Disclosures</button>
                             </div>
                         </div>
-                        <!-- Iframe Display Area -->
-                        <div id="iframe-wrapper" class="w-full h-full">
-                            <iframe id="financial-iframe" class="w-full h-full border-0 rounded-lg"></iframe>
+                        <!-- PDF Viewer Area -->
+                        <div id="pdf-viewer" class="w-full h-full bg-gray-200">
+                            <canvas id="pdf-canvas"></canvas>
                         </div>
-                        <!-- Zoom Controls -->
-                        <div class="absolute bottom-4 right-4 flex space-x-2">
-                            <button id="zoom-in" class="bg-white/75 p-2 rounded-full shadow-lg border w-10 h-10 flex items-center justify-center"><i class="fas fa-plus text-blue-600"></i></button>
-                            <button id="zoom-out" class="bg-white/75 p-2 rounded-full shadow-lg border w-10 h-10 flex items-center justify-center"><i class="fas fa-minus text-blue-600"></i></button>
-                            <button id="zoom-reset" class="bg-white/75 p-2 rounded-full shadow-lg border w-10 h-10 flex items-center justify-center"><i class="fas fa-sync-alt text-blue-600"></i></button>
+                        <div id="pdf-fallback" class="p-6 hidden"></div>
+                        <!-- PDF Controls -->
+                        <div class="absolute bottom-4 right-4 flex items-center space-x-2 bg-white/75 p-2 rounded-full shadow-lg border">
+                            <button id="prev-page" class="p-2 w-10 h-10 flex items-center justify-center"><i class="fas fa-chevron-left text-blue-600"></i></button>
+                            <span id="page-num" class="text-sm font-medium text-gray-700"></span> / <span id="page-count" class="text-sm font-medium text-gray-700"></span>
+                            <button id="next-page" class="p-2 w-10 h-10 flex items-center justify-center"><i class="fas fa-chevron-right text-blue-600"></i></button>
+                            <div class="border-l h-6 border-gray-300 mx-2"></div>
+                            <button id="zoom-in" class="p-2 w-10 h-10 flex items-center justify-center"><i class="fas fa-plus text-blue-600"></i></button>
+                            <button id="zoom-out" class="p-2 w-10 h-10 flex items-center justify-center"><i class="fas fa-minus text-blue-600"></i></button>
+                            <button id="zoom-reset" class="p-2 w-10 h-10 flex items-center justify-center"><i class="fas fa-sync-alt text-blue-600"></i></button>
                         </div>
                     </div>
                 </div>
@@ -784,157 +787,134 @@
             adjustTabFontSize();
 
             // --- FINANCIALS TAB LOGIC ---
-            const financialButtons = document.querySelectorAll('.financial-statement-button');
-            const iframe = document.getElementById('financial-iframe');
-            const iframeWrapper = document.getElementById('iframe-wrapper');
-            const financialNavPanel = document.getElementById('financial-nav-panel');
-            const financialNavTrigger = document.getElementById('financial-nav-trigger');
-            const zoomInButton = document.getElementById('zoom-in');
-            const zoomOutButton = document.getElementById('zoom-out');
-            const zoomResetButton = document.getElementById('zoom-reset');
-            
-            let panState = {
-                isPanning: false,
-                scale: 1,
-                translateX: 0,
-                translateY: 0,
-                startX: 0,
-                startY: 0,
-            };
+            function initializeFinancialsTab() {
+                const { pdfjsLib } = window;
+                pdfjsLib.GlobalWorkerOptions.workerSrc = `//mozilla.github.io/pdf.js/build/pdf.worker.js`;
 
-            function applyTransform() {
-                if(iframe) {
-                    iframe.style.transform = `translate(${panState.translateX}px, ${panState.translateY}px) scale(${panState.scale})`;
-                }
-            }
+                const financialButtons = document.querySelectorAll('.financial-statement-button');
+                const financialNavPanel = document.getElementById('financial-nav-panel');
+                const financialNavTrigger = document.getElementById('financial-nav-trigger');
+                const pdfViewer = document.getElementById('pdf-viewer');
+                const pdfCanvas = document.getElementById('pdf-canvas');
+                const pdfFallback = document.getElementById('pdf-fallback');
+                const pageNumSpan = document.getElementById('page-num');
+                const pageCountSpan = document.getElementById('page-count');
+                const prevPageBtn = document.getElementById('prev-page');
+                const nextPageBtn = document.getElementById('next-page');
+                const zoomInBtn = document.getElementById('zoom-in');
+                const zoomOutBtn = document.getElementById('zoom-out');
+                const zoomResetBtn = document.getElementById('zoom-reset');
 
-            if (financialNavTrigger) {
-                financialNavTrigger.addEventListener('click', () => {
-                    financialNavPanel.classList.toggle('open');
-                });
-            }
+                let pdfDoc = null,
+                    pageNum = 1,
+                    pageRendering = false,
+                    pageNumPending = null,
+                    scale = 1.5;
 
-            const fallbackContent = {
-                atb: "An Adjusted Trial Balance is an internal document that lists the general ledger accounts and their balances after all adjusting entries have been posted. It is used to verify the mathematical equality of debits and credits before the preparation of the financial statements.",
-                is: "An Income Statement, also known as the profit and loss (P&L) statement, reports a company's financial performance over a specific accounting period. It summarizes revenues, expenses, gains, and losses, culminating in the net income or loss for the period.",
-                soe: "The Statement of Equity, or Statement of Retained Earnings, details the change in a company's equity over an accounting period. It reconciles the beginning and ending equity balances by accounting for items such as profits, losses, and dividend payments.",
-                bs: "A Balance Sheet is a snapshot of a company's financial health at a single point in time. It presents a company's assets, liabilities, and owners' equity, adhering to the fundamental accounting equation: Assets = Liabilities + Equity.",
-                socf: "The Statement of Cash Flows provides aggregate data regarding all cash inflows a company receives from its ongoing operations and external investment sources, as well as all cash outflows that pay for business activities and investments during a given period.",
-                cd: "A Closing Disclosure is a five-page form that provides final details about the mortgage loan you have selected. It includes the loan terms, your projected monthly payments, and how much you will pay in fees and other costs to get your mortgage (closing costs)."
-            };
-
-            async function loadFinancialStatement(button) {
-                if (!iframe) return;
-                
-                panState = { isPanning: false, scale: 1, translateX: 0, translateY: 0, startX: 0, startY: 0 };
-                applyTransform();
-                
-                const src = button.dataset.src;
-                const fallbackId = button.dataset.fallbackId;
-
-                try {
-                    const response = await fetch(src);
-                    if (response.ok) {
-                        iframe.src = src;
-                        iframe.onload = () => {
-                            if (iframe.contentDocument && iframe.contentDocument.body) {
-                                iframe.contentDocument.body.style.overflow = 'auto';
-                            }
+                function renderPage(num) {
+                    pageRendering = true;
+                    pdfDoc.getPage(num).then(function(page) {
+                        const viewport = page.getViewport({scale: scale});
+                        pdfCanvas.height = viewport.height;
+                        pdfCanvas.width = viewport.width;
+                        const renderContext = {
+                            canvasContext: pdfCanvas.getContext('2d'),
+                            viewport: viewport
                         };
+                        const renderTask = page.render(renderContext);
+                        renderTask.promise.then(function() {
+                            pageRendering = false;
+                            if (pageNumPending !== null) {
+                                renderPage(pageNumPending);
+                                pageNumPending = null;
+                            }
+                        });
+                    });
+                    pageNumSpan.textContent = num;
+                }
+                
+                function queueRenderPage(num) {
+                    if (pageRendering) {
+                        pageNumPending = num;
                     } else {
-                        throw new Error('File not found');
+                        renderPage(num);
                     }
-                } catch (error) {
-                    const definition = fallbackContent[fallbackId] || "No definition available.";
-                    const content = `<div style="padding: 1.5rem; font-family: 'Inter', sans-serif;">
-                                        <h4 style="font-weight: 600; color: #1f2937;">We're sorry that the current file is unavailable.</h4>
-                                        <p style="margin-top: 1rem; color: #4b5563;">${definition}</p>
-                                     </div>`;
-                    iframe.srcdoc = content;
+                }
+                
+                async function loadPdf(url, fallbackId) {
+                    try {
+                        const loadingTask = pdfjsLib.getDocument(url);
+                        pdfDoc = await loadingTask.promise;
+                        pdfViewer.classList.remove('hidden');
+                        pdfFallback.classList.add('hidden');
+                        pageNum = 1;
+                        pageCountSpan.textContent = pdfDoc.numPages;
+                        renderPage(pageNum);
+                    } catch (error) {
+                        pdfViewer.classList.add('hidden');
+                        pdfFallback.classList.remove('hidden');
+                        const definition = fallbackContent[fallbackId] || "No definition available.";
+                        pdfFallback.innerHTML = `<div style="padding: 1.5rem; font-family: 'Inter', sans-serif;">
+                                            <h4 style="font-weight: 600; color: #1f2937;">We're sorry that the current file is unavailable.</h4>
+                                            <p style="margin-top: 1rem; color: #4b5563;">${definition}</p>
+                                         </div>`;
+                    }
+                }
+
+                financialButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        financialButtons.forEach(btn => btn.classList.remove('active'));
+                        button.classList.add('active');
+                        loadPdf(button.dataset.src, button.dataset.fallbackId);
+                        financialNavPanel.classList.remove('open');
+                    });
+                });
+
+                if (financialButtons.length > 0) {
+                    financialButtons[0].click();
+                }
+
+                prevPageBtn.addEventListener('click', () => {
+                    if (pageNum <= 1) return;
+                    pageNum--;
+                    queueRenderPage(pageNum);
+                });
+
+                nextPageBtn.addEventListener('click', () => {
+                    if (pageNum >= pdfDoc.numPages) return;
+                    pageNum++;
+                    queueRenderPage(pageNum);
+                });
+
+                zoomInBtn.addEventListener('click', () => {
+                    scale += 0.25;
+                    renderPage(pageNum);
+                });
+
+                zoomOutBtn.addEventListener('click', () => {
+                    if (scale <= 0.5) return;
+                    scale -= 0.25;
+                    renderPage(pageNum);
+                });
+
+                zoomResetBtn.addEventListener('click', () => {
+                    scale = 1.5;
+                    renderPage(pageNum);
+                });
+
+                if (financialNavTrigger) {
+                    financialNavTrigger.addEventListener('click', () => {
+                        financialNavPanel.classList.toggle('open');
+                    });
                 }
             }
-            
-            financialButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    financialButtons.forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                    loadFinancialStatement(button);
-                    financialNavPanel.classList.remove('open'); // Close panel on selection
-                });
-            });
 
-            // Load the first financial statement by default
-            if (financialButtons.length > 0) {
-                financialButtons[0].classList.add('active');
-                loadFinancialStatement(financialButtons[0]);
-            }
-            
-            // Zoom functionality
-            if (zoomInButton) {
-                zoomInButton.addEventListener('click', () => {
-                    panState.scale += 0.1;
-                    applyTransform();
-                });
-            }
-            if (zoomOutButton) {
-                zoomOutButton.addEventListener('click', () => {
-                    panState.scale = Math.max(0.5, panState.scale - 0.1);
-                    applyTransform();
-                });
-            }
-            if (zoomResetButton) {
-                zoomResetButton.addEventListener('click', () => {
-                    panState.scale = 1;
-                    panState.translateX = 0;
-                    panState.translateY = 0;
-                    applyTransform();
-                });
-            }
-            
-            // Panning and Wheel Zoom Logic
-            if (iframeWrapper) {
-                iframeWrapper.addEventListener('mousedown', (e) => {
-                    e.preventDefault();
-                    panState.isPanning = true;
-                    panState.startX = e.clientX - panState.translateX;
-                    panState.startY = e.clientY - panState.translateY;
-                    iframeWrapper.classList.add('grabbing');
-                });
-
-                document.addEventListener('mousemove', (e) => {
-                    if (!panState.isPanning) return;
-                    e.preventDefault();
-                    panState.translateX = e.clientX - panState.startX;
-                    panState.translateY = e.clientY - panState.startY;
-                    applyTransform();
-                });
-
-                document.addEventListener('mouseup', () => {
-                    panState.isPanning = false;
-                    iframeWrapper.classList.remove('grabbing');
-                });
-                
-                iframeWrapper.addEventListener('wheel', (e) => {
-                    e.preventDefault();
-                    const zoomIntensity = 0.1;
-                    const rect = iframeWrapper.getBoundingClientRect();
-                    const mouseX = e.clientX - rect.left;
-                    const mouseY = e.clientY - rect.top;
-                    const oldScale = panState.scale;
-
-                    if (e.deltaY < 0) { // Zoom in
-                        panState.scale += zoomIntensity;
-                    } else { // Zoom out
-                        panState.scale = Math.max(0.5, panState.scale - zoomIntensity);
-                    }
-                    
-                    panState.translateX -= (mouseX - panState.translateX) * (panState.scale - oldScale) / oldScale;
-                    panState.translateY -= (mouseY - panState.translateY) * (panState.scale - oldScale) / oldScale;
-
-                    applyTransform();
-                });
-            }
-
+            const checkPdfLib = setInterval(() => {
+                if (window.pdfjsLib) {
+                    clearInterval(checkPdfLib);
+                    initializeFinancialsTab();
+                }
+            }, 100);
 
             // --- MARKET ANALYSIS: FLIP CARD LOGIC ---
             const flipCards = document.querySelectorAll('.flip-card-container');
