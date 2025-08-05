@@ -13,6 +13,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Presale Valuation Acceleration Coaching</title>
+    <!-- D3.js Library (for Tab 6) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
     <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Inter -->
@@ -56,7 +58,6 @@
             justify-content: center;
             flex-grow: 1;
             text-align: center;
-            /* 'white-space: nowrap;' removed to allow text wrapping */
         }
 
         .tab-button::after {
@@ -107,6 +108,40 @@
         .accordion-icon {
             transition: transform 0.2s ease-in-out;
         }
+        
+        /* --- STYLES FOR MAP OF METRICS (TAB 6) --- */
+        #d3-container {
+            width: 100%;
+            height: 75vh; /* Responsive height */
+            position: relative;
+            background-color: #f3f4f6;
+        }
+        .link {
+            fill: none;
+            stroke: #9ca3af;
+            stroke-opacity: 0.6;
+            stroke-width: 1.5px;
+        }
+        .node {
+            cursor: pointer;
+        }
+        .node rect {
+            transition: filter 0.3s ease, stroke-width 0.3s ease, stroke 0.3s ease;
+            stroke-width: 2px;
+        }
+        .node:hover rect {
+            filter: brightness(1.1);
+        }
+        .node-label {
+            font-size: 12px;
+            fill: #1f2937;
+            pointer-events: none;
+            user-select: none;
+        }
+        .center-label { font-size: 16px; font-weight: 700; }
+        .strategicObjective-label { font-size: 14px; font-weight: 600; }
+        .tacticalKeyResult-label { font-size: 13px; }
+        .managerialKpi-label { font-size: 12px; }
 
     </style>
 </head>
@@ -382,12 +417,6 @@
         }
         
         // --- FONT SIZING UTILITIES ---
-        /**
-         * Debounce function to limit the rate at which a function gets called.
-         * @param {Function} func The function to debounce.
-         * @param {number} wait The delay in milliseconds.
-         * @returns {Function} The debounced function.
-         */
         function debounce(func, wait) {
             let timeout;
             return function executedFunction(...args) {
@@ -400,41 +429,404 @@
             };
         }
 
-        /**
-         * Dynamically adjusts tab font sizes for uniformity, allowing for multi-line text.
-         * It calculates the largest possible font size for each tab that allows its content to fit,
-         * then applies the smallest of these calculated sizes to all tabs.
-         */
         function adjustTabFontSize() {
             const tabButtons = document.querySelectorAll('.tab-button');
             if (tabButtons.length === 0) return;
 
-            const MAX_FONT_SIZE = 16; // Start with a larger potential font size
-            const MIN_FONT_SIZE = 8;  // A reasonable lower limit
+            const MAX_FONT_SIZE = 16;
+            const MIN_FONT_SIZE = 8;
             const optimalFontSizes = [];
 
-            // 1. Calculate the largest possible font size for each tab individually
             tabButtons.forEach(button => {
                 let currentSize = MAX_FONT_SIZE;
                 button.style.fontSize = currentSize + 'px';
-
-                // Reduce font size until the tab's content fits vertically
                 while (button.scrollHeight > button.clientHeight && currentSize > MIN_FONT_SIZE) {
-                    currentSize -= 0.5; // Decrement font size slowly
+                    currentSize -= 0.5;
                     button.style.fontSize = currentSize + 'px';
                 }
                 optimalFontSizes.push(currentSize);
             });
 
-            // 2. Identify the smallest of the calculated optimal font sizes
             const uniformFontSize = Math.min(...optimalFontSizes);
-
-            // 3. Apply that single, uniform font size to all tabs
             tabButtons.forEach(button => {
                 button.style.fontSize = uniformFontSize + 'px';
             });
         }
         
+        // --- MAP OF METRICS (TAB 6) LOGIC ---
+        let isMetricsTabInitialized = false;
+
+        function initializeMetricsVisualization() {
+            const dataPath = "./interactive-elements/map-of-metrics-data.json";
+
+            d3.json(dataPath).then(function(sourceData) {
+                initializeVisualization(sourceData);
+            }).catch(function(error) {
+                console.error("Error loading the data file:", error);
+                const container = document.getElementById('d3-container');
+                container.innerHTML = `<div class="w-full h-full flex items-center justify-center text-red-600 font-semibold p-8 text-center">
+                    Error: Could not load mind map data from '${dataPath}'.<br/>Please check the file path and make sure the JSON is correctly formatted.
+                </div>`;
+            });
+
+            function initializeVisualization(sourceData) {
+                const containerEl = document.getElementById('d3-container');
+                let width = containerEl.clientWidth;
+                let height = containerEl.clientHeight;
+                const transitionDuration = 750;
+                let isRebalanced = false;
+
+                const svg = d3.select("#d3-container").append("svg")
+                    .attr("width", width)
+                    .attr("height", height)
+                    .attr("viewBox", [-width / 2, -height / 2, width, height]);
+
+                const g = svg.append("g");
+                let link = g.append("g").attr("class", "links").selectAll("path.link");
+                let node = g.append("g").attr("class", "nodes").selectAll(".node");
+
+                const colorScale = d3.scaleOrdinal()
+                    .domain(["center", "strategicObjective", "tacticalKeyResult", "managerialKpi"])
+                    .range(["#34D399", "#60A5FA", "#FBBF24", "#A78BFA"]);
+
+                function getNodeColor(d) {
+                    const kpiDepth = 3;
+                    if (d.depth <= kpiDepth) {
+                        return colorScale(d.data.type);
+                    }
+                    const depthAfterKpi = d.depth - (kpiDepth + 1);
+                    return depthAfterKpi % 2 === 0 ? "#FFFFFF" : "#1f2937";
+                }
+
+                function getTextColor(d) {
+                    const kpiDepth = 3;
+                    if (d.depth <= kpiDepth) {
+                        return "#1f2937";
+                    }
+                    const depthAfterKpi = d.depth - (kpiDepth + 1);
+                    return depthAfterKpi % 2 === 0 ? "#1f2937" : "#FFFFFF";
+                }
+
+                const simulation = d3.forceSimulation()
+                    .force("link", d3.forceLink().id(d => d.id).distance(120).strength(0.8))
+                    .force("charge", d3.forceManyBody().strength(-1500))
+                    .force("center", d3.forceCenter(0, 0))
+                    .force("collision", d3.forceCollide().radius(d => Math.max(d.width / 2, d.height / 2) + 15))
+                    .on("tick", ticked);
+
+                const root = d3.hierarchy(sourceData);
+                root.descendants().forEach((d, i) => {
+                    d.id = i;
+                    d._children = d.children;
+                    if (d.depth > 1) d.children = null;
+                });
+                
+                update();
+
+                function wrapAndSize(selection) {
+                    const PADDING = 10;
+                    const LINE_HEIGHT = 1.2;
+                    const MAX_WIDTH = 200;
+                    selection.each(function(d) {
+                        const textEl = d3.select(this);
+                        const words = d.data.name.split(/\s+/);
+                        textEl.text(null);
+                        let tspan = textEl.append('tspan').attr('x', 0);
+                        tspan.text(d.data.name);
+                        if (tspan.node().getComputedTextLength() > MAX_WIDTH) {
+                            tspan.text('');
+                            let bestSplit = findBestSplitPoint(words);
+                            const line1 = words.slice(0, bestSplit).join(' ');
+                            const line2 = words.slice(bestSplit).join(' ');
+                            textEl.append('tspan').attr('x', 0).text(line1);
+                            textEl.append('tspan').attr('x', 0).attr('dy', `${LINE_HEIGHT}em`).text(line2);
+                        }
+                        const bbox = textEl.node().getBBox();
+                        d.width = bbox.width + PADDING * 2;
+                        d.height = bbox.height + PADDING * 2;
+                        textEl.attr('y', -bbox.height / 2 - bbox.y);
+                    });
+                }
+                
+                function findBestSplitPoint(words) {
+                    let bestSplit = -1, minDiff = Infinity;
+                    for (let i = 1; i < words.length; i++) {
+                        const l1 = words.slice(0, i).join(' ').length;
+                        const l2 = words.slice(i).join(' ').length;
+                        const diff = Math.abs(l1 - l2);
+                        if (diff < minDiff) {
+                            minDiff = diff;
+                            bestSplit = i;
+                        }
+                    }
+                    return bestSplit;
+                }
+
+                function update() {
+                    const nodes = root.descendants().filter(d => d.parent ? d.parent.children : true);
+                    const links = root.links().filter(d => d.source.children && d.target.parent.children);
+
+                    if (isRebalanced) {
+                        rebalanceLayout();
+                        return;
+                    }
+
+                    link = link.data(links, d => d.target.id);
+                    link.exit().remove();
+                    link = link.enter().append("path").attr("class", "link").merge(link);
+
+                    node = node.data(nodes, d => d.id);
+                    node.exit().transition().duration(transitionDuration)
+                        .attr("transform", d => `translate(${d.parent.x},${d.parent.y})`)
+                        .style("opacity", 0)
+                        .remove();
+                    
+                    const nodeEnter = node.enter().append("g")
+                        .attr("class", "node")
+                        .attr("transform", d => `translate(${d.parent ? d.parent.x : 0},${d.parent ? d.parent.y : 0})`)
+                        .style("opacity", 0)
+                        .on("click", (event, d) => {
+                            if (event.defaultPrevented) return;
+                            toggleChildren(d);
+                        })
+                        .call(drag(simulation));
+
+                    nodeEnter.append("rect");
+                    
+                    nodeEnter.append("text")
+                        .attr("class", d => `node-label ${d.data.type ? d.data.type + '-label' : ''}`)
+                        .attr("text-anchor", "middle")
+                        .style("fill", d => getTextColor(d))
+                        .call(wrapAndSize);
+                    
+                    nodeEnter.select("rect")
+                        .attr("width", d => d.width)
+                        .attr("height", d => d.height)
+                        .attr("x", d => -d.width / 2)
+                        .attr("y", d => -d.height / 2)
+                        .attr("rx", 5)
+                        .attr("fill", d => getNodeColor(d))
+                        .attr("stroke", d => d3.color(getNodeColor(d)).darker(0.6));
+
+                    node = nodeEnter.merge(node);
+                    
+                    node.transition().duration(transitionDuration).style("opacity", 1);
+                    
+                    node.select('rect')
+                        .transition().duration(transitionDuration)
+                        .attr("stroke", d => (d._children && !d.children) ? "#1f2937" : d3.color(getNodeColor(d)).darker(0.6))
+                        .attr("stroke-width", d => (d._children && !d.children) ? 4 : 2);
+                    
+                    simulation.nodes(nodes);
+                    simulation.force("link").links(links);
+                    simulation.alpha(1).restart();
+                }
+                
+                function ticked() {
+                    if (!isRebalanced) {
+                        node.attr("transform", d => `translate(${d.x},${d.y})`);
+                        link.attr("d", d => {
+                            const dx = d.target.x - d.source.x, dy = d.target.y - d.source.y;
+                            const length = Math.sqrt(dx * dx + dy * dy);
+                            const mx = (d.source.x + d.target.x) / 2, my = (d.source.y + d.target.y) / 2;
+                            const px = -dy / length, py = dx / length;
+                            const offset = 30; 
+                            const cx = mx + offset * px, cy = my + offset * py;
+                            return `M${d.source.x},${d.source.y} Q${cx},${cy} ${d.target.x},${d.target.y}`;
+                        });
+                    }
+                }
+
+                function toggleChildren(d) {
+                    if (d.children) {
+                        d.children = null;
+                    } else {
+                        d.children = d._children;
+                    }
+                    update();
+                }
+
+                function drag(simulation) {
+                    function dragstarted(event, d) {
+                        if (isRebalanced) {
+                            unfixAllNodes();
+                            update();
+                        }
+                        if (!event.active) simulation.alphaTarget(0.3).restart();
+                        d.fx = d.x;
+                        d.fy = d.y;
+                    }
+                    function dragged(event, d) {
+                        d.fx = event.x;
+                        d.fy = event.y;
+                    }
+                    function dragended(event, d) {
+                        if (!event.active) simulation.alphaTarget(0);
+                        if (isRebalanced) {
+                            d.fx = event.x;
+                            d.fy = event.y;
+                        } else {
+                            d.fx = null;
+                            d.fy = null;
+                        }
+                    }
+                    return d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended);
+                }
+
+                const zoom = d3.zoom().scaleExtent([0.1, 5]).on("zoom", (event) => g.attr("transform", event.transform));
+                svg.call(zoom);
+                
+                function handleResize() {
+                    width = containerEl.clientWidth;
+                    height = containerEl.clientHeight;
+                    svg.attr("viewBox", [-width / 2, -height / 2, width, height]);
+                    if (isRebalanced) {
+                        rebalanceLayout();
+                    } else {
+                        simulation.force("center", d3.forceCenter(0, 0)).restart();
+                    }
+                }
+                window.addEventListener('resize', handleResize);
+
+                function unfixAllNodes() {
+                    node.each(d => {
+                        d.fx = null;
+                        d.fy = null;
+                    });
+                    isRebalanced = false;
+                }
+
+                function rebalanceLayout() {
+                    isRebalanced = true;
+                    simulation.stop();
+                    svg.transition().duration(transitionDuration).call(zoom.transform, d3.zoomIdentity);
+
+                    const allNodes = root.descendants().filter(d => d.parent ? d.parent.children : true);
+                    const centerNode = allNodes.find(d => d.data.type === 'center');
+                    if (!centerNode) return;
+
+                    centerNode.fx = 0;
+                    centerNode.fy = 0;
+
+                    let hasCollisions = true;
+                    let iterations = 0;
+                    const maxIterations = 50; 
+                    
+                    let radii = {
+                        1: Math.max(centerNode.width, centerNode.height) / 2 + 120,
+                        2: Math.max(centerNode.width, centerNode.height) / 2 + 320,
+                        3: Math.max(centerNode.width, centerNode.height) / 2 + 520,
+                        4: Math.max(centerNode.width, centerNode.height) / 2 + 720,
+                        5: Math.max(centerNode.width, centerNode.height) / 2 + 920,
+                    };
+
+                    while (hasCollisions && iterations < maxIterations) {
+                        iterations++;
+                        hasCollisions = false;
+
+                        const strategicObjectives = allNodes.filter(d => d.data.type === 'strategicObjective');
+                        const strategicObjectiveAngleSlice = (2 * Math.PI) / strategicObjectives.length;
+
+                        strategicObjectives.forEach((strategicObj, i) => {
+                            const strategicObjAngle = i * strategicObjectiveAngleSlice;
+                            strategicObj.fx = radii[1] * Math.cos(strategicObjAngle);
+                            strategicObj.fy = radii[1] * Math.sin(strategicObjAngle);
+
+                            const tacticalKeyResults = strategicObj.children ? allNodes.filter(n => n.parent === strategicObj) : [];
+                            if (tacticalKeyResults.length > 0) {
+                                const tacticalKeyResultAngleSlice = strategicObjectiveAngleSlice / tacticalKeyResults.length;
+                                const tacticalKeyResultStartAngle = strategicObjAngle - (strategicObjectiveAngleSlice / 2);
+
+                                tacticalKeyResults.forEach((tacticalKeyResult, j) => {
+                                    const tacticalKeyResultAngle = tacticalKeyResultStartAngle + (j * tacticalKeyResultAngleSlice) + (tacticalKeyResultAngleSlice / 2);
+                                    tacticalKeyResult.fx = radii[2] * Math.cos(tacticalKeyResultAngle);
+                                    tacticalKeyResult.fy = radii[2] * Math.sin(tacticalKeyResultAngle);
+
+                                    const managerialKpis = tacticalKeyResult.children ? allNodes.filter(n => n.parent === tacticalKeyResult) : [];
+                                    if (managerialKpis.length > 0) {
+                                        const managerialKpiAngleSlice = tacticalKeyResultAngleSlice / managerialKpis.length;
+                                        const managerialKpiStartAngle = tacticalKeyResultAngle - (tacticalKeyResultAngleSlice / 2);
+
+                                        managerialKpis.forEach((managerialKpi, k) => {
+                                            const managerialKpiAngle = managerialKpiStartAngle + (k * managerialKpiAngleSlice) + (managerialKpiAngleSlice / 2);
+                                            managerialKpi.fx = radii[3] * Math.cos(managerialKpiAngle);
+                                            managerialKpi.fy = radii[3] * Math.sin(managerialKpiAngle);
+                                            
+                                            const subKpis = managerialKpi.children ? allNodes.filter(n => n.parent === managerialKpi) : [];
+                                            if (subKpis.length > 0) {
+                                                const subKpiAngleSlice = managerialKpiAngleSlice / subKpis.length;
+                                                const subKpiStartAngle = managerialKpiAngle - (managerialKpiAngleSlice / 2);
+                                                subKpis.forEach((subKpi, l) => {
+                                                    const subKpiAngle = subKpiStartAngle + (l * subKpiAngleSlice) + (subKpiAngleSlice / 2);
+                                                    subKpi.fx = radii[4] * Math.cos(subKpiAngle);
+                                                    subKpi.fy = radii[4] * Math.sin(subKpiAngle);
+                                                });
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+
+                        for (let i = 0; i < allNodes.length; i++) {
+                            const d = allNodes[i];
+                            const r1 = { x1: d.fx - d.width/2, y1: d.fy - d.height/2, x2: d.fx + d.width/2, y2: d.fy + d.height/2 };
+                            for (let j = i + 1; j < allNodes.length; j++) {
+                                const q = allNodes[j];
+                                const r2 = { x1: q.fx - q.width/2, y1: q.fy - q.height/2, x2: q.fx + q.width/2, y2: q.fy + q.height/2 };
+                                if (r1.x1 < r2.x2 && r1.x2 > r2.x1 && r1.y1 < r2.y2 && r1.y2 > r2.y1) {
+                                    hasCollisions = true;
+                                    break; 
+                                }
+                            }
+                            if (hasCollisions) break;
+                        }
+
+                        if (hasCollisions) {
+                            const radiusIncrement = 10;
+                            radii[1] += radiusIncrement;
+                            radii[2] += radiusIncrement * 1.5;
+                            radii[3] += radiusIncrement * 2.0;
+                            radii[4] += radiusIncrement * 2.5;
+                            radii[5] += radiusIncrement * 3.0;
+                        }
+                    }
+                    
+                    allNodes.forEach(d => {
+                        d.x = d.fx;
+                        d.y = d.fy;
+                    });
+                    simulation.nodes(allNodes);
+                    simulation.alpha(0.3).restart();
+
+                    node.transition().duration(transitionDuration)
+                        .attr("transform", d => `translate(${d.fx},${d.fy})`);
+                        
+                    const links = root.links().filter(d => d.source.children && d.target.parent.children);
+                    link = link.data(links, d => d.target.id);
+                    link.transition().duration(transitionDuration)
+                        .attr("d", d => {
+                            const dx = d.target.fx - d.source.fx, dy = d.target.fy - d.source.fy;
+                            const length = Math.sqrt(dx * dx + dy * dy);
+                            const mx = (d.source.fx + d.target.fx) / 2, my = (d.source.fy + d.target.fy) / 2;
+                            const px = -dy / length, py = dx / length;
+                            const offset = 30; 
+                            const cx = mx + offset * px, cy = my + offset * py;
+                            return `M${d.source.fx},${d.source.fy} Q${cx},${cy} ${d.target.fx},${d.target.fy}`;
+                        });
+                }
+
+                d3.select("#rebalance-btn").on("click", () => {
+                       if (isRebalanced) {
+                           unfixAllNodes();
+                           update();
+                       } else {
+                           rebalanceLayout();
+                       }
+                });
+            }
+        }
+
         // --- DYNAMIC PAGE AND TAB INITIALIZATION ---
         document.addEventListener('DOMContentLoaded', () => {
             const pageContainer = document.getElementById('page-value-creation-strategy');
@@ -465,12 +857,20 @@
             tabsHtml += `<button class="tab-button" data-tab="metrics">Map of Metrics</button>`;
             contentHtml += `
                 <div id="metrics" class="tab-content">
-                     <iframe 
-                        src="./interactive-elements/new-map-of-metrics.html" 
-                        width="100%" 
-                        height="600" 
-                        style="border:none;">
-                     </iframe>
+                     <div id="d3-container">
+                        <div class="legend absolute bottom-5 right-5 bg-white bg-opacity-70 backdrop-blur-sm p-4 rounded-lg shadow-lg text-gray-800 pointer-events-none">
+                            <h4 class="font-bold text-sm mb-2">Legend</h4>
+                            <div class="space-y-2">
+                                <div class="flex items-center"><div class="w-4 h-4 rounded mr-3" style="background: #34D399;"></div><span class="text-xs">Intrinsic Enterprise Value</span></div>
+                                <div class="flex items-center"><div class="w-4 h-4 rounded mr-3" style="background: #60A5FA;"></div><span class="text-xs">Strategic Objective</span></div>
+                                <div class="flex items-center"><div class="w-4 h-4 rounded mr-3" style="background: #FBBF24;"></div><span class="text-xs">Tactical Key Result</span></div>
+                                <div class="flex items-center"><div class="w-4 h-4 rounded mr-3" style="background: #A78BFA;"></div><span class="text-xs">Managerial KPI</span></div>
+                                <div class="flex items-center"><div class="w-4 h-4 rounded mr-3 border border-gray-400" style="background: #FFFFFF;"></div><span class="text-xs">KPI Descendant (N, N+2...)</span></div>
+                                <div class="flex items-center"><div class="w-4 h-4 rounded mr-3" style="background: #1f2937;"></div><span class="text-xs">KPI Descendant (N+1, N+3...)</span></div>
+                            </div>
+                        </div>
+                        <button id="rebalance-btn" class="absolute bottom-5 left-5 bg-gray-200 text-gray-700 hover:bg-gray-900 hover:text-gray-100 font-bold py-2 px-4 rounded-lg shadow-lg transition-colors duration-300 border border-gray-700 hover:border-gray-100">Rebalance</button>
+                    </div>
                 </div>
             `;
 
@@ -489,6 +889,12 @@
                 tabContents.forEach(content => {
                     content.classList.toggle('active', content.id === tabId);
                 });
+
+                // Initialize the metrics tab only when it's switched to for the first time
+                if (tabId === 'metrics' && !isMetricsTabInitialized) {
+                    initializeMetricsVisualization();
+                    isMetricsTabInitialized = true;
+                }
             }
 
             tabButtons.forEach(button => {
@@ -502,27 +908,14 @@
                 switchTab('thesis');
             }
             
-            // Initialize all accordions after rendering content
             initializeAccordions();
-
-            // Make the container visible so its elements have dimensions for calculation
             pageContainer.style.display = 'block';
-
-            // Now that it's visible, calculate the font sizes
             adjustTabFontSize();
-
-            // Add a debounced resize listener to re-calculate on window size changes
             window.addEventListener('resize', debounce(adjustTabFontSize, 150));
-
-            // Finally, trigger the fade-in animation
             pageContainer.classList.add('fade-in');
         });
 
         // --- HEADER AND FOOTER ---
-        /**
-         * Initializes the mobile menu toggle functionality.
-         * This should be called after the header content is loaded.
-         */
         function initializeMobileMenu() {
             const menuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
@@ -536,13 +929,9 @@
             }
         }
 
-        /**
-         * Sets the active style for navigation links based on the current URL.
-         * This should be called after the header content is loaded.
-         */
         function setActiveNavLinks() {
             const currentUrl = window.location.href;
-            const navLinks = document.querySelectorAll('nav a'); // Get all nav links
+            const navLinks = document.querySelectorAll('nav a');
 
             const linkPaths = {
                 'case-studies': 'ExitReadyAdvisors/case-studies/',
@@ -555,15 +944,12 @@
                 for (const key in linkPaths) {
                     if (href && href.includes(key) && currentUrl.includes(linkPaths[key])) {
                         link.classList.add('bg-gray-900', 'text-white');
-                        link.classList.remove('text-gray-500'); // Or similar default class
+                        link.classList.remove('text-gray-500');
                     }
                 }
             }
         }
 
-        /**
-         * Fetches and injects the header and footer, then initializes interactive components.
-         */
         async function loadComponents() {
             try {
                 const [headerResponse, footerResponse] = await Promise.all([
@@ -580,8 +966,6 @@
                 document.querySelector("#header-placeholder").innerHTML = headerData;
                 document.querySelector("#footer-placeholder").innerHTML = footerData;
 
-                // --- INITIALIZE DYNAMIC COMPONENTS ---
-                // These functions are called *after* the header/footer HTML is injected.
                 initializeMobileMenu();
                 setActiveNavLinks();
 
