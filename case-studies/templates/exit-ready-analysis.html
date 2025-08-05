@@ -2,12 +2,12 @@
 <html lang="en" class="scroll-smooth">
 
         <!-- 
-		/------------------------------------------------------------------------------------------------------------------\
-		| LAST UPDATE: 2507311628…Thu_Jul_31_2025_0428PM 																   |
-		| https://gemini.google.com/app/abae596e8055f5cc  					       				 	 					   |
-		| https://github.com/JawnLam/ExitReadyAdvisors/edit/main/case-studies/templates/exit-ready-analysis.html           |
-		\------------------------------------------------------------------------------------------------------------------/
-		-->
+        /------------------------------------------------------------------------------------------------------------------\
+        | LAST UPDATE: 2507311629…Thu_Jul_31_2025_0429PM                                                                   |
+        | https://gemini.google.com/app/abae596e8055f5cc                                                                   |
+        | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/case-studies/templates/exit-ready-analysis.html           |
+        \------------------------------------------------------------------------------------------------------------------/
+        -->
 
 <head>
     <meta charset="UTF-8">
@@ -48,8 +48,9 @@
             position: relative;
             overflow: hidden;
             z-index: 1;
-            font-size: 0.75rem;
-            line-height: 1.1rem;
+            /* font-size is now set by JS, but we keep a fallback */
+            font-size: 0.75rem; 
+            line-height: 1.2; /* Use unitless line-height for better scaling */
             padding: 0.75rem 0.25rem;
             margin: 0 2px;
             min-height: 55px;
@@ -58,6 +59,7 @@
             justify-content: center;
             flex-grow: 1;
             font-weight: 600;
+            word-break: break-word; /* Helps prevent overflow with long words */
         }
         .tab-button::after {
             content: '';
@@ -227,12 +229,12 @@
     <main id="page-implementation-journey" class="max-w-7xl mx-auto py-8" style="display: none;">
 
         <!-- PageHeader Component -->
-        <header class="grid grid-cols-1 md:grid-cols-2 bg-white rounded-xl overflow-hidden shadow-lg">
-            <div class="flex items-center justify-center h-48 md:h-auto">
-                <img src="https://images.unsplash.com/photo-1533750122699-M58d5955551c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
-                     alt="Industrial plumbing and heating systems" 
-                     class="object-cover w-full h-full"
-                     onerror="this.onerror=null;this.src='https://placehold.co/600x400/000000/FFFFFF?text=J%26S';">
+        <header class="grid grid-cols-1 md:grid-cols-2 md:items-start bg-white rounded-xl overflow-hidden shadow-lg">
+            <div class="flex items-center justify-center max-h-[300px]">
+                <img src="./images/5.jpg" 
+                     alt="Johnson & Sons - Value Creation Engagement" 
+                     class="object-cover w-full h-full max-h-[300px]"
+                     onerror="this.outerHTML = `<div class='w-full h-full flex items-center justify-center p-8 bg-green-100 text-green-700 text-left' style='max-height: 300px;'>This page is the report on the final stage of the value creation engagement. It includes performance attribution analysis, financial bridges, organizational maturity assessments, and exit readiness evaluations while identifying substantiated growth opportunities for the next owner.</div>`">
             </div>
             <div class="p-8 flex flex-col justify-start">
                 <h1 class="text-3xl font-bold text-gray-900 mt-1">Johnson & Sons Heating, Plumbing, & Air</h1>
@@ -244,11 +246,11 @@
 
         <!-- Back/Next Navigation -->
         <div class="flex justify-between items-center my-8">
-            <a href="value-creation-strategy.html" class="inline-flex items-center gap-2 px-4 py-2 bg-purple-100 text-purple-600 font-medium rounded-lg shadow-sm border border-purple-500 hover:bg-purple-200 transition">
+            <a href="implementation-journey.html" class="inline-flex items-center gap-2 px-4 py-2 bg-purple-100 text-purple-600 font-medium rounded-lg shadow-sm border border-purple-500 hover:bg-purple-200 transition">
                 <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
                 </svg>
-                Value Creation Strategy
+                Implementation Journey
             </a>
             <div class="flex-grow mx-4 p-2 bg-green-100 text-green-600 border border-green-500 rounded-lg text-center">
                  <h2 class="text-xl font-semibold uppercase tracking-wider">Exit Ready Analysis</h2>
@@ -1153,6 +1155,35 @@
             });
         }
         
+        // --- DYNAMIC TAB FONT SIZING ---
+        function adjustTabFontSize() {
+            const tabs = document.querySelectorAll('.tab-button');
+            if (tabs.length === 0) return;
+
+            const optimalFontSizes = [];
+
+            tabs.forEach(tab => {
+                let currentSize = 20; // Start with a large font size
+                tab.style.fontSize = currentSize + 'px';
+
+                // Iteratively decrease font size until the text fits within the button
+                while ((tab.scrollHeight > tab.clientHeight || tab.scrollWidth > tab.clientWidth) && currentSize > 8) {
+                    currentSize -= 0.5;
+                    tab.style.fontSize = currentSize + 'px';
+                }
+                optimalFontSizes.push(currentSize);
+            });
+
+            // Find the smallest of the optimal sizes
+            const smallestOptimalSize = Math.min(...optimalFontSizes);
+
+            // Apply the smallest optimal size to all tabs
+            tabs.forEach(tab => {
+                tab.style.fontSize = smallestOptimalSize + 'px';
+            });
+        }
+
+
         // --- DYNAMIC PAGE AND TAB INITIALIZATION ---
         document.addEventListener('DOMContentLoaded', () => {
             const pageContainer = document.getElementById('page-implementation-journey');
@@ -1187,6 +1218,9 @@
             const tabButtons = document.querySelectorAll('.tab-button');
             const tabContents = document.querySelectorAll('.tab-content');
 
+            // Call the font adjustment function after tabs are created
+            adjustTabFontSize();
+
             function switchTab(tabId) {
                 tabButtons.forEach(button => button.classList.toggle('active', button.dataset.tab === tabId));
                 tabContents.forEach(content => content.classList.toggle('active', content.id === tabId));
@@ -1212,6 +1246,9 @@
 
             pageContainer.style.display = 'block';
             pageContainer.classList.add('fade-in');
+            
+            // Adjust font size on window resize
+            window.addEventListener('resize', adjustTabFontSize);
         });
 
         // --- HEADER AND FOOTER ---
