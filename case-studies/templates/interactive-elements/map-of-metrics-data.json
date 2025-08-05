@@ -3,39 +3,277 @@
     "type": "center",
     "children": [
         {
-            "name": "Obj 1: Accelerate Commercialization",
+            "name": "Obj 1: Accelerate Commercialization and Market Penetration",
             "type": "strategicObjective",
             "children": [
                 {
-                    "name": "KR 1.1: Secure Anchor Customers",
+                    "name": "KR 1.1: Secure Anchor Customers in High-Growth Verticals",
                     "type": "tacticalKeyResult",
                     "children": [
-                        { "name": "1.1.1: Customer Acquisition Rate", "type": "managerialKpi", "target": "1/quarter" },
-                        { "name": "1.1.2: Total Contract Value", "type": "managerialKpi", "target": "$50M/18mo" },
-                        { "name": "1.1.3: Sales Cycle Length", "type": "managerialKpi", "target": "< 6 months" }
+                        {
+                            "name": "1.1.1: New Customer Acquisition Rate",
+                            "type": "managerialKpi",
+                            "target": "1/quarter"
+                        },
+                        {
+                            "name": "1.1.2: Total Contract Value (TCV) Booked",
+                            "type": "managerialKpi",
+                            "target": "$50M/18mo"
+                        },
+                        {
+                            "name": "1.1.3: Sales Cycle Length",
+                            "type": "managerialKpi",
+                            "target": "< 6 months"
+                        }
                     ]
                 },
                 {
-                    "name": "KR 1.2: Scalable Manufacturing",
+                    "name": "KR 1.2: Establish a Scalable Manufacturing and Supply Chain Process",
                     "type": "tacticalKeyResult",
                     "children": [
-                        { "name": "1.2.1: Unit Production Cost", "type": "managerialKpi", "target": "-30%" },
-                        { "name": "1.2.2: Production Lead Time", "type": "managerialKpi", "target": "< 3 months" },
-                        { "name": "1.2.3: First Pass Yield", "type": "managerialKpi", "target": "> 95%" }
+                        {
+                            "name": "1.2.1: Unit Production Cost",
+                            "type": "managerialKpi",
+                            "target": "-30%"
+                        },
+                        {
+                            "name": "1.2.2: Production Lead Time",
+                            "type": "managerialKpi",
+                            "target": "< 3 months"
+                        },
+                        {
+                            "name": "1.2.3: First Pass Yield (FPY)",
+                            "type": "managerialKpi",
+                            "target": "> 95%"
+                        }
+                    ]
+                },
+                {
+                    "name": "KR 1.3: Develop a Services-Led, Recurring Revenue Model",
+                    "type": "tacticalKeyResult",
+                    "children": [
+                        {
+                            "name": "1.3.1: Annual Recurring Revenue (ARR)",
+                            "type": "managerialKpi",
+                            "target": "20% of total revenue"
+                        },
+                        {
+                            "name": "1.3.2: Service Attachment Rate",
+                            "type": "managerialKpi",
+                            "target": "75%"
+                        },
+                        {
+                            "name": "1.3.3: Customer Lifetime Value (CLV)",
+                            "type": "managerialKpi",
+                            "target": "+50%"
+                        }
                     ]
                 }
             ]
         },
         {
-            "name": "Obj 2: De-Risk Technology",
+            "name": "Obj 2: De-Risk Technology and Solidify Operational Excellence",
             "type": "strategicObjective",
             "children": [
                 {
-                    "name": "KR 2.1: High Reliability",
+                    "name": "KR 2.1: Demonstrate High Reliability and Uptime in Field Deployments",
                     "type": "tacticalKeyResult",
                     "children": [
-                        { "name": "2.1.1: Mean Time Between Failures", "type": "managerialKpi", "target": "> 100k hrs" },
-                        { "name": "2.1.2: Fleet-Wide Uptime", "type": "managerialKpi", "target": "99.99%" }
+                        {
+                            "name": "2.1.1: Mean Time Between Failures (MTBF)",
+                            "type": "managerialKpi",
+                            "target": "> 100k hrs"
+                        },
+                        {
+                            "name": "2.1.2: Fleet-Wide Uptime",
+                            "type": "managerialKpi",
+                            "target": "99.99%"
+                        },
+                        {
+                            "name": "2.1.3: Number of Documented Field-Service Events",
+                            "type": "managerialKpi",
+                            "target": "Reduce"
+                        }
+                    ]
+                },
+                {
+                    "name": "KR 2.2: Streamline Project Deployment and Commissioning",
+                    "type": "tacticalKeyResult",
+                    "children": [
+                        {
+                            "name": "2.2.1: Average Deployment Time",
+                            "type": "managerialKpi",
+                            "target": "3 days"
+                        },
+                        {
+                            "name": "2.2.2: On-Time Completion Rate",
+                            "type": "managerialKpi",
+                            "target": "95%"
+                        },
+                        {
+                            "name": "2.2.3: Customer Satisfaction (CSAT) Score for Deployment",
+                            "type": "managerialKpi",
+                            "target": "4.8/5.0"
+                        }
+                    ]
+                },
+                {
+                    "name": "KR 2.3: Obtain Key Industry Certifications and Standards Compliance",
+                    "type": "tacticalKeyResult",
+                    "children": [
+                        {
+                            "name": "2.3.1: Certification Roadmap Progress",
+                            "type": "managerialKpi",
+                            "target": "100%/18mo"
+                        },
+                        {
+                            "name": "2.3.2: Time to Achieve Certification per Standard",
+                            "type": "managerialKpi",
+                            "target": "Track"
+                        },
+                        {
+                            "name": "2.3.3: Number of Target Markets Unlocked by Certification",
+                            "type": "managerialKpi",
+                            "target": "Quantify"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Obj 3: Build a Durable Competitive Moat",
+            "type": "strategicObjective",
+            "children": [
+                {
+                    "name": "KR 3.1: Establish Brand Leadership as the Premier SST Provider",
+                    "type": "tacticalKeyResult",
+                    "children": [
+                        {
+                            "name": "3.1.1: Share of Voice (SOV)",
+                            "type": "managerialKpi",
+                            "target": "#1"
+                        },
+                        {
+                            "name": "3.1.2: Inbound Lead Generation",
+                            "type": "managerialKpi",
+                            "target": "40%"
+                        },
+                        {
+                            "name": "3.1.3: Analyst Report Rankings",
+                            "type": "managerialKpi",
+                            "target": "Leader/Innovator"
+                        }
+                    ]
+                },
+                {
+                    "name": "KR 3.2: Expand and Protect the Intellectual Property (IP) Portfolio",
+                    "type": "tacticalKeyResult",
+                    "children": [
+                        {
+                            "name": "3.2.1: Number of New Patents Filed",
+                            "type": "managerialKpi",
+                            "target": "10/year"
+                        },
+                        {
+                            "name": "3.2.2: IP Portfolio Breadth Score",
+                            "type": "managerialKpi",
+                            "target": "+25% annually"
+                        },
+                        {
+                            "name": "3.2.3: Competitive IP Encroachment Rate",
+                            "type": "managerialKpi",
+                            "target": "Monitor & Respond"
+                        }
+                    ]
+                },
+                {
+                    "name": "KR 3.3: Drive Deep Integration with Customer and Partner Ecosystems",
+                    "type": "tacticalKeyResult",
+                    "children": [
+                        {
+                            "name": "3.3.1: Number of Certified Integration Partners",
+                            "type": "managerialKpi",
+                            "target": "5"
+                        },
+                        {
+                            "name": "3.3.2: API Adoption Rate",
+                            "type": "managerialKpi",
+                            "target": "Measure"
+                        },
+                        {
+                            "name": "3.3.3: Percentage of Revenue from Integrated Solutions",
+                            "type": "managerialKpi",
+                            "target": "Track"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Obj 4: Optimize Capital Strategy and Balance Sheet",
+            "type": "strategicObjective",
+            "children": [
+                {
+                    "name": "KR 4.1: Secure a Growth-Oriented Capital Structure",
+                    "type": "tacticalKeyResult",
+                    "children": [
+                        {
+                            "name": "4.1.1: Capital Runway",
+                            "type": "managerialKpi",
+                            "target": "> 24 months"
+                        },
+                        {
+                            "name": "4.1.2: Cost of Capital",
+                            "type": "managerialKpi",
+                            "target": "Competitive"
+                        },
+                        {
+                            "name": "4.1.3: Investor Syndicate Quality",
+                            "type": "managerialKpi",
+                            "target": "Track"
+                        }
+                    ]
+                },
+                {
+                    "name": "KR 4.2: Improve Working Capital Efficiency",
+                    "type": "tacticalKeyResult",
+                    "children": [
+                        {
+                            "name": "4.2.1: Cash Conversion Cycle (CCC)",
+                            "type": "managerialKpi",
+                            "target": "-20%/18mo"
+                        },
+                        {
+                            "name": "4.2.2: Inventory Turns",
+                            "type": "managerialKpi",
+                            "target": "4x/year"
+                        },
+                        {
+                            "name": "4.2.3: Days Sales Outstanding (DSO)",
+                            "type": "managerialKpi",
+                            "target": "< 45 days"
+                        }
+                    ]
+                },
+                {
+                    "name": "KR 4.3: Implement a Robust Financial Planning & Analysis (FP&A) Function",
+                    "type": "tacticalKeyResult",
+                    "children": [
+                        {
+                            "name": "4.3.1: Budget vs. Actual Variance",
+                            "type": "managerialKpi",
+                            "target": "< 5%"
+                        },
+                        {
+                            "name": "4.3.2: Forecast Accuracy",
+                            "type": "managerialKpi",
+                            "target": "90%"
+                        },
+                        {
+                            "name": "4.3.3: Time to Close",
+                            "type": "managerialKpi",
+                            "target": "5 days"
+                        }
                     ]
                 }
             ]
