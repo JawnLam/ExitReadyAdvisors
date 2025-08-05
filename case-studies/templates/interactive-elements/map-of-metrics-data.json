@@ -1,0 +1,44 @@
+{
+    "name": "Intrinsic Enterprise Value",
+    "type": "center",
+    "children": [
+        {
+            "name": "Obj 1: Accelerate Commercialization",
+            "type": "strategicObjective",
+            "children": [
+                {
+                    "name": "KR 1.1: Secure Anchor Customers",
+                    "type": "tacticalKeyResult",
+                    "children": [
+                        { "name": "1.1.1: Customer Acquisition Rate", "type": "managerialKpi", "target": "1/quarter" },
+                        { "name": "1.1.2: Total Contract Value", "type": "managerialKpi", "target": "$50M/18mo" },
+                        { "name": "1.1.3: Sales Cycle Length", "type": "managerialKpi", "target": "< 6 months" }
+                    ]
+                },
+                {
+                    "name": "KR 1.2: Scalable Manufacturing",
+                    "type": "tacticalKeyResult",
+                    "children": [
+                        { "name": "1.2.1: Unit Production Cost", "type": "managerialKpi", "target": "-30%" },
+                        { "name": "1.2.2: Production Lead Time", "type": "managerialKpi", "target": "< 3 months" },
+                        { "name": "1.2.3: First Pass Yield", "type": "managerialKpi", "target": "> 95%" }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Obj 2: De-Risk Technology",
+            "type": "strategicObjective",
+            "children": [
+                {
+                    "name": "KR 2.1: High Reliability",
+                    "type": "tacticalKeyResult",
+                    "children": [
+                        { "name": "2.1.1: Mean Time Between Failures", "type": "managerialKpi", "target": "> 100k hrs" },
+                        { "name": "2.1.2: Fleet-Wide Uptime", "type": "managerialKpi", "target": "99.99%" }
+                    ]
+                }
+            ]
+        }
+    ]
+}
