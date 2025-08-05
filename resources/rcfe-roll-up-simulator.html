@@ -103,6 +103,7 @@
                 <div class="col-span-6 bg-white rounded-xl shadow-lg p-5">
                     <h3 class="text-lg font-bold text-gray-900 mb-3">Revenue & EBITDA Projections</h3>
                     <div id="line-chart-container" class="w-full h-48"></div>
+                     <div id="line-chart-legend" class="flex justify-center gap-4 mt-2 text-xs"></div>
                 </div>
                 <div class="col-span-4 bg-white rounded-xl shadow-lg p-5">
                     <h3 class="text-lg font-bold text-gray-900 mb-3">Performance Rating</h3>
@@ -246,7 +247,7 @@
                 for (let year = 1; year <= params.holdPeriod; year++) {
                     const revenue = (params.numUnits * 6 * (params.occupancyRate/100) * params.monthlyRate * 12) * Math.pow(1 + params.revenueGrowth / 100, year);
                     const expenses = (params.annualOpExPerUnit * params.numUnits) * Math.pow(1 + params.expenseGrowth / 100, year);
-                    yearlyData.push({ year: `Y${year}`, revenue: revenue / 1000000, ebitda: (revenue - expenses) / 1000000 });
+                    yearlyData.push({ year: `Y${year}`, revenue: revenue / 1000000, expenses: expenses / 1000000, ebitda: (revenue - expenses) / 1000000 });
                 }
                 
                 const container = document.getElementById('line-chart-container');
@@ -269,7 +270,13 @@
                     return `<path d="${path}" stroke="${color}" stroke-width="3" fill="none" />`;
                 };
 
-                container.innerHTML = `<svg width="100%" height="100%"><line x1="${padding}" y1="${height - padding}" x2="${width - padding}" y2="${height - padding}" stroke="#e5e7eb" /><line x1="${padding}" y1="${padding}" x2="${padding}" y2="${height - padding}" stroke="#e5e7eb" /><text x="${padding - 10}" y="${padding}" text-anchor="end" alignment-baseline="middle" class="text-xs fill-current text-gray-500">${maxVal.toFixed(0)}M</text><text x="${padding - 10}" y="${height - padding}" text-anchor="end" alignment-baseline="middle" class="text-xs fill-current text-gray-500">0M</text>${toPath('revenue', '#3B82F6')}${toPath('ebitda', '#10B981')}${yearlyData.map((d, i) => `<text x="${padding + i * (width - 2 * padding) / (Math.max(1, yearlyData.length - 1))}" y="${height - padding + 20}" text-anchor="middle" class="text-xs fill-current text-gray-500">${d.year}</text>`).join('')}</svg>`;
+                container.innerHTML = `<svg width="100%" height="100%"><line x1="${padding}" y1="${height - padding}" x2="${width - padding}" y2="${height - padding}" stroke="#e5e7eb" /><line x1="${padding}" y1="${padding}" x2="${padding}" y2="${height - padding}" stroke="#e5e7eb" /><text x="${padding - 10}" y="${padding}" text-anchor="end" alignment-baseline="middle" class="text-xs fill-current text-gray-500">${maxVal.toFixed(0)}M</text><text x="${padding - 10}" y="${height - padding}" text-anchor="end" alignment-baseline="middle" class="text-xs fill-current text-gray-500">0M</text>${toPath('revenue', '#3B82F6')}${toPath('ebitda', '#10B981')}${toPath('expenses', '#F97316')}${yearlyData.map((d, i) => `<text x="${padding + i * (width - 2 * padding) / (Math.max(1, yearlyData.length - 1))}" y="${height - padding + 20}" text-anchor="middle" class="text-xs fill-current text-gray-500">${d.year}</text>`).join('')}</svg>`;
+                
+                document.getElementById('line-chart-legend').innerHTML = `
+                    <div class="flex items-center"><div class="w-3 h-3 rounded-full mr-1" style="background-color: #3B82F6;"></div><span>Revenue</span></div>
+                    <div class="flex items-center"><div class="w-3 h-3 rounded-full mr-1" style="background-color: #F97316;"></div><span>Expenses</span></div>
+                    <div class="flex items-center"><div class="w-3 h-3 rounded-full mr-1" style="background-color: #10B981;"></div><span>EBITDA</span></div>
+                `;
             }
             
             function renderRating(moic) {
