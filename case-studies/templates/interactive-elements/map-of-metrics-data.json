@@ -262,7 +262,121 @@
                         {
                             "name": "4.3.1: Budget vs. Actual Variance",
                             "type": "managerialKpi",
-                            "target": "< 5%"
+                            "target": "< 5%",
+                            "children": [
+                                {
+                                    "name": "Actual Amount",
+                                    "type": "componentMetric",
+                                    "children": [
+                                        {
+                                            "name": "Actual Revenue",
+                                            "type": "subComponentMetric",
+                                            "children": [
+                                                {
+                                                    "name": "Number of Units Sold",
+                                                    "type": "tacticalMetric",
+                                                    "children": [
+                                                        {
+                                                            "name": "Sales Team Performance",
+                                                            "type": "driver"
+                                                        },
+                                                        {
+                                                            "name": "Lead Conversion Rate",
+                                                            "type": "driver"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "Average Price per Unit",
+                                                    "type": "tacticalMetric",
+                                                    "children": [
+                                                        {
+                                                            "name": "Discounts Offered",
+                                                            "type": "driver"
+                                                        },
+                                                        {
+                                                            "name": "Pricing Strategy Execution",
+                                                            "type": "driver"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "name": "Actual Expenses",
+                                            "type": "subComponentMetric",
+                                            "children": [
+                                                {
+                                                    "name": "Actual Cost of Goods Sold (COGS)",
+                                                    "type": "tacticalMetric",
+                                                    "children": [
+                                                        {
+                                                            "name": "Actual Cost per Unit",
+                                                            "type": "driver"
+                                                        },
+                                                        {
+                                                            "name": "Number of Units Produced/Sold",
+                                                            "type": "driver"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "Actual Operating Expenses (OpEx)",
+                                                    "type": "tacticalMetric",
+                                                    "children": [
+                                                        {
+                                                            "name": "Sales & Marketing Expenses",
+                                                            "type": "driver"
+                                                        },
+                                                        {
+                                                            "name": "General & Administrative Expenses",
+                                                            "type": "driver"
+                                                        },
+                                                        {
+                                                            "name": "Research & Development Expenses",
+                                                            "type": "driver"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "Budgeted Amount",
+                                    "type": "componentMetric",
+                                    "children": [
+                                        {
+                                            "name": "Budgeted Revenue",
+                                            "type": "subComponentMetric",
+                                            "children": [
+                                                {
+                                                    "name": "Forecasted Sales Volume",
+                                                    "type": "tacticalMetric"
+                                                },
+                                                {
+                                                    "name": "Planned Price per Unit",
+                                                    "type": "tacticalMetric"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "name": "Budgeted Expenses",
+                                            "type": "subComponentMetric",
+                                            "children": [
+                                                {
+                                                    "name": "Budgeted Cost of Goods Sold (COGS)",
+                                                    "type": "tacticalMetric"
+                                                },
+                                                {
+                                                    "name": "Budgeted Operating Expenses (OpEx)",
+                                                    "type": "tacticalMetric"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
                         },
                         {
                             "name": "4.3.2: Forecast Accuracy",
