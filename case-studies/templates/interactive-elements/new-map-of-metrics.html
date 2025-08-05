@@ -82,6 +82,12 @@
                 <div class="flex items-center">
                     <div class="w-4 h-4 rounded mr-3" style="background: #A78BFA;"></div><span class="text-xs">Managerial KPI</span>
                 </div>
+                 <div class="flex items-center">
+                    <div class="w-4 h-4 rounded mr-3 border border-gray-400" style="background: #FFFFFF;"></div><span class="text-xs">KPI Descendant (N, N+2...)</span>
+                </div>
+                 <div class="flex items-center">
+                    <div class="w-4 h-4 rounded mr-3" style="background: #1f2937;"></div><span class="text-xs">KPI Descendant (N+1, N+3...)</span>
+                </div>
             </div>
         </div>
         <!-- Bottom-left rebalance button -->
@@ -92,7 +98,7 @@
         // --- DATA LOADING ---
         // This is the only line you need to change for each new map.
         // Point this to the new JSON file for each case study.
-        const dataPath = "./map-of-metrics-data.json"; 
+        const dataPath = "./map-of-metrics-data-extended.json"; 
 
         d3.json(dataPath).then(function(sourceData) {
             // Data loaded successfully, now initialize the visualization
@@ -126,10 +132,31 @@
             let link = g.append("g").attr("class", "links").selectAll("path.link");
             let node = g.append("g").attr("class", "nodes").selectAll(".node");
 
-            // --- SCALES ---
+            // --- SCALES & COLORING LOGIC ---
             const colorScale = d3.scaleOrdinal()
                 .domain(["center", "strategicObjective", "tacticalKeyResult", "managerialKpi"])
                 .range(["#34D399", "#60A5FA", "#FBBF24", "#A78BFA"]);
+
+            // NEW: Function to determine node background color
+            function getNodeColor(d) {
+                const kpiDepth = 3; // The depth of "managerialKpi" nodes is 3
+                if (d.depth <= kpiDepth) {
+                    return colorScale(d.data.type); // Use original colors for main hierarchy
+                }
+                // For descendants of KPIs, alternate colors based on depth
+                const depthAfterKpi = d.depth - (kpiDepth + 1);
+                return depthAfterKpi % 2 === 0 ? "#FFFFFF" : "#1f2937"; // White, then Black
+            }
+
+            // NEW: Function to determine text color for contrast
+            function getTextColor(d) {
+                const kpiDepth = 3;
+                if (d.depth <= kpiDepth) {
+                    return "#1f2937"; // Default dark text
+                }
+                const depthAfterKpi = d.depth - (kpiDepth + 1);
+                return depthAfterKpi % 2 === 0 ? "#1f2937" : "#FFFFFF"; // Black text on white, White text on black
+            }
 
             // --- SIMULATION ---
             const simulation = d3.forceSimulation()
@@ -144,54 +171,43 @@
             root.descendants().forEach((d, i) => {
                 d.id = i;
                 d._children = d.children;
+                // Collapse all nodes deeper than the first level initially
                 if (d.depth > 1) d.children = null;
             });
             
             update();
 
-            /**
-             * Wraps text, sets node dimensions, and positions the text.
-             * @param {d3.Selection} selection - The D3 selection of text elements.
-             */
             function wrapAndSize(selection) {
                 const PADDING = 10;
-                const LINE_HEIGHT = 1.2; // ems
+                const LINE_HEIGHT = 1.2;
                 const MAX_WIDTH = 200;
-
                 selection.each(function(d) {
                     const textEl = d3.select(this);
                     const words = d.data.name.split(/\s+/);
-                    
                     textEl.text(null);
-
                     let tspan = textEl.append('tspan').attr('x', 0);
                     tspan.text(d.data.name);
-
                     if (tspan.node().getComputedTextLength() > MAX_WIDTH) {
                         tspan.text('');
                         let bestSplit = findBestSplitPoint(words);
                         const line1 = words.slice(0, bestSplit).join(' ');
                         const line2 = words.slice(bestSplit).join(' ');
-
                         textEl.append('tspan').attr('x', 0).text(line1);
                         textEl.append('tspan').attr('x', 0).attr('dy', `${LINE_HEIGHT}em`).text(line2);
                     }
-
                     const bbox = textEl.node().getBBox();
                     d.width = bbox.width + PADDING * 2;
                     d.height = bbox.height + PADDING * 2;
-
                     textEl.attr('y', -bbox.height / 2 - bbox.y);
                 });
             }
             
             function findBestSplitPoint(words) {
-                let bestSplit = -1;
-                let minDiff = Infinity;
+                let bestSplit = -1, minDiff = Infinity;
                 for (let i = 1; i < words.length; i++) {
-                    const line1Length = words.slice(0, i).join(' ').length;
-                    const line2Length = words.slice(i).join(' ').length;
-                    const diff = Math.abs(line1Length - line2Length);
+                    const l1 = words.slice(0, i).join(' ').length;
+                    const l2 = words.slice(i).join(' ').length;
+                    const diff = Math.abs(l1 - l2);
                     if (diff < minDiff) {
                         minDiff = diff;
                         bestSplit = i;
@@ -205,13 +221,11 @@
                 const nodes = root.descendants().filter(d => d.parent ? d.parent.children : true);
                 const links = root.links().filter(d => d.source.children && d.target.parent.children);
 
-                // If in rebalanced state, just re-run the layout calculation and animation
                 if (isRebalanced) {
                     rebalanceLayout();
                     return;
                 }
 
-                // Normal physics-based update
                 link = link.data(links, d => d.target.id);
                 link.exit().remove();
                 link = link.enter().append("path").attr("class", "link").merge(link);
@@ -233,27 +247,32 @@
                     .call(drag(simulation));
 
                 nodeEnter.append("rect");
+                
+                // MODIFIED: Apply text color dynamically
                 nodeEnter.append("text")
-                    .attr("class", d => `node-label ${d.data.type}-label`)
+                    .attr("class", d => `node-label ${d.data.type ? d.data.type + '-label' : ''}`)
                     .attr("text-anchor", "middle")
+                    .style("fill", d => getTextColor(d))
                     .call(wrapAndSize);
                 
+                // MODIFIED: Apply background and stroke color dynamically
                 nodeEnter.select("rect")
                     .attr("width", d => d.width)
                     .attr("height", d => d.height)
                     .attr("x", d => -d.width / 2)
                     .attr("y", d => -d.height / 2)
                     .attr("rx", 5)
-                    .attr("fill", d => colorScale(d.data.type))
-                    .attr("stroke", d => d3.color(colorScale(d.data.type)).darker(0.6));
+                    .attr("fill", d => getNodeColor(d))
+                    .attr("stroke", d => d3.color(getNodeColor(d)).darker(0.6));
 
                 node = nodeEnter.merge(node);
                 
                 node.transition().duration(transitionDuration).style("opacity", 1);
                 
+                // MODIFIED: Update stroke logic for collapsed nodes
                 node.select('rect')
                     .transition().duration(transitionDuration)
-                    .attr("stroke", d => (d._children && !d.children) ? "#1f2937" : d3.color(colorScale(d.data.type)).darker(0.6))
+                    .attr("stroke", d => (d._children && !d.children) ? "#1f2937" : d3.color(getNodeColor(d)).darker(0.6))
                     .attr("stroke-width", d => (d._children && !d.children) ? 4 : 2);
                 
                 simulation.nodes(nodes);
@@ -262,26 +281,20 @@
             }
             
             function ticked() {
-                // Only run the tick function if not in rebalanced mode
                 if (!isRebalanced) {
                     node.attr("transform", d => `translate(${d.x},${d.y})`);
                     link.attr("d", d => {
-                        const dx = d.target.x - d.source.x;
-                        const dy = d.target.y - d.source.y;
+                        const dx = d.target.x - d.source.x, dy = d.target.y - d.source.y;
                         const length = Math.sqrt(dx * dx + dy * dy);
-                        const mx = (d.source.x + d.target.x) / 2;
-                        const my = (d.source.y + d.target.y) / 2;
-                        const px = -dy / length;
-                        const py = dx / length;
+                        const mx = (d.source.x + d.target.x) / 2, my = (d.source.y + d.target.y) / 2;
+                        const px = -dy / length, py = dx / length;
                         const offset = 30; 
-                        const cx = mx + offset * px;
-                        const cy = my + offset * py;
+                        const cx = mx + offset * px, cy = my + offset * py;
                         return `M${d.source.x},${d.source.y} Q${cx},${cy} ${d.target.x},${d.target.y}`;
                     });
                 }
             }
 
-            // --- INTERACTIVITY & UTILITIES ---
             function toggleChildren(d) {
                 if (d.children) {
                     d.children = null;
@@ -293,10 +306,9 @@
 
             function drag(simulation) {
                 function dragstarted(event, d) {
-                    // When dragging starts, break out of rebalance mode and go back to physics
                     if (isRebalanced) {
                         unfixAllNodes();
-                        update(); // Trigger an update to restart the simulation
+                        update();
                     }
                     if (!event.active) simulation.alphaTarget(0.3).restart();
                     d.fx = d.x;
@@ -308,20 +320,15 @@
                 }
                 function dragended(event, d) {
                     if (!event.active) simulation.alphaTarget(0);
-                    // In rebalanced mode, we want the node to stay where it was dropped
                     if (isRebalanced) {
                         d.fx = event.x;
                         d.fy = event.y;
                     } else {
-                    // In physics mode, unpin the node after dragging
                         d.fx = null;
                         d.fy = null;
                     }
                 }
-                return d3.drag()
-                    .on("start", dragstarted)
-                    .on("drag", dragged)
-                    .on("end", dragended);
+                return d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended);
             }
 
             const zoom = d3.zoom().scaleExtent([0.1, 5]).on("zoom", (event) => g.attr("transform", event.transform));
@@ -349,7 +356,7 @@
 
             function rebalanceLayout() {
                 isRebalanced = true;
-                simulation.stop(); // Stop physics temporarily to place nodes
+                simulation.stop();
                 svg.transition().duration(transitionDuration).call(zoom.transform, d3.zoomIdentity);
 
                 const allNodes = root.descendants().filter(d => d.parent ? d.parent.children : true);
@@ -363,10 +370,13 @@
                 let iterations = 0;
                 const maxIterations = 50; 
                 
+                // MODIFIED: Extended radii to handle deeper levels in the rebalance view
                 let radii = {
                     1: Math.max(centerNode.width, centerNode.height) / 2 + 120,
                     2: Math.max(centerNode.width, centerNode.height) / 2 + 320,
-                    3: Math.max(centerNode.width, centerNode.height) / 2 + 520
+                    3: Math.max(centerNode.width, centerNode.height) / 2 + 520,
+                    4: Math.max(centerNode.width, centerNode.height) / 2 + 720,
+                    5: Math.max(centerNode.width, centerNode.height) / 2 + 920,
                 };
 
                 while (hasCollisions && iterations < maxIterations) {
@@ -400,6 +410,18 @@
                                         const managerialKpiAngle = managerialKpiStartAngle + (k * managerialKpiAngleSlice) + (managerialKpiAngleSlice / 2);
                                         managerialKpi.fx = radii[3] * Math.cos(managerialKpiAngle);
                                         managerialKpi.fy = radii[3] * Math.sin(managerialKpiAngle);
+                                        
+                                        // NEW: Added layout logic for one level deeper (N)
+                                        const subKpis = managerialKpi.children ? allNodes.filter(n => n.parent === managerialKpi) : [];
+                                        if (subKpis.length > 0) {
+                                            const subKpiAngleSlice = managerialKpiAngleSlice / subKpis.length;
+                                            const subKpiStartAngle = managerialKpiAngle - (managerialKpiAngleSlice / 2);
+                                            subKpis.forEach((subKpi, l) => {
+                                                const subKpiAngle = subKpiStartAngle + (l * subKpiAngleSlice) + (subKpiAngleSlice / 2);
+                                                subKpi.fx = radii[4] * Math.cos(subKpiAngle);
+                                                subKpi.fy = radii[4] * Math.sin(subKpiAngle);
+                                            });
+                                        }
                                     });
                                 }
                             });
@@ -425,18 +447,18 @@
                         radii[1] += radiusIncrement;
                         radii[2] += radiusIncrement * 1.5;
                         radii[3] += radiusIncrement * 2.0;
+                        radii[4] += radiusIncrement * 2.5;
+                        radii[5] += radiusIncrement * 3.0;
                     }
                 }
                 
-                // Set final fixed positions and restart simulation for smooth transition
                 allNodes.forEach(d => {
                     d.x = d.fx;
                     d.y = d.fy;
                 });
-                simulation.nodes(allNodes); // Give the simulation the updated nodes
-                simulation.alpha(0.3).restart(); // Restart the simulation with low energy
+                simulation.nodes(allNodes);
+                simulation.alpha(0.3).restart();
 
-                // Animate nodes and links to their final fixed positions
                 node.transition().duration(transitionDuration)
                     .attr("transform", d => `translate(${d.fx},${d.fy})`);
                     
@@ -444,16 +466,12 @@
                 link = link.data(links, d => d.target.id);
                 link.transition().duration(transitionDuration)
                     .attr("d", d => {
-                        const dx = d.target.fx - d.source.fx;
-                        const dy = d.target.fy - d.source.fy;
+                        const dx = d.target.fx - d.source.fx, dy = d.target.fy - d.source.fy;
                         const length = Math.sqrt(dx * dx + dy * dy);
-                        const mx = (d.source.fx + d.target.fx) / 2;
-                        const my = (d.source.fy + d.target.fy) / 2;
-                        const px = -dy / length;
-                        const py = dx / length;
+                        const mx = (d.source.fx + d.target.fx) / 2, my = (d.source.fy + d.target.fy) / 2;
+                        const px = -dy / length, py = dx / length;
                         const offset = 30; 
-                        const cx = mx + offset * px;
-                        const cy = my + offset * py;
+                        const cx = mx + offset * px, cy = my + offset * py;
                         return `M${d.source.fx},${d.source.fy} Q${cx},${cy} ${d.target.fx},${d.target.fy}`;
                     });
             }
