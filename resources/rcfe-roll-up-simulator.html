@@ -137,7 +137,7 @@
                 expenseGrowth: 3.5,
                 holdPeriod: 5,
                 propertyValuePerUnit: 1600000,
-                annualOpExPerUnit: 538857, // Updated based on the detailed cost breakdown
+                annualOpExPerUnit: 538857,
                 debtRatio: 85,
                 loanInterestRate: 8.0,
                 loanTermYears: 20,
@@ -150,6 +150,7 @@
                 { title: 'Deal Structure', key: 'numUnits', label: '# of Units', min: 1, max: 20, step: 1 },
                 { key: 'propertyValuePerUnit', label: 'Property Value / Unit', min: 1000000, max: 2500000, step: 50000, prefix: '$' },
                 { key: 'debtRatio', label: 'Loan-to-Value (LTV)', min: 60, max: 90, step: 1, unit: '%' },
+                { key: 'loanInterestRate', label: 'Loan Interest Rate', min: 5, max: 10, step: 0.25, unit: '%' },
                 { key: 'holdPeriod', label: 'Hold Period', min: 3, max: 10, step: 1, unit: ' yrs' },
                 { title: 'Revenue Drivers', key: 'monthlyRate', label: 'Monthly Rate/Bed', min: 8000, max: 12000, step: 100, prefix: '$' },
                 { key: 'occupancyRate', label: 'Occupancy Rate', min: 80, max: 98, step: 1, unit: '%' },
@@ -171,39 +172,30 @@
                     lpProfitSplit, managementFee
                 } = currentParams;
 
-                // Investment
                 const totalPropertyValue = propertyValuePerUnit * numUnits;
                 const totalDebt = totalPropertyValue * (debtRatio / 100);
                 const totalEquityRequired = totalPropertyValue * (1 - (debtRatio / 100));
                 const totalInvestorInflow = totalEquityRequired / (1 - (managementFee / 100));
 
-                // Revenue & Expenses at Exit (Stabilized)
                 const bedsPerUnit = 6;
                 const baseAnnualRevenue = bedsPerUnit * (occupancyRate / 100) * monthlyRate * 12 * numUnits;
                 const stabilizedAnnualRevenue = baseAnnualRevenue * Math.pow(1 + revenueGrowth / 100, holdPeriod);
-
                 const baseAnnualOpEx = annualOpExPerUnit * numUnits;
                 const stabilizedAnnualOpEx = baseAnnualOpEx * Math.pow(1 + expenseGrowth / 100, holdPeriod);
-
-                // EBITDA at Exit
                 const stabilizedEbitda = stabilizedAnnualRevenue - stabilizedAnnualOpEx;
 
-                // Exit Value
                 const exitPropertyValue = totalPropertyValue * Math.pow(1 + propertyAppreciation / 100, holdPeriod);
                 const exitBusinessValue = stabilizedEbitda * exitMultiple;
                 const grossExitProceeds = exitPropertyValue + exitBusinessValue;
 
-                // Loan Balance at Exit
-                const r = (loanInterestRate / 100) / 12; // monthly interest rate
-                const n = loanTermYears * 12; // total number of payments
-                const t = holdPeriod * 12; // number of payments made
+                const r = (loanInterestRate / 100) / 12;
+                const n = loanTermYears * 12;
+                const t = holdPeriod * 12;
                 const loanBalanceAtExit = totalDebt > 0 ? totalDebt * (Math.pow(1 + r, n) - Math.pow(1 + r, t)) / (Math.pow(1 + r, n) - 1) : 0;
 
-                // Net Proceeds
                 const transactionCosts = grossExitProceeds * (exitTransactionCosts / 100);
                 const netProceeds = grossExitProceeds - loanBalanceAtExit - transactionCosts;
 
-                // Returns
                 const totalProfit = netProceeds - totalInvestorInflow;
                 const lpProfitShare = Math.max(0, totalProfit * (lpProfitSplit / 100));
                 const gpCarriedInterest = Math.max(0, totalProfit * (1 - (lpProfitSplit / 100)));
@@ -223,7 +215,6 @@
                 document.getElementById('metric-gp-carry').innerText = `$${(calcs.gpCarriedInterest / 1000000).toFixed(1)}M`;
                 document.getElementById('metric-exitvalue').innerText = `$${(calcs.grossExitProceeds / 1000000).toFixed(1)}M`;
                 document.getElementById('metric-walkaway').innerText = `$${(calcs.lpTotalReturn / 1000000).toFixed(1)}M`;
-
 
                 document.getElementById('summary-investment').innerText = `$${(calcs.totalInvestorInflow / 1000000).toFixed(1)}M`;
                 document.getElementById('summary-equity-debt').innerText = `Equity: ${((calcs.totalInvestorInflow - calcs.totalInvestorInflow * (params.managementFee/100)) / 1000000).toFixed(1)}M | Debt: ${(calcs.totalDebt / 1000000).toFixed(1)}M`;
@@ -255,11 +246,7 @@
                 for (let year = 1; year <= params.holdPeriod; year++) {
                     const revenue = (params.numUnits * 6 * (params.occupancyRate/100) * params.monthlyRate * 12) * Math.pow(1 + params.revenueGrowth / 100, year);
                     const expenses = (params.annualOpExPerUnit * params.numUnits) * Math.pow(1 + params.expenseGrowth / 100, year);
-                    yearlyData.push({
-                        year: `Y${year}`,
-                        revenue: revenue / 1000000,
-                        ebitda: (revenue - expenses) / 1000000,
-                    });
+                    yearlyData.push({ year: `Y${year}`, revenue: revenue / 1000000, ebitda: (revenue - expenses) / 1000000 });
                 }
                 
                 const container = document.getElementById('line-chart-container');
@@ -289,12 +276,10 @@
                 const textEl = document.getElementById('rating-text');
                 const barEl = document.getElementById('rating-bar');
                 let ratingText, colorClass;
-
                 if (moic >= 2.5) { ratingText = 'Exceptional'; colorClass = 'bg-green-500'; }
                 else if (moic >= 2.0) { ratingText = 'Strong'; colorClass = 'bg-blue-500'; }
                 else if (moic >= 1.5) { ratingText = 'Moderate'; colorClass = 'bg-yellow-500'; }
                 else { ratingText = 'Below Target'; colorClass = 'bg-red-500'; }
-
                 textEl.innerText = ratingText;
                 barEl.className = `h-2 rounded-full transition-all duration-500 ${colorClass}`;
                 barEl.style.width = `${Math.min(100, (moic / 3) * 100)}%`;
@@ -306,10 +291,12 @@
                 
                 const sensitivityConfig = [
                     { factor: 'Exit Multiple ±1x', paramName: 'exitMultiple', change: 1 },
+                    { factor: 'Acq. Price ±$100k', paramName: 'propertyValuePerUnit', change: 100000 },
+                    { factor: 'Interest Rate ±1%', paramName: 'loanInterestRate', change: 1 },
                     { factor: 'Occupancy ±5%', paramName: 'occupancyRate', change: 5 },
                     { factor: 'Revenue Growth ±1%', paramName: 'revenueGrowth', change: 1 },
                     { factor: 'Expense Growth ±1%', paramName: 'expenseGrowth', change: 1 },
-                    { factor: 'RE Appr ±1%', paramName: 'propertyAppreciation', change: 1 },
+                    { factor: 'Hold Period ±1yr', paramName: 'holdPeriod', change: 1 },
                 ];
 
                 const sensitivityData = sensitivityConfig.map(item => {
@@ -324,7 +311,7 @@
                 document.getElementById('sensitivity-title').innerText = `IRR Sensitivity (Base: ${baseIrr.toFixed(1)}%)`;
                 const maxChange = Math.max(...sensitivityData.flatMap(d => [Math.abs(d.upside), Math.abs(d.downside)]), 1);
                 
-                container.innerHTML = sensitivityData.map(d => `<div class="flex items-center text-sm mb-1"><div class="w-28 text-right pr-2 text-gray-600">${d.factor}</div><div class="flex-1 flex items-center h-6 relative"><div class="w-1/2 h-full bg-gray-200 rounded-l-full flex justify-end items-center"><div class="bg-red-500 h-full rounded-l-full" style="width: ${Math.abs(d.downside) / maxChange * 100}%"></div></div><div class="w-1/2 h-full bg-gray-200 rounded-r-full flex justify-start items-center"><div class="bg-green-500 h-full rounded-r-full" style="width: ${Math.abs(d.upside) / maxChange * 100}%"></div></div><div class="absolute w-full text-center text-white font-bold text-xs pointer-events-none">${d.downside.toFixed(1)}% | ${d.upside.toFixed(1)}%</div></div></div>`).join('');
+                container.innerHTML = sensitivityData.map(d => `<div class="flex items-center text-sm mb-1"><div class="w-32 text-right pr-2 text-gray-600">${d.factor}</div><div class="flex-1 flex items-center h-6 relative"><div class="w-1/2 h-full bg-gray-200 rounded-l-full flex justify-end items-center"><div class="bg-red-500 h-full rounded-l-full" style="width: ${Math.abs(d.downside) / maxChange * 100}%"></div></div><div class="w-1/2 h-full bg-gray-200 rounded-r-full flex justify-start items-center"><div class="bg-green-500 h-full rounded-r-full" style="width: ${Math.abs(d.upside) / maxChange * 100}%"></div></div><div class="absolute w-full text-center text-white font-bold text-xs pointer-events-none">${d.downside.toFixed(1)}% | ${d.upside.toFixed(1)}%</div></div></div>`).join('');
             }
 
             function renderWaterfall(calcs) {
