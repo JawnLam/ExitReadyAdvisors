@@ -3,8 +3,8 @@
 
     <!--
     /----------------------------------------------------------------------------------------------------\
-    | LAST UPDATE: 2508031432…Sun_Aug_03_2025_0232PM                                                      |
-    | https://gemini.google.com/app/                                                     |
+    | LAST UPDATE: 2508052017…Tue_Aug_05_2025_0817PM                                                     |
+    | https://gemini.google.com/app/3e66dc9b4e1bff55                                                     |
     | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/case-studies/templates/valuation-brief.html |
     \----------------------------------------------------------------------------------------------------/
     -->
@@ -64,6 +64,7 @@
             justify-content: center;/* Horizontally centers the text. */
             flex-grow: 1;           /* Allows the tabs to grow and fill the available space equally. */
             text-align: center;     /* Centers the text (useful for multi-line text). */
+            white-space: nowrap;    /* Prevents text from wrapping during measurement. */
         }
 
         /* This creates a pseudo-element that's used for the background hover animation. */
@@ -601,20 +602,58 @@
     -->
     <script>
         /**
-         * Adjusts the font size of tabs to fit their container width.
+         * Adjusts tab font size for uniform appearance, preventing text wrapping.
+         *
+         * This function calculates the largest possible font size for each tab individually
+         * where the text does not wrap to a new line. It then takes the smallest of these
+         * calculated sizes and applies it uniformly to all tabs. This ensures all tab
+         * labels are the same size and fit on a single line.
          */
         function adjustTabFontSize() {
             const tabs = document.querySelectorAll('.tab-button');
-            tabs.forEach(tab => {
-                const tabWidth = tab.offsetWidth;
-                // This scaling factor can be adjusted to get the desired look.
-                // A smaller divisor means a larger font.
-                const newSize = tabWidth / 10; 
-                
-                // Set min and max font sizes to prevent text from being too small or large.
-                const clampedSize = Math.max(12, Math.min(16, newSize)); 
+            if (tabs.length === 0) return;
 
-                tab.style.fontSize = `${clampedSize}px`;
+            const maxFontSizes = [];
+            const minFontSize = 12; // The smallest we'll allow the font to be.
+            const maxFontSize = 16; // The largest we'll allow the font to be.
+
+            // Temporarily reset styles to get accurate measurements.
+            tabs.forEach(tab => {
+                tab.style.fontSize = ''; 
+                tab.style.whiteSpace = 'nowrap'; // Prevent wrapping during measurement
+            });
+
+            // Step 1: Find the maximum font size for each tab that prevents text from overflowing its container.
+            tabs.forEach(tab => {
+                let currentBestSize = minFontSize;
+
+                // Iterate downwards from the max font size.
+                for (let size = maxFontSize; size >= minFontSize; size--) {
+                    tab.style.fontSize = size + 'px';
+                    
+                    // The key check: If the content's width (scrollWidth) is less than or
+                    // equal to the element's visible width (clientWidth), the text fits.
+                    // We add a small buffer (e.g., 2px) to be safe with rendering differences.
+                    if (tab.scrollWidth <= tab.clientWidth + 2) {
+                        currentBestSize = size;
+                        break; // Found the largest size that fits, so we can stop checking for this tab.
+                    }
+                }
+                maxFontSizes.push(currentBestSize);
+            });
+            
+            // Restore wrapping ability after measurements
+            tabs.forEach(tab => {
+                tab.style.whiteSpace = 'normal';
+            });
+
+            // Step 2: Determine the single smallest font size from our findings.
+            // This becomes the "master" font size for all tabs to ensure uniformity.
+            const uniformSize = Math.min(...maxFontSizes);
+
+            // Step 3: Apply the uniform font size to all tabs.
+            tabs.forEach(tab => {
+                tab.style.fontSize = uniformSize + 'px';
             });
         }
 
