@@ -269,20 +269,18 @@
                 if (!container) return;
 
                 // Style Headers
+                // REMOVED text-center to make headers left-aligned
                 container.querySelectorAll('h1').forEach(el => el.classList.add('text-3xl', 'sm:text-4xl', 'font-bold', 'text-gray-900', 'pb-4', 'mb-2', 'border-b-2', 'border-gray-200'));
                 container.querySelectorAll('h2').forEach(el => {
-                    // Special styling for the subtitle
-                    if (el.textContent.includes('For Years Ended')) {
-                         el.classList.add('text-lg', 'font-normal', 'text-gray-500', 'mt-0', 'mb-8');
-                    } else {
-                         el.classList.add('text-2xl', 'font-semibold', 'text-gray-800', 'mt-10', 'mb-4', 'pb-2', 'border-b', 'border-gray-200');
-                    }
+                    // REMOVED text-center to make headers left-aligned and simplified logic
+                    el.classList.add('text-lg', 'font-normal', 'text-gray-500', 'mt-0', 'mb-8');
                 });
                 container.querySelectorAll('h3').forEach(el => el.classList.add('text-xl', 'font-semibold', 'text-gray-700', 'mt-8', 'mb-4'));
 
                 // Style Tables
                 container.querySelectorAll('table').forEach(table => {
-                    table.classList.add('min-w-full', 'divide-y', 'divide-gray-300', 'mt-6', 'mb-8', 'border', 'border-gray-200', 'rounded-lg', 'shadow-sm', 'overflow-hidden');
+                    // ADDED font-mono to make the entire table monospaced
+                    table.classList.add('min-w-full', 'divide-y', 'divide-gray-300', 'mt-6', 'mb-8', 'border', 'border-gray-200', 'rounded-lg', 'shadow-sm', 'overflow-hidden', 'font-mono');
                     const thead = table.querySelector('thead');
                     if (thead) {
                         thead.classList.add('bg-gray-50');
@@ -305,12 +303,9 @@
                     
                     // Right-align numeric-heavy columns
                     table.querySelectorAll('tr').forEach(row => {
-                        // Target all cells except the first one in each row
-                        row.querySelectorAll('td:not(:first-child), th:not(:first-child)').forEach(cell => {
-                             // Check if content looks like a number, percentage, or currency
-                            if (/^[\$\(]?[0-9,.-]+%?$/.test(cell.textContent.trim()) || cell.textContent.trim() === '-') {
-                                cell.classList.add('text-right', 'font-mono');
-                            }
+                        // Target all but the first two columns for right alignment
+                        row.querySelectorAll('td:not(:nth-child(1)):not(:nth-child(2)), th:not(:nth-child(1)):not(:nth-child(2))').forEach(cell => {
+                            cell.classList.add('text-right');
                         });
                     });
                 });
@@ -325,64 +320,67 @@
             applyStyling();
 
             // --- 3. Setup PDF Download Button ---
+            // NOTE: Download button is commented out in the HTML, but the logic remains.
             const downloadButton = document.getElementById('download-pdf');
-            downloadButton.addEventListener('click', () => {
-                const element = document.getElementById('pdf-content');
-                
-                // --- Generate Dynamic Filename ---
-                const h1Element = document.querySelector('#rendered-markdown h1');
-                let filename = 'financial-statement.pdf'; // fallback
-                
-                if (h1Element) {
-                    const h1Text = h1Element.textContent.toLowerCase();
-                    let statementType = '';
-                    let businessName = 'name-of-business';
-                    const parts = h1Text.split(' for ');
-                    if (parts.length >= 2) {
-                        statementType = parts[0].trim();
-                        businessName = parts[1].trim();
-                    } else {
-                        statementType = h1Text.trim();
-                    }
-                    businessName = businessName.replace(/&/g, 'and').replace(/[^a-z0-9]/g, ' ').replace(/\s+/g, '-');
-                    const statementMap = {
-                        'adjusted trial balance': '1-adjusted-trial-balance',
-                        'income statement': '2-income-statement',
-                        'statement of shareholders equity': '3-statement-of-shareholders-equity',
-                        'statement of shareholder equity': '3-statement-of-shareholders-equity',
-                        'shareholders equity': '3-statement-of-shareholders-equity',
-                        'balance sheet': '4-balance-sheet',
-                        'statement of cash flows': '5-statement-of-cash-flows',
-                        'cash flow statement': '5-statement-of-cash-flows',
-                        'closing disclosures': '6-closing-disclosures'
-                    };
-                    let mappedStatement = '';
-                    for (const [key, value] of Object.entries(statementMap)) {
-                        if (statementType.includes(key)) {
-                            mappedStatement = value;
-                            break;
+            if (downloadButton) { // FIXED: Check if button exists before adding listener
+                downloadButton.addEventListener('click', () => {
+                    const element = document.getElementById('pdf-content');
+                    
+                    // --- Generate Dynamic Filename ---
+                    const h1Element = document.querySelector('#rendered-markdown h1');
+                    let filename = 'financial-statement.pdf'; // fallback
+                    
+                    if (h1Element) {
+                        const h1Text = h1Element.textContent.toLowerCase();
+                        let statementType = '';
+                        let businessName = 'name-of-business';
+                        const parts = h1Text.split(' for ');
+                        if (parts.length >= 2) {
+                            statementType = parts[0].trim();
+                            businessName = parts[1].trim();
+                        } else {
+                            statementType = h1Text.trim();
+                        }
+                        businessName = businessName.replace(/&/g, 'and').replace(/[^a-z0-9]/g, ' ').replace(/\s+/g, '-');
+                        const statementMap = {
+                            'adjusted trial balance': '1-adjusted-trial-balance',
+                            'income statement': '2-income-statement',
+                            'statement of shareholders equity': '3-statement-of-shareholders-equity',
+                            'statement of shareholder equity': '3-statement-of-shareholders-equity',
+                            'shareholders equity': '3-statement-of-shareholders-equity',
+                            'balance sheet': '4-balance-sheet',
+                            'statement of cash flows': '5-statement-of-cash-flows',
+                            'cash flow statement': '5-statement-of-cash-flows',
+                            'closing disclosures': '6-closing-disclosures'
+                        };
+                        let mappedStatement = '';
+                        for (const [key, value] of Object.entries(statementMap)) {
+                            if (statementType.includes(key)) {
+                                mappedStatement = value;
+                                break;
+                            }
+                        }
+                        if (mappedStatement) {
+                            filename = `${mappedStatement}-${businessName}.pdf`;
+                        } else {
+                            const cleanStatement = statementType.replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-');
+                            filename = `${cleanStatement}-${businessName}.pdf`;
                         }
                     }
-                    if (mappedStatement) {
-                        filename = `${mappedStatement}-${businessName}.pdf`;
-                    } else {
-                        const cleanStatement = statementType.replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-');
-                        filename = `${cleanStatement}-${businessName}.pdf`;
-                    }
-                }
-                
-                // --- Configuration for html2pdf.js ---
-                const opt = {
-                    margin:       [0.5, 0.25, 0.5, 0.25], // top, left, bottom, right in inches
-                    filename:     filename,
-                    image:        { type: 'jpeg', quality: 0.98 },
-                    html2canvas:  { scale: 2, useCORS: true, letterRendering: true },
-                    jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
-                };
+                    
+                    // --- Configuration for html2pdf.js ---
+                    const opt = {
+                        margin:       [0.5, 0.25, 0.5, 0.25], // top, left, bottom, right in inches
+                        filename:     filename,
+                        image:        { type: 'jpeg', quality: 0.98 },
+                        html2canvas:  { scale: 2, useCORS: true, letterRendering: true },
+                        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+                    };
 
-                // --- Generate and save the PDF ---
-                html2pdf().set(opt).from(element).save();
-            });
+                    // --- Generate and save the PDF ---
+                    html2pdf().set(opt).from(element).save();
+                });
+            }
         });
     </script>
 

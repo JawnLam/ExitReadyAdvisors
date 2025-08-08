@@ -125,7 +125,7 @@
                 // REMOVED text-center to make headers left-aligned
                 container.querySelectorAll('h1').forEach(el => el.classList.add('text-3xl', 'sm:text-4xl', 'font-bold', 'text-gray-900', 'pb-4', 'mb-2', 'border-b-2', 'border-gray-200'));
                 container.querySelectorAll('h2').forEach(el => {
-                    // REMOVED text-center to make headers left-aligned
+                    // REMOVED text-center to make headers left-aligned and simplified logic
                     el.classList.add('text-lg', 'font-normal', 'text-gray-500', 'mt-0', 'mb-8');
                 });
                 container.querySelectorAll('h3').forEach(el => el.classList.add('text-xl', 'font-semibold', 'text-gray-700', 'mt-8', 'mb-4'));
@@ -156,8 +156,8 @@
                     
                     // Right-align numeric-heavy columns
                     table.querySelectorAll('tr').forEach(row => {
-                        // Target all but the first two columns for right alignment
-                        row.querySelectorAll('td:not(:nth-child(1)):not(:nth-child(2)), th:not(:nth-child(1)):not(:nth-child(2))').forEach(cell => {
+                        // Target all but the first column for right alignment
+                        row.querySelectorAll('td:not(:first-child), th:not(:first-child)').forEach(cell => {
                             cell.classList.add('text-right');
                         });
                     });
@@ -173,9 +173,8 @@
             applyStyling();
 
             // --- 3. Setup PDF Download Button ---
-            // NOTE: Download button is commented out in the HTML, but the logic remains.
             const downloadButton = document.getElementById('download-pdf');
-            if (downloadButton) {
+            if (downloadButton) { // FIXED: Check if button exists before adding listener
                 downloadButton.addEventListener('click', () => {
                     const element = document.getElementById('pdf-content');
                     
@@ -238,4 +237,4 @@
     </script>
 
 </body>
-</html>
+</ht
