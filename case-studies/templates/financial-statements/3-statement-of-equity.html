@@ -3,708 +3,244 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Johnson & Sons - Comprehensive Statement of Changes in Shareholders' Equity</title>
+    <title>Statement of Equity</title>
+    
+    <!-- Tailwind CSS for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- html2pdf.js for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <!-- marked.js for Markdown to HTML conversion -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f5f5f5;
-            color: #2c2c2c;
-            margin: 0;
-            padding: 20px;
-            line-height: 1.4;
+        /* Custom styles for printing and fine-tuning */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .no-print {
+                display: none;
+            }
         }
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 40px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            border-bottom: 3px solid #333;
-            padding-bottom: 20px;
-        }
-        h1 {
-            font-size: 24px;
-            margin: 0 0 10px 0;
-            color: #1a1a1a;
-            font-weight: bold;
-        }
-        h2 {
-            font-size: 20px;
-            margin: 0 0 5px 0;
-            color: #333;
-            font-weight: normal;
-        }
-        h3 {
-            font-size: 16px;
-            margin: 0;
-            color: #555;
-            font-weight: normal;
-        }
-        .info-bar {
-            background-color: #e8e8e8;
-            padding: 15px;
-            margin-bottom: 30px;
-            border-left: 4px solid #666;
-            font-size: 14px;
-        }
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        .metric-box {
-            background-color: #f8f8f8;
-            padding: 15px;
-            border-left: 3px solid #666;
-            text-align: center;
-        }
-        .metric-value {
-            font-size: 22px;
-            font-weight: bold;
-            color: #333;
-            margin: 5px 0;
-        }
-        .metric-label {
-            font-size: 12px;
-            color: #666;
-            text-transform: uppercase;
-        }
+        /* Ensure table content doesn't break weirdly in the PDF */
         table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 30px;
-            font-size: 13px;
+            page-break-inside: auto;
         }
-        th {
-            background-color: #333;
-            color: white;
-            padding: 12px 8px;
-            text-align: left;
-            font-weight: bold;
-            border-bottom: 2px solid #222;
+        tr {
+            page-break-inside: avoid;
+            page-break-after: auto;
         }
-        th.amount {
-            text-align: right;
-            width: 120px;
+        thead {
+            display: table-header-group;
         }
-        td {
-            padding: 10px 8px;
-            border-bottom: 1px solid #ddd;
-        }
-        td.amount {
-            text-align: right;
-            font-family: 'Courier New', monospace;
-        }
-        .negative {
-            color: #d32f2f;
-        }
-        .account-name {
-            padding-left: 0;
-        }
-        .sub-account {
-            padding-left: 30px;
-            font-style: italic;
-            color: #555;
-            font-size: 12px;
-        }
-        .sub-sub-account {
-            padding-left: 50px;
-            font-size: 12px;
-            color: #777;
-        }
-        .total-row {
-            font-weight: bold;
-            background-color: #f0f0f0;
-            border-top: 2px solid #999;
-            border-bottom: 3px double #666;
-        }
-        .grand-total-row {
-            font-weight: bold;
-            background-color: #e0e0e0;
-            border-top: 3px solid #333;
-            border-bottom: 4px double #333;
-            font-size: 15px;
-        }
-        .section-header {
-            background-color: #f5f5f5;
-            font-weight: bold;
-            font-size: 14px;
-            border-bottom: 2px solid #999;
-        }
-        .comprehensive-table {
-            /* overflow-x: auto; /* REMOVED to prevent horizontal scrolling */
-        }
-        .comprehensive-table table {
-            /* min-width: 1200px; /* REMOVED to allow table to fit container */
-        }
-        .notes-section {
-            margin-top: 40px;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            font-size: 13px;
-            line-height: 1.6;
-        }
-        .notes-section h4 {
-            margin-top: 20px;
-            margin-bottom: 10px;
-            color: #333;
-            font-size: 16px;
-            border-bottom: 2px solid #999;
-            padding-bottom: 10px;
-        }
-        .notes-section h4:first-child {
-            margin-top: 0;
-        }
-        .confidence-note {
-            color: #666;
-            font-style: italic;
-            font-size: 12px;
-        }
-        .validation-box {
-            background-color: #e8f4e8;
-            border: 2px solid #4a7c4a;
-            padding: 15px;
-            margin-top: 30px;
-            font-size: 13px;
-        }
-        .validation-box h4 {
-            margin: 0 0 10px 0;
-            color: #2d5a2d;
-        }
-        .metadata {
-            margin-top: 40px;
-            padding: 15px;
-            background-color: #f0f0f0;
-            border-top: 2px solid #999;
-            font-size: 12px;
-            color: #666;
-        }
-        .highlight-box {
-            background-color: #fff3cd;
-            border: 1px solid #ffc107;
-            padding: 15px;
-            margin: 20px 0;
-            font-size: 13px;
-        }
-        .industry-benchmarks {
-            background-color: #e3f2fd;
-            border: 1px solid #1976d2;
-            padding: 15px;
-            margin: 20px 0;
-            font-size: 13px;
-        }
-        .small-table {
-            width: auto;
-            margin: 15px 0;
-            font-size: 12px;
-        }
-        .small-table td {
-            padding: 5px 15px;
-        }
-        .ratio-analysis {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .ratio-box {
-            background-color: #f5f5f5;
-            padding: 15px;
-            border-radius: 5px;
-        }
-        .ratio-title {
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 5px;
-        }
-        .ratio-value {
-            font-size: 18px;
-            color: #1976d2;
-            font-weight: bold;
-        }
-        .ratio-benchmark {
-            font-size: 11px;
-            color: #666;
-            margin-top: 5px;
+        tbody {
+            display: table-row-group;
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>JOHNSON & SONS HEATING, PLUMBING, & AIR</h1>
-            <h2>Comprehensive Statement of Changes in Shareholders' Equity</h2>
-            <h3>For the Years Ended December 31, 2024 and 2023</h3>
-        </div>
-
-        <div class="info-bar">
-            <strong>Entity Type:</strong> S-Corporation (Pass-Through Taxation) | <strong>Industry:</strong> Specialty Trade Contractor (NAICS 238220)<br>
-            <strong>Operations:</strong> Multi-State (Arizona, Utah, Colorado) | <strong>Annual Revenue:</strong> $68.85M | <strong>Employees:</strong> 115<br>
-            <strong>Ownership Structure:</strong> Two Equal Shareholders (Johnson Brothers) | <strong>Years in Operation:</strong> 46 (Founded 1979)
-        </div>
-
-        <div class="metrics-grid">
-            <div class="metric-box">
-                <div class="metric-label">Return on Equity</div>
-                <div class="metric-value">78.4%</div>
-                <div class="metric-label" style="font-size: 11px;">Industry Avg: 25-35%</div>
-            </div>
-            <div class="metric-box">
-                <div class="metric-label">Equity to Assets</div>
-                <div class="metric-value">23.4%</div>
-                <div class="metric-label" style="font-size: 11px;">Industry Avg: 20-30%</div>
-            </div>
-            <div class="metric-box">
-                <div class="metric-label">Book Value per Share</div>
-                <div class="metric-value">$67.65</div>
-                <div class="metric-label" style="font-size: 11px;">100,000 shares outstanding</div>
-            </div>
-            <div class="metric-box">
-                <div class="metric-label">Equity/Revenue Ratio</div>
-                <div class="metric-value">9.8%</div>
-                <div class="metric-label" style="font-size: 11px;">Bonding Req: >5%</div>
-            </div>
-        </div>
-
-        <div class="comprehensive-table">
-            <table>
-                <thead>
-                    <tr>
-                        <th style="width: 35%">EQUITY COMPONENTS</th>
-                        <th class="amount">Common<br>Stock<br>(Par $1)</th>
-                        <th class="amount">Additional<br>Paid-in<br>Capital</th>
-                        <th class="amount">Retained<br>Earnings</th>
-                        <th class="amount">Accumulated<br>Other<br>Comprehensive<br>Income</th>
-                        <th class="amount">Treasury<br>Stock</th>
-                        <th class="amount">Total<br>Shareholders'<br>Equity</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="section-header">
-                        <td colspan="7">BALANCE, JANUARY 1, 2023</td>
-                    </tr>
-                    <tr>
-                        <td class="account-name">Beginning Balances</td>
-                        <td class="amount">100,000</td>
-                        <td class="amount">500,000</td>
-                        <td class="amount">5,191,420</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">5,791,420</td>
-                    </tr>
-                    
-                    <tr class="section-header">
-                        <td colspan="7">COMPREHENSIVE INCOME - YEAR ENDED DECEMBER 31, 2023</td>
-                    </tr>
-                    <tr>
-                        <td class="account-name">Net Income</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">4,608,580</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">4,608,580</td>
-                    </tr>
-                    <tr>
-                        <td class="sub-account">Operating Income After Tax</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">4,668,580</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">4,668,580</td>
-                    </tr>
-                    <tr>
-                        <td class="sub-account">Non-Operating Items (Net of Tax)</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">(60,000)</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">(60,000)</td>
-                    </tr>
-                    <tr>
-                        <td class="account-name">Other Comprehensive Income</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                    </tr>
-                    <tr style="border-top: 2px solid #999;">
-                        <td class="account-name"><strong>Total Comprehensive Income</strong></td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">4,608,580</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount"><strong>4,608,580</strong></td>
-                    </tr>
-                    
-                    <tr class="section-header">
-                        <td colspan="7">DISTRIBUTIONS & CAPITAL TRANSACTIONS - 2023</td>
-                    </tr>
-                    <tr>
-                        <td class="account-name">Regular S-Corp Distributions</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount" class="negative">(3,600,000)</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount" class="negative">(3,600,000)</td>
-                    </tr>
-                    <tr>
-                        <td class="sub-account">Q1 2023: $900,000</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                    </tr>
-                    <tr>
-                        <td class="sub-account">Q2 2023: $900,000</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                    </tr>
-                    <tr>
-                        <td class="sub-account">Q3 2023: $900,000</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                    </tr>
-                    <tr>
-                        <td class="sub-account">Q4 2023: $900,000</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                    </tr>
-                    <tr>
-                        <td class="account-name">Tax Distributions (Pass-Through)</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount" class="negative">(550,000)</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount" class="negative">(550,000)</td>
-                    </tr>
-                    <tr>
-                        <td class="sub-account">Federal & State Tax Coverage</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                    </tr>
-                    <tr style="border-top: 1px solid #999;">
-                        <td class="account-name">Total Distributions 2023</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount" class="negative">(4,150,000)</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount" class="negative">(4,150,000)</td>
-                    </tr>
-                    
-                    <tr class="total-row">
-                        <td>BALANCE, DECEMBER 31, 2023</td>
-                        <td class="amount">100,000</td>
-                        <td class="amount">500,000</td>
-                        <td class="amount">5,650,000</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">6,250,000</td>
-                    </tr>
-
-                    <tr class="section-header">
-                        <td colspan="7">COMPREHENSIVE INCOME - YEAR ENDED DECEMBER 31, 2024</td>
-                    </tr>
-                    <tr>
-                        <td class="account-name">Net Income</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">5,150,000</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">5,150,000</td>
-                    </tr>
-                    <tr>
-                        <td class="sub-account">Operating Income After Tax</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">5,230,000</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">5,230,000</td>
-                    </tr>
-                    <tr>
-                        <td class="sub-account">Non-Operating Items (Net of Tax)</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">(80,000)</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">(80,000)</td>
-                    </tr>
-                    <tr>
-                        <td class="account-name">Other Comprehensive Income</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                    </tr>
-                    <tr style="border-top: 2px solid #999;">
-                        <td class="account-name"><strong>Total Comprehensive Income</strong></td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">5,150,000</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount"><strong>5,150,000</strong></td>
-                    </tr>
-                    
-                    <tr class="section-header">
-                        <td colspan="7">DISTRIBUTIONS & CAPITAL TRANSACTIONS - 2024</td>
-                    </tr>
-                    <tr>
-                        <td class="account-name">Regular S-Corp Distributions</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount" class="negative">(4,000,000)</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount" class="negative">(4,000,000)</td>
-                    </tr>
-                    <tr>
-                        <td class="sub-account">Q1 2024: $1,000,000</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                    </tr>
-                    <tr>
-                        <td class="sub-account">Q2 2024: $1,000,000</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                    </tr>
-                    <tr>
-                        <td class="sub-account">Q3 2024: $1,000,000</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                    </tr>
-                    <tr>
-                        <td class="sub-account">Q4 2024: $1,000,000</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                    </tr>
-                    <tr>
-                        <td class="account-name">Tax Distributions (Pass-Through)</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount" class="negative">(635,000)</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount" class="negative">(635,000)</td>
-                    </tr>
-                    <tr>
-                        <td class="sub-account">Federal & Multi-State Tax Coverage</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                    </tr>
-                    <tr style="border-top: 1px solid #999;">
-                        <td class="account-name">Total Distributions 2024</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount" class="negative">(4,635,000)</td>
-                        <td class="amount">-</td>
-                        <td class="amount">-</td>
-                        <td class="amount" class="negative">(4,635,000)</td>
-                    </tr>
-                    
-                    <tr class="grand-total-row">
-                        <td>BALANCE, DECEMBER 31, 2024</td>
-                        <td class="amount">$100,000</td>
-                        <td class="amount">$500,000</td>
-                        <td class="amount">$6,165,000</td>
-                        <td class="amount">$-</td>
-                        <td class="amount">$-</td>
-                        <td class="amount">$6,765,000</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="industry-benchmarks">
-            <h4 style="margin-top: 0;">Construction Industry Equity Benchmarks & Analysis</h4>
-            <div class="ratio-analysis">
-                <div class="ratio-box">
-                    <div class="ratio-title">Working Capital to Equity</div>
-                    <div class="ratio-value">66.2%</div>
-                    <div class="ratio-benchmark">Industry Range: 40-80%</div>
-                </div>
-                <div class="ratio-box">
-                    <div class="ratio-title">Debt-to-Equity Ratio</div>
-                    <div class="ratio-value">2.55x</div>
-                    <div class="ratio-benchmark">Industry Range: 2.0-3.5x</div>
-                </div>
-                <div class="ratio-box">
-                    <div class="ratio-title">Distribution Payout Ratio</div>
-                    <div class="ratio-value">90.0%</div>
-                    <div class="ratio-benchmark">S-Corp Average: 80-95%</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="highlight-box">
-            <h4 style="margin-top: 0;">Critical Observations for Specialty Contractors</h4>
-            <ul style="margin: 10px 0;">
-                <li><strong>Bonding Capacity:</strong> $6.8M equity supports ~$68M in aggregate bonding capacity at typical 10:1 leverage</li>
-                <li><strong>Multi-State Tax Efficiency:</strong> S-Corp structure saves ~$1.37M annually vs. C-Corp double taxation</li>
-                <li><strong>Capital Preservation:</strong> Despite 90% distributions, equity grew 8.2% YoY through strong earnings</li>
-                <li><strong>Exit Planning:</strong> High ROE of 78.4% supports premium valuation multiple of 6.0x EBITDA</li>
-                <li><strong>Working Capital Management:</strong> $4.5M working capital funded through operations, not retained earnings</li>
-            </ul>
-        </div>
-
-        <div class="notes-section">
-            <h4>Note 1: Capital Structure & Ownership</h4>
-            <p>The company maintains 100,000 shares of $1 par value common stock, all issued and outstanding. Ownership is equally divided between the two Johnson brothers (50,000 shares each), who have maintained this structure since their father's passing in 2014. The S-Corporation election has been in effect since 1987, providing significant tax advantages for the shareholders. </p>
-
-            <table class="small-table">
-                <tr>
-                    <td><strong>Shareholder</strong></td>
-                    <td><strong>Shares</strong></td>
-                    <td><strong>Ownership %</strong></td>
-                    <td><strong>2024 Distributions</strong></td>
-                </tr>
-                <tr>
-                    <td>Johnson Brother #1</td>
-                    <td>50,000</td>
-                    <td>50%</td>
-                    <td>$2,317,500</td>
-                </tr>
-                <tr>
-                    <td>Johnson Brother #2</td>
-                    <td>50,000</td>
-                    <td>50%</td>
-                    <td>$2,317,500</td>
-                </tr>
-            </table>
-
-            <h4>Note 2: Distribution Policy & Tax Considerations</h4>
-            <p><strong>Regular Distributions:</strong> The company maintains a quarterly distribution schedule, with amounts determined based on cash flow, working capital needs, and bonding requirements. The 77.7% regular distribution rate (excluding tax distributions) reflects the mature nature of the business and limited capital reinvestment needs.</p>
-            
-            <p><strong>Tax Distributions:</strong> Separate tax distributions cover shareholders' federal and multi-state tax obligations on pass-through income. The 2024 tax distribution of $635,000 represents approximately 12.3% of net income, calculated based on composite effective rates across Arizona (5.05%), Utah (4.65%), and Colorado (4.40%), plus federal obligations. </p>
-
-            <h4>Note 3: Construction Industry Capital Requirements</h4>
-            <p><strong>Bonding Considerations:</strong> As a specialty contractor performing public and large commercial projects, the company must maintain minimum equity levels for surety bonding. The current $6.8M equity supports the $88M backlog with appropriate leverage. Industry standards typically require 5-10% of annual revenue in equity, which the company exceeds at 9.8%.</p>
-            
-            <p><strong>Working Capital Funding:</strong> Despite high distributions, the company maintains adequate working capital through its $5M line of credit and strong operating cash flow. The 66.2% working capital to equity ratio is healthy for the construction industry. </p>
-
-            <h4>Note 4: Multi-State Operational Considerations</h4>
-            <p>The company's multi-state operations create complex tax and regulatory requirements:</p>
-            <ul>
-                <li><strong>Arizona (50% of operations):</strong> Requires contractor licensing and bonding at state level</li>
-                <li><strong>Utah (30% of operations):</strong> Separate licensing and potential nexus for equipment</li>
-                <li><strong>Colorado (20% of operations):</strong> Additional compliance and apportionment requirements</li>
-            </ul>
-            <p>Each state's requirements influence capital retention needs and distribution timing. </p>
-
-            <h4>Note 5: Exit Strategy & Valuation Implications</h4>
-            <p>With the pending sale at $51.25M (6.0x EBITDA), the shareholders' equity position supports several key valuation metrics:</p>
-            <ul>
-                <li><strong>Price to Book Value:</strong> 7.58x ($51.25M ÷ $6.765M equity)</li>
-                <li><strong>Implied Goodwill:</strong> ~$44.5M above book value</li>
-                <li><strong>Tax Basis Step-Up:</strong> Buyer will receive new basis in assets</li>
-                <li><strong>S-Corp Built-in Gains:</strong> No entity-level tax on sale due to S-Corp status</li>
-            </ul>
-            <p>The high distribution history demonstrates strong cash generation capacity, supporting the premium valuation. </p>
-
-            <h4>Note 6: Comprehensive Income Considerations</h4>
-            <p>As a specialty contractor, the company has minimal other comprehensive income items. Potential OCI items that were evaluated but determined to be not applicable include:</p>
-            <ul>
-                <li>Foreign currency translation (all operations in USD)</li>
-                <li>Pension adjustments (defined contribution plan only)</li>
-                <li>Unrealized gains/losses on investments (minimal marketable securities)</li>
-                <li>Cash flow hedge adjustments (no derivative instruments)</li>
-            </ul>
-            <p></p>
-
-            <h4>Note 7: Related Party Transactions</h4>
-            <p>The normalized EBITDA adjustments of $2.98M include $600K in related party transactions, primarily excess facility rent paid to the real estate LLC also owned by the Johnson brothers. These transactions affected retained earnings but are eliminated in the sale transaction as properties are included. </p>
-        </div>
-
-        <div class="validation-box">
-            <h4>✓ Comprehensive Cross-Statement Validation</h4>
-            <p><strong>Income Statement Integration:</strong><br>
-            • 2024 Net Income: $5,150,000 ✓ Matches comprehensive IS<br>
-            • 2023 Net Income: $4,608,580 ✓ Matches prior year IS<br>
-            • Operating vs. Non-Operating split properly reflected</p>
-            
-            <p><strong>Balance Sheet Reconciliation:</strong><br>
-            • Ending Total Equity (12/31/2024): $6,765,000 ✓ Ready for BS<br>
-            • Working Capital implications: $4.5M supports operations<br>
-            • Debt covenants: Equity levels satisfy all requirements</p>
-            
-            <p><strong>Cash Flow Statement Preparation:</strong><br>
-            • Total 2024 Distributions: $4,635,000 ✓ Will appear in CFS Financing<br>
-            • Total 2023 Distributions: $4,150,000 ✓ Prior year reference<br>
-            • No equity issuances or repurchases to track</p>
-            
-            <p><strong>Industry-Specific Validations:</strong><br>
-            • Bonding capacity: $6.8M equity ÷ $68.85M revenue = 9.8% ✓ Exceeds 5% minimum<br>
-            • ROE consistency: 78.4% aligns with high margins and low equity base ✓<br>
-            • Distribution coverage: Operating cash flow exceeds distributions ✓</p>
-        </div>
-
-        <div class="metadata">
-            <strong>Comprehensive Statement Preparation Framework</strong><br>
-            Prepared in accordance with US GAAP for S-Corporation specialty contractors<br>
-            Industry Context: Construction sector with multi-state operations and complex capital requirements<br>
-            Temporal Coverage: Two-year comparative with quarterly distribution detail<br>
-            Geographic Considerations: Multi-state tax implications across AZ, UT, and CO<br>
-            Size/Scope Adjustments: Enhanced disclosures appropriate for $68.85M revenue contractor<br>
-            M&A Context: Prepared for business sale with normalized adjustments noted<br>
-            Data Sources: Adjusted Trial Balance, Income Statement, and construction industry benchmarks<br>
-        </div>
+<body class="bg-gray-100 font-sans p-4 sm:p-8 flex flex-col items-center">
+    <!-- Controls section with the download button -->
+<!--
+    <div class="controls w-full max-w-7xl mb-6 flex justify-end no-print">
+        <button id="download-pdf" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 ease-in-out flex items-center space-x-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+            <span>Download PDF</span>
+        </button>
     </div>
+-->
+
+    <!-- This div contains the content that will be rendered and converted to PDF -->
+    <div id="pdf-content" class="w-full max-w-7xl bg-white p-6 sm:p-10 rounded-xl shadow-lg">
+        <div id="rendered-markdown"></div>
+    </div>
+
+    <!-- This hidden div holds the raw markdown content -->
+    <div id="markdown-source" style="display:none;">
+<!--Nothing above this should be modified by the AI or LLM. Below this point is the beginning of where the AI or LLM should populate the details of the financial statement, giving special attention to the place holders in the H1 and H2 headers below.-->
+# Statement of Equity for Johnson & Sons Heating, Plumbing, & Air
+## **For the Years Ended of December 31, 2024 and December 31, 2023**<br>
+
+| EQUITY COMPONENTS | Common Stock (Par $1) | Additional Paid-in Capital | Retained Earnings | Accumulated Other Comprehensive Income | Treasury Stock | Total Shareholders' Equity |
+| :--- | ---: | ---: | ---: | ---: | ---: | ---: |
+| **BALANCE, JANUARY 1, 2023** | | | | | | |
+| Beginning Balances | 100,000 | 500,000 | 5,191,420 | - | - | 5,791,420 |
+| | | | | | | |
+| **COMPREHENSIVE INCOME - YEAR ENDED DECEMBER 31, 2023** | | | | | | |
+| Net Income | - | - | 4,608,580 | - | - | 4,608,580 |
+| ● *Operating Income After Tax* | - | - | 4,668,580 | - | - | 4,668,580 |
+| ● *Non-Operating Items (Net of Tax)* | - | - | (60,000) | - | - | (60,000) |
+| Other Comprehensive Income | - | - | - | - | - | - |
+| **Total Comprehensive Income** | **-** | **-** | **4,608,580** | **-** | **-** | **4,608,580** |
+| | | | | | | |
+| **DISTRIBUTIONS & CAPITAL TRANSACTIONS - 2023** | | | | | | |
+| Regular S-Corp Distributions | - | - | (3,600,000) | - | - | (3,600,000) |
+| ● *Q1 2023: $900,000* | - | - | - | - | - | - |
+| ● *Q2 2023: $900,000* | - | - | - | - | - | - |
+| ● *Q3 2023: $900,000* | - | - | - | - | - | - |
+| ● *Q4 2023: $900,000* | - | - | - | - | - | - |
+| Tax Distributions (Pass-Through) | - | - | (550,000) | - | - | (550,000) |
+| ● *Federal & State Tax Coverage* | - | - | - | - | - | - |
+| Total Distributions 2023 | - | - | (4,150,000) | - | - | (4,150,000) |
+| | | | | | | |
+| **BALANCE, DECEMBER 31, 2023** | **100,000** | **500,000** | **5,650,000** | **-** | **-** | **6,250,000** |
+| | | | | | | |
+| **COMPREHENSIVE INCOME - YEAR ENDED DECEMBER 31, 2024** | | | | | | |
+| Net Income | - | - | 5,150,000 | - | - | 5,150,000 |
+| ● *Operating Income After Tax* | - | - | 5,230,000 | - | - | 5,230,000 |
+| ● *Non-Operating Items (Net of Tax)* | - | - | (80,000) | - | - | (80,000) |
+| Other Comprehensive Income | - | - | - | - | - | - |
+| **Total Comprehensive Income** | **-** | **-** | **5,150,000** | **-** | **-** | **5,150,000** |
+| | | | | | | |
+| **DISTRIBUTIONS & CAPITAL TRANSACTIONS - 2024** | | | | | | |
+| Regular S-Corp Distributions | - | - | (4,000,000) | - | - | (4,000,000) |
+| ● *Q1 2024: $1,000,000* | - | - | - | - | - | - |
+| ● *Q2 2024: $1,000,000* | - | - | - | - | - | - |
+| ● *Q3 2024: $1,000,000* | - | - | - | - | - | - |
+| ● *Q4 2024: $1,000,000* | - | - | - | - | - | - |
+| Tax Distributions (Pass-Through) | - | - | (635,000) | - | - | (635,000) |
+| ● *Federal & Multi-State Tax Coverage* | - | - | - | - | - | - |
+| Total Distributions 2024 | - | - | (4,635,000) | - | - | (4,635,000) |
+| | | | | | | |
+| **BALANCE, DECEMBER 31, 2024** | **$100,000** | **$500,000** | **$6,165,000** | **$-** | **$-** | **$6,765,000** |
+
+<!--This is the end of where the AI or LLM should populate the details of the financial statement. Nothing below this should be modified by the AI or LLM.-->
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- 1. Render Markdown to HTML ---
+            const markdownSource = document.getElementById('markdown-source').textContent;
+            const renderedMarkdownContainer = document.getElementById('rendered-markdown');
+            
+            // Use marked.js to parse the markdown content
+            renderedMarkdownContainer.innerHTML = marked.parse ? marked.parse(markdownSource) : marked(markdownSource);
+
+            // --- 2. Apply Tailwind CSS classes to the generated content ---
+            function applyStyling() {
+                const container = document.getElementById('rendered-markdown');
+                if (!container) return;
+
+                // Style Headers
+                container.querySelectorAll('h1').forEach(el => el.classList.add('text-3xl', 'sm:text-4xl', 'font-bold', 'text-gray-900', 'pb-4', 'mb-2', 'border-b-2', 'border-gray-200'));
+                container.querySelectorAll('h2').forEach(el => {
+                    // Special styling for the subtitle
+                    if (el.textContent.includes('For Years Ended')) {
+                         el.classList.add('text-lg', 'font-normal', 'text-gray-500', 'mt-0', 'mb-8');
+                    } else {
+                         el.classList.add('text-2xl', 'font-semibold', 'text-gray-800', 'mt-10', 'mb-4', 'pb-2', 'border-b', 'border-gray-200');
+                    }
+                });
+                container.querySelectorAll('h3').forEach(el => el.classList.add('text-xl', 'font-semibold', 'text-gray-700', 'mt-8', 'mb-4'));
+
+                // Style Tables
+                container.querySelectorAll('table').forEach(table => {
+                    table.classList.add('min-w-full', 'divide-y', 'divide-gray-300', 'mt-6', 'mb-8', 'border', 'border-gray-200', 'rounded-lg', 'shadow-sm', 'overflow-hidden');
+                    const thead = table.querySelector('thead');
+                    if (thead) {
+                        thead.classList.add('bg-gray-50');
+                    }
+                    table.querySelectorAll('th').forEach(th => {
+                        th.classList.add('px-4', 'py-3', 'sm:px-6', 'sm:py-3.5', 'text-left', 'text-sm', 'font-semibold', 'text-gray-900');
+                    });
+                    table.querySelectorAll('tbody tr:nth-child(even)').forEach(row => {
+                        row.classList.add('bg-white'); // Use white for even rows
+                    });
+                     table.querySelectorAll('tbody tr:nth-child(odd)').forEach(row => {
+                        row.classList.add('bg-gray-50'); // Use light gray for odd rows for zebra striping
+                    });
+                    table.querySelectorAll('td').forEach(td => {
+                        td.classList.add('px-4', 'py-3', 'sm:px-6', 'sm:py-4', 'text-sm', 'text-gray-600');
+                        // Make bold text inside tables stand out more
+                        td.querySelectorAll('strong').forEach(strong => strong.classList.add('font-bold', 'text-gray-800'));
+                    });
+                    
+                    // Right-align numeric-heavy columns
+                    table.querySelectorAll('tr').forEach(row => {
+                        // Target all cells except the first one in each row
+                        row.querySelectorAll('td:not(:first-child), th:not(:first-child)').forEach(cell => {
+                             // Check if content looks like a number, percentage, or currency
+                            if (/^[\$\(]?[0-9,.-]+%?$/.test(cell.textContent.trim()) || cell.textContent.trim() === '-') {
+                                cell.classList.add('text-right', 'font-mono');
+                            }
+                        });
+                    });
+                });
+
+                // Style Paragraphs, Lists, and other elements
+                container.querySelectorAll('p').forEach(el => el.classList.add('mb-4', 'leading-relaxed', 'text-gray-700'));
+                container.querySelectorAll('ul').forEach(el => el.classList.add('list-disc', 'list-inside', 'mb-4', 'pl-4', 'text-gray-700', 'space-y-2'));
+                container.querySelectorAll('strong').forEach(el => el.classList.add('font-semibold', 'text-gray-800'));
+                container.querySelectorAll('hr').forEach(el => el.classList.add('my-10', 'border-t', 'border-gray-200'));
+            }
+            
+            applyStyling();
+
+            // --- 3. Setup PDF Download Button ---
+            const downloadButton = document.getElementById('download-pdf');
+            downloadButton.addEventListener('click', () => {
+                const element = document.getElementById('pdf-content');
+                
+                // --- Generate Dynamic Filename ---
+                const h1Element = document.querySelector('#rendered-markdown h1');
+                let filename = 'financial-statement.pdf'; // fallback
+                
+                if (h1Element) {
+                    const h1Text = h1Element.textContent.toLowerCase();
+                    let statementType = '';
+                    let businessName = 'name-of-business';
+                    const parts = h1Text.split(' for ');
+                    if (parts.length >= 2) {
+                        statementType = parts[0].trim();
+                        businessName = parts[1].trim();
+                    } else {
+                        statementType = h1Text.trim();
+                    }
+                    businessName = businessName.replace(/&/g, 'and').replace(/[^a-z0-9]/g, ' ').replace(/\s+/g, '-');
+                    const statementMap = {
+                        'adjusted trial balance': '1-adjusted-trial-balance',
+                        'income statement': '2-income-statement',
+                        'statement of shareholders equity': '3-statement-of-shareholders-equity',
+                        'statement of shareholder equity': '3-statement-of-shareholders-equity',
+                        'shareholders equity': '3-statement-of-shareholders-equity',
+                        'balance sheet': '4-balance-sheet',
+                        'statement of cash flows': '5-statement-of-cash-flows',
+                        'cash flow statement': '5-statement-of-cash-flows',
+                        'closing disclosures': '6-closing-disclosures'
+                    };
+                    let mappedStatement = '';
+                    for (const [key, value] of Object.entries(statementMap)) {
+                        if (statementType.includes(key)) {
+                            mappedStatement = value;
+                            break;
+                        }
+                    }
+                    if (mappedStatement) {
+                        filename = `${mappedStatement}-${businessName}.pdf`;
+                    } else {
+                        const cleanStatement = statementType.replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-');
+                        filename = `${cleanStatement}-${businessName}.pdf`;
+                    }
+                }
+                
+                // --- Configuration for html2pdf.js ---
+                const opt = {
+                    margin:       [0.5, 0.25, 0.5, 0.25], // top, left, bottom, right in inches
+                    filename:     filename,
+                    image:        { type: 'jpeg', quality: 0.98 },
+                    html2canvas:  { scale: 2, useCORS: true, letterRendering: true },
+                    jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+                };
+
+                // --- Generate and save the PDF ---
+                html2pdf().set(opt).from(element).save();
+            });
+        });
+    </script>
+
 </body>
 </html>

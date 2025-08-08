@@ -3,1936 +3,386 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Johnson & Sons - Comprehensive Statement of Cash Flows</title>
+    <title>Statement of Cash Flows</title>
+    
+    <!-- Tailwind CSS for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- html2pdf.js for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <!-- marked.js for Markdown to HTML conversion -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
-            color: #2d2d2d;
-            line-height: 1.4;
+        /* Custom styles for printing and fine-tuning */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .no-print {
+                display: none;
+            }
         }
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 40px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            border-bottom: 3px solid #333;
-            padding-bottom: 20px;
-        }
-        .company-name {
-            font-size: 28px;
-            font-weight: bold;
-            color: #1a1a1a;
-            margin-bottom: 10px;
-        }
-        .statement-title {
-            font-size: 22px;
-            color: #333;
-            margin-bottom: 8px;
-        }
-        .period {
-            font-size: 16px;
-            color: #555;
-            margin-bottom: 15px;
-        }
-        .entity-info {
-            font-size: 12px;
-            color: #666;
-            line-height: 1.6;
-            margin-top: 15px;
-        }
-        .metrics-dashboard {
-            background-color: #2d2d2d;
-            color: white;
-            padding: 25px;
-            margin-bottom: 30px;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
-        .metric-card {
-            background-color: #3d3d3d;
-            padding: 20px;
-            text-align: center;
-            border: 1px solid #555;
-        }
-        .metric-label {
-            font-size: 11px;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-            color: #ccc;
-        }
-        .metric-value {
-            font-size: 24px;
-            font-weight: bold;
-            color: white;
-            margin-bottom: 5px;
-        }
-        .metric-subtext {
-            font-size: 11px;
-            color: #aaa;
-        }
+        /* Ensure table content doesn't break weirdly in the PDF */
         table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 30px;
+            page-break-inside: auto;
         }
-        th {
-            background-color: #4a4a4a;
-            color: white;
-            padding: 12px;
-            text-align: left;
-            font-size: 13px;
-            font-weight: normal;
+        tr {
+            page-break-inside: avoid;
+            page-break-after: auto;
         }
-        td {
-            padding: 10px 12px;
-            border-bottom: 1px solid #e0e0e0;
-            font-size: 12px;
+        thead {
+            display: table-header-group;
         }
-        tr:hover {
-            background-color: #f9f9f9;
-        }
-        .section-header {
-            background-color: #666;
-            color: white;
-            font-weight: bold;
-            font-size: 14px;
-        }
-        .subsection-header {
-            background-color: #e8e8e8;
-            font-weight: bold;
-            padding-left: 30px;
-            color: #333;
-            font-size: 13px;
-        }
-        .indent-1 {
-            padding-left: 50px;
-        }
-        .indent-2 {
-            padding-left: 70px;
-            font-size: 11px;
-            color: #555;
-        }
-        .indent-3 {
-            padding-left: 90px;
-            font-size: 11px;
-            color: #777;
-            font-style: italic;
-        }
-        .amount {
-            text-align: right;
-            font-family: 'Courier New', monospace;
-            white-space: nowrap;
-        }
-        .percentage {
-            text-align: right;
-            color: #666;
-            font-size: 10px;
-        }
-        .total-row {
-            font-weight: bold;
-            background-color: #f0f0f0;
-            border-top: 2px solid #666;
-            border-bottom: 2px solid #666;
-        }
-        .grand-total {
-            font-weight: bold;
-            background-color: #e0e0e0;
-            border-top: 3px double #333;
-            border-bottom: 3px double #333;
-            font-size: 14px;
-        }
-        .negative {
-            color: #d32f2f;
-        }
-        .quarterly-analysis {
-            margin-top: 40px;
-            background-color: #f8f8f8;
-            padding: 20px;
-            border: 1px solid #ddd;
-        }
-        .quarterly-title {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: #333;
-        }
-        .supplemental-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-top: 30px;
-        }
-        .supplemental-box {
-            background-color: #f5f5f5;
-            padding: 20px;
-            border: 1px solid #ddd;
-        }
-        .supplemental-title {
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: #333;
-        }
-        .construction-specific {
-            background-color: #e8f0f8;
-            padding: 20px;
-            margin-top: 30px;
-            border-left: 4px solid #1976d2;
-        }
-        .construction-title {
-            font-size: 16px;
-            font-weight: bold;
-            color: #1976d2;
-            margin-bottom: 15px;
-        }
-        .notes-section {
-            margin-top: 40px;
-            columns: 2;
-            column-gap: 30px;
-        }
-        .note-block {
-            break-inside: avoid;
-            background-color: #fafafa;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-left: 3px solid #666;
-        }
-        .note-title {
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 8px;
-            font-size: 13px;
-        }
-        .note-content {
-            font-size: 11px;
-            color: #555;
-            line-height: 1.5;
-            text-align: justify;
-        }
-        .validation-box {
-            background-color: #e8f4e8;
-            border: 2px solid #4caf50;
-            padding: 20px;
-            margin-top: 30px;
-            font-size: 12px;
-        }
-        .validation-title {
-            font-weight: bold;
-            color: #2e7d32;
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-        .reconciliation-table {
-            margin-top: 20px;
-            font-size: 11px;
-        }
-        .reconciliation-table td {
-            padding: 5px 10px;
-        }
-        .waterfall-chart {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
-        }
-        .waterfall-title {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: #333;
+        tbody {
+            display: table-row-group;
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <div class="header">
-            <div class="company-name">JOHNSON & SONS HEATING, PLUMBING, & AIR</div>
-            <div class="statement-title">Comprehensive Consolidated Statement of Cash Flows</div>
-            <div class="period">For the Years Ended December 31, 2024 and 2023</div>
-            <div class="entity-info">
-                Entity Type: S-Corporation | Industry: Specialty Trade Contractor (NAICS 238220) | Large Commercial Mechanical Contractor<br>
-                Multi-State Operations: Arizona (HQ-50%), Utah (30%), Colorado (20%) | Annual Revenue: $68.85M | Employees: 115<br>
-                Union Workforce: 60% | Years in Operation: 46 (Founded 1979) | Contract Backlog: $88.0M | Bonding Capacity: $68M<br>
-                Banking: Wells Fargo (Phoenix), Zions Bank (SLC), FirstBank (Denver) | Line of Credit: $5.0M | Working Capital: $2.98M
-            </div>
-        </div>
-
-        <div class="metrics-dashboard">
-            <div class="metric-card">
-                <div class="metric-label">Operating Cash Flow</div>
-                <div class="metric-value">$10,450,000</div>
-                <div class="metric-subtext">15.2% of Revenue</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-label">Free Cash Flow</div>
-                <div class="metric-value">$8,542,000</div>
-                <div class="metric-subtext">12.4% FCF Margin</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-label">Cash Conversion</div>
-                <div class="metric-value">122.4%</div>
-                <div class="metric-subtext">OCF/EBITDA</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-label">Project Cash Cycle</div>
-                <div class="metric-value">47.3 days</div>
-                <div class="metric-subtext">Collection to Payment</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-label">Retainage Held</div>
-                <div class="metric-value">$2,320,000</div>
-                <div class="metric-subtext">3.4% of Revenue</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-label">Working Capital Use</div>
-                <div class="metric-value">$1,265,000</div>
-                <div class="metric-subtext">1.8% of Revenue</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-label">Distribution Coverage</div>
-                <div class="metric-value">2.26x</div>
-                <div class="metric-subtext">OCF/Distributions</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-label">Debt Service Coverage</div>
-                <div class="metric-value">7.11x</div>
-                <div class="metric-subtext">EBITDA/Debt Service</div>
-            </div>
-        </div>
-
-        <table>
-            <thead>
-                <tr>
-                    <th style="width: 50%">CASH FLOW ACTIVITIES - INDIRECT METHOD</th>
-                    <th style="width: 16%" class="amount">2024</th>
-                    <th style="width: 8%" class="percentage">% Rev</th>
-                    <th style="width: 16%" class="amount">2023</th>
-                    <th style="width: 10%" class="amount">Change</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Operating Activities -->
-                <tr class="section-header">
-                    <td colspan="5">CASH FLOWS FROM OPERATING ACTIVITIES</td>
-                </tr>
-                <tr>
-                    <td class="indent-1">Net Income (After S-Corp Tax Provision)</td>
-                    <td class="amount">$5,150,000</td>
-                    <td class="percentage">7.5%</td>
-                    <td class="amount">$4,608,580</td>
-                    <td class="amount">$541,420</td>
-                </tr>
-                
-                <tr class="subsection-header">
-                    <td colspan="5">Adjustments to Reconcile Net Income to Net Cash Provided by Operating Activities:</td>
-                </tr>
-                
-                <tr>
-                    <td class="indent-1">Depreciation - Property, Plant and Equipment</td>
-                    <td class="amount">850,000</td>
-                    <td class="percentage">1.2%</td>
-                    <td class="amount">830,000</td>
-                    <td class="amount">20,000</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Buildings and Improvements (40-year life)</td>
-                    <td class="amount">187,500</td>
-                    <td class="percentage"></td>
-                    <td class="amount">187,500</td>
-                    <td class="amount">-</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Fleet Vehicles (5-year MACRS)</td>
-                    <td class="amount">425,000</td>
-                    <td class="percentage"></td>
-                    <td class="amount">415,000</td>
-                    <td class="amount">10,000</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Construction Equipment (7-year MACRS)</td>
-                    <td class="amount">164,300</td>
-                    <td class="percentage"></td>
-                    <td class="amount">157,100</td>
-                    <td class="amount">7,200</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Technology & Office Equipment (5-year)</td>
-                    <td class="amount">73,200</td>
-                    <td class="percentage"></td>
-                    <td class="amount">70,400</td>
-                    <td class="amount">2,800</td>
-                </tr>
-                
-                <tr>
-                    <td class="indent-1">Amortization - Intangible Assets</td>
-                    <td class="amount">368,000</td>
-                    <td class="percentage">0.5%</td>
-                    <td class="amount">368,000</td>
-                    <td class="amount">-</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Customer Relationships (10-year)</td>
-                    <td class="amount">220,000</td>
-                    <td class="percentage"></td>
-                    <td class="amount">220,000</td>
-                    <td class="amount">-</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Trade Name and Trademarks (10-year)</td>
-                    <td class="amount">88,000</td>
-                    <td class="percentage"></td>
-                    <td class="amount">88,000</td>
-                    <td class="amount">-</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Non-Compete Agreements (5-year)</td>
-                    <td class="amount">60,000</td>
-                    <td class="percentage"></td>
-                    <td class="amount">60,000</td>
-                    <td class="amount">-</td>
-                </tr>
-                
-                <tr>
-                    <td class="indent-1">Non-Cash Charges and Credits:</td>
-                    <td class="amount"></td>
-                    <td class="percentage"></td>
-                    <td class="amount"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Provision for Doubtful Accounts</td>
-                    <td class="amount">140,000</td>
-                    <td class="percentage">0.2%</td>
-                    <td class="amount">130,400</td>
-                    <td class="amount">9,600</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Warranty Reserve Provision</td>
-                    <td class="amount">413,100</td>
-                    <td class="percentage">0.6%</td>
-                    <td class="amount">391,200</td>
-                    <td class="amount">21,900</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Self-Insurance Reserve Adjustments</td>
-                    <td class="amount">35,000</td>
-                    <td class="percentage">0.1%</td>
-                    <td class="amount">32,000</td>
-                    <td class="amount">3,000</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Stock-Based Compensation</td>
-                    <td class="amount">-</td>
-                    <td class="percentage">0.0%</td>
-                    <td class="amount">-</td>
-                    <td class="amount">-</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Loss on Disposal of Equipment</td>
-                    <td class="amount">25,000</td>
-                    <td class="percentage">0.0%</td>
-                    <td class="amount">20,000</td>
-                    <td class="amount">5,000</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Deferred Tax Asset Changes</td>
-                    <td class="amount">(15,000)</td>
-                    <td class="percentage">0.0%</td>
-                    <td class="amount">(12,000)</td>
-                    <td class="amount">(3,000)</td>
-                </tr>
-                
-                <tr class="subsection-header">
-                    <td colspan="5">Changes in Construction-Specific Operating Assets:</td>
-                </tr>
-                
-                <tr>
-                    <td class="indent-1">Contract-Related Receivables:</td>
-                    <td class="amount"></td>
-                    <td class="percentage"></td>
-                    <td class="amount"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Progress Billings Receivable</td>
-                    <td class="amount negative">(490,000)</td>
-                    <td class="percentage">-0.7%</td>
-                    <td class="amount negative">(448,500)</td>
-                    <td class="amount negative">(41,500)</td>
-                </tr>
-                <tr>
-                    <td class="indent-3">Current (0-30 days)</td>
-                    <td class="amount negative">(294,000)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative">(269,100)</td>
-                    <td class="amount negative"></td>
-                </tr>
-                <tr>
-                    <td class="indent-3">Aging 31-60 days</td>
-                    <td class="amount negative">(147,000)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative">(134,550)</td>
-                    <td class="amount negative"></td>
-                </tr>
-                <tr>
-                    <td class="indent-3">Aging 61-90 days</td>
-                    <td class="amount negative">(39,200)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative">(35,880)</td>
-                    <td class="amount negative"></td>
-                </tr>
-                <tr>
-                    <td class="indent-3">Over 90 days</td>
-                    <td class="amount negative">(9,800)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative">(8,970)</td>
-                    <td class="amount negative"></td>
-                </tr>
-                
-                <tr>
-                    <td class="indent-2">Retainage Receivable</td>
-                    <td class="amount negative">(145,000)</td>
-                    <td class="percentage">-0.2%</td>
-                    <td class="amount negative">(132,650)</td>
-                    <td class="amount negative">(12,350)</td>
-                </tr>
-                <tr>
-                    <td class="indent-3">Expected collection within 12 months</td>
-                    <td class="amount negative">(101,500)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount negative"></td>
-                </tr>
-                <tr>
-                    <td class="indent-3">Expected collection 12-24 months</td>
-                    <td class="amount negative">(43,500)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount negative"></td>
-                </tr>
-                
-                <tr>
-                    <td class="indent-2">Completed Contract Receivables</td>
-                    <td class="amount negative">(60,000)</td>
-                    <td class="percentage">-0.1%</td>
-                    <td class="amount negative">(54,900)</td>
-                    <td class="amount negative">(5,100)</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Change Order Receivables</td>
-                    <td class="amount negative">(145,000)</td>
-                    <td class="percentage">-0.2%</td>
-                    <td class="amount negative">(132,650)</td>
-                    <td class="amount negative">(12,350)</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Back-charge Receivables</td>
-                    <td class="amount negative">(14,500)</td>
-                    <td class="percentage">0.0%</td>
-                    <td class="amount negative">(13,265)</td>
-                    <td class="amount negative">(1,235)</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Contract Assets (Unbilled Revenue/WIP)</td>
-                    <td class="amount negative">(480,000)</td>
-                    <td class="percentage">-0.7%</td>
-                    <td class="amount negative">(439,200)</td>
-                    <td class="amount negative">(40,800)</td>
-                </tr>
-                <tr>
-                    <td class="indent-3">Costs in Excess of Billings</td>
-                    <td class="amount negative">(240,000)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount negative"></td>
-                </tr>
-                <tr>
-                    <td class="indent-3">Estimated Earnings Unbilled</td>
-                    <td class="amount negative">(192,000)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount negative"></td>
-                </tr>
-                <tr>
-                    <td class="indent-3">Materials Stored for Future Use</td>
-                    <td class="amount negative">(48,000)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount negative"></td>
-                </tr>
-                
-                <tr>
-                    <td class="indent-1">Inventory and Materials:</td>
-                    <td class="amount"></td>
-                    <td class="percentage"></td>
-                    <td class="amount"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-2">HVAC Equipment Inventory</td>
-                    <td class="amount negative">(60,000)</td>
-                    <td class="percentage">-0.1%</td>
-                    <td class="amount negative">(54,900)</td>
-                    <td class="amount negative">(5,100)</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Plumbing Materials</td>
-                    <td class="amount negative">(45,000)</td>
-                    <td class="percentage">-0.1%</td>
-                    <td class="amount negative">(41,175)</td>
-                    <td class="amount negative">(3,825)</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Sheet Metal & Ductwork</td>
-                    <td class="amount negative">(18,000)</td>
-                    <td class="percentage">0.0%</td>
-                    <td class="amount negative">(16,470)</td>
-                    <td class="amount negative">(1,530)</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Controls & Automation Components</td>
-                    <td class="amount negative">(12,000)</td>
-                    <td class="percentage">0.0%</td>
-                    <td class="amount negative">(10,980)</td>
-                    <td class="amount negative">(1,020)</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Other Inventory Categories</td>
-                    <td class="amount negative">(15,000)</td>
-                    <td class="percentage">0.0%</td>
-                    <td class="amount negative">(13,725)</td>
-                    <td class="amount negative">(1,275)</td>
-                </tr>
-                
-                <tr>
-                    <td class="indent-1">Prepaid Expenses and Other Current Assets:</td>
-                    <td class="amount"></td>
-                    <td class="percentage"></td>
-                    <td class="amount"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Prepaid Insurance</td>
-                    <td class="amount negative">(10,000)</td>
-                    <td class="percentage">0.0%</td>
-                    <td class="amount negative">(9,150)</td>
-                    <td class="amount negative">(850)</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Prepaid Licenses & Bonds</td>
-                    <td class="amount negative">(7,500)</td>
-                    <td class="percentage">0.0%</td>
-                    <td class="amount negative">(6,863)</td>
-                    <td class="amount negative">(637)</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Other Prepaid Expenses</td>
-                    <td class="amount negative">(7,500)</td>
-                    <td class="percentage">0.0%</td>
-                    <td class="amount negative">(6,863)</td>
-                    <td class="amount negative">(637)</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Supplier Rebates Receivable</td>
-                    <td class="amount negative">(55,000)</td>
-                    <td class="percentage">-0.1%</td>
-                    <td class="amount negative">(50,325)</td>
-                    <td class="amount negative">(4,675)</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Employee Advances</td>
-                    <td class="amount negative">(22,000)</td>
-                    <td class="percentage">0.0%</td>
-                    <td class="amount negative">(20,130)</td>
-                    <td class="amount negative">(1,870)</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Income Tax Refunds Receivable</td>
-                    <td class="amount negative">(16,500)</td>
-                    <td class="percentage">0.0%</td>
-                    <td class="amount negative">(15,098)</td>
-                    <td class="amount negative">(1,402)</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Other Receivables</td>
-                    <td class="amount negative">(16,500)</td>
-                    <td class="percentage">0.0%</td>
-                    <td class="amount negative">(15,098)</td>
-                    <td class="amount negative">(1,402)</td>
-                </tr>
-                
-                <tr class="subsection-header">
-                    <td colspan="5">Changes in Construction-Specific Operating Liabilities:</td>
-                </tr>
-                
-                <tr>
-                    <td class="indent-1">Trade and Subcontractor Payables:</td>
-                    <td class="amount"></td>
-                    <td class="percentage"></td>
-                    <td class="amount"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Material Supplier Payables</td>
-                    <td class="amount">212,500</td>
-                    <td class="percentage">0.3%</td>
-                    <td class="amount">194,438</td>
-                    <td class="amount">18,062</td>
-                </tr>
-                <tr>
-                    <td class="indent-3">HVAC Equipment Suppliers</td>
-                    <td class="amount">127,500</td>
-                    <td class="percentage"></td>
-                    <td class="amount"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-3">Plumbing Suppliers</td>
-                    <td class="amount">63,750</td>
-                    <td class="percentage"></td>
-                    <td class="amount"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-3">Other Material Suppliers</td>
-                    <td class="amount">21,250</td>
-                    <td class="percentage"></td>
-                    <td class="amount"></td>
-                    <td class="amount"></td>
-                </tr>
-                
-                <tr>
-                    <td class="indent-2">Subcontractor Payables</td>
-                    <td class="amount">127,500</td>
-                    <td class="percentage">0.2%</td>
-                    <td class="amount">116,663</td>
-                    <td class="amount">10,837</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Operating Expense Payables</td>
-                    <td class="amount">63,750</td>
-                    <td class="percentage">0.1%</td>
-                    <td class="amount">58,331</td>
-                    <td class="amount">5,419</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Retainage Payable</td>
-                    <td class="amount">21,250</td>
-                    <td class="percentage">0.0%</td>
-                    <td class="amount">19,444</td>
-                    <td class="amount">1,806</td>
-                </tr>
-                
-                <tr>
-                    <td class="indent-1">Accrued Liabilities and Benefits:</td>
-                    <td class="amount"></td>
-                    <td class="percentage"></td>
-                    <td class="amount"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Accrued Payroll</td>
-                    <td class="amount">37,500</td>
-                    <td class="percentage">0.1%</td>
-                    <td class="amount">34,313</td>
-                    <td class="amount">3,187</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Accrued Union Benefits</td>
-                    <td class="amount">18,750</td>
-                    <td class="percentage">0.0%</td>
-                    <td class="amount">17,156</td>
-                    <td class="amount">1,594</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Accrued Bonuses</td>
-                    <td class="amount">22,500</td>
-                    <td class="percentage">0.0%</td>
-                    <td class="amount">20,588</td>
-                    <td class="amount">1,912</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Accrued Vacation/PTO</td>
-                    <td class="amount">16,125</td>
-                    <td class="percentage">0.0%</td>
-                    <td class="amount">14,754</td>
-                    <td class="amount">1,371</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Accrued Interest</td>
-                    <td class="amount">8,750</td>
-                    <td class="percentage">0.0%</td>
-                    <td class="amount">8,006</td>
-                    <td class="amount">744</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Accrued Workers Compensation</td>
-                    <td class="amount">7,875</td>
-                    <td class="percentage">0.0%</td>
-                    <td class="amount">7,206</td>
-                    <td class="amount">669</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Other Accrued Expenses</td>
-                    <td class="amount">13,500</td>
-                    <td class="percentage">0.0%</td>
-                    <td class="amount">12,353</td>
-                    <td class="amount">1,147</td>
-                </tr>
-                
-                <tr>
-                    <td class="indent-1">Tax and Regulatory Liabilities:</td>
-                    <td class="amount"></td>
-                    <td class="percentage"></td>
-                    <td class="amount"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Sales Tax Payable - Multi-State</td>
-                    <td class="amount">18,250</td>
-                    <td class="percentage">0.0%</td>
-                    <td class="amount">16,699</td>
-                    <td class="amount">1,551</td>
-                </tr>
-                <tr>
-                    <td class="indent-3">Arizona (5.6% rate)</td>
-                    <td class="amount">9,125</td>
-                    <td class="percentage"></td>
-                    <td class="amount"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-3">Utah (4.85% + local)</td>
-                    <td class="amount">5,475</td>
-                    <td class="percentage"></td>
-                    <td class="amount"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-3">Colorado (2.9% + local)</td>
-                    <td class="amount">3,650</td>
-                    <td class="percentage"></td>
-                    <td class="amount"></td>
-                    <td class="amount"></td>
-                </tr>
-                
-                <tr>
-                    <td class="indent-2">Payroll Tax Liabilities</td>
-                    <td class="amount">14,600</td>
-                    <td class="percentage">0.0%</td>
-                    <td class="amount">13,359</td>
-                    <td class="amount">1,241</td>
-                </tr>
-                
-                <tr>
-                    <td class="indent-1">Contract Liabilities (Project-Based):</td>
-                    <td class="amount"></td>
-                    <td class="percentage"></td>
-                    <td class="amount"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Billings in Excess of Costs</td>
-                    <td class="amount">440,000</td>
-                    <td class="percentage">0.6%</td>
-                    <td class="amount">402,600</td>
-                    <td class="amount">37,400</td>
-                </tr>
-                <tr>
-                    <td class="indent-3">Phoenix Medical Center</td>
-                    <td class="amount">69,300</td>
-                    <td class="percentage"></td>
-                    <td class="amount"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-3">Salt Lake Multifamily</td>
-                    <td class="amount">48,400</td>
-                    <td class="percentage"></td>
-                    <td class="amount"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-3">Other Projects</td>
-                    <td class="amount">322,300</td>
-                    <td class="percentage"></td>
-                    <td class="amount"></td>
-                    <td class="amount"></td>
-                </tr>
-                
-                <tr>
-                    <td class="indent-2">Customer Deposits</td>
-                    <td class="amount">132,000</td>
-                    <td class="percentage">0.2%</td>
-                    <td class="amount">120,780</td>
-                    <td class="amount">11,220</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Advance Billings on Contracts</td>
-                    <td class="amount">220,000</td>
-                    <td class="percentage">0.3%</td>
-                    <td class="amount">201,300</td>
-                    <td class="amount">18,700</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Deferred Revenue - Service Contracts</td>
-                    <td class="amount">88,000</td>
-                    <td class="percentage">0.1%</td>
-                    <td class="amount">80,520</td>
-                    <td class="amount">7,480</td>
-                </tr>
-                
-                <tr>
-                    <td class="indent-1">Long-Term Liability Changes:</td>
-                    <td class="amount"></td>
-                    <td class="percentage"></td>
-                    <td class="amount"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Deferred Compensation</td>
-                    <td class="amount">50,000</td>
-                    <td class="percentage">0.1%</td>
-                    <td class="amount">45,750</td>
-                    <td class="amount">4,250</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Self-Insurance Reserves</td>
-                    <td class="amount">35,000</td>
-                    <td class="percentage">0.1%</td>
-                    <td class="amount">32,025</td>
-                    <td class="amount">2,975</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Warranty Liability (Claims Paid)</td>
-                    <td class="amount negative">(391,200)</td>
-                    <td class="percentage">-0.6%</td>
-                    <td class="amount negative">(357,948)</td>
-                    <td class="amount negative">(33,252)</td>
-                </tr>
-                
-                <tr class="total-row">
-                    <td>Net Cash Provided by Operating Activities</td>
-                    <td class="amount">10,450,000</td>
-                    <td class="percentage">15.2%</td>
-                    <td class="amount">9,440,780</td>
-                    <td class="amount">1,009,220</td>
-                </tr>
-                
-                <!-- Investing Activities -->
-                <tr class="section-header">
-                    <td colspan="5">CASH FLOWS FROM INVESTING ACTIVITIES</td>
-                </tr>
-                
-                <tr class="subsection-header">
-                    <td colspan="5">Capital Expenditures by Category and Location:</td>
-                </tr>
-                
-                <tr>
-                    <td class="indent-1">Fleet Vehicle Acquisitions</td>
-                    <td class="amount negative">(742,500)</td>
-                    <td class="percentage">-1.1%</td>
-                    <td class="amount negative">(813,000)</td>
-                    <td class="amount">70,500</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Service Trucks - Phoenix (8 units)</td>
-                    <td class="amount negative">(360,000)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Service Trucks - Salt Lake (5 units)</td>
-                    <td class="amount negative">(225,000)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Service Trucks - Denver (3 units)</td>
-                    <td class="amount negative">(135,000)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Management Vehicles</td>
-                    <td class="amount negative">(22,500)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount"></td>
-                </tr>
-                
-                <tr>
-                    <td class="indent-1">Construction Equipment</td>
-                    <td class="amount negative">(288,000)</td>
-                    <td class="percentage">-0.4%</td>
-                    <td class="amount negative">(316,000)</td>
-                    <td class="amount">28,000</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Fabrication Equipment</td>
-                    <td class="amount negative">(115,200)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Lifting Equipment</td>
-                    <td class="amount negative">(86,400)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Welding & Cutting Equipment</td>
-                    <td class="amount negative">(57,600)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Testing Equipment</td>
-                    <td class="amount negative">(28,800)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount"></td>
-                </tr>
-                
-                <tr>
-                    <td class="indent-1">Shop Tools and Equipment</td>
-                    <td class="amount negative">(115,500)</td>
-                    <td class="percentage">-0.2%</td>
-                    <td class="amount negative">(126,500)</td>
-                    <td class="amount">11,000</td>
-                </tr>
-                
-                <tr>
-                    <td class="indent-1">Technology and Office Equipment</td>
-                    <td class="amount negative">(136,500)</td>
-                    <td class="percentage">-0.2%</td>
-                    <td class="amount negative">(149,500)</td>
-                    <td class="amount">13,000</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Computer Hardware</td>
-                    <td class="amount negative">(41,000)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Software Licenses (Capitalized)</td>
-                    <td class="amount negative">(54,600)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Office Furniture</td>
-                    <td class="amount negative">(27,300)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Communication Equipment</td>
-                    <td class="amount negative">(13,600)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount"></td>
-                </tr>
-                
-                <tr>
-                    <td class="indent-1">Building Improvements</td>
-                    <td class="amount negative">(375,000)</td>
-                    <td class="percentage">-0.5%</td>
-                    <td class="amount negative">-</td>
-                    <td class="amount negative">(375,000)</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Phoenix Facility Renovations</td>
-                    <td class="amount negative">(225,000)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Salt Lake City Warehouse Expansion</td>
-                    <td class="amount negative">(90,000)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Denver Office Upgrades</td>
-                    <td class="amount negative">(60,000)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount"></td>
-                </tr>
-                
-                <tr>
-                    <td class="indent-1">Total Capital Expenditures</td>
-                    <td class="amount negative">(1,658,000)</td>
-                    <td class="percentage">-2.4%</td>
-                    <td class="amount negative">(1,405,000)</td>
-                    <td class="amount negative">(253,000)</td>
-                </tr>
-                
-                <tr>
-                    <td class="indent-1">Proceeds from Equipment Disposals</td>
-                    <td class="amount">175,000</td>
-                    <td class="percentage">0.3%</td>
-                    <td class="amount">195,000</td>
-                    <td class="amount negative">(20,000)</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Fleet Vehicle Sales (12 units)</td>
-                    <td class="amount">140,000</td>
-                    <td class="percentage"></td>
-                    <td class="amount"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Equipment Trade-ins</td>
-                    <td class="amount">35,000</td>
-                    <td class="percentage"></td>
-                    <td class="amount"></td>
-                    <td class="amount"></td>
-                </tr>
-                
-                <tr>
-                    <td class="indent-1">Business Investments and Other:</td>
-                    <td class="amount"></td>
-                    <td class="percentage"></td>
-                    <td class="amount"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Acquisition of Customer Lists</td>
-                    <td class="amount negative">-</td>
-                    <td class="percentage">0.0%</td>
-                    <td class="amount negative">(150,000)</td>
-                    <td class="amount">150,000</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Life Insurance Cash Value Increase</td>
-                    <td class="amount negative">(8,000)</td>
-                    <td class="percentage">0.0%</td>
-                    <td class="amount negative">(8,000)</td>
-                    <td class="amount">-</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Security Deposits and Bonds</td>
-                    <td class="amount negative">(12,000)</td>
-                    <td class="percentage">0.0%</td>
-                    <td class="amount negative">(10,000)</td>
-                    <td class="amount negative">(2,000)</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Note Receivable - Equipment Sale</td>
-                    <td class="amount negative">(25,000)</td>
-                    <td class="percentage">0.0%</td>
-                    <td class="amount negative">-</td>
-                    <td class="amount negative">(25,000)</td>
-                </tr>
-                
-                <tr class="total-row">
-                    <td>Net Cash Used in Investing Activities</td>
-                    <td class="amount negative">(1,528,000)</td>
-                    <td class="percentage">-2.2%</td>
-                    <td class="amount negative">(1,378,000)</td>
-                    <td class="amount negative">(150,000)</td>
-                </tr>
-                
-                <!-- Financing Activities -->
-                <tr class="section-header">
-                    <td colspan="5">CASH FLOWS FROM FINANCING ACTIVITIES</td>
-                </tr>
-                
-                <tr class="subsection-header">
-                    <td colspan="5">Debt Financing Activities:</td>
-                </tr>
-                
-                <tr>
-                    <td class="indent-1">Line of Credit Activity - Wells Fargo</td>
-                    <td class="amount"></td>
-                    <td class="percentage"></td>
-                    <td class="amount"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Borrowings for Working Capital</td>
-                    <td class="amount">8,250,000</td>
-                    <td class="percentage">12.0%</td>
-                    <td class="amount">7,650,000</td>
-                    <td class="amount">600,000</td>
-                </tr>
-                <tr>
-                    <td class="indent-3">Q1 Project Funding</td>
-                    <td class="amount">2,062,500</td>
-                    <td class="percentage"></td>
-                    <td class="amount"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-3">Q2 Project Funding</td>
-                    <td class="amount">2,062,500</td>
-                    <td class="percentage"></td>
-                    <td class="amount"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-3">Q3 Project Funding</td>
-                    <td class="amount">2,062,500</td>
-                    <td class="percentage"></td>
-                    <td class="amount"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-3">Q4 Project Funding</td>
-                    <td class="amount">2,062,500</td>
-                    <td class="percentage"></td>
-                    <td class="amount"></td>
-                    <td class="amount"></td>
-                </tr>
-                
-                <tr>
-                    <td class="indent-2">Repayments on Line of Credit</td>
-                    <td class="amount negative">(7,750,000)</td>
-                    <td class="percentage">-11.3%</td>
-                    <td class="amount negative">(7,200,000)</td>
-                    <td class="amount negative">(550,000)</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Net Line of Credit Activity</td>
-                    <td class="amount">500,000</td>
-                    <td class="percentage">0.7%</td>
-                    <td class="amount">450,000</td>
-                    <td class="amount">50,000</td>
-                </tr>
-                
-                <tr>
-                    <td class="indent-1">Equipment Financing</td>
-                    <td class="amount"></td>
-                    <td class="percentage"></td>
-                    <td class="amount"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-2">New Equipment Loans - Wells Fargo</td>
-                    <td class="amount">425,000</td>
-                    <td class="percentage">0.6%</td>
-                    <td class="amount">475,000</td>
-                    <td class="amount negative">(50,000)</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Equipment Loan Principal Payments</td>
-                    <td class="amount negative">(525,000)</td>
-                    <td class="percentage">-0.8%</td>
-                    <td class="amount negative">(495,000)</td>
-                    <td class="amount negative">(30,000)</td>
-                </tr>
-                <tr>
-                    <td class="indent-3">Vehicle Loans</td>
-                    <td class="amount negative">(315,000)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-3">Equipment Loans</td>
-                    <td class="amount negative">(210,000)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount"></td>
-                </tr>
-                
-                <tr>
-                    <td class="indent-1">Real Estate Financing</td>
-                    <td class="amount"></td>
-                    <td class="percentage"></td>
-                    <td class="amount"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Mortgage Principal Payments</td>
-                    <td class="amount negative">(300,000)</td>
-                    <td class="percentage">-0.4%</td>
-                    <td class="amount negative">(285,000)</td>
-                    <td class="amount negative">(15,000)</td>
-                </tr>
-                <tr>
-                    <td class="indent-3">Phoenix Facility</td>
-                    <td class="amount negative">(150,000)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-3">Salt Lake City Facility</td>
-                    <td class="amount negative">(90,000)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-3">Denver Facility</td>
-                    <td class="amount negative">(60,000)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount"></td>
-                </tr>
-                
-                <tr class="subsection-header">
-                    <td colspan="5">S-Corporation Distributions:</td>
-                </tr>
-                
-                <tr>
-                    <td class="indent-1">Regular Quarterly Distributions</td>
-                    <td class="amount negative">(4,000,000)</td>
-                    <td class="percentage">-5.8%</td>
-                    <td class="amount negative">(3,600,000)</td>
-                    <td class="amount negative">(400,000)</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Q1 2024 Distribution (March 31)</td>
-                    <td class="amount negative">(1,000,000)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-3">Johnson Brother #1 (50%)</td>
-                    <td class="amount negative">(500,000)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-3">Johnson Brother #2 (50%)</td>
-                    <td class="amount negative">(500,000)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Q2 2024 Distribution (June 30)</td>
-                    <td class="amount negative">(1,000,000)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Q3 2024 Distribution (Sept 30)</td>
-                    <td class="amount negative">(1,000,000)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Q4 2024 Distribution (Dec 31)</td>
-                    <td class="amount negative">(1,000,000)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount"></td>
-                </tr>
-                
-                <tr>
-                    <td class="indent-1">Tax Distributions (Pass-Through)</td>
-                    <td class="amount negative">(635,000)</td>
-                    <td class="percentage">-0.9%</td>
-                    <td class="amount negative">(550,000)</td>
-                    <td class="amount negative">(85,000)</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Federal Tax Coverage (April)</td>
-                    <td class="amount negative">(430,650)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-2">State Tax Distributions</td>
-                    <td class="amount negative">(204,350)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-3">Arizona Tax (April)</td>
-                    <td class="amount negative">(86,965)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-3">Utah Tax (April)</td>
-                    <td class="amount negative">(72,833)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-3">Colorado Tax (April)</td>
-                    <td class="amount negative">(44,552)</td>
-                    <td class="percentage"></td>
-                    <td class="amount negative"></td>
-                    <td class="amount"></td>
-                </tr>
-                
-                <tr>
-                    <td class="indent-1">Other Financing Activities</td>
-                    <td class="amount"></td>
-                    <td class="percentage"></td>
-                    <td class="amount"></td>
-                    <td class="amount"></td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Finance Lease Obligations</td>
-                    <td class="amount negative">(165,000)</td>
-                    <td class="percentage">-0.2%</td>
-                    <td class="amount negative">(155,000)</td>
-                    <td class="amount negative">(10,000)</td>
-                </tr>
-                <tr>
-                    <td class="indent-2">Debt Issuance Costs</td>
-                    <td class="amount negative">(12,000)</td>
-                    <td class="percentage">0.0%</td>
-                    <td class="amount negative">(10,000)</td>
-                    <td class="amount negative">(2,000)</td>
-                </tr>
-                
-                <tr class="total-row">
-                    <td>Net Cash Used in Financing Activities</td>
-                    <td class="amount negative">(5,312,000)</td>
-                    <td class="percentage">-7.7%</td>
-                    <td class="amount negative">(4,770,000)</td>
-                    <td class="amount negative">(542,000)</td>
-                </tr>
-                
-                <!-- Effect of Exchange Rates -->
-                <tr>
-                    <td class="indent-1">Effect of Exchange Rates on Cash</td>
-                    <td class="amount">-</td>
-                    <td class="percentage">0.0%</td>
-                    <td class="amount">-</td>
-                    <td class="amount">-</td>
-                </tr>
-                
-                <!-- Net Change in Cash -->
-                <tr class="grand-total">
-                    <td>NET INCREASE IN CASH AND CASH EQUIVALENTS</td>
-                    <td class="amount">3,610,000</td>
-                    <td class="percentage">5.2%</td>
-                    <td class="amount">3,292,780</td>
-                    <td class="amount">317,220</td>
-                </tr>
-                
-                <tr>
-                    <td>Cash and Cash Equivalents, Beginning of Year</td>
-                    <td class="amount">2,450,000</td>
-                    <td class="percentage"></td>
-                    <td class="amount">1,720,740</td>
-                    <td class="amount"></td>
-                </tr>
-                
-                <tr class="grand-total">
-                    <td>CASH AND CASH EQUIVALENTS, END OF YEAR</td>
-                    <td class="amount">$6,060,000</td>
-                    <td class="percentage"></td>
-                    <td class="amount">$5,013,520</td>
-                    <td class="amount"></td>
-                </tr>
-            </tbody>
-        </table>
-
-        <div class="quarterly-analysis">
-            <div class="quarterly-title">Quarterly Cash Flow Analysis - Construction Seasonality</div>
-            <table>
-                <thead>
-                    <tr>
-                        <th style="width: 40%">Quarterly Breakdown</th>
-                        <th style="width: 15%" class="amount">Q1 2024</th>
-                        <th style="width: 15%" class="amount">Q2 2024</th>
-                        <th style="width: 15%" class="amount">Q3 2024</th>
-                        <th style="width: 15%" class="amount">Q4 2024</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Operating Cash Flow</td>
-                        <td class="amount">$1,881,000</td>
-                        <td class="amount">$2,925,500</td>
-                        <td class="amount">$3,135,000</td>
-                        <td class="amount">$2,508,500</td>
-                    </tr>
-                    <tr>
-                        <td>Capital Expenditures</td>
-                        <td class="amount negative">($331,600)</td>
-                        <td class="amount negative">($414,500)</td>
-                        <td class="amount negative">($497,400)</td>
-                        <td class="amount negative">($414,500)</td>
-                    </tr>
-                    <tr>
-                        <td>Free Cash Flow</td>
-                        <td class="amount">$1,549,400</td>
-                        <td class="amount">$2,511,000</td>
-                        <td class="amount">$2,637,600</td>
-                        <td class="amount">$2,094,000</td>
-                    </tr>
-                    <tr>
-                        <td>S-Corp Distributions</td>
-                        <td class="amount negative">($1,635,000)</td>
-                        <td class="amount negative">($1,000,000)</td>
-                        <td class="amount negative">($1,000,000)</td>
-                        <td class="amount negative">($1,000,000)</td>
-                    </tr>
-                    <tr>
-                        <td>Line of Credit Activity</td>
-                        <td class="amount">$750,000</td>
-                        <td class="amount negative">($500,000)</td>
-                        <td class="amount negative">($250,000)</td>
-                        <td class="amount">$500,000</td>
-                    </tr>
-                    <tr class="total-row">
-                        <td>Net Quarterly Cash Flow</td>
-                        <td class="amount">$453,900</td>
-                        <td class="amount">$923,500</td>
-                        <td class="amount">$1,262,100</td>
-                        <td class="amount">$970,500</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="supplemental-grid">
-            <div class="supplemental-box">
-                <div class="supplemental-title">SUPPLEMENTAL CASH FLOW DISCLOSURES</div>
-                <table style="width: 100%;">
-                    <tr>
-                        <td style="width: 70%">Cash Paid During the Year for:</td>
-                        <td style="width: 30%" class="amount">2024</td>
-                    </tr>
-                    <tr>
-                        <td class="indent-1">Interest Expense</td>
-                        <td class="amount">$451,250</td>
-                    </tr>
-                    <tr>
-                        <td class="indent-2">Line of Credit Interest (5.5%)</td>
-                        <td class="amount">$268,125</td>
-                    </tr>
-                    <tr>
-                        <td class="indent-2">Equipment Loan Interest (5.0%)</td>
-                        <td class="amount">$108,750</td>
-                    </tr>
-                    <tr>
-                        <td class="indent-2">Mortgage Interest (3.5%)</td>
-                        <td class="amount">$74,375</td>
-                    </tr>
-                    <tr>
-                        <td class="indent-1">Income Taxes (S-Corp Pass-Through)</td>
-                        <td class="amount">$635,000</td>
-                    </tr>
-                    <tr>
-                        <td class="indent-1">Union Pension Contributions</td>
-                        <td class="amount">$594,000</td>
-                    </tr>
-                    <tr>
-                        <td class="indent-1">Union Health & Welfare</td>
-                        <td class="amount">$495,000</td>
-                    </tr>
-                    <tr>
-                        <td class="indent-1">Workers Compensation Premiums</td>
-                        <td class="amount">$412,500</td>
-                    </tr>
-                    <tr>
-                        <td class="indent-1">Bonding Premiums</td>
-                        <td class="amount">$275,400</td>
-                    </tr>
-                    <tr>
-                        <td style="padding-top: 10px;">Non-Cash Investing & Financing:</td>
-                        <td class="amount"></td>
-                    </tr>
-                    <tr>
-                        <td class="indent-1">Equipment Under Finance Leases</td>
-                        <td class="amount">$175,000</td>
-                    </tr>
-                    <tr>
-                        <td class="indent-1">Trade-in Value on Equipment</td>
-                        <td class="amount">$87,500</td>
-                    </tr>
-                    <tr>
-                        <td class="indent-1">Financed Insurance Premiums</td>
-                        <td class="amount">$165,000</td>
-                    </tr>
-                </table>
-            </div>
-            
-            <div class="supplemental-box">
-                <div class="supplemental-title">CONSTRUCTION INDUSTRY CASH METRICS</div>
-                <table style="width: 100%;">
-                    <tr>
-                        <td style="width: 70%">Operating Metrics:</td>
-                        <td style="width: 30%" class="amount"></td>
-                    </tr>
-                    <tr>
-                        <td class="indent-1">Days Sales Outstanding (DSO)</td>
-                        <td class="amount">61.5 days</td>
-                    </tr>
-                    <tr>
-                        <td class="indent-1">Days Payables Outstanding (DPO)</td>
-                        <td class="amount">36.8 days</td>
-                    </tr>
-                    <tr>
-                        <td class="indent-1">Days Inventory Outstanding (DIO)</td>
-                        <td class="amount">9.5 days</td>
-                    </tr>
-                    <tr>
-                        <td class="indent-1">Cash Conversion Cycle</td>
-                        <td class="amount">34.2 days</td>
-                    </tr>
-                    <tr>
-                        <td class="indent-1">Retainage Collection Period</td>
-                        <td class="amount">122.8 days</td>
-                    </tr>
-                    <tr>
-                        <td style="padding-top: 10px;">Cash Flow Ratios:</td>
-                        <td class="amount"></td>
-                    </tr>
-                    <tr>
-                        <td class="indent-1">OCF to Revenue</td>
-                        <td class="amount">15.2%</td>
-                    </tr>
-                    <tr>
-                        <td class="indent-1">FCF to Revenue</td>
-                        <td class="amount">12.4%</td>
-                    </tr>
-                    <tr>
-                        <td class="indent-1">OCF to Total Debt</td>
-                        <td class="amount">112.9%</td>
-                    </tr>
-                    <tr>
-                        <td class="indent-1">Cash Return on Assets</td>
-                        <td class="amount">29.4%</td>
-                    </tr>
-                    <tr>
-                        <td class="indent-1">Quality of Earnings</td>
-                        <td class="amount">202.9%</td>
-                    </tr>
-                    <tr>
-                        <td style="padding-top: 10px;">Liquidity Metrics:</td>
-                        <td class="amount"></td>
-                    </tr>
-                    <tr>
-                        <td class="indent-1">Current Ratio</td>
-                        <td class="amount">1.16x</td>
-                    </tr>
-                    <tr>
-                        <td class="indent-1">Quick Ratio</td>
-                        <td class="amount">0.89x</td>
-                    </tr>
-                    <tr>
-                        <td class="indent-1">Cash Ratio</td>
-                        <td class="amount">0.15x</td>
-                    </tr>
-                    <tr>
-                        <td class="indent-1">Available Liquidity</td>
-                        <td class="amount">$6.06M</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-
-        <div class="construction-specific">
-            <div class="construction-title">Construction Industry-Specific Cash Flow Analysis</div>
-            <table style="width: 100%;">
-                <thead>
-                    <tr>
-                        <th style="width: 40%">Project Cash Flow Components</th>
-                        <th style="width: 20%" class="amount">Amount</th>
-                        <th style="width: 20%" class="percentage">% of Revenue</th>
-                        <th style="width: 20%" class="amount">Industry Avg</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Progress Billings Collected</td>
-                        <td class="amount">$68,360,000</td>
-                        <td class="percentage">99.3%</td>
-                        <td class="amount">95-98%</td>
-                    </tr>
-                    <tr>
-                        <td>Retainage Released</td>
-                        <td class="amount">$2,175,000</td>
-                        <td class="percentage">3.2%</td>
-                        <td class="amount">2-4%</td>
-                    </tr>
-                    <tr>
-                        <td>Change Orders Collected</td>
-                        <td class="amount">$435,000</td>
-                        <td class="percentage">0.6%</td>
-                        <td class="amount">1-3%</td>
-                    </tr>
-                    <tr>
-                        <td>Warranty Work Performed</td>
-                        <td class="amount negative">($391,200)</td>
-                        <td class="percentage">-0.6%</td>
-                        <td class="amount">-0.5-1%</td>
-                    </tr>
-                    <tr>
-                        <td>Union Benefit Contributions</td>
-                        <td class="amount negative">($1,089,000)</td>
-                        <td class="percentage">-1.6%</td>
-                        <td class="amount">-1.5-2%</td>
-                    </tr>
-                    <tr>
-                        <td>Bonding & Insurance Cash Flow</td>
-                        <td class="amount negative">($687,900)</td>
-                        <td class="percentage">-1.0%</td>
-                        <td class="amount">-0.8-1.2%</td>
-                    </tr>
-                    <tr class="total-row">
-                        <td>Net Project Cash Generation</td>
-                        <td class="amount">$68,801,900</td>
-                        <td class="percentage">99.9%</td>
-                        <td class="amount">97-99%</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="waterfall-chart">
-            <div class="waterfall-title">Free Cash Flow Bridge Analysis</div>
-            <table style="width: 100%;">
-                <tr>
-                    <td style="width: 60%">Component</td>
-                    <td style="width: 20%" class="amount">Amount</td>
-                    <td style="width: 20%" class="amount">Cumulative</td>
-                </tr>
-                <tr>
-                    <td>EBITDA (Adjusted)</td>
-                    <td class="amount">$8,540,000</td>
-                    <td class="amount">$8,540,000</td>
-                </tr>
-                <tr>
-                    <td>Cash Interest Paid</td>
-                    <td class="amount negative">($451,250)</td>
-                    <td class="amount">$8,088,750</td>
-                </tr>
-                <tr>
-                    <td>Cash Taxes (S-Corp Distributions)</td>
-                    <td class="amount negative">($635,000)</td>
-                    <td class="amount">$7,453,750</td>
-                </tr>
-                <tr>
-                    <td>Working Capital Investment</td>
-                    <td class="amount negative">($1,265,000)</td>
-                    <td class="amount">$6,188,750</td>
-                </tr>
-                <tr>
-                    <td>Non-Cash Charges Added Back</td>
-                    <td class="amount">$1,586,100</td>
-                    <td class="amount">$7,774,850</td>
-                </tr>
-                <tr>
-                    <td>Other Operating Cash Items</td>
-                    <td class="amount">$2,675,150</td>
-                    <td class="amount">$10,450,000</td>
-                </tr>
-                <tr class="total-row">
-                    <td>Operating Cash Flow</td>
-                    <td class="amount">$10,450,000</td>
-                    <td class="amount">$10,450,000</td>
-                </tr>
-                <tr>
-                    <td>Maintenance CapEx</td>
-                    <td class="amount negative">($1,133,000)</td>
-                    <td class="amount">$9,317,000</td>
-                </tr>
-                <tr>
-                    <td>Growth CapEx</td>
-                    <td class="amount negative">($525,000)</td>
-                    <td class="amount">$8,792,000</td>
-                </tr>
-                <tr>
-                    <td>Asset Sale Proceeds</td>
-                    <td class="amount">$175,000</td>
-                    <td class="amount">$8,967,000</td>
-                </tr>
-                <tr>
-                    <td>Other Investing Activities</td>
-                    <td class="amount negative">($45,000)</td>
-                    <td class="amount">$8,922,000</td>
-                </tr>
-                <tr class="total-row">
-                    <td>Free Cash Flow (Unlevered)</td>
-                    <td class="amount">$8,922,000</td>
-                    <td class="amount">$8,922,000</td>
-                </tr>
-                <tr>
-                    <td>Deduct: Building Improvements (One-time)</td>
-                    <td class="amount negative">($375,000)</td>
-                    <td class="amount">$8,547,000</td>
-                </tr>
-                <tr class="grand-total">
-                    <td>Normalized Free Cash Flow</td>
-                    <td class="amount">$8,547,000</td>
-                    <td class="amount">$8,547,000</td>
-                </tr>
-            </table>
-        </div>
-
-        <div class="notes-section">
-            <div class="note-block">
-                <div class="note-title">Note 1: Basis of Presentation - Construction Industry</div>
-                <div class="note-content">
-                    This comprehensive Statement of Cash Flows has been prepared using the indirect method in accordance with ASC 230, with enhanced detail appropriate for a large specialty trade contractor. The presentation reflects the complex cash flow dynamics of percentage-of-completion accounting, multi-state operations, union workforce management, and project-based working capital requirements typical of the mechanical contracting industry.
-                </div>
-            </div>
-
-            <div class="note-block">
-                <div class="note-title">Note 2: Operating Cash Flow - Revenue Quality</div>
-                <div class="note-content">
-                    The company achieved a cash conversion ratio of 122.4% (OCF/EBITDA), demonstrating exceptional cash generation capability. This premium conversion reflects strong project selection, effective change order management, and disciplined collection practices. The 61.5-day DSO is competitive for commercial construction, particularly given the high concentration of institutional clients who typically have longer payment cycles.
-                </div>
-            </div>
-
-            <div class="note-block">
-                <div class="note-title">Note 3: Working Capital Dynamics</div>
-                <div class="note-content">
-                    Total working capital investment of $1,265,000 (1.8% of revenue) reflects controlled growth management. Key components include: (1) Contract asset increases of $480,000 from timing of milestone billings on major projects, (2) Receivables growth of $854,500 aligned with 5.6% revenue growth, (3) Offsetting payables increases of $425,000 demonstrating strong vendor relationships. The net contract position (assets vs. liabilities) improved by $40,000, indicating balanced project cash management.
-                </div>
-            </div>
-
-            <div class="note-block">
-                <div class="note-title">Note 4: Capital Expenditure Strategy</div>
-                <div class="note-content">
-                    Total capex of $1,658,000 (2.4% of revenue) includes: Fleet replacements of $742,500 (maintaining 115-vehicle fleet), equipment upgrades of $403,500 (supporting self-perform capability), technology investments of $136,500 (below industry needs), and one-time facility improvements of $375,000. The maintenance capex of $1,133,000 represents 1.6% of revenue, within industry norms of 1.5-2.0%. The identified technology gap suggests future capex requirements of $750,000+ for BIM and project management systems.
-                </div>
-            </div>
-
-            <div class="note-block">
-                <div class="note-title">Note 5: Retainage Cash Flows</div>
-                <div class="note-content">
-                    Retainage receivables increased by $145,000 to $2,320,000 (3.4% of revenue), typical for commercial construction. Collection timing averages 122.8 days after project completion. The company maintains strong documentation practices to accelerate retainage release. Retainage payable to subcontractors of $292,500 provides a natural hedge, resulting in net retainage exposure of $2,027,500.
-                </div>
-            </div>
-
-            <div class="note-block">
-                <div class="note-title">Note 6: Multi-State Tax Complexity</div>
-                <div class="note-content">
-                    S-Corporation tax distributions of $635,000 cover shareholders' federal (67.8%) and multi-state (32.2%) obligations. State allocations follow revenue distribution: Arizona $86,965 (50% allocation), Utah $72,833 (30%), Colorado $44,552 (20%). Quarterly estimated payments align with project cash flows. The pass-through structure provides approximately $1.37M annual tax savings versus C-Corporation double taxation.
-                </div>
-            </div>
-
-            <div class="note-block">
-                <div class="note-title">Note 7: Union Benefit Funding</div>
-                <div class="note-content">
-                    Cash outflows for union benefits totaled $1,089,000, comprising pension contributions ($594,000) and health/welfare ($495,000). These represent 15.9% of union payroll, consistent with Southwest regional agreements. Monthly remittances are required by the 15th, creating temporary cash requirements managed through the line of credit. Multi-employer pension plan participation requires ongoing monitoring of funding status.
-                </div>
-            </div>
-
-            <div class="note-block">
-                <div class="note-title">Note 8: Line of Credit Management</div>
-                <div class="note-content">
-                    The $5M Wells Fargo line supports project-based working capital needs. Gross borrowings of $8,250,000 and repayments of $7,750,000 reflect active cash management. Average utilization was 62%, with peak usage in Q2/Q3 during high construction season. The 5.5% interest rate reflects current market conditions. No financial covenants were violated; the company maintains comfortable coverage ratios.
-                </div>
-            </div>
-
-            <div class="note-block">
-                <div class="note-title">Note 9: Project Cash Flow Seasonality</div>
-                <div class="note-content">
-                    Quarterly analysis reveals typical construction seasonality: Q1 lower activity (18% of annual OCF) due to weather impacts, Q2/Q3 peak construction (56% combined), Q4 moderate (24%) with year-end project completions. This pattern drives line of credit usage and influences capital allocation timing. The company maintains minimum cash of $2M to support bonding requirements.
-                </div>
-            </div>
-
-            <div class="note-block">
-                <div class="note-title">Note 10: Free Cash Flow Quality</div>
-                <div class="note-content">
-                    Normalized free cash flow of $8,547,000 (excluding one-time facility improvements) represents 12.4% of revenue, exceptional for specialty contractors. This supports the premium valuation multiple of 6.0x EBITDA. The 202.9% quality of earnings ratio (OCF/Net Income) demonstrates that cash earnings significantly exceed accounting earnings, typical for contractors with conservative revenue recognition practices.
-                </div>
-            </div>
-
-            <div class="note-block">
-                <div class="note-title">Note 11: Change Order and Back-charge Management</div>
-                <div class="note-content">
-                    Change order receivables increased $145,000, representing approved but uncollected modifications. Collection averaged 95 days, longer than progress billings due to documentation requirements. Back-charge receivables of $232,000 (against subcontractors) showed strong recovery rates. The company's disciplined change order process contributes to margin preservation despite competitive bidding pressures.
-                </div>
-            </div>
-
-            <div class="note-block">
-                <div class="note-title">Note 12: M&A Transaction Implications</div>
-                <div class="note-content">
-                    For the pending $51.25M acquisition, key cash flow considerations include: (1) Strong FCF supporting acquisition financing, (2) Identified capital needs of $1.75M for technology and equipment upgrades, (3) Working capital normalization given growth trajectory, (4) S-Corp distribution history demonstrating cash generation, (5) Minimal integration capital required given standalone operations. The 2.26x distribution coverage provides flexibility for new ownership structure.
-                </div>
-            </div>
-        </div>
-
-        <div class="validation-box">
-            <div class="validation-title">✓ Comprehensive Cash Flow Statement Validation</div>
-            <table class="reconciliation-table">
-                <tr>
-                    <td style="width: 60%">Beginning Cash (1/1/2024)</td>
-                    <td style="width: 40%" class="amount">$2,450,000</td>
-                </tr>
-                <tr>
-                    <td>+ Operating Activities</td>
-                    <td class="amount">$10,450,000</td>
-                </tr>
-                <tr>
-                    <td>- Investing Activities</td>
-                    <td class="amount negative">($1,528,000)</td>
-                </tr>
-                <tr>
-                    <td>- Financing Activities</td>
-                    <td class="amount negative">($5,312,000)</td>
-                </tr>
-                <tr>
-                    <td>= Net Change in Cash</td>
-                    <td class="amount">$3,610,000</td>
-                </tr>
-                <tr style="border-top: 2px solid #4caf50;">
-                    <td><strong>Calculated Ending Cash (12/31/2024)</strong></td>
-                    <td class="amount"><strong>$6,060,000</strong></td>
-                </tr>
-            </table>
-            <div style="margin-top: 15px;">
-                <strong>Cash Components Reconciliation:</strong><br>
-                • Operating Accounts: $1,850,000 (Wells Fargo: $925K, Zions: $555K, FirstBank: $370K)<br>
-                • Payroll Accounts: $650,000 (Multi-state payroll processing)<br>
-                • Restricted Project Escrows: $350,000 (Customer-required segregated funds)<br>
-                • General Cash & Equivalents: $3,210,000 (Including money market and sweeps)<br>
-                • Total Cash Position: $6,060,000 ✓<br>
-                <br>
-                <strong>Cross-Statement Validations:</strong><br>
-                • Net Income from IS: $5,150,000 ✓<br>
-                • Depreciation/Amortization: $1,218,000 ✓ Matches fixed asset schedules<br>
-                • S-Corp Distributions: $4,635,000 ✓ Matches Statement of Equity<br>
-                • Working Capital Changes: ✓ Reconciled to Balance Sheet movements<br>
-                • Debt Activity: ✓ Matches liability schedule changes<br>
-                <br>
-                <strong>Industry-Specific Validations:</strong><br>
-                • Contract Asset/Liability Net Change: $40,000 favorable ✓<br>
-                • Retainage Flows: Properly segregated between current/long-term ✓<br>
-                • Union Benefit Remittances: Monthly cash requirements reflected ✓<br>
-                • Multi-State Tax Distributions: Properly allocated by jurisdiction ✓<br>
-                • Project Cash Cycles: DSO/DPO/DIO properly calculated ✓<br>
-                <br>
-                <strong>Data Quality: 92% - Comprehensive construction industry analysis with detailed operational cash flows</strong>
-            </div>
-        </div>
+<body class="bg-gray-100 font-sans p-4 sm:p-8 flex flex-col items-center">
+    <!-- Controls section with the download button -->
+<!--
+    <div class="controls w-full max-w-7xl mb-6 flex justify-end no-print">
+        <button id="download-pdf" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 ease-in-out flex items-center space-x-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+            <span>Download PDF</span>
+        </button>
     </div>
+-->
+
+    <!-- This div contains the content that will be rendered and converted to PDF -->
+    <div id="pdf-content" class="w-full max-w-7xl bg-white p-6 sm:p-10 rounded-xl shadow-lg">
+        <div id="rendered-markdown"></div>
+    </div>
+
+    <!-- This hidden div holds the raw markdown content -->
+    <div id="markdown-source" style="display:none;">
+<!--Nothing above this should be modified by the AI or LLM. Below this point is the beginning of where the AI or LLM should populate the details of the financial statement, giving special attention to the place holders in the H1 and H2 headers below.-->
+# Statement of Cash Flows for Johnson & Sons Heating, Plumbing, & Air
+## **For Years Ended December 31, 2024 and December 31, 2023**<br>
+
+| CASH FLOW ACTIVITIES - INDIRECT METHOD | 2024 | % Rev | 2023 | Change |
+| :--- | :--- | :--- | :--- | :--- |
+| **CASH FLOWS FROM OPERATING ACTIVITIES** | | | | |
+| ● Net Income (After S-Corp Tax Provision) | $5,150,000 | 7.5% | $4,608,580 | $541,420 |
+| ***Adjustments to Reconcile Net Income to Net Cash Provided by Operating Activities:*** | | | | |
+| ● Depreciation - Property, Plant and Equipment | 850,000 | 1.2% | 830,000 | 20,000 |
+| ● ● Buildings and Improvements (40-year life) | 187,500 | | 187,500 | - |
+| ● ● Fleet Vehicles (5-year MACRS) | 425,000 | | 415,000 | 10,000 |
+| ● ● Construction Equipment (7-year MACRS) | 164,300 | | 157,100 | 7,200 |
+| ● ● Technology & Office Equipment (5-year) | 73,200 | | 70,400 | 2,800 |
+| ● Amortization - Intangible Assets | 368,000 | 0.5% | 368,000 | - |
+| ● ● Customer Relationships (10-year) | 220,000 | | 220,000 | - |
+| ● ● Trade Name and Trademarks (10-year) | 88,000 | | 88,000 | - |
+| ● ● Non-Compete Agreements (5-year) | 60,000 | | 60,000 | - |
+| ● Non-Cash Charges and Credits: | | | | |
+| ● ● Provision for Doubtful Accounts | 140,000 | 0.2% | 130,400 | 9,600 |
+| ● ● Warranty Reserve Provision | 413,100 | 0.6% | 391,200 | 21,900 |
+| ● ● Self-Insurance Reserve Adjustments | 35,000 | 0.1% | 32,000 | 3,000 |
+| ● ● Stock-Based Compensation | - | 0.0% | - | - |
+| ● ● Loss on Disposal of Equipment | 25,000 | 0.0% | 20,000 | 5,000 |
+| ● ● Deferred Tax Asset Changes | -15,000 | 0.0% | -12,000 | -3,000 |
+| ***Changes in Construction-Specific Operating Assets:*** | | | | |
+| ● Contract-Related Receivables: | | | | |
+| ● ● Progress Billings Receivable | -490,000 | -0.7% | -448,500 | -41,500 |
+| ● ● ● Current (0-30 days) | -294,000 | | -269,100 | |
+| ● ● ● Aging 31-60 days | -147,000 | | -134,550 | |
+| ● ● ● Aging 61-90 days | -39,200 | | -35,880 | |
+| ● ● ● Over 90 days | -9,800 | | -8,970 | |
+| ● ● Retainage Receivable | -145,000 | -0.2% | -132,650 | -12,350 |
+| ● ● ● Expected collection within 12 months | -101,500 | | | |
+| ● ● ● Expected collection 12-24 months | -43,500 | | | |
+| ● ● Completed Contract Receivables | -60,000 | -0.1% | -54,900 | -5,100 |
+| ● ● Change Order Receivables | -145,000 | -0.2% | -132,650 | -12,350 |
+| ● ● Back-charge Receivables | -14,500 | 0.0% | -13,265 | -1,235 |
+| ● ● Contract Assets (Unbilled Revenue/WIP) | -480,000 | -0.7% | -439,200 | -40,800 |
+| ● ● ● Costs in Excess of Billings | -240,000 | | | |
+| ● ● ● Estimated Earnings Unbilled | -192,000 | | | |
+| ● ● ● Materials Stored for Future Use | -48,000 | | | |
+| ● Inventory and Materials: | | | | |
+| ● ● HVAC Equipment Inventory | -60,000 | -0.1% | -54,900 | -5,100 |
+| ● ● Plumbing Materials | -45,000 | -0.1% | -41,175 | -3,825 |
+| ● ● Sheet Metal & Ductwork | -18,000 | 0.0% | -16,470 | -1,530 |
+| ● ● Controls & Automation Components | -12,000 | 0.0% | -10,980 | -1,020 |
+| ● ● Other Inventory Categories | -15,000 | 0.0% | -13,725 | -1,275 |
+| ● Prepaid Expenses and Other Current Assets: | | | | |
+| ● ● Prepaid Insurance | -10,000 | 0.0% | -9,150 | -850 |
+| ● ● Prepaid Licenses & Bonds | -7,500 | 0.0% | -6,863 | -637 |
+| ● ● Other Prepaid Expenses | -7,500 | 0.0% | -6,863 | -637 |
+| ● ● Supplier Rebates Receivable | -55,000 | -0.1% | -50,325 | -4,675 |
+| ● ● Employee Advances | -22,000 | 0.0% | -20,130 | -1,870 |
+| ● ● Income Tax Refunds Receivable | -16,500 | 0.0% | -15,098 | -1,402 |
+| ● ● Other Receivables | -16,500 | 0.0% | -15,098 | -1,402 |
+| ***Changes in Construction-Specific Operating Liabilities:*** | | | | |
+| ● Trade and Subcontractor Payables: | | | | |
+| ● ● Material Supplier Payables | 212,500 | 0.3% | 194,438 | 18,062 |
+| ● ● ● HVAC Equipment Suppliers | 127,500 | | | |
+| ● ● ● Plumbing Suppliers | 63,750 | | | |
+| ● ● ● Other Material Suppliers | 21,250 | | | |
+| ● ● Subcontractor Payables | 127,500 | 0.2% | 116,663 | 10,837 |
+| ● ● Operating Expense Payables | 63,750 | 0.1% | 58,331 | 5,419 |
+| ● ● Retainage Payable | 21,250 | 0.0% | 19,444 | 1,806 |
+| ● Accrued Liabilities and Benefits: | | | | |
+| ● ● Accrued Payroll | 37,500 | 0.1% | 34,313 | 3,187 |
+| ● ● Accrued Union Benefits | 18,750 | 0.0% | 17,156 | 1,594 |
+| ● ● Accrued Bonuses | 22,500 | 0.0% | 20,588 | 1,912 |
+| ● ● Accrued Vacation/PTO | 16,125 | 0.0% | 14,754 | 1,371 |
+| ● ● Accrued Interest | 8,750 | 0.0% | 8,006 | 744 |
+| ● ● Accrued Workers Compensation | 7,875 | 0.0% | 7,206 | 669 |
+| ● ● Other Accrued Expenses | 13,500 | 0.0% | 12,353 | 1,147 |
+| ● Tax and Regulatory Liabilities: | | | | |
+| ● ● Sales Tax Payable - Multi-State | 18,250 | 0.0% | 16,699 | 1,551 |
+| ● ● ● Arizona (5.6% rate) | 9,125 | | | |
+| ● ● ● Utah (4.85% + local) | 5,475 | | | |
+| ● ● ● Colorado (2.9% + local) | 3,650 | | | |
+| ● ● Payroll Tax Liabilities | 14,600 | 0.0% | 13,359 | 1,241 |
+| ● Contract Liabilities (Project-Based): | | | | |
+| ● ● Billings in Excess of Costs | 440,000 | 0.6% | 402,600 | 37,400 |
+| ● ● ● Phoenix Medical Center | 69,300 | | | |
+| ● ● ● Salt Lake Multifamily | 48,400 | | | |
+| ● ● ● Other Projects | 322,300 | | | |
+| ● ● Customer Deposits | 132,000 | 0.2% | 120,780 | 11,220 |
+| ● ● Advance Billings on Contracts | 220,000 | 0.3% | 201,300 | 18,700 |
+| ● ● Deferred Revenue - Service Contracts | 88,000 | 0.1% | 80,520 | 7,480 |
+| ● Long-Term Liability Changes: | | | | |
+| ● ● Deferred Compensation | 50,000 | 0.1% | 45,750 | 4,250 |
+| ● ● Self-Insurance Reserves | 35,000 | 0.1% | 32,025 | 2,975 |
+| ● ● Warranty Liability (Claims Paid) | -391,200 | -0.6% | -357,948 | -33,252 |
+| **Net Cash Provided by Operating Activities** | **10,450,000** | **15.2%** | **9,440,780** | **1,009,220** |
+| | | | | |
+| **CASH FLOWS FROM INVESTING ACTIVITIES** | | | | |
+| ***Capital Expenditures by Category and Location:*** | | | | |
+| ● Fleet Vehicle Acquisitions | -742,500 | -1.1% | -813,000 | 70,500 |
+| ● ● Service Trucks - Phoenix (8 units) | -360,000 | | | |
+| ● ● Service Trucks - Salt Lake (5 units) | -225,000 | | | |
+| ● ● Service Trucks - Denver (3 units) | -135,000 | | | |
+| ● ● Management Vehicles | -22,500 | | | |
+| ● Construction Equipment | -288,000 | -0.4% | -316,000 | 28,000 |
+| ● ● Fabrication Equipment | -115,200 | | | |
+| ● ● Lifting Equipment | -86,400 | | | |
+| ● ● Welding & Cutting Equipment | -57,600 | | | |
+| ● ● Testing Equipment | -28,800 | | | |
+| ● Shop Tools and Equipment | -115,500 | -0.2% | -126,500 | 11,000 |
+| ● Technology and Office Equipment | -136,500 | -0.2% | -149,500 | 13,000 |
+| ● ● Computer Hardware | -41,000 | | | |
+| ● ● Software Licenses (Capitalized) | -54,600 | | | |
+| ● ● Office Furniture | -27,300 | | | |
+| ● ● Communication Equipment | -13,600 | | | |
+| ● Building Improvements | -375,000 | -0.5% | - | -375,000 |
+| ● ● Phoenix Facility Renovations | -225,000 | | | |
+| ● ● Salt Lake City Warehouse Expansion | -90,000 | | | |
+| ● ● Denver Office Upgrades | -60,000 | | | |
+| ● Total Capital Expenditures | -1,658,000 | -2.4% | -1,405,000 | -253,000 |
+| ● Proceeds from Equipment Disposals | 175,000 | 0.3% | 195,000 | -20,000 |
+| ● ● Fleet Vehicle Sales (12 units) | 140,000 | | | |
+| ● ● Equipment Trade-ins | 35,000 | | | |
+| ● Business Investments and Other: | | | | |
+| ● ● Acquisition of Customer Lists | - | 0.0% | -150,000 | 150,000 |
+| ● ● Life Insurance Cash Value Increase | -8,000 | 0.0% | -8,000 | - |
+| ● ● Security Deposits and Bonds | -12,000 | 0.0% | -10,000 | -2,000 |
+| ● ● Note Receivable - Equipment Sale | -25,000 | 0.0% | - | -25,000 |
+| **Net Cash Used in Investing Activities** | **-1,528,000** | **-2.2%** | **-1,378,000** | **-150,000** |
+| | | | | |
+| **CASH FLOWS FROM FINANCING ACTIVITIES** | | | | |
+| ***Debt Financing Activities:*** | | | | |
+| ● Line of Credit Activity - Wells Fargo | | | | |
+| ● ● Borrowings for Working Capital | 8,250,000 | 12.0% | 7,650,000 | 600,000 |
+| ● ● ● Q1 Project Funding | 2,062,500 | | | |
+| ● ● ● Q2 Project Funding | 2,062,500 | | | |
+| ● ● ● Q3 Project Funding | 2,062,500 | | | |
+| ● ● ● Q4 Project Funding | 2,062,500 | | | |
+| ● ● Repayments on Line of Credit | -7,750,000 | -11.3% | -7,200,000 | -550,000 |
+| ● ● Net Line of Credit Activity | 500,000 | 0.7% | 450,000 | 50,000 |
+| ● Equipment Financing | | | | |
+| ● ● New Equipment Loans - Wells Fargo | 425,000 | 0.6% | 475,000 | -50,000 |
+| ● ● Equipment Loan Principal Payments | -525,000 | -0.8% | -495,000 | -30,000 |
+| ● ● ● Vehicle Loans | -315,000 | | | |
+| ● ● ● Equipment Loans | -210,000 | | | |
+| ● Real Estate Financing | | | | |
+| ● ● Mortgage Principal Payments | -300,000 | -0.4% | -285,000 | -15,000 |
+| ● ● ● Phoenix Facility | -150,000 | | | |
+| ● ● ● Salt Lake City Facility | -90,000 | | | |
+| ● ● ● Denver Facility | -60,000 | | | |
+| ***S-Corporation Distributions:*** | | | | |
+| ● Regular Quarterly Distributions | -4,000,000 | -5.8% | -3,600,000 | -400,000 |
+| ● ● Q1 2024 Distribution (March 31) | -1,000,000 | | | |
+| ● ● ● Johnson Brother #1 (50%) | -500,000 | | | |
+| ● ● ● Johnson Brother #2 (50%) | -500,000 | | | |
+| ● ● Q2 2024 Distribution (June 30) | -1,000,000 | | | |
+| ● ● Q3 2024 Distribution (Sept 30) | -1,000,000 | | | |
+| ● ● Q4 2024 Distribution (Dec 31) | -1,000,000 | | | |
+| ● Tax Distributions (Pass-Through) | -635,000 | -0.9% | -550,000 | -85,000 |
+| ● ● Federal Tax Coverage (April) | -430,650 | | | |
+| ● ● State Tax Distributions | -204,350 | | | |
+| ● ● ● Arizona Tax (April) | -86,965 | | | |
+| ● ● ● Utah Tax (April) | -72,833 | | | |
+| ● ● ● Colorado Tax (April) | -44,552 | | | |
+| ● Other Financing Activities | | | | |
+| ● ● Finance Lease Obligations | -165,000 | -0.2% | -155,000 | -10,000 |
+| ● ● Debt Issuance Costs | -12,000 | 0.0% | -10,000 | -2,000 |
+| **Net Cash Used in Financing Activities** | **-5,312,000** | **-7.7%** | **-4,770,000** | **-542,000** |
+| ● Effect of Exchange Rates on Cash | - | 0.0% | - | - |
+| | | | | |
+| **NET INCREASE IN CASH AND CASH EQUIVALENTS** | **3,610,000** | **5.2%** | **3,292,780** | **317,220** |
+| Cash and Cash Equivalents, Beginning of Year | 2,450,000 | | 1,720,740 | |
+| **CASH AND CASH EQUIVALENTS, END OF YEAR** | **$6,060,000** | | **$5,013,520** | |
+
+### Free Cash Flow Bridge Analysis
+
+| Component | Amount | Cumulative |
+| :--- | :--- | :--- |
+| EBITDA (Adjusted) | $8,540,000 | $8,540,000 |
+| Cash Interest Paid | ($451,250) | $8,088,750 |
+| Cash Taxes (S-Corp Distributions) | ($635,000) | $7,453,750 |
+| Working Capital Investment | ($1,265,000) | $6,188,750 |
+| Non-Cash Charges Added Back | $1,586,100 | $7,774,850 |
+| Other Operating Cash Items | $2,675,150 | $10,450,000 |
+| **Operating Cash Flow** | **$10,450,000** | **$10,450,000** |
+| Maintenance CapEx | ($1,133,000) | $9,317,000 |
+| Growth CapEx | ($525,000) | $8,792,000 |
+| Asset Sale Proceeds | $175,000 | $8,967,000 |
+| Other Investing Activities | ($45,000) | $8,922,000 |
+| **Free Cash Flow (Unlevered)** | **$8,922,000** | **$8,922,000** |
+| Deduct: Building Improvements (One-time) | ($375,000) | $8,547,000 |
+| **Normalized Free Cash Flow** | **$8,547,000** | **$8,547,000** |
+
+<!--This is the end of where the AI or LLM should populate the details of the financial statement. Nothing below this should be modified by the AI or LLM.-->
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- 1. Render Markdown to HTML ---
+            const markdownSource = document.getElementById('markdown-source').textContent;
+            const renderedMarkdownContainer = document.getElementById('rendered-markdown');
+            
+            // Use marked.js to parse the markdown content
+            renderedMarkdownContainer.innerHTML = marked.parse ? marked.parse(markdownSource) : marked(markdownSource);
+
+            // --- 2. Apply Tailwind CSS classes to the generated content ---
+            function applyStyling() {
+                const container = document.getElementById('rendered-markdown');
+                if (!container) return;
+
+                // Style Headers
+                container.querySelectorAll('h1').forEach(el => el.classList.add('text-3xl', 'sm:text-4xl', 'font-bold', 'text-gray-900', 'pb-4', 'mb-2', 'border-b-2', 'border-gray-200'));
+                container.querySelectorAll('h2').forEach(el => {
+                    // Special styling for the subtitle
+                    if (el.textContent.includes('For Years Ended')) {
+                         el.classList.add('text-lg', 'font-normal', 'text-gray-500', 'mt-0', 'mb-8');
+                    } else {
+                         el.classList.add('text-2xl', 'font-semibold', 'text-gray-800', 'mt-10', 'mb-4', 'pb-2', 'border-b', 'border-gray-200');
+                    }
+                });
+                container.querySelectorAll('h3').forEach(el => el.classList.add('text-xl', 'font-semibold', 'text-gray-700', 'mt-8', 'mb-4'));
+
+                // Style Tables
+                container.querySelectorAll('table').forEach(table => {
+                    table.classList.add('min-w-full', 'divide-y', 'divide-gray-300', 'mt-6', 'mb-8', 'border', 'border-gray-200', 'rounded-lg', 'shadow-sm', 'overflow-hidden');
+                    const thead = table.querySelector('thead');
+                    if (thead) {
+                        thead.classList.add('bg-gray-50');
+                    }
+                    table.querySelectorAll('th').forEach(th => {
+                        th.classList.add('px-4', 'py-3', 'sm:px-6', 'sm:py-3.5', 'text-left', 'text-sm', 'font-semibold', 'text-gray-900');
+                    });
+                    table.querySelectorAll('tbody tr:nth-child(even)').forEach(row => {
+                        row.classList.add('bg-white'); // Use white for even rows
+                    });
+                     table.querySelectorAll('tbody tr:nth-child(odd)').forEach(row => {
+                        row.classList.add('bg-gray-50'); // Use light gray for odd rows for zebra striping
+                    });
+                    table.querySelectorAll('td').forEach(td => {
+                        td.classList.add('px-4', 'py-3', 'sm:px-6', 'sm:py-4', 'text-sm', 'text-gray-600');
+                        // Make bold text inside tables stand out more
+                        td.querySelectorAll('strong').forEach(strong => strong.classList.add('font-bold', 'text-gray-800'));
+                    });
+                    
+                    // Right-align numeric-heavy columns
+                    table.querySelectorAll('tr').forEach(row => {
+                        // Target all cells except the first one in each row
+                        row.querySelectorAll('td:not(:first-child), th:not(:first-child)').forEach(cell => {
+                             // Check if content looks like a number, percentage, or currency
+                            if (/^[\$\(]?[0-9,.-]+%?$/.test(cell.textContent.trim()) || cell.textContent.trim() === '-') {
+                                cell.classList.add('text-right', 'font-mono');
+                            }
+                        });
+                    });
+                });
+
+                // Style Paragraphs, Lists, and other elements
+                container.querySelectorAll('p').forEach(el => el.classList.add('mb-4', 'leading-relaxed', 'text-gray-700'));
+                container.querySelectorAll('ul').forEach(el => el.classList.add('list-disc', 'list-inside', 'mb-4', 'pl-4', 'text-gray-700', 'space-y-2'));
+                container.querySelectorAll('strong').forEach(el => el.classList.add('font-semibold', 'text-gray-800'));
+                container.querySelectorAll('hr').forEach(el => el.classList.add('my-10', 'border-t', 'border-gray-200'));
+            }
+            
+            applyStyling();
+
+            // --- 3. Setup PDF Download Button ---
+            const downloadButton = document.getElementById('download-pdf');
+            downloadButton.addEventListener('click', () => {
+                const element = document.getElementById('pdf-content');
+                
+                // --- Generate Dynamic Filename ---
+                const h1Element = document.querySelector('#rendered-markdown h1');
+                let filename = 'financial-statement.pdf'; // fallback
+                
+                if (h1Element) {
+                    const h1Text = h1Element.textContent.toLowerCase();
+                    let statementType = '';
+                    let businessName = 'name-of-business';
+                    const parts = h1Text.split(' for ');
+                    if (parts.length >= 2) {
+                        statementType = parts[0].trim();
+                        businessName = parts[1].trim();
+                    } else {
+                        statementType = h1Text.trim();
+                    }
+                    businessName = businessName.replace(/&/g, 'and').replace(/[^a-z0-9]/g, ' ').replace(/\s+/g, '-');
+                    const statementMap = {
+                        'adjusted trial balance': '1-adjusted-trial-balance',
+                        'income statement': '2-income-statement',
+                        'statement of shareholders equity': '3-statement-of-shareholders-equity',
+                        'statement of shareholder equity': '3-statement-of-shareholders-equity',
+                        'shareholders equity': '3-statement-of-shareholders-equity',
+                        'balance sheet': '4-balance-sheet',
+                        'statement of cash flows': '5-statement-of-cash-flows',
+                        'cash flow statement': '5-statement-of-cash-flows',
+                        'closing disclosures': '6-closing-disclosures'
+                    };
+                    let mappedStatement = '';
+                    for (const [key, value] of Object.entries(statementMap)) {
+                        if (statementType.includes(key)) {
+                            mappedStatement = value;
+                            break;
+                        }
+                    }
+                    if (mappedStatement) {
+                        filename = `${mappedStatement}-${businessName}.pdf`;
+                    } else {
+                        const cleanStatement = statementType.replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-');
+                        filename = `${cleanStatement}-${businessName}.pdf`;
+                    }
+                }
+                
+                // --- Configuration for html2pdf.js ---
+                const opt = {
+                    margin:       [0.5, 0.25, 0.5, 0.25], // top, left, bottom, right in inches
+                    filename:     filename,
+                    image:        { type: 'jpeg', quality: 0.98 },
+                    html2canvas:  { scale: 2, useCORS: true, letterRendering: true },
+                    jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+                };
+
+                // --- Generate and save the PDF ---
+                html2pdf().set(opt).from(element).save();
+            });
+        });
+    </script>
+
 </body>
 </html>

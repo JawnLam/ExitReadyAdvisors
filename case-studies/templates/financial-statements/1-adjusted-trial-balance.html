@@ -3,106 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adjusted Trial Balance - PDF Exporter</title>
+    <title>Adjusted Trial Balance</title>
+    
+    <!-- Tailwind CSS for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
     <!-- html2pdf.js for PDF generation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
     <!-- marked.js for Markdown to HTML conversion -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
-            color: #2c2c2c;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        /* Custom styles for printing and fine-tuning */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .no-print {
+                display: none;
+            }
         }
-        .controls {
-            width: 100%;
-            max-width: 1200px;
-            margin-bottom: 20px;
-            text-align: right;
+        /* Ensure table content doesn't break weirdly in the PDF */
+        table {
+            page-break-inside: auto;
         }
-        #download-pdf {
-            background-color: #0078d4;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-size: 16px;
-            font-weight: 600;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
+        tr {
+            page-break-inside: avoid;
+            page-break-after: auto;
         }
-        #download-pdf:hover {
-            background-color: #005a9e;
+        thead {
+            display: table-header-group;
         }
-        #pdf-content {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        /* Styles for the rendered markdown content */
-        #rendered-markdown h1 {
-            color: #2c2c2c;
-            margin: 0;
-            font-size: 28px;
-            font-weight: 600;
-            border-bottom: 3px solid #4a4a4a;
-            padding-bottom: 20px;
-            margin-bottom: 10px;
-        }
-        #rendered-markdown h2 {
-            color: #666;
-            margin-top: 0;
-            font-size: 14px;
-            font-weight: normal;
-            margin-bottom: 30px;
-        }
-        #rendered-markdown table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        #rendered-markdown th {
-            background-color: #e8e8e8;
-            color: #2c2c2c;
-            padding: 12px;
-            text-align: left;
-            font-weight: 600;
-            border-bottom: 2px solid #b0b0b0;
-        }
-        #rendered-markdown td {
-            padding: 10px 12px;
-            border-bottom: 1px solid #ddd;
-        }
-        #rendered-markdown td:nth-child(3),
-        #rendered-markdown td:nth-child(4),
-        #rendered-markdown th:nth-child(3),
-        #rendered-markdown th:nth-child(4) {
-            text-align: right;
-            font-family: 'Courier New', monospace;
-        }
-        #rendered-markdown strong {
-            font-weight: 600;
+        tbody {
+            display: table-row-group;
         }
     </style>
 </head>
-<body>
+<body class="bg-gray-100 font-sans p-4 sm:p-8 flex flex-col items-center">
+    <!-- Controls section with the download button -->
+<!--
+    <div class="controls w-full max-w-7xl mb-6 flex justify-end no-print">
+        <button id="download-pdf" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 ease-in-out flex items-center space-x-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+            <span>Download PDF</span>
+        </button>
+    </div>
+-->
 
     <!-- This div contains the content that will be rendered and converted to PDF -->
-    <div id="pdf-content">
+    <div id="pdf-content" class="w-full max-w-7xl bg-white p-6 sm:p-10 rounded-xl shadow-lg">
         <div id="rendered-markdown"></div>
     </div>
 
     <!-- This hidden div holds the raw markdown content -->
     <div id="markdown-source" style="display:none;">
-<!--Nothing above this should be modified by the AI or LLM. Below this point is the beginning of where the AI or LLM should populate the details of the financial statement, giving special attention to the place holders in the H1 and H2 headers below.--> 
+<!--Nothing above this should be modified by the AI or LLM. Below this point is the beginning of where the AI or LLM should populate the details of the financial statement, giving special attention to the place holders in the H1 and H2 headers below.-->
 # Adjusted Trial Balance for Johnson & Sons Heating, Plumbing, & Air
 ## **As of December 31, 2024**<br>
 
@@ -157,21 +116,70 @@
             // Use marked.js to parse the markdown content
             renderedMarkdownContainer.innerHTML = marked.parse ? marked.parse(markdownSource) : marked(markdownSource);
 
+            // --- 2. Apply Tailwind CSS classes to the generated content ---
+            function applyStyling() {
+                const container = document.getElementById('rendered-markdown');
+                if (!container) return;
 
+                // Style Headers
+                container.querySelectorAll('h1').forEach(el => el.classList.add('text-3xl', 'sm:text-4xl', 'font-bold', 'text-gray-900', 'pb-4', 'mb-2', 'border-b-2', 'border-gray-200'));
+                container.querySelectorAll('h2').forEach(el => {
+                    // Special styling for the subtitle
+                    if (el.textContent.includes('For Years Ended')) {
+                         el.classList.add('text-lg', 'font-normal', 'text-gray-500', 'mt-0', 'mb-8');
+                    } else {
+                         el.classList.add('text-2xl', 'font-semibold', 'text-gray-800', 'mt-10', 'mb-4', 'pb-2', 'border-b', 'border-gray-200');
+                    }
+                });
+                container.querySelectorAll('h3').forEach(el => el.classList.add('text-xl', 'font-semibold', 'text-gray-700', 'mt-8', 'mb-4'));
 
-            // --- 2. Setup PDF Download Button ---
+                // Style Tables
+                container.querySelectorAll('table').forEach(table => {
+                    table.classList.add('min-w-full', 'divide-y', 'divide-gray-300', 'mt-6', 'mb-8', 'border', 'border-gray-200', 'rounded-lg', 'shadow-sm', 'overflow-hidden');
+                    const thead = table.querySelector('thead');
+                    if (thead) {
+                        thead.classList.add('bg-gray-50');
+                    }
+                    table.querySelectorAll('th').forEach(th => {
+                        th.classList.add('px-4', 'py-3', 'sm:px-6', 'sm:py-3.5', 'text-left', 'text-sm', 'font-semibold', 'text-gray-900');
+                    });
+                    table.querySelectorAll('tbody tr:nth-child(even)').forEach(row => {
+                        row.classList.add('bg-white'); // Use white for even rows
+                    });
+                     table.querySelectorAll('tbody tr:nth-child(odd)').forEach(row => {
+                        row.classList.add('bg-gray-50'); // Use light gray for odd rows for zebra striping
+                    });
+                    table.querySelectorAll('td').forEach(td => {
+                        td.classList.add('px-4', 'py-3', 'sm:px-6', 'sm:py-4', 'text-sm', 'text-gray-600');
+                        // Make bold text inside tables stand out more
+                        td.querySelectorAll('strong').forEach(strong => strong.classList.add('font-bold', 'text-gray-800'));
+                    });
+                    
+                    // Right-align numeric-heavy columns
+                    table.querySelectorAll('tr').forEach(row => {
+                        // Target all cells except the first one in each row
+                        row.querySelectorAll('td:not(:first-child), th:not(:first-child)').forEach(cell => {
+                             // Check if content looks like a number, percentage, or currency
+                            if (/^[\$\(]?[0-9,.-]+%?$/.test(cell.textContent.trim()) || cell.textContent.trim() === '-') {
+                                cell.classList.add('text-right', 'font-mono');
+                            }
+                        });
+                    });
+                });
+
+                // Style Paragraphs, Lists, and other elements
+                container.querySelectorAll('p').forEach(el => el.classList.add('mb-4', 'leading-relaxed', 'text-gray-700'));
+                container.querySelectorAll('ul').forEach(el => el.classList.add('list-disc', 'list-inside', 'mb-4', 'pl-4', 'text-gray-700', 'space-y-2'));
+                container.querySelectorAll('strong').forEach(el => el.classList.add('font-semibold', 'text-gray-800'));
+                container.querySelectorAll('hr').forEach(el => el.classList.add('my-10', 'border-t', 'border-gray-200'));
+            }
+            
+            applyStyling();
+
+            // --- 3. Setup PDF Download Button ---
             const downloadButton = document.getElementById('download-pdf');
             downloadButton.addEventListener('click', () => {
                 const element = document.getElementById('pdf-content');
-                
-                // Get the actual content dimensions
-                const contentWidth = element.scrollWidth;
-                const contentHeight = element.scrollHeight;
-                
-                // Convert pixels to inches (assuming 96 DPI)
-                const DPI = 96;
-                const widthInches = (contentWidth / DPI) + 1; // Add 1 inch total margin
-                const heightInches = (contentHeight / DPI) + 1; // Add 1 inch total margin
                 
                 // --- Generate Dynamic Filename ---
                 const h1Element = document.querySelector('#rendered-markdown h1');
@@ -179,12 +187,8 @@
                 
                 if (h1Element) {
                     const h1Text = h1Element.textContent.toLowerCase();
-                    
-                    // Extract statement type and business name
                     let statementType = '';
                     let businessName = 'name-of-business';
-                    
-                    // Split on "for" to separate statement type from business name
                     const parts = h1Text.split(' for ');
                     if (parts.length >= 2) {
                         statementType = parts[0].trim();
@@ -192,11 +196,7 @@
                     } else {
                         statementType = h1Text.trim();
                     }
-                    
-                    // Clean up business name: first replace & with "and", then replace non-alphanumeric chars with spaces, then spaces with hyphens
                     businessName = businessName.replace(/&/g, 'and').replace(/[^a-z0-9]/g, ' ').replace(/\s+/g, '-');
-                    
-                    // Map statement types to numbers and clean names
                     const statementMap = {
                         'adjusted trial balance': '1-adjusted-trial-balance',
                         'income statement': '2-income-statement',
@@ -208,8 +208,6 @@
                         'cash flow statement': '5-statement-of-cash-flows',
                         'closing disclosures': '6-closing-disclosures'
                     };
-                    
-                    // Find matching statement type
                     let mappedStatement = '';
                     for (const [key, value] of Object.entries(statementMap)) {
                         if (statementType.includes(key)) {
@@ -217,28 +215,21 @@
                             break;
                         }
                     }
-                    
-                    // Generate filename
                     if (mappedStatement) {
                         filename = `${mappedStatement}-${businessName}.pdf`;
                     } else {
-                        // Fallback: create generic numbered filename
                         const cleanStatement = statementType.replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-');
                         filename = `${cleanStatement}-${businessName}.pdf`;
                     }
                 }
                 
-                // --- Configuration for html2pdf.js with dynamic page size ---
+                // --- Configuration for html2pdf.js ---
                 const opt = {
-                    margin:       [0.25, 0.25, 0.25, 0.25], // top, left, bottom, right in inches
+                    margin:       [0.5, 0.25, 0.5, 0.25], // top, left, bottom, right in inches
                     filename:     filename,
                     image:        { type: 'jpeg', quality: 0.98 },
-                    html2canvas:  { scale: 2, useCORS: true }, // Higher scale for better quality
-                    jsPDF:        { 
-                        unit: 'in', 
-                        format: [widthInches, heightInches], // Custom format based on content size
-                        orientation: widthInches > heightInches ? 'landscape' : 'portrait'
-                    }
+                    html2canvas:  { scale: 2, useCORS: true, letterRendering: true },
+                    jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
                 };
 
                 // --- Generate and save the PDF ---

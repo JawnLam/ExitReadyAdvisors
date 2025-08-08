@@ -3,1730 +3,822 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Johnson & Sons - Notes to Financial Statements</title>
+    <title>Closing Disclosures</title>
+    
+    <!-- Tailwind CSS for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- html2pdf.js for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <!-- marked.js for Markdown to HTML conversion -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
+        /* Custom styles for printing and fine-tuning */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .no-print {
+                display: none;
+            }
         }
-        .header {
-            text-align: center;
-            background-color: #2c2c2c;
-            color: white;
-            padding: 30px 20px;
-            margin-bottom: 30px;
-            border-radius: 5px;
-        }
-        .header h1 {
-            margin: 0;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .header p {
-            margin: 5px 0;
-            font-size: 14px;
-            color: #d0d0d0;
-        }
-        .note-section {
-            background-color: white;
-            padding: 25px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .note-header {
-            background-color: #4a4a4a;
-            color: white;
-            padding: 15px;
-            margin: -25px -25px 20px -25px;
-            border-radius: 5px 5px 0 0;
-            font-size: 18px;
-            font-weight: bold;
-        }
+        /* Ensure table content doesn't break weirdly in the PDF */
         table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 15px 0;
+            page-break-inside: auto;
         }
-        th {
-            background-color: #6a6a6a;
-            color: white;
-            padding: 10px;
-            text-align: left;
-            font-weight: bold;
+        tr {
+            page-break-inside: avoid;
+            page-break-after: auto;
         }
-        td {
-            padding: 8px;
-            border-bottom: 1px solid #ddd;
+        thead {
+            display: table-header-group;
         }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        .amount {
-            text-align: right;
-            font-family: 'Courier New', monospace;
-        }
-        .sub-section {
-            margin: 20px 0;
-            padding-left: 20px;
-        }
-        .sub-header {
-            font-weight: bold;
-            color: #4a4a4a;
-            margin: 15px 0 10px 0;
-            font-size: 16px;
-        }
-        .policy-box {
-            background-color: #f0f0f0;
-            padding: 15px;
-            margin: 10px 0;
-            border-left: 4px solid #6a6a6a;
-        }
-        .footer-note {
-            background-color: #e0e0e0;
-            padding: 15px;
-            margin-top: 30px;
-            border-radius: 5px;
-            font-size: 12px;
-            text-align: center;
-        }
-        .schedule-box {
-            border: 1px solid #ccc;
-            padding: 15px;
-            margin: 15px 0;
-            background-color: #fafafa;
+        tbody {
+            display: table-row-group;
         }
     </style>
 </head>
-<body>
-    <div class="header">
-        <h1>JOHNSON & SONS HEATING, PLUMBING, & AIR</h1>
-        <p>Notes to Consolidated Financial Statements</p>
-        <p>For the Years Ended December 31, 2024 and 2023</p>
-        <p>Specialty Trade Contractor | NAICS 238220 | Multi-State Operations (AZ, UT, CO)</p>
+<body class="bg-gray-100 font-sans p-4 sm:p-8 flex flex-col items-center">
+    <!-- Controls section with the download button -->
+<!--
+    <div class="controls w-full max-w-7xl mb-6 flex justify-end no-print">
+        <button id="download-pdf" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 ease-in-out flex items-center space-x-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+            <span>Download PDF</span>
+        </button>
+    </div>
+-->
+
+    <!-- This div contains the content that will be rendered and converted to PDF -->
+    <div id="pdf-content" class="w-full max-w-7xl bg-white p-6 sm:p-10 rounded-xl shadow-lg">
+        <div id="rendered-markdown"></div>
     </div>
 
-    <div class="note-section">
-        <div class="note-header">NOTE 1 - NATURE OF OPERATIONS AND SUMMARY OF SIGNIFICANT ACCOUNTING POLICIES</div>
-        
-        <div class="sub-header">Nature of Operations</div>
-        <p>Johnson & Sons Heating, Plumbing, & Air ("the Company") is an S-Corporation engaged in commercial, industrial, and institutional mechanical contracting services. Founded in 1979, the Company operates as a specialty trade contractor providing HVAC and plumbing installation, service, and maintenance for large-scale construction projects throughout the southwestern United States.</p>
-        
-        <p>The Company maintains operations in three states with the following revenue distribution:</p>
-        <ul>
-            <li>Arizona (Phoenix headquarters): 50% of revenue</li>
-            <li>Utah (Salt Lake City): 30% of revenue</li>
-            <li>Colorado (Denver): 20% of revenue</li>
-        </ul>
+    <!-- This hidden div holds the raw markdown content -->
+    <div id="markdown-source" style="display:none;">
+<!--Nothing above this should be modified by the AI or LLM. Below this point is the beginning of where the AI or LLM should populate the details of the financial statement, giving special attention to the place holders in the H1 and H2 headers below.-->
+# Closing Disclosures for Johnson & Sons Heating, Plumbing, & Air
+## **For Years Ended December 31, 2024 and December 31, 2023**<br>
 
-        <p>The Company holds the following primary contractor licenses:</p>
-        <ul>
-            <li>Arizona: C-36 Plumbing and C-20 HVAC Contractor Licenses</li>
-            <li>Utah: S-210 HVAC and S-220 Plumbing Contractor Licenses</li>
-            <li>Colorado: Master Plumber and Mechanical Contractor Licenses</li>
-        </ul>
+---
 
-        <div class="sub-header">Basis of Presentation and Consolidation</div>
-        <p>The consolidated financial statements have been prepared in accordance with accounting principles generally accepted in the United States of America (US GAAP). All material intercompany transactions and balances have been eliminated in consolidation. The consolidated entities include the operating company and its wholly-owned equipment leasing subsidiary.</p>
+## NOTE 1 - NATURE OF OPERATIONS AND SUMMARY OF SIGNIFICANT ACCOUNTING POLICIES
+### Nature of Operations
+Johnson & Sons Heating, Plumbing, & Air ("the Company") is an S-Corporation engaged in commercial, industrial, and institutional mechanical contracting services. Founded in 1979, the Company operates as a specialty trade contractor providing HVAC and plumbing installation, service, and maintenance for large-scale construction projects throughout the southwestern United States.
 
-        <div class="sub-header">Revenue Recognition (ASC 606)</div>
-        <div class="policy-box">
-            <p><strong>Construction Contracts - Percentage of Completion Method:</strong></p>
-            <p>The Company recognizes revenue on long-term construction contracts over time using the cost-to-cost method as the measure of progress toward satisfaction of performance obligations. This method is used because management considers it to be the best available measure of progress on these contracts.</p>
+The Company maintains operations in three states with the following revenue distribution:
+- Arizona (Phoenix headquarters): 50% of revenue
+- Utah (Salt Lake City): 30% of revenue
+- Colorado (Denver): 20% of revenue
+
+The Company holds the following primary contractor licenses:
+- Arizona: C-36 Plumbing and C-20 HVAC Contractor Licenses
+- Utah: S-210 HVAC and S-220 Plumbing Contractor Licenses
+- Colorado: Master Plumber and Mechanical Contractor Licenses
+
+### Basis of Presentation and Consolidation
+The consolidated financial statements have been prepared in accordance with accounting principles generally accepted in the United States of America (US GAAP). All material intercompany transactions and balances have been eliminated in consolidation. The consolidated entities include the operating company and its wholly-owned equipment leasing subsidiary.
+
+### Revenue Recognition (ASC 606)
+**Construction Contracts - Percentage of Completion Method:**
+
+The Company recognizes revenue on long-term construction contracts over time using the cost-to-cost method as the measure of progress toward satisfaction of performance obligations. This method is used because management considers it to be the best available measure of progress on these contracts.
+
+Under this method:
+- Contract costs include all direct material, labor, subcontract costs, and those indirect costs related to contract performance
+- General and administrative costs are expensed as incurred
+- Provisions for estimated losses on uncompleted contracts are made in the period in which such losses are determined
+- Changes in job performance, conditions, and estimated profitability may result in revisions to costs and income, recognized in the period in which the revisions are determined
+
+**Variable Consideration:**
+
+The transaction price includes variable consideration such as claims, incentive fees, and change orders to the extent it is probable that a significant reversal of cumulative revenue recognized will not occur. The Company uses the expected value method to estimate variable consideration based on historical experience and project-specific factors.
+
+**Contract Modifications:**
+
+Contract modifications are routine in the construction industry. The Company considers modifications to exist when the modification either creates new or changes existing enforceable rights and obligations. Most modifications are for goods or services that are not distinct from the existing contract due to the significant integration service provided and are accounted for as if they were part of that existing contract.
+
+### Contract Balances
+**Contract Assets:** Represent the Company's right to consideration for work completed but not billed at the reporting date. Contract assets are transferred to receivables when the rights become unconditional.
+
+**Contract Liabilities:** Represent the Company's obligation to transfer goods or services to a customer for which consideration has been received. Contract liabilities are recognized as revenue as (or when) the Company performs under the contract.
+
+### Accounts Receivable and Credit Risk
+Trade accounts receivable are recorded at the invoiced amount and do not bear interest. The Company extends credit to customers in the normal course of business and performs ongoing credit evaluations. The Company establishes an allowance for doubtful accounts based on:
+- Historical collection experience
+- Current economic conditions
+- Review of the current status of trade accounts receivable
+- Industry-specific factors including mechanics' lien rights
+
+### Construction Costs and Estimated Earnings in Excess of Billings
+Costs and estimated earnings in excess of billings represent revenues recognized in excess of amounts billed on uncompleted contracts and are included in contract assets. The Company regularly reviews these amounts to ensure collectability.
+
+### Inventory Valuation
+Inventory consists primarily of HVAC equipment, plumbing materials, sheet metal, and construction supplies. Inventory is valued at the lower of cost or net realizable value using the first-in, first-out (FIFO) method. The Company maintains inventory at each of its three locations to support rapid project deployment.
+
+### Property, Plant and Equipment
+| Asset Category | Depreciation Method | Useful Life |
+| :--- | :--- | :--- |
+| Buildings and improvements | Straight-line | 40 years |
+| Fleet vehicles | MACRS | 5 years |
+| Construction equipment | MACRS | 7 years |
+| Fabrication equipment | Straight-line | 10 years |
+| Technology and office equipment | Straight-line | 5 years |
+
+### Intangible Assets and Goodwill
+Intangible assets with finite lives are amortized on a straight-line basis over their estimated useful lives. The Company reviews long-lived assets for impairment whenever events or changes in circumstances indicate that the carrying amount may not be recoverable.
+
+### Self-Insurance Programs
+The Company is self-insured for certain losses relating to workers' compensation, general liability, and auto liability up to specified retention levels. Estimated losses are accrued based upon the Company's historical loss experience, third-party actuarial analysis, and industry factors.
+
+### Warranty Costs
+The Company provides warranties on installation work ranging from one to two years. Estimated warranty costs are accrued at the time revenue is recognized based on historical claim rates adjusted for current trends and specific project risks.
+
+### Income Taxes
+As an S-Corporation, the Company's taxable income is passed through to its shareholders and taxed at the individual level. The Company makes quarterly tax distributions to shareholders based on the highest combined federal and state marginal tax rates applicable to its income.
+
+### Use of Estimates
+The preparation of financial statements requires management to make estimates and assumptions that affect:
+- The reported amounts of assets and liabilities
+- Disclosure of contingent assets and liabilities
+- The reported amounts of revenues and expenses
+- Percentage-of-completion calculations
+- Allowance for doubtful accounts
+- Warranty reserves
+- Self-insurance accruals
+
+---
+
+## NOTE 2 - REVENUE FROM CONTRACTS WITH CUSTOMERS
+### Disaggregation of Revenue
+| By Service Line | 2024 | % | 2023 | % |
+| :--- | :--- | :--- | :--- | :--- |
+| HVAC Installation - New Construction | $37,179,000 | 54.0% | $35,208,000 | 54.0% |
+| Plumbing Installation - New Construction | $25,318,000 | 36.8% | $23,984,000 | 36.8% |
+| HVAC Service & Maintenance | $4,131,000 | 6.0% | $3,912,000 | 6.0% |
+| Plumbing Service & Maintenance | $2,222,000 | 3.2% | $2,096,000 | 3.2% |
+| **Total Revenue** | **$68,850,000** | **100.0%** | **$65,200,000** | **100.0%** |
+
+| By Customer Type | 2024 | % | 2023 | % |
+| :--- | :--- | :--- | :--- | :--- |
+| Commercial (Office, Retail) | $27,540,000 | 40.0% | $26,080,000 | 40.0% |
+| Multifamily Residential | $20,655,000 | 30.0% | $19,560,000 | 30.0% |
+| Industrial | $10,327,500 | 15.0% | $9,780,000 | 15.0% |
+| Institutional (Healthcare, Education) | $10,327,500 | 15.0% | $9,780,000 | 15.0% |
+| **Total Revenue** | **$68,850,000** | **100.0%** | **$65,200,000** | **100.0%** |
+
+### Contract Balances
+| Description | December 31, 2024 | December 31, 2023 | Change |
+| :--- | :--- | :--- | :--- |
+| Contract assets | $4,440,000 | $3,960,000 | $480,000 |
+| Contract liabilities | $4,400,000 | $3,960,000 | $440,000 |
+| Net contract position | $40,000 | $- | $40,000 |
+
+Revenue recognized during 2024 from amounts included in contract liabilities at the beginning of the year was $3,960,000.
+
+### Transaction Price Allocated to Remaining Performance Obligations
+#### Contract Backlog Analysis
+| Backlog Category | Amount | Expected Completion |
+| :--- | :--- | :--- |
+| Contracted - Not Started | $42,545,000 | 6-18 months |
+| In Progress | $45,455,000 | 1-12 months |
+| **Total Backlog** | **$88,000,000** | 15-18 months average |
+
+### Significant Judgments
+The Company exercises significant judgment in:
+- Estimating total costs for percentage-of-completion calculations
+- Determining when customer-directed change orders are approved
+- Estimating variable consideration including claims and incentives
+- Assessing collectability of contract amounts
+
+---
+
+## NOTE 3 - ACCOUNTS RECEIVABLE, CONTRACT ASSETS AND RETAINAGE
+### Accounts Receivable Composition
+| Receivable Type | 2024 | 2023 |
+| :--- | :--- | :--- |
+| **Progress Billings:** | | |
+| ● Current (0-30 days) | $4,524,000 | $4,230,000 |
+| ● 31-60 days | $2,262,000 | $2,115,000 |
+| ● 61-90 days | $603,200 | $564,000 |
+| ● Over 90 days | $150,800 | $141,000 |
+| Subtotal Progress Billings | $7,540,000 | $7,050,000 |
+| **Retainage Receivable:** | | |
+| ● Expected within 12 months | $1,624,000 | $1,522,500 |
+| ● Expected 12-24 months | $696,000 | $652,500 |
+| Subtotal Retainage | $2,320,000 | $2,175,000 |
+| Completed Contract Receivables | $928,000 | $868,000 |
+| Change Order Receivables | $580,000 | $435,000 |
+| Back-charge Receivables | $232,000 | $217,500 |
+| Gross Accounts Receivable | $11,740,000 | $10,980,400 |
+| Less: Allowance for Doubtful Accounts | ($140,000) | ($130,400) |
+| **Net Accounts Receivable** | **$11,600,000** | **$10,850,000** |
+
+### Contract Assets Detail
+| Contract Asset Components | 2024 | 2023 |
+| :--- | :--- | :--- |
+| Costs in excess of billings | $2,220,000 | $1,980,000 |
+| Estimated earnings unbilled | $1,776,000 | $1,584,000 |
+| Materials stored for future use | $444,000 | $396,000 |
+| **Total Contract Assets** | **$4,440,000** | **$3,960,000** |
+
+### Retainage Terms and Collection
+Retainage on construction contracts typically ranges from 5% to 10% of the contract value and is withheld pending project completion and final inspection. The Company's average retainage collection period is 122.8 days from project completion. The Company maintains mechanics' lien rights as security for collection of receivables including retainage.
+
+---
+
+## NOTE 4 - SUPPLEMENTAL BALANCE SHEET INFORMATION
+### Inventory
+| Inventory Category | 2024 | 2023 |
+| :--- | :--- | :--- |
+| HVAC Equipment | $720,000 | $660,000 |
+| ● Trane Equipment | $288,000 | $264,000 |
+| ● Carrier Equipment | $216,000 | $198,000 |
+| ● Other HVAC Brands | $216,000 | $198,000 |
+| Plumbing Materials | $540,000 | $495,000 |
+| Sheet Metal & Ductwork | $216,000 | $198,000 |
+| Controls & Automation Components | $144,000 | $132,000 |
+| Consumables & Small Tools | $108,000 | $99,000 |
+| PPE & Safety Equipment | $72,000 | $66,000 |
+| **Total Inventory** | **$1,800,000** | **$1,650,000** |
+
+### Property, Plant and Equipment
+| Description | Cost | Accumulated Depreciation | Net Book Value |
+| :--- | :--- | :--- | :--- |
+| **Real Property:** | | | |
+| Land | $1,500,000 | $- | $1,500,000 |
+| Buildings and improvements | $6,000,000 | ($1,300,000) | $4,700,000 |
+| **Equipment and Vehicles:** | | | |
+| Fleet vehicles (115 units) | $4,250,000 | ($1,800,000) | $2,450,000 |
+| Construction equipment | $2,300,000 | ($1,100,000) | $1,200,000 |
+| Shop tools and equipment | $1,150,000 | ($520,000) | $630,000 |
+| Office equipment and technology | $1,500,000 | ($380,000) | $1,120,000 |
+| **Total** | **$16,700,000** | **($5,100,000)** | **$11,600,000** |
+
+### Accrued Expenses Detail
+| Description | 2024 | 2023 |
+| :--- | :--- | :--- |
+| Accrued payroll | $495,000 | $457,500 |
+| Accrued union benefits | $247,500 | $228,750 |
+| Accrued bonuses | $297,000 | $274,500 |
+| Accrued vacation/PTO | $214,500 | $198,375 |
+| Accrued interest | $115,000 | $106,250 |
+| Accrued workers compensation | $99,000 | $91,125 |
+| Other accrued expenses | $182,000 | $168,500 |
+| **Total Accrued Expenses** | **$1,650,000** | **$1,525,000** |
+
+---
+
+## NOTE 5 - DEBT AND CREDIT FACILITIES
+### Debt Summary
+| Description | Interest Rate | 2024 | 2023 |
+| :--- | :--- | :--- | :--- |
+| Wells Fargo Line of Credit | Prime + 0.5% | $5,000,000 | $4,500,000 |
+| Equipment Term Loans: | | | |
+| ● Vehicle financing | 4.75-5.25% | $1,560,000 | $1,755,000 |
+| ● Equipment financing | 4.50-5.50% | $690,000 | $845,000 |
+| Real Estate Mortgages: | | | |
+| ● Phoenix facility | 3.25% | $1,250,000 | $1,400,000 |
+| ● Salt Lake City facility | 3.50% | $750,000 | $840,000 |
+| ● Denver facility | 3.75% | $500,000 | $560,000 |
+| Total debt | | $9,750,000 | $9,900,000 |
+| Less: Current portion | | ($825,000) | ($775,000) |
+| **Long-term debt** | | **$8,925,000** | **$9,125,000** |
+
+### Line of Credit Details
+The $5.0 million revolving line of credit with Wells Fargo is secured by:
+- First priority lien on all accounts receivable
+- First priority lien on inventory
+- Corporate guarantee
+
+**Financial Covenants (measured quarterly):**
+- Minimum tangible net worth: $5,000,000 (Actual: $9,565,000)
+- Debt service coverage ratio: 1.25x minimum (Actual: 7.11x)
+- Current ratio: 1.10x minimum (Actual: 1.16x)
+
+### Debt Maturity Schedule
+| Year | Line of Credit | Term Debt | Total |
+| :--- | :--- | :--- | :--- |
+| 2025 | $- | $825,000 | $825,000 |
+| 2026 | $5,000,000 | $850,000 | $5,850,000 |
+| 2027 | $- | $875,000 | $875,000 |
+| 2028 | $- | $900,000 | $900,000 |
+| 2029 | $- | $925,000 | $925,000 |
+| Thereafter | $- | $375,000 | $375,000 |
+| **Total** | **$5,000,000** | **$4,750,000** | **$9,750,000** |
+
+---
+
+## NOTE 6 - INCOME TAXES AND S-CORPORATION STATUS
+### S-Corporation Tax Status
+The Company has elected to be treated as an S-Corporation under the Internal Revenue Code since 1987. As such, the Company's taxable income is passed through to its shareholders and included in their individual tax returns. The Company is subject to certain state-level entity taxes and gross receipts taxes.
+
+### Tax Distribution Policy
+The Company's operating agreement requires quarterly tax distributions to shareholders sufficient to cover their estimated federal and state income tax liabilities arising from the Company's pass-through income. Distributions are calculated using the highest marginal tax rates applicable to any shareholder.
+
+| Tax Distribution Components | 2024 | 2023 |
+| :--- | :--- | :--- |
+| Federal tax coverage (21% effective) | $430,650 | $373,100 |
+| State tax distributions: | | |
+| ● Arizona (5.05%) | $86,965 | $75,350 |
+| ● Utah (4.65%) | $72,833 | $63,175 |
+| ● Colorado (4.40%) | $44,552 | $38,375 |
+| **Total tax distributions** | **$635,000** | **$550,000** |
+
+### Multi-State Tax Apportionment
+The Company apportions income to states based on a three-factor formula considering sales, payroll, and property:
+- Arizona: 50% apportionment
+- Utah: 30% apportionment
+- Colorado: 20% apportionment
+
+### Deferred Tax Assets
+The Company maintains deferred tax assets of $165,000 primarily related to:
+- Colorado net operating loss carryforwards: $110,000
+- Utah enterprise zone credits: $35,000
+- Arizona job training credits: $20,000
+
+---
+
+## NOTE 7 - EMPLOYEE BENEFIT PLANS AND UNION AGREEMENTS
+### Union Workforce
+Approximately 60% of the Company's field workforce (69 employees) are members of labor unions under collective bargaining agreements:
+
+| Union Local | Trade | Employees | Contract Expiration |
+| :--- | :--- | :--- | :--- |
+| UA Local 469 (Phoenix) | Plumbers & Pipefitters | 28 | June 30, 2026 |
+| Sheet Metal Workers Local 359 | HVAC | 22 | May 31, 2027 |
+| UA Local 140 (Salt Lake City) | Plumbers | 12 | April 30, 2026 |
+| Pipefitters Local 208 (Denver) | Pipefitters | 7 | March 31, 2026 |
+
+### Multi-Employer Pension Plans
+The Company contributes to the following multi-employer defined benefit pension plans:
+
+| Plan Name | 2024 Contributions | 2023 Contributions | Funded Status |
+| :--- | :--- | :--- | :--- |
+| Southwest Pipe Trades Pension | $356,400 | $337,200 | Green Zone |
+| Sheet Metal Workers Pension | $178,200 | $168,600 | Green Zone |
+| Utah Pipe Trades Pension | $59,400 | $56,200 | Yellow Zone |
+| **Total pension contributions** | **$594,000** | **$562,000** | |
+
+The Company's withdrawal liability for multi-employer plans is estimated at $2.8 million if the Company were to completely withdraw from all plans.
+
+### Health and Welfare Benefits
+| Benefit Type | 2024 | 2023 |
+| :--- | :--- | :--- |
+| Union health & welfare contributions | $495,000 | $469,000 |
+| Non-union employee health insurance | $412,000 | $391,000 |
+| Workers compensation premiums | $412,500 | $395,000 |
+| 401(k) matching contributions | $165,000 | $156,750 |
+| **Total benefits cost** | **$1,484,500** | **$1,411,750** |
+
+### Executive Compensation
+The Company maintains a non-qualified deferred compensation plan for five key executives. The plan allows for elective deferrals and Company contributions. The liability under this plan was $550,000 and $500,000 as of December 31, 2024 and 2023, respectively.
+
+---
+
+## NOTE 8 - COMMITMENTS, CONTINGENCIES AND RISK MANAGEMENT
+### Bonding and Surety
+The Company maintains surety bonds for construction projects as follows:
+- Aggregate bonding capacity: $68,000,000
+- Current bonds outstanding: $52,000,000
+- Available capacity: $16,000,000
+- Annual premium rate: 0.75% - 1.25% of contract value
+- Total premiums paid in 2024: $275,400
+
+The surety requires the Company to maintain:
+- Minimum working capital of $3,000,000
+- Debt-to-equity ratio not exceeding 3.0x
+- Personal guarantees from shareholders
+
+### Insurance Coverage
+| Coverage Type | Limits | Deductible | Annual Premium |
+| :--- | :--- | :--- | :--- |
+| General Liability | $2M per occurrence | $25,000 | $480,000 |
+| Professional Liability | $5M aggregate | $50,000 | $240,000 |
+| Auto/Fleet | $1M combined | $10,000 | $180,000 |
+| Umbrella | $10M | $25,000 | $150,000 |
+| Directors & Officers | $3M | $15,000 | $150,000 |
+
+### Self-Insurance Programs
+The Company self-insures for workers' compensation claims up to $100,000 per incident. Reserves are established based on actuarial estimates and historical experience:
+- Current year incurred but not reported (IBNR): $165,000
+- Prior years' development: $220,000
+- Total self-insurance reserves: $385,000
+- Experience Modification Rate (EMR): 0.82
+
+### Warranty Obligations
+The Company provides warranties on installation work as follows:
+
+| Warranty Activity | 2024 | 2023 |
+| :--- | :--- | :--- |
+| Beginning balance | $391,200 | $368,000 |
+| Warranties issued | $413,100 | $391,200 |
+| Claims paid | ($391,200) | ($368,000) |
+| Ending balance | $413,100 | $391,200 |
+
+### Operating Leases
+Future minimum lease payments under non-cancelable operating leases:
+
+| Year | Equipment Leases | Vehicle Leases | Total |
+| :--- | :--- | :--- | :--- |
+| 2025 | $99,000 | $66,000 | $165,000 |
+| 2026 | $99,000 | $44,000 | $143,000 |
+| 2027 | $66,000 | $22,000 | $88,000 |
+| 2028 | $33,000 | $- | $33,000 |
+| **Total** | **$297,000** | **$132,000** | **$429,000** |
+
+### Litigation and Claims
+The Company is involved in various claims and legal proceedings:
+- **Construction defect claims:** Two pending claims totaling $450,000, fully covered by insurance
+- **Mechanics' lien enforcement:** $232,000 in liens filed for collection
+- **Subcontractor disputes:** $145,000 in back-charges under dispute
+- **OSHA proceedings:** No material violations or penalties
+
+Management believes adequate reserves and insurance coverage exist for all known claims.
+
+---
+
+## NOTE 9 - RELATED PARTY TRANSACTIONS
+### Real Estate Leases
+The Company leases its three operating facilities from Johnson Properties LLC, an entity owned by the same shareholders:
+
+| Facility | Annual Rent | Market Rate | Excess Rent |
+| :--- | :--- | :--- | :--- |
+| Phoenix (40,000 sq ft) | $480,000 | $320,000 | $160,000 |
+| Salt Lake City (20,000 sq ft) | $240,000 | $160,000 | $80,000 |
+| Denver (15,000 sq ft) | $180,000 | $120,000 | $60,000 |
+| **Total** | **$900,000** | **$600,000** | **$300,000** |
+
+### Management Services
+The Company paid $300,000 in management fees to family members not actively involved in operations. These fees have been added back in the calculation of Adjusted EBITDA.
+
+### Personal Expenses
+Certain personal expenses totaling $350,000 were paid by the Company on behalf of shareholders, including:
+- Personal vehicle expenses: $120,000
+- Country club memberships: $80,000
+- Personal travel: $75,000
+- Other personal expenses: $75,000
+
+---
+
+## NOTE 10 - SEGMENT AND GEOGRAPHIC INFORMATION
+### Geographic Operations
+The Company operates as a single reportable segment but monitors performance by geographic region:
+
+| 2024 | Arizona | Utah | Colorado | Total |
+| :--- | :--- | :--- | :--- | :--- |
+| Revenue | $34,425,000 | $20,655,000 | $13,770,000 | $68,850,000 |
+| Long-lived assets | $6,500,000 | $3,100,000 | $2,000,000 | $11,600,000 |
+| Employees | 58 | 35 | 22 | 115 |
+
+### Major Projects by State (2024)
+| Project | Location | Contract Value | % Complete |
+| :--- | :--- | :--- | :--- |
+| Phoenix Medical Center HVAC | Arizona | $12,500,000 | 63.8% |
+| Salt Lake Multifamily Complex | Utah | $8,750,000 | 43.5% |
+| Denver Tech Campus | Colorado | $7,200,000 | 73.7% |
+| Arizona State University Retrofit | Arizona | $6,800,000 | 31.6% |
+| LDS Temple Mechanical Systems | Utah | $5,500,000 | 78.9% |
+
+### Key Performance Indicators by Region
+| Metric | Arizona | Utah | Colorado |
+| :--- | :--- | :--- | :--- |
+| Gross margin | 20.5% | 19.8% | 19.2% |
+| DSO (days) | 58 | 63 | 67 |
+| Backlog | $44,000,000 | $26,400,000 | $17,600,000 |
+
+---
+
+## NOTE 11 - MAJOR CUSTOMERS AND CONCENTRATION RISK
+### Customer Concentration
+The Company's revenue is concentrated among several large commercial developers and general contractors:
+
+| Customer Category | 2024 Revenue | % of Total | 2023 Revenue | % of Total |
+| :--- | :--- | :--- | :--- | :--- |
+| Largest customer | $9,639,000 | 14.0% | $8,476,000 | 13.0% |
+| Top 5 customers | $34,425,000 | 50.0% | $31,296,000 | 48.0% |
+| Top 10 customers | $48,195,000 | 70.0% | $44,336,000 | 68.0% |
+
+### Master Service Agreements
+The Company maintains master service agreements with national developers providing:
+- Preferred contractor status
+- Standardized pricing structures
+- Streamlined project approval processes
+- Volume-based incentives
+
+### Credit Risk Management
+The Company manages credit risk through:
+- Credit checks on new commercial customers
+- Progress billing arrangements
+- Mechanics' lien rights
+- Payment and performance bonds on public projects
+- Joint check agreements with material suppliers
+
+---
+
+## NOTE 12 - CONSTRUCTION BACKLOG AND CONTRACTS IN PROGRESS
+### Backlog Analysis
+| Backlog Category | Number of Projects | Contract Value | Average Duration |
+| :--- | :--- | :--- | :--- |
+| Projects in progress | 52 | $45,455,000 | 6-9 months |
+| Contracted - not started | 28 | $42,545,000 | 9-12 months |
+| **Total backlog** | **80** | **$88,000,000** | 15-18 months |
+
+### Backlog by Contract Type
+| Contract Type | Amount | % of Total | Gross Margin |
+| :--- | :--- | :--- | :--- |
+| Fixed price | $61,600,000 | 70% | 18.5% |
+| Cost plus fee | $17,600,000 | 20% | 22.0% |
+| Time and materials | $8,800,000 | 10% | 25.0% |
+
+### Estimated Cost to Complete
+For contracts in progress at December 31, 2024:
+- Original contract value: $83,210,000
+- Approved change orders: $4,790,000
+- Total adjusted contract value: $88,000,000
+- Costs incurred to date: $45,455,000
+- Estimated costs to complete: $37,757,500
+- Estimated total costs at completion: $83,212,500
+- Estimated gross profit: $4,787,500
+
+---
+
+## NOTE 13 - SUBSEQUENT EVENTS
+Management has evaluated subsequent events through February 15, 2025, the date these financial statements were available to be issued.
+
+### Pending Business Combination
+On January 15, 2025, the Company entered into a definitive purchase agreement for the sale of substantially all of its assets for total consideration of $51,250,000, consisting of:
+- Cash at closing: $46,125,000 (90%)
+- Seller note: $5,125,000 (10%) - 3-year term at 6% interest
+
+Key terms include:
+- Transition services agreement: 24-36 months
+- Employment agreements for key management
+- Non-compete agreements: 5 years
+- Closing subject to customary conditions
+- Expected closing: Q2 2025
+
+### New Contract Awards
+Subsequent to year-end, the Company was awarded the following significant projects:
+
+| Project | Location | Contract Value |
+| :--- | :--- | :--- |
+| Regional Hospital Expansion | Phoenix, AZ | $9,200,000 |
+| Mixed-Use Development | Salt Lake City, UT | $5,800,000 |
+| **Total new awards** | | **$15,000,000** |
+
+### Banking Relationship
+In February 2025, the Company renewed its line of credit with Wells Fargo, maintaining the $5 million limit but improving the interest rate to Prime + 0.25%.
+
+---
+
+## NOTE 14 - NORMALIZED FINANCIAL METRICS FOR TRANSACTION
+### Adjusted EBITDA Calculation
+| Description | 2024 | 2023 |
+| :--- | :--- | :--- |
+| Net income | $5,150,000 | $4,608,580 |
+| Add back: | | |
+| ● Interest expense | $460,000 | $440,000 |
+| ● Tax provision (pass-through) | $2,080,000 | $1,861,020 |
+| ● Depreciation | $850,000 | $830,000 |
+| ● Amortization | $368,000 | $368,000 |
+| EBITDA | $8,908,000 | $8,107,600 |
+| Normalizing adjustments: | | |
+| ● Excess owner compensation | $1,200,000 | $1,150,000 |
+| ● One-time M&A fees | $450,000 | $- |
+| ● Legal settlements | $380,000 | $- |
+| ● Personal expenses | $350,000 | $340,000 |
+| ● Excess rent (related party) | $300,000 | $290,000 |
+| ● Other non-arms length | $300,000 | $285,000 |
+| **Adjusted EBITDA** | **$11,888,000** | **$10,172,600** |
+
+Note: The pro forma Adjusted EBITDA of $8,540,000 referenced in transaction documents represents a more conservative calculation using normalized gross margins.
+
+### Working Capital Normalization
+| Component | Reported | Target | Adjustment |
+| :--- | :--- | :--- | :--- |
+| Current assets (ex-cash) | $18,950,000 | $17,500,000 | ($1,450,000) |
+| Current liabilities (ex-debt) | ($13,000,000) | ($12,500,000) | $500,000 |
+| Working capital | $5,950,000 | $5,000,000 | ($950,000) |
+
+---
+
+## NOTE 15 - RISKS, UNCERTAINTIES AND INDUSTRY FACTORS
+### Construction Industry Risks
+**Economic Sensitivity:** The construction industry is highly sensitive to economic cycles, interest rates, and credit availability. A downturn could significantly impact project starts and the Company's backlog.
+
+**Weather and Seasonality:** Construction activity typically slows in Q1 due to weather conditions, particularly in Colorado and Utah. The Company experiences 15-20% lower productivity during winter months.
+
+**Material Price Volatility:** The Company faces exposure to commodity price fluctuations, particularly for copper, steel, and specialized HVAC equipment. Fixed-price contracts create risk when material costs escalate rapidly.
+
+### Competitive Environment
+The mechanical contracting industry has experienced:
+- Increased competition from non-union contractors offering 15-20% lower pricing
+- Consolidation among larger contractors creating pricing pressure
+- Technology disruption requiring investment in BIM and prefabrication
+- Gross margin compression from 22.5% (2022) to 20.0% (2024)
+
+### Labor Market Challenges
+The Company faces significant workforce challenges:
+- Skilled labor shortage with 10-15% annual wage inflation
+- Aging workforce - 35% of field staff eligible for retirement within 5 years
+- Competition for talent from non-construction industries
+- 4-year apprenticeship programs limiting rapid expansion
+
+### Technology Investment Requirements
+To remain competitive, the Company has identified critical technology needs:
+- Building Information Modeling (BIM): $350,000
+- Prefabrication equipment and software: $250,000
+- Cloud-based project management upgrade: $150,000
+- Total identified investment: $750,000
+
+### Key Personnel Dependency
+The Company's success depends heavily on retaining:
+- General Manager (age 62) - considering retirement in 3-5 years
+- Two senior Project Managers managing 40% of backlog
+- Three Regional Project Executives with 15+ years tenure
+- Specialized estimating team with proprietary knowledge
+
+### Regulatory and Compliance
+The Company operates in a highly regulated environment:
+- Multi-state licensing requirements
+- Prevailing wage compliance on public projects
+- Environmental regulations for refrigerants
+- OSHA safety requirements
+- Building code updates requiring continuous training
+
+---
+
+## NOTE 16 - CRITICAL ACCOUNTING ESTIMATES AND JUDGMENTS
+### Percentage-of-Completion Estimates
+The most critical accounting estimates relate to total costs at completion for construction contracts. Key assumptions include:
+- Labor productivity rates based on historical performance
+- Material cost escalation factors
+- Weather delay allowances
+- Subcontractor performance risk
+- Change order probability and pricing
+
+A 1% change in estimated gross margin on contracts in progress would impact income by approximately $880,000.
+
+### Allowance for Doubtful Accounts
+The Company estimates credit losses based on:
+- Historical collection rates by customer type
+- Current economic conditions in construction markets
+- Specific identification of at-risk accounts
+- Mechanics' lien rights and recovery probability
+
+### Self-Insurance Reserves
+Actuarial estimates for self-insured risks consider:
+- Historical claim frequency and severity
+- Industry loss development factors
+- Specific large claim reserves
+- IBNR calculations based on exposure
+
+### Warranty Reserves
+Warranty cost estimates are based on:
+- Historical warranty claim rates (0.6% of revenue)
+- Known installation issues requiring remediation
+- Equipment manufacturer warranty coverage
+- Geographic factors affecting system performance
+
+<!--This is the end of where the AI or LLM should populate the details of the financial statement. Nothing below this should be modified by the AI or LLM.-->
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- 1. Render Markdown to HTML ---
+            const markdownSource = document.getElementById('markdown-source').textContent;
+            const renderedMarkdownContainer = document.getElementById('rendered-markdown');
             
-            <p>Under this method:</p>
-            <ul>
-                <li>Contract costs include all direct material, labor, subcontract costs, and those indirect costs related to contract performance</li>
-                <li>General and administrative costs are expensed as incurred</li>
-                <li>Provisions for estimated losses on uncompleted contracts are made in the period in which such losses are determined</li>
-                <li>Changes in job performance, conditions, and estimated profitability may result in revisions to costs and income, recognized in the period in which the revisions are determined</li>
-            </ul>
+            // Use marked.js to parse the markdown content
+            renderedMarkdownContainer.innerHTML = marked.parse ? marked.parse(markdownSource) : marked(markdownSource);
+
+            // --- 2. Apply Tailwind CSS classes to the generated content ---
+            function applyStyling() {
+                const container = document.getElementById('rendered-markdown');
+                if (!container) return;
+
+                // Style Headers
+                container.querySelectorAll('h1').forEach(el => el.classList.add('text-3xl', 'sm:text-4xl', 'font-bold', 'text-gray-900', 'pb-4', 'mb-2', 'border-b-2', 'border-gray-200'));
+                container.querySelectorAll('h2').forEach(el => {
+                    // Special styling for the subtitle
+                    if (el.textContent.includes('For Years Ended')) {
+                         el.classList.add('text-lg', 'font-normal', 'text-gray-500', 'mt-0', 'mb-8');
+                    } else {
+                         el.classList.add('text-2xl', 'font-semibold', 'text-gray-800', 'mt-10', 'mb-4', 'pb-2', 'border-b', 'border-gray-200');
+                    }
+                });
+                container.querySelectorAll('h3').forEach(el => el.classList.add('text-xl', 'font-semibold', 'text-gray-700', 'mt-8', 'mb-4'));
+
+                // Style Tables
+                container.querySelectorAll('table').forEach(table => {
+                    table.classList.add('min-w-full', 'divide-y', 'divide-gray-300', 'mt-6', 'mb-8', 'border', 'border-gray-200', 'rounded-lg', 'shadow-sm', 'overflow-hidden');
+                    const thead = table.querySelector('thead');
+                    if (thead) {
+                        thead.classList.add('bg-gray-50');
+                    }
+                    table.querySelectorAll('th').forEach(th => {
+                        th.classList.add('px-4', 'py-3', 'sm:px-6', 'sm:py-3.5', 'text-left', 'text-sm', 'font-semibold', 'text-gray-900');
+                    });
+                    table.querySelectorAll('tbody tr:nth-child(even)').forEach(row => {
+                        row.classList.add('bg-white'); // Use white for even rows
+                    });
+                     table.querySelectorAll('tbody tr:nth-child(odd)').forEach(row => {
+                        row.classList.add('bg-gray-50'); // Use light gray for odd rows for zebra striping
+                    });
+                    table.querySelectorAll('td').forEach(td => {
+                        td.classList.add('px-4', 'py-3', 'sm:px-6', 'sm:py-4', 'text-sm', 'text-gray-600');
+                        // Make bold text inside tables stand out more
+                        td.querySelectorAll('strong').forEach(strong => strong.classList.add('font-bold', 'text-gray-800'));
+                    });
+                    
+                    // Right-align numeric-heavy columns
+                    table.querySelectorAll('tr').forEach(row => {
+                        // Target all cells except the first one in each row
+                        row.querySelectorAll('td:not(:first-child), th:not(:first-child)').forEach(cell => {
+                             // Check if content looks like a number, percentage, or currency
+                            if (/^[\$\(]?[0-9,.-]+%?$/.test(cell.textContent.trim()) || cell.textContent.trim() === '-') {
+                                cell.classList.add('text-right', 'font-mono');
+                            }
+                        });
+                    });
+                });
+
+                // Style Paragraphs, Lists, and other elements
+                container.querySelectorAll('p').forEach(el => el.classList.add('mb-4', 'leading-relaxed', 'text-gray-700'));
+                container.querySelectorAll('ul').forEach(el => el.classList.add('list-disc', 'list-inside', 'mb-4', 'pl-4', 'text-gray-700', 'space-y-2'));
+                container.querySelectorAll('strong').forEach(el => el.classList.add('font-semibold', 'text-gray-800'));
+                container.querySelectorAll('hr').forEach(el => el.classList.add('my-10', 'border-t', 'border-gray-200'));
+            }
+            
+            applyStyling();
+
+            // --- 3. Setup PDF Download Button ---
+            const downloadButton = document.getElementById('download-pdf');
+            downloadButton.addEventListener('click', () => {
+                const element = document.getElementById('pdf-content');
+                
+                // --- Generate Dynamic Filename ---
+                const h1Element = document.querySelector('#rendered-markdown h1');
+                let filename = 'financial-statement.pdf'; // fallback
+                
+                if (h1Element) {
+                    const h1Text = h1Element.textContent.toLowerCase();
+                    let statementType = '';
+                    let businessName = 'name-of-business';
+                    const parts = h1Text.split(' for ');
+                    if (parts.length >= 2) {
+                        statementType = parts[0].trim();
+                        businessName = parts[1].trim();
+                    } else {
+                        statementType = h1Text.trim();
+                    }
+                    businessName = businessName.replace(/&/g, 'and').replace(/[^a-z0-9]/g, ' ').replace(/\s+/g, '-');
+                    const statementMap = {
+                        'adjusted trial balance': '1-adjusted-trial-balance',
+                        'income statement': '2-income-statement',
+                        'statement of shareholders equity': '3-statement-of-shareholders-equity',
+                        'statement of shareholder equity': '3-statement-of-shareholders-equity',
+                        'shareholders equity': '3-statement-of-shareholders-equity',
+                        'balance sheet': '4-balance-sheet',
+                        'statement of cash flows': '5-statement-of-cash-flows',
+                        'cash flow statement': '5-statement-of-cash-flows',
+                        'closing disclosures': '6-closing-disclosures'
+                    };
+                    let mappedStatement = '';
+                    for (const [key, value] of Object.entries(statementMap)) {
+                        if (statementType.includes(key)) {
+                            mappedStatement = value;
+                            break;
+                        }
+                    }
+                    if (mappedStatement) {
+                        filename = `${mappedStatement}-${businessName}.pdf`;
+                    } else {
+                        const cleanStatement = statementType.replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-');
+                        filename = `${cleanStatement}-${businessName}.pdf`;
+                    }
+                }
+                
+                // --- Configuration for html2pdf.js ---
+                const opt = {
+                    margin:       [0.5, 0.25, 0.5, 0.25], // top, left, bottom, right in inches
+                    filename:     filename,
+                    image:        { type: 'jpeg', quality: 0.98 },
+                    html2canvas:  { scale: 2, useCORS: true, letterRendering: true },
+                    jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+                };
+
+                // --- Generate and save the PDF ---
+                html2pdf().set(opt).from(element).save();
+            });
+        });
+    </script>
 
-            <p><strong>Variable Consideration:</strong></p>
-            <p>The transaction price includes variable consideration such as claims, incentive fees, and change orders to the extent it is probable that a significant reversal of cumulative revenue recognized will not occur. The Company uses the expected value method to estimate variable consideration based on historical experience and project-specific factors.</p>
-
-            <p><strong>Contract Modifications:</strong></p>
-            <p>Contract modifications are routine in the construction industry. The Company considers modifications to exist when the modification either creates new or changes existing enforceable rights and obligations. Most modifications are for goods or services that are not distinct from the existing contract due to the significant integration service provided and are accounted for as if they were part of that existing contract.</p>
-        </div>
-
-        <div class="sub-header">Contract Balances</div>
-        <p><strong>Contract Assets:</strong> Represent the Company's right to consideration for work completed but not billed at the reporting date. Contract assets are transferred to receivables when the rights become unconditional.</p>
-        
-        <p><strong>Contract Liabilities:</strong> Represent the Company's obligation to transfer goods or services to a customer for which consideration has been received. Contract liabilities are recognized as revenue as (or when) the Company performs under the contract.</p>
-
-        <div class="sub-header">Accounts Receivable and Credit Risk</div>
-        <p>Trade accounts receivable are recorded at the invoiced amount and do not bear interest. The Company extends credit to customers in the normal course of business and performs ongoing credit evaluations. The Company establishes an allowance for doubtful accounts based on:</p>
-        <ul>
-            <li>Historical collection experience</li>
-            <li>Current economic conditions</li>
-            <li>Review of the current status of trade accounts receivable</li>
-            <li>Industry-specific factors including mechanics' lien rights</li>
-        </ul>
-
-        <div class="sub-header">Construction Costs and Estimated Earnings in Excess of Billings</div>
-        <p>Costs and estimated earnings in excess of billings represent revenues recognized in excess of amounts billed on uncompleted contracts and are included in contract assets. The Company regularly reviews these amounts to ensure collectability.</p>
-
-        <div class="sub-header">Inventory Valuation</div>
-        <p>Inventory consists primarily of HVAC equipment, plumbing materials, sheet metal, and construction supplies. Inventory is valued at the lower of cost or net realizable value using the first-in, first-out (FIFO) method. The Company maintains inventory at each of its three locations to support rapid project deployment.</p>
-
-        <div class="sub-header">Property, Plant and Equipment</div>
-        <table>
-            <tr>
-                <th>Asset Category</th>
-                <th>Depreciation Method</th>
-                <th>Useful Life</th>
-            </tr>
-            <tr>
-                <td>Buildings and improvements</td>
-                <td>Straight-line</td>
-                <td>40 years</td>
-            </tr>
-            <tr>
-                <td>Fleet vehicles</td>
-                <td>MACRS</td>
-                <td>5 years</td>
-            </tr>
-            <tr>
-                <td>Construction equipment</td>
-                <td>MACRS</td>
-                <td>7 years</td>
-            </tr>
-            <tr>
-                <td>Fabrication equipment</td>
-                <td>Straight-line</td>
-                <td>10 years</td>
-            </tr>
-            <tr>
-                <td>Technology and office equipment</td>
-                <td>Straight-line</td>
-                <td>5 years</td>
-            </tr>
-        </table>
-
-        <div class="sub-header">Intangible Assets and Goodwill</div>
-        <p>Intangible assets with finite lives are amortized on a straight-line basis over their estimated useful lives. The Company reviews long-lived assets for impairment whenever events or changes in circumstances indicate that the carrying amount may not be recoverable.</p>
-
-        <div class="sub-header">Self-Insurance Programs</div>
-        <p>The Company is self-insured for certain losses relating to workers' compensation, general liability, and auto liability up to specified retention levels. Estimated losses are accrued based upon the Company's historical loss experience, third-party actuarial analysis, and industry factors.</p>
-
-        <div class="sub-header">Warranty Costs</div>
-        <p>The Company provides warranties on installation work ranging from one to two years. Estimated warranty costs are accrued at the time revenue is recognized based on historical claim rates adjusted for current trends and specific project risks.</p>
-
-        <div class="sub-header">Income Taxes</div>
-        <p>As an S-Corporation, the Company's taxable income is passed through to its shareholders and taxed at the individual level. The Company makes quarterly tax distributions to shareholders based on the highest combined federal and state marginal tax rates applicable to its income.</p>
-
-        <div class="sub-header">Use of Estimates</div>
-        <p>The preparation of financial statements requires management to make estimates and assumptions that affect:</p>
-        <ul>
-            <li>The reported amounts of assets and liabilities</li>
-            <li>Disclosure of contingent assets and liabilities</li>
-            <li>The reported amounts of revenues and expenses</li>
-            <li>Percentage-of-completion calculations</li>
-            <li>Allowance for doubtful accounts</li>
-            <li>Warranty reserves</li>
-            <li>Self-insurance accruals</li>
-        </ul>
-    </div>
-
-    <div class="note-section">
-        <div class="note-header">NOTE 2 - REVENUE FROM CONTRACTS WITH CUSTOMERS</div>
-        
-        <div class="sub-header">Disaggregation of Revenue</div>
-        <table>
-            <tr>
-                <th>By Service Line</th>
-                <th>2024</th>
-                <th>%</th>
-                <th>2023</th>
-                <th>%</th>
-            </tr>
-            <tr>
-                <td>HVAC Installation - New Construction</td>
-                <td class="amount">$37,179,000</td>
-                <td class="amount">54.0%</td>
-                <td class="amount">$35,208,000</td>
-                <td class="amount">54.0%</td>
-            </tr>
-            <tr>
-                <td>Plumbing Installation - New Construction</td>
-                <td class="amount">$25,318,000</td>
-                <td class="amount">36.8%</td>
-                <td class="amount">$23,984,000</td>
-                <td class="amount">36.8%</td>
-            </tr>
-            <tr>
-                <td>HVAC Service & Maintenance</td>
-                <td class="amount">$4,131,000</td>
-                <td class="amount">6.0%</td>
-                <td class="amount">$3,912,000</td>
-                <td class="amount">6.0%</td>
-            </tr>
-            <tr>
-                <td>Plumbing Service & Maintenance</td>
-                <td class="amount">$2,222,000</td>
-                <td class="amount">3.2%</td>
-                <td class="amount">$2,096,000</td>
-                <td class="amount">3.2%</td>
-            </tr>
-            <tr>
-                <td><strong>Total Revenue</strong></td>
-                <td class="amount"><strong>$68,850,000</strong></td>
-                <td class="amount"><strong>100.0%</strong></td>
-                <td class="amount"><strong>$65,200,000</strong></td>
-                <td class="amount"><strong>100.0%</strong></td>
-            </tr>
-        </table>
-
-        <table>
-            <tr>
-                <th>By Customer Type</th>
-                <th>2024</th>
-                <th>%</th>
-                <th>2023</th>
-                <th>%</th>
-            </tr>
-            <tr>
-                <td>Commercial (Office, Retail)</td>
-                <td class="amount">$27,540,000</td>
-                <td class="amount">40.0%</td>
-                <td class="amount">$26,080,000</td>
-                <td class="amount">40.0%</td>
-            </tr>
-            <tr>
-                <td>Multifamily Residential</td>
-                <td class="amount">$20,655,000</td>
-                <td class="amount">30.0%</td>
-                <td class="amount">$19,560,000</td>
-                <td class="amount">30.0%</td>
-            </tr>
-            <tr>
-                <td>Industrial</td>
-                <td class="amount">$10,327,500</td>
-                <td class="amount">15.0%</td>
-                <td class="amount">$9,780,000</td>
-                <td class="amount">15.0%</td>
-            </tr>
-            <tr>
-                <td>Institutional (Healthcare, Education)</td>
-                <td class="amount">$10,327,500</td>
-                <td class="amount">15.0%</td>
-                <td class="amount">$9,780,000</td>
-                <td class="amount">15.0%</td>
-            </tr>
-            <tr>
-                <td><strong>Total Revenue</strong></td>
-                <td class="amount"><strong>$68,850,000</strong></td>
-                <td class="amount"><strong>100.0%</strong></td>
-                <td class="amount"><strong>$65,200,000</strong></td>
-                <td class="amount"><strong>100.0%</strong></td>
-            </tr>
-        </table>
-
-        <div class="sub-header">Contract Balances</div>
-        <table>
-            <tr>
-                <th>Description</th>
-                <th>December 31, 2024</th>
-                <th>December 31, 2023</th>
-                <th>Change</th>
-            </tr>
-            <tr>
-                <td>Contract assets</td>
-                <td class="amount">$4,440,000</td>
-                <td class="amount">$3,960,000</td>
-                <td class="amount">$480,000</td>
-            </tr>
-            <tr>
-                <td>Contract liabilities</td>
-                <td class="amount">$4,400,000</td>
-                <td class="amount">$3,960,000</td>
-                <td class="amount">$440,000</td>
-            </tr>
-            <tr>
-                <td>Net contract position</td>
-                <td class="amount">$40,000</td>
-                <td class="amount">$-</td>
-                <td class="amount">$40,000</td>
-            </tr>
-        </table>
-
-        <p>Revenue recognized during 2024 from amounts included in contract liabilities at the beginning of the year was $3,960,000.</p>
-
-        <div class="sub-header">Transaction Price Allocated to Remaining Performance Obligations</div>
-        <div class="schedule-box">
-            <h4>Contract Backlog Analysis</h4>
-            <table>
-                <tr>
-                    <th>Backlog Category</th>
-                    <th>Amount</th>
-                    <th>Expected Completion</th>
-                </tr>
-                <tr>
-                    <td>Contracted - Not Started</td>
-                    <td class="amount">$42,545,000</td>
-                    <td>6-18 months</td>
-                </tr>
-                <tr>
-                    <td>In Progress</td>
-                    <td class="amount">$45,455,000</td>
-                    <td>1-12 months</td>
-                </tr>
-                <tr>
-                    <td><strong>Total Backlog</strong></td>
-                    <td class="amount"><strong>$88,000,000</strong></td>
-                    <td>15-18 months average</td>
-                </tr>
-            </table>
-        </div>
-
-        <div class="sub-header">Significant Judgments</div>
-        <p>The Company exercises significant judgment in:</p>
-        <ul>
-            <li>Estimating total costs for percentage-of-completion calculations</li>
-            <li>Determining when customer-directed change orders are approved</li>
-            <li>Estimating variable consideration including claims and incentives</li>
-            <li>Assessing collectability of contract amounts</li>
-        </ul>
-    </div>
-
-    <div class="note-section">
-        <div class="note-header">NOTE 3 - ACCOUNTS RECEIVABLE, CONTRACT ASSETS AND RETAINAGE</div>
-        
-        <div class="sub-header">Accounts Receivable Composition</div>
-        <table>
-            <tr>
-                <th>Receivable Type</th>
-                <th>2024</th>
-                <th>2023</th>
-            </tr>
-            <tr>
-                <td><strong>Progress Billings:</strong></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>&nbsp;&nbsp;Current (0-30 days)</td>
-                <td class="amount">$4,524,000</td>
-                <td class="amount">$4,230,000</td>
-            </tr>
-            <tr>
-                <td>&nbsp;&nbsp;31-60 days</td>
-                <td class="amount">$2,262,000</td>
-                <td class="amount">$2,115,000</td>
-            </tr>
-            <tr>
-                <td>&nbsp;&nbsp;61-90 days</td>
-                <td class="amount">$603,200</td>
-                <td class="amount">$564,000</td>
-            </tr>
-            <tr>
-                <td>&nbsp;&nbsp;Over 90 days</td>
-                <td class="amount">$150,800</td>
-                <td class="amount">$141,000</td>
-            </tr>
-            <tr>
-                <td>Subtotal Progress Billings</td>
-                <td class="amount">$7,540,000</td>
-                <td class="amount">$7,050,000</td>
-            </tr>
-            <tr>
-                <td><strong>Retainage Receivable:</strong></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>&nbsp;&nbsp;Expected within 12 months</td>
-                <td class="amount">$1,624,000</td>
-                <td class="amount">$1,522,500</td>
-            </tr>
-            <tr>
-                <td>&nbsp;&nbsp;Expected 12-24 months</td>
-                <td class="amount">$696,000</td>
-                <td class="amount">$652,500</td>
-            </tr>
-            <tr>
-                <td>Subtotal Retainage</td>
-                <td class="amount">$2,320,000</td>
-                <td class="amount">$2,175,000</td>
-            </tr>
-            <tr>
-                <td>Completed Contract Receivables</td>
-                <td class="amount">$928,000</td>
-                <td class="amount">$868,000</td>
-            </tr>
-            <tr>
-                <td>Change Order Receivables</td>
-                <td class="amount">$580,000</td>
-                <td class="amount">$435,000</td>
-            </tr>
-            <tr>
-                <td>Back-charge Receivables</td>
-                <td class="amount">$232,000</td>
-                <td class="amount">$217,500</td>
-            </tr>
-            <tr>
-                <td>Gross Accounts Receivable</td>
-                <td class="amount">$11,740,000</td>
-                <td class="amount">$10,980,400</td>
-            </tr>
-            <tr>
-                <td>Less: Allowance for Doubtful Accounts</td>
-                <td class="amount">($140,000)</td>
-                <td class="amount">($130,400)</td>
-            </tr>
-            <tr>
-                <td><strong>Net Accounts Receivable</strong></td>
-                <td class="amount"><strong>$11,600,000</strong></td>
-                <td class="amount"><strong>$10,850,000</strong></td>
-            </tr>
-        </table>
-
-        <div class="sub-header">Contract Assets Detail</div>
-        <table>
-            <tr>
-                <th>Contract Asset Components</th>
-                <th>2024</th>
-                <th>2023</th>
-            </tr>
-            <tr>
-                <td>Costs in excess of billings</td>
-                <td class="amount">$2,220,000</td>
-                <td class="amount">$1,980,000</td>
-            </tr>
-            <tr>
-                <td>Estimated earnings unbilled</td>
-                <td class="amount">$1,776,000</td>
-                <td class="amount">$1,584,000</td>
-            </tr>
-            <tr>
-                <td>Materials stored for future use</td>
-                <td class="amount">$444,000</td>
-                <td class="amount">$396,000</td>
-            </tr>
-            <tr>
-                <td><strong>Total Contract Assets</strong></td>
-                <td class="amount"><strong>$4,440,000</strong></td>
-                <td class="amount"><strong>$3,960,000</strong></td>
-            </tr>
-        </table>
-
-        <div class="sub-header">Retainage Terms and Collection</div>
-        <p>Retainage on construction contracts typically ranges from 5% to 10% of the contract value and is withheld pending project completion and final inspection. The Company's average retainage collection period is 122.8 days from project completion. The Company maintains mechanics' lien rights as security for collection of receivables including retainage.</p>
-    </div>
-
-    <div class="note-section">
-        <div class="note-header">NOTE 4 - SUPPLEMENTAL BALANCE SHEET INFORMATION</div>
-        
-        <div class="sub-header">Inventory</div>
-        <table>
-            <tr>
-                <th>Inventory Category</th>
-                <th>2024</th>
-                <th>2023</th>
-            </tr>
-            <tr>
-                <td>HVAC Equipment</td>
-                <td class="amount">$720,000</td>
-                <td class="amount">$660,000</td>
-            </tr>
-            <tr>
-                <td>&nbsp;&nbsp;Trane Equipment</td>
-                <td class="amount">$288,000</td>
-                <td class="amount">$264,000</td>
-            </tr>
-            <tr>
-                <td>&nbsp;&nbsp;Carrier Equipment</td>
-                <td class="amount">$216,000</td>
-                <td class="amount">$198,000</td>
-            </tr>
-            <tr>
-                <td>&nbsp;&nbsp;Other HVAC Brands</td>
-                <td class="amount">$216,000</td>
-                <td class="amount">$198,000</td>
-            </tr>
-            <tr>
-                <td>Plumbing Materials</td>
-                <td class="amount">$540,000</td>
-                <td class="amount">$495,000</td>
-            </tr>
-            <tr>
-                <td>Sheet Metal & Ductwork</td>
-                <td class="amount">$216,000</td>
-                <td class="amount">$198,000</td>
-            </tr>
-            <tr>
-                <td>Controls & Automation Components</td>
-                <td class="amount">$144,000</td>
-                <td class="amount">$132,000</td>
-            </tr>
-            <tr>
-                <td>Consumables & Small Tools</td>
-                <td class="amount">$108,000</td>
-                <td class="amount">$99,000</td>
-            </tr>
-            <tr>
-                <td>PPE & Safety Equipment</td>
-                <td class="amount">$72,000</td>
-                <td class="amount">$66,000</td>
-            </tr>
-            <tr>
-                <td><strong>Total Inventory</strong></td>
-                <td class="amount"><strong>$1,800,000</strong></td>
-                <td class="amount"><strong>$1,650,000</strong></td>
-            </tr>
-        </table>
-
-        <div class="sub-header">Property, Plant and Equipment</div>
-        <table>
-            <tr>
-                <th>Description</th>
-                <th>Cost</th>
-                <th>Accumulated Depreciation</th>
-                <th>Net Book Value</th>
-            </tr>
-            <tr>
-                <td><strong>Real Property:</strong></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Land</td>
-                <td class="amount">$1,500,000</td>
-                <td class="amount">$-</td>
-                <td class="amount">$1,500,000</td>
-            </tr>
-            <tr>
-                <td>Buildings and improvements</td>
-                <td class="amount">$6,000,000</td>
-                <td class="amount">($1,300,000)</td>
-                <td class="amount">$4,700,000</td>
-            </tr>
-            <tr>
-                <td><strong>Equipment and Vehicles:</strong></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Fleet vehicles (115 units)</td>
-                <td class="amount">$4,250,000</td>
-                <td class="amount">($1,800,000)</td>
-                <td class="amount">$2,450,000</td>
-            </tr>
-            <tr>
-                <td>Construction equipment</td>
-                <td class="amount">$2,300,000</td>
-                <td class="amount">($1,100,000)</td>
-                <td class="amount">$1,200,000</td>
-            </tr>
-            <tr>
-                <td>Shop tools and equipment</td>
-                <td class="amount">$1,150,000</td>
-                <td class="amount">($520,000)</td>
-                <td class="amount">$630,000</td>
-            </tr>
-            <tr>
-                <td>Office equipment and technology</td>
-                <td class="amount">$1,500,000</td>
-                <td class="amount">($380,000)</td>
-                <td class="amount">$1,120,000</td>
-            </tr>
-            <tr>
-                <td><strong>Total</strong></td>
-                <td class="amount"><strong>$16,700,000</strong></td>
-                <td class="amount"><strong>($5,100,000)</strong></td>
-                <td class="amount"><strong>$11,600,000</strong></td>
-            </tr>
-        </table>
-
-        <div class="sub-header">Accrued Expenses Detail</div>
-        <table>
-            <tr>
-                <th>Description</th>
-                <th>2024</th>
-                <th>2023</th>
-            </tr>
-            <tr>
-                <td>Accrued payroll</td>
-                <td class="amount">$495,000</td>
-                <td class="amount">$457,500</td>
-            </tr>
-            <tr>
-                <td>Accrued union benefits</td>
-                <td class="amount">$247,500</td>
-                <td class="amount">$228,750</td>
-            </tr>
-            <tr>
-                <td>Accrued bonuses</td>
-                <td class="amount">$297,000</td>
-                <td class="amount">$274,500</td>
-            </tr>
-            <tr>
-                <td>Accrued vacation/PTO</td>
-                <td class="amount">$214,500</td>
-                <td class="amount">$198,375</td>
-            </tr>
-            <tr>
-                <td>Accrued interest</td>
-                <td class="amount">$115,000</td>
-                <td class="amount">$106,250</td>
-            </tr>
-            <tr>
-                <td>Accrued workers compensation</td>
-                <td class="amount">$99,000</td>
-                <td class="amount">$91,125</td>
-            </tr>
-            <tr>
-                <td>Other accrued expenses</td>
-                <td class="amount">$182,000</td>
-                <td class="amount">$168,500</td>
-            </tr>
-            <tr>
-                <td><strong>Total Accrued Expenses</strong></td>
-                <td class="amount"><strong>$1,650,000</strong></td>
-                <td class="amount"><strong>$1,525,000</strong></td>
-            </tr>
-        </table>
-    </div>
-
-    <div class="note-section">
-        <div class="note-header">NOTE 5 - DEBT AND CREDIT FACILITIES</div>
-        
-        <div class="sub-header">Debt Summary</div>
-        <table>
-            <tr>
-                <th>Description</th>
-                <th>Interest Rate</th>
-                <th>2024</th>
-                <th>2023</th>
-            </tr>
-            <tr>
-                <td>Wells Fargo Line of Credit</td>
-                <td>Prime + 0.5%</td>
-                <td class="amount">$5,000,000</td>
-                <td class="amount">$4,500,000</td>
-            </tr>
-            <tr>
-                <td>Equipment Term Loans:</td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>&nbsp;&nbsp;Vehicle financing</td>
-                <td>4.75-5.25%</td>
-                <td class="amount">$1,560,000</td>
-                <td class="amount">$1,755,000</td>
-            </tr>
-            <tr>
-                <td>&nbsp;&nbsp;Equipment financing</td>
-                <td>4.50-5.50%</td>
-                <td class="amount">$690,000</td>
-                <td class="amount">$845,000</td>
-            </tr>
-            <tr>
-                <td>Real Estate Mortgages:</td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>&nbsp;&nbsp;Phoenix facility</td>
-                <td>3.25%</td>
-                <td class="amount">$1,250,000</td>
-                <td class="amount">$1,400,000</td>
-            </tr>
-            <tr>
-                <td>&nbsp;&nbsp;Salt Lake City facility</td>
-                <td>3.50%</td>
-                <td class="amount">$750,000</td>
-                <td class="amount">$840,000</td>
-            </tr>
-            <tr>
-                <td>&nbsp;&nbsp;Denver facility</td>
-                <td>3.75%</td>
-                <td class="amount">$500,000</td>
-                <td class="amount">$560,000</td>
-            </tr>
-            <tr>
-                <td>Total debt</td>
-                <td></td>
-                <td class="amount">$9,750,000</td>
-                <td class="amount">$9,900,000</td>
-            </tr>
-            <tr>
-                <td>Less: Current portion</td>
-                <td></td>
-                <td class="amount">($825,000)</td>
-                <td class="amount">($775,000)</td>
-            </tr>
-            <tr>
-                <td><strong>Long-term debt</strong></td>
-                <td></td>
-                <td class="amount"><strong>$8,925,000</strong></td>
-                <td class="amount"><strong>$9,125,000</strong></td>
-            </tr>
-        </table>
-
-        <div class="sub-header">Line of Credit Details</div>
-        <p>The $5.0 million revolving line of credit with Wells Fargo is secured by:</p>
-        <ul>
-            <li>First priority lien on all accounts receivable</li>
-            <li>First priority lien on inventory</li>
-            <li>Corporate guarantee</li>
-        </ul>
-
-        <p><strong>Financial Covenants (measured quarterly):</strong></p>
-        <ul>
-            <li>Minimum tangible net worth: $5,000,000 (Actual: $9,565,000)</li>
-            <li>Debt service coverage ratio: 1.25x minimum (Actual: 7.11x)</li>
-            <li>Current ratio: 1.10x minimum (Actual: 1.16x)</li>
-        </ul>
-
-        <div class="sub-header">Debt Maturity Schedule</div>
-        <table>
-            <tr>
-                <th>Year</th>
-                <th>Line of Credit</th>
-                <th>Term Debt</th>
-                <th>Total</th>
-            </tr>
-            <tr>
-                <td>2025</td>
-                <td class="amount">$-</td>
-                <td class="amount">$825,000</td>
-                <td class="amount">$825,000</td>
-            </tr>
-            <tr>
-                <td>2026</td>
-                <td class="amount">$5,000,000</td>
-                <td class="amount">$850,000</td>
-                <td class="amount">$5,850,000</td>
-            </tr>
-            <tr>
-                <td>2027</td>
-                <td class="amount">$-</td>
-                <td class="amount">$875,000</td>
-                <td class="amount">$875,000</td>
-            </tr>
-            <tr>
-                <td>2028</td>
-                <td class="amount">$-</td>
-                <td class="amount">$900,000</td>
-                <td class="amount">$900,000</td>
-            </tr>
-            <tr>
-                <td>2029</td>
-                <td class="amount">$-</td>
-                <td class="amount">$925,000</td>
-                <td class="amount">$925,000</td>
-            </tr>
-            <tr>
-                <td>Thereafter</td>
-                <td class="amount">$-</td>
-                <td class="amount">$375,000</td>
-                <td class="amount">$375,000</td>
-            </tr>
-            <tr>
-                <td><strong>Total</strong></td>
-                <td class="amount"><strong>$5,000,000</strong></td>
-                <td class="amount"><strong>$4,750,000</strong></td>
-                <td class="amount"><strong>$9,750,000</strong></td>
-            </tr>
-        </table>
-    </div>
-
-    <div class="note-section">
-        <div class="note-header">NOTE 6 - INCOME TAXES AND S-CORPORATION STATUS</div>
-        
-        <div class="sub-header">S-Corporation Tax Status</div>
-        <p>The Company has elected to be treated as an S-Corporation under the Internal Revenue Code since 1987. As such, the Company's taxable income is passed through to its shareholders and included in their individual tax returns. The Company is subject to certain state-level entity taxes and gross receipts taxes.</p>
-
-        <div class="sub-header">Tax Distribution Policy</div>
-        <p>The Company's operating agreement requires quarterly tax distributions to shareholders sufficient to cover their estimated federal and state income tax liabilities arising from the Company's pass-through income. Distributions are calculated using the highest marginal tax rates applicable to any shareholder.</p>
-
-        <table>
-            <tr>
-                <th>Tax Distribution Components</th>
-                <th>2024</th>
-                <th>2023</th>
-            </tr>
-            <tr>
-                <td>Federal tax coverage (21% effective)</td>
-                <td class="amount">$430,650</td>
-                <td class="amount">$373,100</td>
-            </tr>
-            <tr>
-                <td>State tax distributions:</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>&nbsp;&nbsp;Arizona (5.05%)</td>
-                <td class="amount">$86,965</td>
-                <td class="amount">$75,350</td>
-            </tr>
-            <tr>
-                <td>&nbsp;&nbsp;Utah (4.65%)</td>
-                <td class="amount">$72,833</td>
-                <td class="amount">$63,175</td>
-            </tr>
-            <tr>
-                <td>&nbsp;&nbsp;Colorado (4.40%)</td>
-                <td class="amount">$44,552</td>
-                <td class="amount">$38,375</td>
-            </tr>
-            <tr>
-                <td><strong>Total tax distributions</strong></td>
-                <td class="amount"><strong>$635,000</strong></td>
-                <td class="amount"><strong>$550,000</strong></td>
-            </tr>
-        </table>
-
-        <div class="sub-header">Multi-State Tax Apportionment</div>
-        <p>The Company apportions income to states based on a three-factor formula considering sales, payroll, and property:</p>
-        <ul>
-            <li>Arizona: 50% apportionment</li>
-            <li>Utah: 30% apportionment</li>
-            <li>Colorado: 20% apportionment</li>
-        </ul>
-
-        <div class="sub-header">Deferred Tax Assets</div>
-        <p>The Company maintains deferred tax assets of $165,000 primarily related to:</p>
-        <ul>
-            <li>Colorado net operating loss carryforwards: $110,000</li>
-            <li>Utah enterprise zone credits: $35,000</li>
-            <li>Arizona job training credits: $20,000</li>
-        </ul>
-    </div>
-
-    <div class="note-section">
-        <div class="note-header">NOTE 7 - EMPLOYEE BENEFIT PLANS AND UNION AGREEMENTS</div>
-        
-        <div class="sub-header">Union Workforce</div>
-        <p>Approximately 60% of the Company's field workforce (69 employees) are members of labor unions under collective bargaining agreements:</p>
-        <table>
-            <tr>
-                <th>Union Local</th>
-                <th>Trade</th>
-                <th>Employees</th>
-                <th>Contract Expiration</th>
-            </tr>
-            <tr>
-                <td>UA Local 469 (Phoenix)</td>
-                <td>Plumbers & Pipefitters</td>
-                <td>28</td>
-                <td>June 30, 2026</td>
-            </tr>
-            <tr>
-                <td>Sheet Metal Workers Local 359</td>
-                <td>HVAC</td>
-                <td>22</td>
-                <td>May 31, 2027</td>
-            </tr>
-            <tr>
-                <td>UA Local 140 (Salt Lake City)</td>
-                <td>Plumbers</td>
-                <td>12</td>
-                <td>April 30, 2026</td>
-            </tr>
-            <tr>
-                <td>Pipefitters Local 208 (Denver)</td>
-                <td>Pipefitters</td>
-                <td>7</td>
-                <td>March 31, 2026</td>
-            </tr>
-        </table>
-
-        <div class="sub-header">Multi-Employer Pension Plans</div>
-        <p>The Company contributes to the following multi-employer defined benefit pension plans:</p>
-        <table>
-            <tr>
-                <th>Plan Name</th>
-                <th>2024 Contributions</th>
-                <th>2023 Contributions</th>
-                <th>Funded Status</th>
-            </tr>
-            <tr>
-                <td>Southwest Pipe Trades Pension</td>
-                <td class="amount">$356,400</td>
-                <td class="amount">$337,200</td>
-                <td>Green Zone</td>
-            </tr>
-            <tr>
-                <td>Sheet Metal Workers Pension</td>
-                <td class="amount">$178,200</td>
-                <td class="amount">$168,600</td>
-                <td>Green Zone</td>
-            </tr>
-            <tr>
-                <td>Utah Pipe Trades Pension</td>
-                <td class="amount">$59,400</td>
-                <td class="amount">$56,200</td>
-                <td>Yellow Zone</td>
-            </tr>
-            <tr>
-                <td><strong>Total pension contributions</strong></td>
-                <td class="amount"><strong>$594,000</strong></td>
-                <td class="amount"><strong>$562,000</strong></td>
-                <td></td>
-            </tr>
-        </table>
-
-        <p>The Company's withdrawal liability for multi-employer plans is estimated at $2.8 million if the Company were to completely withdraw from all plans.</p>
-
-        <div class="sub-header">Health and Welfare Benefits</div>
-        <table>
-            <tr>
-                <th>Benefit Type</th>
-                <th>2024</th>
-                <th>2023</th>
-            </tr>
-            <tr>
-                <td>Union health & welfare contributions</td>
-                <td class="amount">$495,000</td>
-                <td class="amount">$469,000</td>
-            </tr>
-            <tr>
-                <td>Non-union employee health insurance</td>
-                <td class="amount">$412,000</td>
-                <td class="amount">$391,000</td>
-            </tr>
-            <tr>
-                <td>Workers compensation premiums</td>
-                <td class="amount">$412,500</td>
-                <td class="amount">$395,000</td>
-            </tr>
-            <tr>
-                <td>401(k) matching contributions</td>
-                <td class="amount">$165,000</td>
-                <td class="amount">$156,750</td>
-            </tr>
-            <tr>
-                <td><strong>Total benefits cost</strong></td>
-                <td class="amount"><strong>$1,484,500</strong></td>
-                <td class="amount"><strong>$1,411,750</strong></td>
-            </tr>
-        </table>
-
-        <div class="sub-header">Executive Compensation</div>
-        <p>The Company maintains a non-qualified deferred compensation plan for five key executives. The plan allows for elective deferrals and Company contributions. The liability under this plan was $550,000 and $500,000 as of December 31, 2024 and 2023, respectively.</p>
-    </div>
-
-    <div class="note-section">
-        <div class="note-header">NOTE 8 - COMMITMENTS, CONTINGENCIES AND RISK MANAGEMENT</div>
-        
-        <div class="sub-header">Bonding and Surety</div>
-        <p>The Company maintains surety bonds for construction projects as follows:</p>
-        <ul>
-            <li>Aggregate bonding capacity: $68,000,000</li>
-            <li>Current bonds outstanding: $52,000,000</li>
-            <li>Available capacity: $16,000,000</li>
-            <li>Annual premium rate: 0.75% - 1.25% of contract value</li>
-            <li>Total premiums paid in 2024: $275,400</li>
-        </ul>
-
-        <p>The surety requires the Company to maintain:</p>
-        <ul>
-            <li>Minimum working capital of $3,000,000</li>
-            <li>Debt-to-equity ratio not exceeding 3.0x</li>
-            <li>Personal guarantees from shareholders</li>
-        </ul>
-
-        <div class="sub-header">Insurance Coverage</div>
-        <table>
-            <tr>
-                <th>Coverage Type</th>
-                <th>Limits</th>
-                <th>Deductible</th>
-                <th>Annual Premium</th>
-            </tr>
-            <tr>
-                <td>General Liability</td>
-                <td>$2M per occurrence</td>
-                <td>$25,000</td>
-                <td>$480,000</td>
-            </tr>
-            <tr>
-                <td>Professional Liability</td>
-                <td>$5M aggregate</td>
-                <td>$50,000</td>
-                <td>$240,000</td>
-            </tr>
-            <tr>
-                <td>Auto/Fleet</td>
-                <td>$1M combined</td>
-                <td>$10,000</td>
-                <td>$180,000</td>
-            </tr>
-            <tr>
-                <td>Umbrella</td>
-                <td>$10M</td>
-                <td>$25,000</td>
-                <td>$150,000</td>
-            </tr>
-            <tr>
-                <td>Directors & Officers</td>
-                <td>$3M</td>
-                <td>$15,000</td>
-                <td>$150,000</td>
-            </tr>
-        </table>
-
-        <div class="sub-header">Self-Insurance Programs</div>
-        <p>The Company self-insures for workers' compensation claims up to $100,000 per incident. Reserves are established based on actuarial estimates and historical experience:</p>
-        <ul>
-            <li>Current year incurred but not reported (IBNR): $165,000</li>
-            <li>Prior years' development: $220,000</li>
-            <li>Total self-insurance reserves: $385,000</li>
-            <li>Experience Modification Rate (EMR): 0.82</li>
-        </ul>
-
-        <div class="sub-header">Warranty Obligations</div>
-        <p>The Company provides warranties on installation work as follows:</p>
-        <table>
-            <tr>
-                <th>Warranty Activity</th>
-                <th>2024</th>
-                <th>2023</th>
-            </tr>
-            <tr>
-                <td>Beginning balance</td>
-                <td class="amount">$391,200</td>
-                <td class="amount">$368,000</td>
-            </tr>
-            <tr>
-                <td>Warranties issued</td>
-                <td class="amount">$413,100</td>
-                <td class="amount">$391,200</td>
-            </tr>
-            <tr>
-                <td>Claims paid</td>
-                <td class="amount">($391,200)</td>
-                <td class="amount">($368,000)</td>
-            </tr>
-            <tr>
-                <td>Ending balance</td>
-                <td class="amount">$413,100</td>
-                <td class="amount">$391,200</td>
-            </tr>
-        </table>
-
-        <div class="sub-header">Operating Leases</div>
-        <p>Future minimum lease payments under non-cancelable operating leases:</p>
-        <table>
-            <tr>
-                <th>Year</th>
-                <th>Equipment Leases</th>
-                <th>Vehicle Leases</th>
-                <th>Total</th>
-            </tr>
-            <tr>
-                <td>2025</td>
-                <td class="amount">$99,000</td>
-                <td class="amount">$66,000</td>
-                <td class="amount">$165,000</td>
-            </tr>
-            <tr>
-                <td>2026</td>
-                <td class="amount">$99,000</td>
-                <td class="amount">$44,000</td>
-                <td class="amount">$143,000</td>
-            </tr>
-            <tr>
-                <td>2027</td>
-                <td class="amount">$66,000</td>
-                <td class="amount">$22,000</td>
-                <td class="amount">$88,000</td>
-            </tr>
-            <tr>
-                <td>2028</td>
-                <td class="amount">$33,000</td>
-                <td class="amount">$-</td>
-                <td class="amount">$33,000</td>
-            </tr>
-            <tr>
-                <td><strong>Total</strong></td>
-                <td class="amount"><strong>$297,000</strong></td>
-                <td class="amount"><strong>$132,000</strong></td>
-                <td class="amount"><strong>$429,000</strong></td>
-            </tr>
-        </table>
-
-        <div class="sub-header">Litigation and Claims</div>
-        <p>The Company is involved in various claims and legal proceedings:</p>
-        <ul>
-            <li><strong>Construction defect claims:</strong> Two pending claims totaling $450,000, fully covered by insurance</li>
-            <li><strong>Mechanics' lien enforcement:</strong> $232,000 in liens filed for collection</li>
-            <li><strong>Subcontractor disputes:</strong> $145,000 in back-charges under dispute</li>
-            <li><strong>OSHA proceedings:</strong> No material violations or penalties</li>
-        </ul>
-
-        <p>Management believes adequate reserves and insurance coverage exist for all known claims.</p>
-    </div>
-
-    <div class="note-section">
-        <div class="note-header">NOTE 9 - RELATED PARTY TRANSACTIONS</div>
-        
-        <div class="sub-header">Real Estate Leases</div>
-        <p>The Company leases its three operating facilities from Johnson Properties LLC, an entity owned by the same shareholders:</p>
-        <table>
-            <tr>
-                <th>Facility</th>
-                <th>Annual Rent</th>
-                <th>Market Rate</th>
-                <th>Excess Rent</th>
-            </tr>
-            <tr>
-                <td>Phoenix (40,000 sq ft)</td>
-                <td class="amount">$480,000</td>
-                <td class="amount">$320,000</td>
-                <td class="amount">$160,000</td>
-            </tr>
-            <tr>
-                <td>Salt Lake City (20,000 sq ft)</td>
-                <td class="amount">$240,000</td>
-                <td class="amount">$160,000</td>
-                <td class="amount">$80,000</td>
-            </tr>
-            <tr>
-                <td>Denver (15,000 sq ft)</td>
-                <td class="amount">$180,000</td>
-                <td class="amount">$120,000</td>
-                <td class="amount">$60,000</td>
-            </tr>
-            <tr>
-                <td><strong>Total</strong></td>
-                <td class="amount"><strong>$900,000</strong></td>
-                <td class="amount"><strong>$600,000</strong></td>
-                <td class="amount"><strong>$300,000</strong></td>
-            </tr>
-        </table>
-
-        <div class="sub-header">Management Services</div>
-        <p>The Company paid $300,000 in management fees to family members not actively involved in operations. These fees have been added back in the calculation of Adjusted EBITDA.</p>
-
-        <div class="sub-header">Personal Expenses</div>
-        <p>Certain personal expenses totaling $350,000 were paid by the Company on behalf of shareholders, including:</p>
-        <ul>
-            <li>Personal vehicle expenses: $120,000</li>
-            <li>Country club memberships: $80,000</li>
-            <li>Personal travel: $75,000</li>
-            <li>Other personal expenses: $75,000</li>
-        </ul>
-    </div>
-
-    <div class="note-section">
-        <div class="note-header">NOTE 10 - SEGMENT AND GEOGRAPHIC INFORMATION</div>
-        
-        <div class="sub-header">Geographic Operations</div>
-        <p>The Company operates as a single reportable segment but monitors performance by geographic region:</p>
-        <table>
-            <tr>
-                <th>2024</th>
-                <th>Arizona</th>
-                <th>Utah</th>
-                <th>Colorado</th>
-                <th>Total</th>
-            </tr>
-            <tr>
-                <td>Revenue</td>
-                <td class="amount">$34,425,000</td>
-                <td class="amount">$20,655,000</td>
-                <td class="amount">$13,770,000</td>
-                <td class="amount">$68,850,000</td>
-            </tr>
-            <tr>
-                <td>Long-lived assets</td>
-                <td class="amount">$6,500,000</td>
-                <td class="amount">$3,100,000</td>
-                <td class="amount">$2,000,000</td>
-                <td class="amount">$11,600,000</td>
-            </tr>
-            <tr>
-                <td>Employees</td>
-                <td>58</td>
-                <td>35</td>
-                <td>22</td>
-                <td>115</td>
-            </tr>
-        </table>
-
-        <div class="sub-header">Major Projects by State (2024)</div>
-        <table>
-            <tr>
-                <th>Project</th>
-                <th>Location</th>
-                <th>Contract Value</th>
-                <th>% Complete</th>
-            </tr>
-            <tr>
-                <td>Phoenix Medical Center HVAC</td>
-                <td>Arizona</td>
-                <td class="amount">$12,500,000</td>
-                <td>63.8%</td>
-            </tr>
-            <tr>
-                <td>Salt Lake Multifamily Complex</td>
-                <td>Utah</td>
-                <td class="amount">$8,750,000</td>
-                <td>43.5%</td>
-            </tr>
-            <tr>
-                <td>Denver Tech Campus</td>
-                <td>Colorado</td>
-                <td class="amount">$7,200,000</td>
-                <td>73.7%</td>
-            </tr>
-            <tr>
-                <td>Arizona State University Retrofit</td>
-                <td>Arizona</td>
-                <td class="amount">$6,800,000</td>
-                <td>31.6%</td>
-            </tr>
-            <tr>
-                <td>LDS Temple Mechanical Systems</td>
-                <td>Utah</td>
-                <td class="amount">$5,500,000</td>
-                <td>78.9%</td>
-            </tr>
-        </table>
-
-        <div class="sub-header">Key Performance Indicators by Region</div>
-        <table>
-            <tr>
-                <th>Metric</th>
-                <th>Arizona</th>
-                <th>Utah</th>
-                <th>Colorado</th>
-            </tr>
-            <tr>
-                <td>Gross margin</td>
-                <td>20.5%</td>
-                <td>19.8%</td>
-                <td>19.2%</td>
-            </tr>
-            <tr>
-                <td>DSO (days)</td>
-                <td>58</td>
-                <td>63</td>
-                <td>67</td>
-            </tr>
-            <tr>
-                <td>Backlog</td>
-                <td class="amount">$44,000,000</td>
-                <td class="amount">$26,400,000</td>
-                <td class="amount">$17,600,000</td>
-            </tr>
-        </table>
-    </div>
-
-    <div class="note-section">
-        <div class="note-header">NOTE 11 - MAJOR CUSTOMERS AND CONCENTRATION RISK</div>
-        
-        <div class="sub-header">Customer Concentration</div>
-        <p>The Company's revenue is concentrated among several large commercial developers and general contractors:</p>
-        <table>
-            <tr>
-                <th>Customer Category</th>
-                <th>2024 Revenue</th>
-                <th>% of Total</th>
-                <th>2023 Revenue</th>
-                <th>% of Total</th>
-            </tr>
-            <tr>
-                <td>Largest customer</td>
-                <td class="amount">$9,639,000</td>
-                <td>14.0%</td>
-                <td class="amount">$8,476,000</td>
-                <td>13.0%</td>
-            </tr>
-            <tr>
-                <td>Top 5 customers</td>
-                <td class="amount">$34,425,000</td>
-                <td>50.0%</td>
-                <td class="amount">$31,296,000</td>
-                <td>48.0%</td>
-            </tr>
-            <tr>
-                <td>Top 10 customers</td>
-                <td class="amount">$48,195,000</td>
-                <td>70.0%</td>
-                <td class="amount">$44,336,000</td>
-                <td>68.0%</td>
-            </tr>
-        </table>
-
-        <div class="sub-header">Master Service Agreements</div>
-        <p>The Company maintains master service agreements with national developers providing:</p>
-        <ul>
-            <li>Preferred contractor status</li>
-            <li>Standardized pricing structures</li>
-            <li>Streamlined project approval processes</li>
-            <li>Volume-based incentives</li>
-        </ul>
-
-        <div class="sub-header">Credit Risk Management</div>
-        <p>The Company manages credit risk through:</p>
-        <ul>
-            <li>Credit checks on new commercial customers</li>
-            <li>Progress billing arrangements</li>
-            <li>Mechanics' lien rights</li>
-            <li>Payment and performance bonds on public projects</li>
-            <li>Joint check agreements with material suppliers</li>
-        </ul>
-    </div>
-
-    <div class="note-section">
-        <div class="note-header">NOTE 12 - CONSTRUCTION BACKLOG AND CONTRACTS IN PROGRESS</div>
-        
-        <div class="sub-header">Backlog Analysis</div>
-        <table>
-            <tr>
-                <th>Backlog Category</th>
-                <th>Number of Projects</th>
-                <th>Contract Value</th>
-                <th>Average Duration</th>
-            </tr>
-            <tr>
-                <td>Projects in progress</td>
-                <td>52</td>
-                <td class="amount">$45,455,000</td>
-                <td>6-9 months</td>
-            </tr>
-            <tr>
-                <td>Contracted - not started</td>
-                <td>28</td>
-                <td class="amount">$42,545,000</td>
-                <td>9-12 months</td>
-            </tr>
-            <tr>
-                <td><strong>Total backlog</strong></td>
-                <td><strong>80</strong></td>
-                <td class="amount"><strong>$88,000,000</strong></td>
-                <td>15-18 months</td>
-            </tr>
-        </table>
-
-        <div class="sub-header">Backlog by Contract Type</div>
-        <table>
-            <tr>
-                <th>Contract Type</th>
-                <th>Amount</th>
-                <th>% of Total</th>
-                <th>Gross Margin</th>
-            </tr>
-            <tr>
-                <td>Fixed price</td>
-                <td class="amount">$61,600,000</td>
-                <td>70%</td>
-                <td>18.5%</td>
-            </tr>
-            <tr>
-                <td>Cost plus fee</td>
-                <td class="amount">$17,600,000</td>
-                <td>20%</td>
-                <td>22.0%</td>
-            </tr>
-            <tr>
-                <td>Time and materials</td>
-                <td class="amount">$8,800,000</td>
-                <td>10%</td>
-                <td>25.0%</td>
-            </tr>
-        </table>
-
-        <div class="sub-header">Estimated Cost to Complete</div>
-        <p>For contracts in progress at December 31, 2024:</p>
-        <ul>
-            <li>Original contract value: $83,210,000</li>
-            <li>Approved change orders: $4,790,000</li>
-            <li>Total adjusted contract value: $88,000,000</li>
-            <li>Costs incurred to date: $45,455,000</li>
-            <li>Estimated costs to complete: $37,757,500</li>
-            <li>Estimated total costs at completion: $83,212,500</li>
-            <li>Estimated gross profit: $4,787,500</li>
-        </ul>
-    </div>
-
-    <div class="note-section">
-        <div class="note-header">NOTE 13 - SUBSEQUENT EVENTS</div>
-        
-        <p>Management has evaluated subsequent events through February 15, 2025, the date these financial statements were available to be issued.</p>
-
-        <div class="sub-header">Pending Business Combination</div>
-        <p>On January 15, 2025, the Company entered into a definitive purchase agreement for the sale of substantially all of its assets for total consideration of $51,250,000, consisting of:</p>
-        <ul>
-            <li>Cash at closing: $46,125,000 (90%)</li>
-            <li>Seller note: $5,125,000 (10%) - 3-year term at 6% interest</li>
-        </ul>
-
-        <p>Key terms include:</p>
-        <ul>
-            <li>Transition services agreement: 24-36 months</li>
-            <li>Employment agreements for key management</li>
-            <li>Non-compete agreements: 5 years</li>
-            <li>Closing subject to customary conditions</li>
-            <li>Expected closing: Q2 2025</li>
-        </ul>
-
-        <div class="sub-header">New Contract Awards</div>
-        <p>Subsequent to year-end, the Company was awarded the following significant projects:</p>
-        <table>
-            <tr>
-                <th>Project</th>
-                <th>Location</th>
-                <th>Contract Value</th>
-            </tr>
-            <tr>
-                <td>Regional Hospital Expansion</td>
-                <td>Phoenix, AZ</td>
-                <td class="amount">$9,200,000</td>
-            </tr>
-            <tr>
-                <td>Mixed-Use Development</td>
-                <td>Salt Lake City, UT</td>
-                <td class="amount">$5,800,000</td>
-            </tr>
-            <tr>
-                <td><strong>Total new awards</strong></td>
-                <td></td>
-                <td class="amount"><strong>$15,000,000</strong></td>
-            </tr>
-        </table>
-
-        <div class="sub-header">Banking Relationship</div>
-        <p>In February 2025, the Company renewed its line of credit with Wells Fargo, maintaining the $5 million limit but improving the interest rate to Prime + 0.25%.</p>
-    </div>
-
-    <div class="note-section">
-        <div class="note-header">NOTE 14 - NORMALIZED FINANCIAL METRICS FOR TRANSACTION</div>
-        
-        <div class="sub-header">Adjusted EBITDA Calculation</div>
-        <table>
-            <tr>
-                <th>Description</th>
-                <th>2024</th>
-                <th>2023</th>
-            </tr>
-            <tr>
-                <td>Net income</td>
-                <td class="amount">$5,150,000</td>
-                <td class="amount">$4,608,580</td>
-            </tr>
-            <tr>
-                <td>Add back:</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>&nbsp;&nbsp;Interest expense</td>
-                <td class="amount">$460,000</td>
-                <td class="amount">$440,000</td>
-            </tr>
-            <tr>
-                <td>&nbsp;&nbsp;Tax provision (pass-through)</td>
-                <td class="amount">$2,080,000</td>
-                <td class="amount">$1,861,020</td>
-            </tr>
-            <tr>
-                <td>&nbsp;&nbsp;Depreciation</td>
-                <td class="amount">$850,000</td>
-                <td class="amount">$830,000</td>
-            </tr>
-            <tr>
-                <td>&nbsp;&nbsp;Amortization</td>
-                <td class="amount">$368,000</td>
-                <td class="amount">$368,000</td>
-            </tr>
-            <tr>
-                <td>EBITDA</td>
-                <td class="amount">$8,908,000</td>
-                <td class="amount">$8,107,600</td>
-            </tr>
-            <tr>
-                <td>Normalizing adjustments:</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>&nbsp;&nbsp;Excess owner compensation</td>
-                <td class="amount">$1,200,000</td>
-                <td class="amount">$1,150,000</td>
-            </tr>
-            <tr>
-                <td>&nbsp;&nbsp;One-time M&A fees</td>
-                <td class="amount">$450,000</td>
-                <td class="amount">$-</td>
-            </tr>
-            <tr>
-                <td>&nbsp;&nbsp;Legal settlements</td>
-                <td class="amount">$380,000</td>
-                <td class="amount">$-</td>
-            </tr>
-            <tr>
-                <td>&nbsp;&nbsp;Personal expenses</td>
-                <td class="amount">$350,000</td>
-                <td class="amount">$340,000</td>
-            </tr>
-            <tr>
-                <td>&nbsp;&nbsp;Excess rent (related party)</td>
-                <td class="amount">$300,000</td>
-                <td class="amount">$290,000</td>
-            </tr>
-            <tr>
-                <td>&nbsp;&nbsp;Other non-arms length</td>
-                <td class="amount">$300,000</td>
-                <td class="amount">$285,000</td>
-            </tr>
-            <tr>
-                <td><strong>Adjusted EBITDA</strong></td>
-                <td class="amount"><strong>$11,888,000</strong></td>
-                <td class="amount"><strong>$10,172,600</strong></td>
-            </tr>
-        </table>
-
-        <p>Note: The pro forma Adjusted EBITDA of $8,540,000 referenced in transaction documents represents a more conservative calculation using normalized gross margins.</p>
-
-        <div class="sub-header">Working Capital Normalization</div>
-        <table>
-            <tr>
-                <th>Component</th>
-                <th>Reported</th>
-                <th>Target</th>
-                <th>Adjustment</th>
-            </tr>
-            <tr>
-                <td>Current assets (ex-cash)</td>
-                <td class="amount">$18,950,000</td>
-                <td class="amount">$17,500,000</td>
-                <td class="amount">($1,450,000)</td>
-            </tr>
-            <tr>
-                <td>Current liabilities (ex-debt)</td>
-                <td class="amount">($13,000,000)</td>
-                <td class="amount">($12,500,000)</td>
-                <td class="amount">$500,000</td>
-            </tr>
-            <tr>
-                <td>Working capital</td>
-                <td class="amount">$5,950,000</td>
-                <td class="amount">$5,000,000</td>
-                <td class="amount">($950,000)</td>
-            </tr>
-        </table>
-    </div>
-
-    <div class="note-section">
-        <div class="note-header">NOTE 15 - RISKS, UNCERTAINTIES AND INDUSTRY FACTORS</div>
-        
-        <div class="sub-header">Construction Industry Risks</div>
-        <p><strong>Economic Sensitivity:</strong> The construction industry is highly sensitive to economic cycles, interest rates, and credit availability. A downturn could significantly impact project starts and the Company's backlog.</p>
-
-        <p><strong>Weather and Seasonality:</strong> Construction activity typically slows in Q1 due to weather conditions, particularly in Colorado and Utah. The Company experiences 15-20% lower productivity during winter months.</p>
-
-        <p><strong>Material Price Volatility:</strong> The Company faces exposure to commodity price fluctuations, particularly for copper, steel, and specialized HVAC equipment. Fixed-price contracts create risk when material costs escalate rapidly.</p>
-
-        <div class="sub-header">Competitive Environment</div>
-        <p>The mechanical contracting industry has experienced:</p>
-        <ul>
-            <li>Increased competition from non-union contractors offering 15-20% lower pricing</li>
-            <li>Consolidation among larger contractors creating pricing pressure</li>
-            <li>Technology disruption requiring investment in BIM and prefabrication</li>
-            <li>Gross margin compression from 22.5% (2022) to 20.0% (2024)</li>
-        </ul>
-
-        <div class="sub-header">Labor Market Challenges</div>
-        <p>The Company faces significant workforce challenges:</p>
-        <ul>
-            <li>Skilled labor shortage with 10-15% annual wage inflation</li>
-            <li>Aging workforce - 35% of field staff eligible for retirement within 5 years</li>
-            <li>Competition for talent from non-construction industries</li>
-            <li>4-year apprenticeship programs limiting rapid expansion</li>
-        </ul>
-
-        <div class="sub-header">Technology Investment Requirements</div>
-        <p>To remain competitive, the Company has identified critical technology needs:</p>
-        <ul>
-            <li>Building Information Modeling (BIM): $350,000</li>
-            <li>Prefabrication equipment and software: $250,000</li>
-            <li>Cloud-based project management upgrade: $150,000</li>
-            <li>Total identified investment: $750,000</li>
-        </ul>
-
-        <div class="sub-header">Key Personnel Dependency</div>
-        <p>The Company's success depends heavily on retaining:</p>
-        <ul>
-            <li>General Manager (age 62) - considering retirement in 3-5 years</li>
-            <li>Two senior Project Managers managing 40% of backlog</li>
-            <li>Three Regional Project Executives with 15+ years tenure</li>
-            <li>Specialized estimating team with proprietary knowledge</li>
-        </ul>
-
-        <div class="sub-header">Regulatory and Compliance</div>
-        <p>The Company operates in a highly regulated environment:</p>
-        <ul>
-            <li>Multi-state licensing requirements</li>
-            <li>Prevailing wage compliance on public projects</li>
-            <li>Environmental regulations for refrigerants</li>
-            <li>OSHA safety requirements</li>
-            <li>Building code updates requiring continuous training</li>
-        </ul>
-    </div>
-
-    <div class="note-section">
-        <div class="note-header">NOTE 16 - CRITICAL ACCOUNTING ESTIMATES AND JUDGMENTS</div>
-        
-        <div class="sub-header">Percentage-of-Completion Estimates</div>
-        <p>The most critical accounting estimates relate to total costs at completion for construction contracts. Key assumptions include:</p>
-        <ul>
-            <li>Labor productivity rates based on historical performance</li>
-            <li>Material cost escalation factors</li>
-            <li>Weather delay allowances</li>
-            <li>Subcontractor performance risk</li>
-            <li>Change order probability and pricing</li>
-        </ul>
-
-        <p>A 1% change in estimated gross margin on contracts in progress would impact income by approximately $880,000.</p>
-
-        <div class="sub-header">Allowance for Doubtful Accounts</div>
-        <p>The Company estimates credit losses based on:</p>
-        <ul>
-            <li>Historical collection rates by customer type</li>
-            <li>Current economic conditions in construction markets</li>
-            <li>Specific identification of at-risk accounts</li>
-            <li>Mechanics' lien rights and recovery probability</li>
-        </ul>
-
-        <div class="sub-header">Self-Insurance Reserves</div>
-        <p>Actuarial estimates for self-insured risks consider:</p>
-        <ul>
-            <li>Historical claim frequency and severity</li>
-            <li>Industry loss development factors</li>
-            <li>Specific large claim reserves</li>
-            <li>IBNR calculations based on exposure</li>
-        </ul>
-
-        <div class="sub-header">Warranty Reserves</div>
-        <p>Warranty cost estimates are based on:</p>
-        <ul>
-            <li>Historical warranty claim rates (0.6% of revenue)</li>
-            <li>Known installation issues requiring remediation</li>
-            <li>Equipment manufacturer warranty coverage</li>
-            <li>Geographic factors affecting system performance</li>
-        </ul>
-    </div>
-
-    <div class="footer-note">
-        <p>The accompanying notes are an integral part of these consolidated financial statements.</p>
-        <p>Prepared in accordance with US GAAP for Specialty Trade Contractors</p>
-        <p>Industry Classification: Construction - Mechanical Contractors (NAICS 238220)</p>
-    </div>
 </body>
 </html>
