@@ -287,13 +287,14 @@
                         thead.classList.add('bg-gray-50');
                     }
                     table.querySelectorAll('th').forEach(th => {
-                        th.classList.add('px-4', 'py-3', 'sm:px-6', 'sm:py-3.5', 'text-left', 'text-sm', 'font-semibold', 'text-gray-900');
+                        // ADDED whitespace-nowrap to prevent headers from wrapping
+                        th.classList.add('px-4', 'py-3', 'sm:px-6', 'sm:py-3.5', 'text-left', 'text-sm', 'font-semibold', 'text-gray-900', 'whitespace-nowrap');
                     });
-                    table.querySelectorAll('tbody tr:nth-child(even)').forEach(row => {
-                        row.classList.add('bg-white'); // Use white for even rows
+                    table.querySelectorAll('tbody tr:nth-child(odd)').forEach(row => {
+                        row.classList.add('bg-white'); // Use white for odd rows
                     });
-                     table.querySelectorAll('tbody tr:nth-child(odd)').forEach(row => {
-                        row.classList.add('bg-gray-50'); // Use light gray for odd rows for zebra striping
+                     table.querySelectorAll('tbody tr:nth-child(even)').forEach(row => {
+                        row.classList.add('bg-gray-50'); // Use light gray for even rows for zebra striping
                     });
                     table.querySelectorAll('td').forEach(td => {
                         td.classList.add('px-4', 'py-3', 'sm:px-6', 'sm:py-4', 'text-sm', 'text-gray-600');
