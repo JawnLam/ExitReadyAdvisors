@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The OC Garage Door Consolidation Journey</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .phase-card, .info-card {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .phase-card:hover, .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .step-circle {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+        .step-circle.active {
+            background-color: #2563EB;
+            color: white;
+            border-color: #2563EB;
+        }
+        .step-line {
+            transition: background-color 0.3s ease;
+        }
+        .step-line.active {
+            background-color: #2563EB;
+        }
+        /* Custom animation for progress bars */
+        @keyframes fill-progress {
+            from { width: 0%; }
+            to { width: var(--progress-width); }
+        }
+        .progress-bar-fill {
+            animation: fill-progress 1.5s ease-out forwards;
+        }
+        .tab.active {
+            border-bottom-color: #2563EB;
+            color: #2563EB;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-blue-600">OC Garage Consolidation</h1>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#market" class="text-gray-600 hover:text-blue-600 font-medium">Market</a>
+                <a href="#phase1" class="text-gray-600 hover:text-blue-600 font-medium">Phase I</a>
+                <a href="#phase2" class="text-gray-600 hover:text-blue-600 font-medium">Phase II</a>
+                <a href="#phase3" class="text-gray-600 hover:text-blue-600 font-medium">Phase III</a>
+                <a href="#vision" class="text-gray-600 hover:text-blue-600 font-medium">Vision</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-blue-700 text-white">
+        <div class="container mx-auto px-6 py-20 text-center">
+            <h2 class="text-4xl md:text-5xl font-extrabold leading-tight mb-4">A Phased Journey to Market Leadership</h2>
+            <p class="text-lg md:text-xl text-blue-200 max-w-3xl mx-auto">
+                Explore the three-phase strategy to build and scale a dominant garage door service business in the heart of Orange County.
+            </p>
+        </div>
+    </section>
+
+    <!-- Stepper Navigation -->
+    <div class="container mx-auto px-6 py-12">
+        <div class="w-full max-w-5xl mx-auto">
+            <div class="flex items-center">
+                 <div class="flex flex-col items-center">
+                    <div id="step-circle-0" class="step-circle w-10 h-10 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center font-bold text-gray-500">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    </div>
+                    <p class="text-xs mt-2 text-center">Market</p>
+                </div>
+                <div id="step-line-0" class="step-line flex-auto border-t-2 border-gray-300 mx-4"></div>
+                <div class="flex flex-col items-center">
+                    <div id="step-circle-1" class="step-circle w-10 h-10 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center font-bold text-gray-500">1</div>
+                    <p class="text-xs mt-2 text-center">Blueprint</p>
+                </div>
+                <div id="step-line-1" class="step-line flex-auto border-t-2 border-gray-300 mx-4"></div>
+                <div class="flex flex-col items-center">
+                    <div id="step-circle-2" class="step-circle w-10 h-10 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center font-bold text-gray-500">2</div>
+                     <p class="text-xs mt-2 text-center">Scaling</p>
+                </div>
+                <div id="step-line-2" class="step-line flex-auto border-t-2 border-gray-300 mx-4"></div>
+                <div class="flex flex-col items-center">
+                    <div id="step-circle-3" class="step-circle w-10 h-10 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center font-bold text-gray-500">3</div>
+                     <p class="text-xs mt-2 text-center">Roll-Up</p>
+                </div>
+                 <div id="step-line-3" class="step-line flex-auto border-t-2 border-gray-300 mx-4"></div>
+                 <div class="flex flex-col items-center">
+                    <div id="step-circle-4" class="step-circle w-10 h-10 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center font-bold text-gray-500">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                     <p class="text-xs mt-2 text-center">Exit</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main class="container mx-auto px-6">
+        <!-- Market Opportunity -->
+        <section id="market" class="py-16">
+            <div class="text-center mb-12">
+                <h3 class="text-base text-blue-600 font-semibold tracking-wide uppercase">The Foundation</h3>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    The Central Orange County Opportunity
+                </p>
+                <p class="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
+                    A dense, affluent, and fragmented market creates the ideal environment for consolidation.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <!-- TAM Cards -->
+                <div class="info-card bg-white p-6 rounded-xl shadow-lg text-center"><h4 class="font-bold text-lg">Anaheim</h4><p class="text-3xl font-extrabold text-blue-600 mt-2">~48,570</p><p class="text-sm text-gray-500">Owner-Occupied Units</p></div>
+                <div class="info-card bg-white p-6 rounded-xl shadow-lg text-center"><h4 class="font-bold text-lg">Santa Ana</h4><p class="text-3xl font-extrabold text-blue-600 mt-2">~35,540</p><p class="text-sm text-gray-500">Owner-Occupied Units</p></div>
+                <div class="info-card bg-white p-6 rounded-xl shadow-lg text-center"><h4 class="font-bold text-lg">Irvine</h4><p class="text-3xl font-extrabold text-blue-600 mt-2">~49,073</p><p class="text-sm text-gray-500">Owner-Occupied Units</p></div>
+                <div class="info-card bg-white p-6 rounded-xl shadow-lg text-center"><h4 class="font-bold text-lg">Costa Mesa</h4><p class="text-3xl font-extrabold text-blue-600 mt-2">~16,387</p><p class="text-sm text-gray-500">Owner-Occupied Units</p></div>
+            </div>
+             <div class="grid lg:grid-cols-2 gap-8">
+                 <div class="info-card bg-blue-50 border border-blue-200 rounded-xl p-8">
+                    <h4 class="text-2xl font-bold mb-6 text-center text-blue-900">Core Demand Drivers</h4>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="text-center"><div class="bg-white h-16 w-16 rounded-full flex items-center justify-center mx-auto shadow-md"><svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg></div><h5 class="font-semibold mt-4">Aging Housing Stock</h5><p class="text-sm text-gray-600">Median home age of 45 years.</p></div>
+                        <div class="text-center"><div class="bg-white h-16 w-16 rounded-full flex items-center justify-center mx-auto shadow-md"><svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"></path></svg></div><h5 class="font-semibold mt-4">Aging Demographics</h5><p class="text-sm text-gray-600">Seniors prefer professional service.</p></div>
+                        <div class="text-center"><div class="bg-white h-16 w-16 rounded-full flex items-center justify-center mx-auto shadow-md"><svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg></div><h5 class="font-semibold mt-4">High Home Values</h5><p class="text-sm text-gray-600">Owners protect their assets.</p></div>
+                        <div class="text-center"><div class="bg-white h-16 w-16 rounded-full flex items-center justify-center mx-auto shadow-md"><svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg></div><h5 class="font-semibold mt-4">Industry Resilience</h5><p class="text-sm text-gray-600">Repairs are non-discretionary.</p></div>
+                    </div>
+                </div>
+                 <div class="info-card bg-white rounded-xl shadow-lg p-8">
+                     <h4 class="text-2xl font-bold mb-6 text-center">Fragmented Competitive Landscape</h4>
+                     <div class="grid grid-cols-2 gap-4">
+                        <div class="text-center p-4 bg-gray-100 rounded-lg">
+                            <h5 class="font-bold">Large Operators</h5>
+                            <p class="text-sm text-gray-600 mt-2">National franchises with strong branding and large fleets.</p>
+                            <div class="mt-4 font-semibold text-gray-800">Challenge: <span class="font-normal">Initial competition.</span></div>
+                        </div>
+                         <div class="text-center p-4 bg-gray-100 rounded-lg">
+                            <h5 class="font-bold">Local Independents</h5>
+                            <p class="text-sm text-gray-600 mt-2">Numerous owner-operators with strong local ties.</p>
+                             <div class="mt-4 font-semibold text-green-700">Opportunity: <span class="font-normal">Future acquisition targets.</span></div>
+                        </div>
+                     </div>
+                     <p class="text-center mt-6 text-sm text-gray-700">This fragmentation is the cornerstone of the Phase III roll-up strategy, providing a rich pool of "bolt-on" acquisition targets.</p>
+                 </div>
+            </div>
+        </section>
+
+
+        <!-- Phase I -->
+        <section id="phase1" class="py-16 bg-gray-100 -mx-6 px-6">
+            <div class="text-center mb-12">
+                <h3 class="text-base text-blue-600 font-semibold tracking-wide uppercase">Phase I: Years 1-2</h3>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    The Owner-Operator Blueprint
+                </p>
+                <p class="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
+                    Launch a lean, single-technician operation focused on high-margin repairs to validate the model and build a strong local reputation.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Startup Cost & Legal -->
+                <div class="lg:col-span-1 phase-card bg-white p-8 rounded-xl shadow-lg">
+                    <h4 class="text-xl font-bold mb-4 text-center">Lean Startup & Legal</h4>
+                    <div class="mb-6">
+                        <p class="text-md font-medium text-gray-700 text-center">Adjust Initial Startup Capital:</p>
+                        <p class="text-3xl font-extrabold text-blue-700 text-center" id="totalStartupCost">$47,300</p>
+                         <input id="startupCostSlider" type="range" min="35000" max="60000" value="47300" step="100" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mt-2">
+                    </div>
+                     <ul class="space-y-2 text-sm">
+                        <li class="flex items-center"><svg class="w-4 h-4 text-green-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span>Form Single-Member LLC</span></li>
+                        <li class="flex items-center"><svg class="w-4 h-4 text-green-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span>Obtain C-61/D-28 License</span></li>
+                        <li class="flex items-center"><svg class="w-4 h-4 text-green-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span>Secure Local Licenses & FBN</span></li>
+                        <li class="flex items-center"><svg class="w-4 h-4 text-green-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span>Set up EIN & Business Bank Acct</span></li>
+                    </ul>
+                </div>
+
+                <!-- Operational Focus -->
+                 <div class="lg:col-span-1 phase-card bg-white p-8 rounded-xl shadow-lg">
+                    <h4 class="text-xl font-bold mb-4 text-center">Operational & Pricing Focus</h4>
+                    <p class="text-center text-sm text-gray-600 mb-4">Specialize in high-margin, high-turnover repairs with transparent pricing.</p>
+                    <div class="space-y-3">
+                        <div class="p-4 bg-gray-50 rounded-lg">
+                            <h5 class="font-semibold">Torsion Spring Replacement</h5>
+                            <p class="text-sm text-gray-600">Target Price: <span class="font-bold text-green-700">$250 - $400</span></p>
+                        </div>
+                         <div class="p-4 bg-gray-50 rounded-lg">
+                            <h5 class="font-semibold">Opener Repair / Replacement</h5>
+                            <p class="text-sm text-gray-600">Target Range: <span class="font-bold text-green-700">$150 - $350</span></p>
+                        </div>
+                    </div>
+                     <div class="mt-4 text-center border-t pt-4">
+                        <h5 class="font-bold">Average Repair Ticket Goal: <span class="text-blue-600">$350</span></h5>
+                    </div>
+                </div>
+
+                <!-- Path to Profitability -->
+                <div class="lg:col-span-1 phase-card bg-white p-8 rounded-xl shadow-lg">
+                     <h4 class="text-xl font-bold mb-4 text-center">Path to Profitability</h4>
+                    <canvas id="profitabilityChart" class=""></canvas>
+                    <div class="mt-4 text-center">
+                        <h5 class="font-bold text-sm">Key Go-to-Market Tactic:</h5>
+                        <p class="text-gray-600 text-sm">Aggressively solicit 5-star Google reviews to drive organic leads at zero cost.</p>
+                    </div>
+                    <div class="mt-6 border-t pt-4 text-center">
+                        <h5 class="font-bold">Time to Recoup Initial Investment</h5>
+                        <p class="text-3xl font-extrabold text-blue-600 mt-2" id="recoupTime">~16.2 months</p>
+                        <p class="text-xs text-gray-500">Based on Year 1 avg. monthly net operating income of $2,912.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phase II -->
+        <section id="phase2" class="py-16">
+            <div class="text-center mb-12">
+                <h3 class="text-base text-blue-600 font-semibold tracking-wide uppercase">Phase II: Years 3-5</h3>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    Strategic Scaling & Systematization
+                </p>
+                <p class="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
+                    Reinvest profits to build a scalable infrastructure, hire technicians, expand the fleet, and deploy a data-driven marketing engine.
+                </p>
+            </div>
+            
+            <div class="bg-white p-8 rounded-xl shadow-lg max-w-6xl mx-auto">
+                <div class="grid lg:grid-cols-2 gap-12">
+                    <div>
+                        <h4 class="text-2xl font-bold mb-6 text-center">Growth & Profitability Simulator</h4>
+                        <div class="mb-6">
+                            <div class="text-center bg-yellow-100 text-yellow-800 p-3 rounded-lg mb-4">
+                                <span class="font-bold">Scaling Trigger:</span> Turning down 2+ profitable jobs per week due to a full schedule.
+                            </div>
+                            <label for="techniciansSlider" class="block font-medium mb-2">Adjust Number of Technicians (Years 3-5): <span id="technicianCount" class="font-bold text-blue-600">2</span></label>
+                            <input id="techniciansSlider" type="range" min="2" max="4" value="2" step="1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                            <div class="flex justify-between text-xs w-full px-1"><span>2 (Yr 3)</span><span>3 (Yr 4)</span><span>4 (Yr 5)</span></div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 text-center">
+                            <div class="bg-blue-50 p-4 rounded-lg"><p class="text-sm text-blue-800">Annual Revenue</p><p id="simRevenue" class="text-2xl font-bold text-blue-900 mt-1">$637,000</p></div>
+                            <div class="bg-green-50 p-4 rounded-lg"><p class="text-sm text-green-800">Gross Profit</p><p id="simGrossProfit" class="text-2xl font-bold text-green-900 mt-1">$433,160</p></div>
+                            <div class="bg-indigo-50 p-4 rounded-lg col-span-2"><p class="text-sm text-indigo-800">EBITDA</p><p id="simEbitda" class="text-3xl font-extrabold text-indigo-900 mt-1">$111,310</p></div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-2xl font-bold mb-6 text-center">Marketing Engine</h4>
+                         <div class="bg-gray-100 p-6 rounded-lg">
+                            <h5 class="font-bold text-center mb-1">Marketing Budget Allocation</h5>
+                            <p class="text-center text-sm text-gray-600 mb-4">Set at <span id="marketingBudgetPercent">5.0</span>% of revenue: <span id="marketingBudgetValue" class="font-bold">$31,850</span></p>
+                            <input id="marketingBudgetSlider" type="range" min="5" max="10" value="5" step="0.5" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mb-4">
+                            
+                             <div class="space-y-3 text-sm">
+                                <div class="flex justify-between items-center"><span class="font-medium">Google Ads (PPC)</span> <span class="px-2 py-1 bg-blue-200 text-blue-800 rounded-md font-semibold">High Intent</span></div>
+                                <div class="flex justify-between items-center"><span class="font-medium">Google Local Service Ads</span> <span class="px-2 py-1 bg-green-200 text-green-800 rounded-md font-semibold">Pay-Per-Lead</span></div>
+                                <div class="flex justify-between items-center"><span class="font-medium">Social Media Retargeting</span> <span class="px-2 py-1 bg-purple-200 text-purple-800 rounded-md font-semibold">Brand Recall</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phase III -->
+        <section id="phase3" class="py-16 bg-gray-100 -mx-6 px-6">
+            <div class="text-center mb-12">
+                <h3 class="text-base text-blue-600 font-semibold tracking-wide uppercase">Phase III: Years 6+</h3>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    The LBO Roll-Up Campaign
+                </p>
+                <p class="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
+                    Execute a private equity-style strategy of acquiring smaller, local competitors to rapidly consolidate market share.
+                </p>
+            </div>
+            
+            <div class="max-w-6xl mx-auto">
+                <div class="phase-card bg-white p-8 rounded-xl shadow-lg">
+                    <h4 class="text-2xl font-bold mb-4 text-center">The Private Equity Playbook</h4>
+                    <div class="border-b-2 border-gray-200 mb-4">
+                        <nav class="-mb-0.5 flex justify-center space-x-2 md:space-x-6" id="phase3Tabs">
+                            <button data-tab="arbitrage" class="tab py-4 px-1 inline-flex items-center gap-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 active">1. Multiple Arbitrage</button>
+                            <button data-tab="qoe" class="tab py-4 px-1 inline-flex items-center gap-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600">2. Due Diligence</button>
+                            <button data-tab="financing" class="tab py-4 px-1 inline-flex items-center gap-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600">3. Deal Structure</button>
+                            <button data-tab="acquire" class="tab py-4 px-1 inline-flex items-center gap-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600">4. Acquisition Explorer</button>
+                        </nav>
+                    </div>
+
+                    <!-- Tab Content -->
+                    <div id="tabContent">
+                        <!-- Multiple Arbitrage -->
+                        <div id="arbitrage" class="tab-pane"><h5 class="font-bold text-xl text-center mb-4">How Roll-Ups Create Value</h5><div class="grid md:grid-cols-3 gap-6 items-center"><div class="text-center"><p class="font-semibold">Acquire Small Co.</p><div class="bg-gray-100 p-4 rounded-lg mt-2"><p class="text-sm">Earnings (SDE)</p><p class="text-2xl font-bold">$100,000</p><p class="text-sm mt-2">Valuation Multiple</p><p class="text-2xl font-bold">2.5x</p><hr class="my-2"><p class="text-sm">Acquisition Cost</p><p class="text-2xl font-bold text-red-600">$250,000</p></div></div><div class="text-center text-5xl font-bold text-gray-400">+</div><div class="text-center"><p class="font-semibold">Integrate into Platform</p><div class="bg-blue-100 p-4 rounded-lg mt-2"><p class="text-sm">Same Earnings</p><p class="text-2xl font-bold">$100,000</p><p class="text-sm mt-2">Platform's Multiple</p><p class="text-2xl font-bold">6.0x</p><hr class="my-2"><p class="text-sm">Re-Valued Worth</p><p class="text-2xl font-bold text-green-600">$600,000</p></div></div></div><div class="bg-green-50 text-green-800 p-4 rounded-lg mt-6 text-center"><p class="font-bold">Value Created Through Arbitrage: <span class="text-2xl">$350,000</span></p></div></div>
+                        <!-- Quality of Earnings & Working Capital-->
+                        <div id="qoe" class="tab-pane hidden"><h5 class="font-bold text-xl text-center mb-4">Finding True Profitability (QoE) & Efficiency</h5><div class="grid md:grid-cols-2 gap-8 items-start"><div class="bg-gray-50 p-6 rounded-lg"> <p class="font-medium text-center mb-2">Target's Stated Net Income: <span class="font-bold text-blue-600">$50,000</span></p><div class="mt-4"><p class="font-medium mb-2 text-center">Normalization Adjustments</p><div class="space-y-2 text-sm"><div class="flex justify-between p-2 bg-green-50 rounded"><span>+ Add-Backs (Owner Salary, etc.)</span><span>$94,000</span></div><div class="flex justify-between p-2 bg-red-50 rounded"><span>- Normalizations (Mgr Salary, etc.)</span><span>($75,000)</span></div></div><p class="font-bold text-center mt-2">Adjusted EBITDA: <span class="text-2xl text-blue-600">$69,000</span></p></div></div><div class="bg-gray-50 p-6 rounded-lg text-center h-full flex flex-col justify-center"><h5 class="font-bold mb-4">Working Capital Targets</h5><div class="space-y-3"><div class="flex justify-between items-center text-left"><span class="font-semibold">DSO</span><p class="text-sm text-gray-600">Measures collection time</p><span class="font-bold text-green-600">&lt; 15 Days</span></div><div class="flex justify-between items-center text-left"><span class="font-semibold">DIO</span><p class="text-sm text-gray-600">Measures inventory turnover</p><span class="font-bold text-green-600">&lt; 30 Days</span></div><div class="flex justify-between items-center text-left"><span class="font-semibold">DPO</span><p class="text-sm text-gray-600">Measures payment speed</p><span class="font-bold text-green-600">30-45 Days</span></div></div></div></div></div>
+                        <!-- Financing -->
+                        <div id="financing" class="tab-pane hidden">
+                            <h5 class="font-bold text-xl text-center mb-4">The LBO Financing Stack</h5>
+                            <p class="text-center text-gray-600 mb-6 max-w-2xl mx-auto">Acquisitions will be funded using a Leveraged Buyout (LBO) structure to maximize return on equity with minimal cash from the platform's balance sheet.</p>
+                             <div class="max-w-md mx-auto space-y-4">
+                                <div class="p-4 bg-blue-100 rounded-lg flex items-center space-x-4"><div class="bg-blue-600 text-white rounded-full h-12 w-12 flex-shrink-0 flex items-center justify-center font-bold text-lg">70%</div><div><h6 class="font-bold">SBA 7(a) Loan</h6><p class="text-sm text-blue-800">Primary financing tool. Long 10-year term, government-guaranteed.</p></div></div>
+                                <div class="p-4 bg-green-100 rounded-lg flex items-center space-x-4"><div class="bg-green-600 text-white rounded-full h-12 w-12 flex-shrink-0 flex items-center justify-center font-bold text-lg">20%</div><div><h6 class="font-bold">Seller Financing</h6><p class="text-sm text-green-800">Seller provides a loan (note), aligning their interests with the buyer's success.</p></div></div>
+                                <div class="p-4 bg-purple-100 rounded-lg flex items-center space-x-4"><div class="bg-purple-600 text-white rounded-full h-12 w-12 flex-shrink-0 flex items-center justify-center font-bold text-lg">10%</div><div><h6 class="font-bold">Buyer Equity</h6><p class="text-sm text-purple-800">Cash from the platform company for down payment & closing costs.</p></div></div>
+                            </div>
+                        </div>
+                        <!-- Acquisition Explorer -->
+                        <div id="acquire" class="tab-pane hidden"><div class="grid lg:grid-cols-5 gap-8"><div class="lg:col-span-2"><h4 class="text-xl font-bold mb-4 text-center">Target Explorer</h4><p class="text-sm text-center text-gray-500 mb-4">Select a competitor to see their valuation and integration plan.</p><div id="targetList" class="space-y-3"></div></div><div class="lg:col-span-3"><div id="integrationPanel" class="text-center text-gray-500 pt-10"><p class="font-medium">Select a target to get started</p></div><div id="valuationPanel" class="hidden"><h4 class="text-xl font-bold mb-4">Valuation for <span id="targetName" class="text-blue-600"></span></h4><div class="bg-gray-100 p-4 rounded-lg text-center mb-6"><p class="font-medium">Valuation (at 2.5x Adjusted EBITDA)</p><p class="text-3xl font-bold text-green-600" id="targetValuation">$185,000</p></div><h4 class="text-xl font-bold mb-4">100-Day Integration Playbook</h4><ul id="integrationChecklist" class="space-y-3"></ul><button id="acquireBtn" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 mt-6">Acquire & Integrate</button></div></div></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vision -->
+        <section id="vision" class="py-16">
+            <div class="text-center mb-12">
+                <h3 class="text-base text-blue-600 font-semibold tracking-wide uppercase">Long-Term Vision & Exit</h3>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    Creating an Enterprise of Value
+                </p>
+                <p class="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
+                    The end goal is to build a market-leading entity, prime for acquisition by a larger strategic buyer or private equity firm.
+                </p>
+            </div>
+            <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-lg text-center info-card"><div class="bg-blue-100 text-blue-600 rounded-full h-16 w-16 flex items-center justify-center mx-auto mb-4"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg></div><h4 class="text-xl font-bold">Consolidation Goal</h4><p class="text-gray-600 mt-2">Acquire 5-10 local competitors, creating a cohesive entity with >$10M in annual revenue and a 15-20% EBITDA margin.</p></div>
+                 <div class="bg-white p-8 rounded-xl shadow-lg text-center info-card"><div class="bg-green-100 text-green-600 rounded-full h-16 w-16 flex items-center justify-center mx-auto mb-4"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01M12 6v-1m0-1V4m0 2.01v.01M12 16v1m0 1v1m0-2.01v.01M12 20v-1m0-1v-1m0 2.01v.01M4 12H3m1-1h.01M3 12h-1m18 0h1m-1 1h-.01M21 12h1M12 4V3m1 1v.01M11 3v1m2-1.99v.01M12 21v-1m1 1v.01M11 20v1m2-1.99v.01M4 12H3m1-1h.01M3 12h-1m18 0h1m-1 1h-.01M21 12h1"></path></svg></div><h4 class="text-xl font-bold">Premium Exit</h4><p class="text-gray-600 mt-2">Position the scaled business for a premium sale (6x+ EBITDA) to a national home services company or a larger PE firm.</p></div>
+            </div>
+
+            <!-- Valuation Calculator Section -->
+            <div class="max-w-4xl mx-auto mt-12">
+                <div class="bg-white p-8 rounded-xl shadow-lg info-card">
+                    <h4 class="text-2xl font-bold mb-2 text-center">Interactive Exit Valuation Calculator</h4>
+                    <p class="text-center text-gray-600 mb-8">Estimate the potential enterprise value after the successful execution of the roll-up strategy by adjusting the key performance metrics below.</p>
+                    <div class="space-y-6">
+                        <div><label for="revenueSlider" class="block font-medium mb-1">Projected Annual Revenue at Exit: <span id="revenueValue" class="font-bold text-blue-600">$10.0M</span></label><input id="revenueSlider" type="range" min="10000000" max="15000000" value="10000000" step="500000" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"></div>
+                        <div><label for="marginSlider" class="block font-medium mb-1">Projected EBITDA Margin: <span id="marginValue" class="font-bold text-blue-600">17.5%</span></label><input id="marginSlider" type="range" min="15" max="20" value="17.5" step="0.5" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"></div>
+                        <div><label for="multipleSlider" class="block font-medium mb-1">Exit Valuation Multiple: <span id="multipleValue" class="font-bold text-blue-600">6.0x</span></label><input id="multipleSlider" type="range" min="5" max="8" value="6" step="0.5" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"></div>
+                    </div>
+                    <div class="mt-8 border-t-2 border-dashed border-blue-300 pt-6 text-center">
+                        <p class="text-lg font-medium text-gray-700">Projected EBITDA:</p><p class="text-3xl font-bold text-indigo-600 mt-1" id="projectedEbitda">$1,750,000</p>
+                        <p class="text-lg font-medium text-gray-700 mt-4">Estimated Fair Market Enterprise Value:</p><p class="text-5xl font-extrabold text-green-600 mt-2" id="finalValuation">$10,500,000</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-white mt-16">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p>&copy; 2025 OC Garage Consolidation Strategy. All rights reserved.</p>
+            <p class="text-xs text-gray-400 mt-2">This is an interactive representation of a business plan and does not constitute financial advice.</p>
+        </div>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        // --- Observer for stepper animation ---
+        const sections = document.querySelectorAll('section[id]');
+        const stepCircles = [
+            document.getElementById('step-circle-0'), document.getElementById('step-circle-1'),
+            document.getElementById('step-circle-2'), document.getElementById('step-circle-3'),
+            document.getElementById('step-circle-4')
+        ];
+        const stepLines = [
+            document.getElementById('step-line-0'), document.getElementById('step-line-1'),
+            document.getElementById('step-line-2'), document.getElementById('step-line-3')
+        ];
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    let activeIndex = -1;
+                    if (id === 'market') activeIndex = 0;
+                    if (id === 'phase1') activeIndex = 1;
+                    if (id === 'phase2') activeIndex = 2;
+                    if (id === 'phase3') activeIndex = 3;
+                    if (id === 'vision') activeIndex = 4;
+
+                    stepCircles.forEach((circle, i) => {
+                         if (i <= activeIndex) circle.classList.add('active');
+                         else circle.classList.remove('active');
+                    });
+                    stepLines.forEach((line, i) => {
+                         if (i < activeIndex) line.classList.add('active');
+                         else line.classList.remove('active');
+                    });
+                }
+            });
+        }, { rootMargin: "-50% 0px -50% 0px" });
+
+        sections.forEach(section => observer.observe(section));
+
+        // --- Phase 1: Startup Cost Calculator ---
+        const startupCostSlider = document.getElementById('startupCostSlider');
+        const totalCostEl = document.getElementById('totalStartupCost');
+        const recoupTimeEl = document.getElementById('recoupTime');
+        
+        function updateRecoupTime() {
+            const totalCost = parseInt(startupCostSlider.value);
+            const monthlyNetIncome = 2912; // From pro-forma Year 1 monthly average
+            const monthsToRecoup = totalCost / monthlyNetIncome;
+
+            totalCostEl.textContent = '$' + totalCost.toLocaleString();
+            recoupTimeEl.textContent = '~' + monthsToRecoup.toFixed(1) + ' months';
+        }
+
+        startupCostSlider.addEventListener('input', updateRecoupTime);
+        // Initial calculation on load
+        updateRecoupTime();
+
+
+        // --- Phase 1: Profitability Chart ---
+        const ctx = document.getElementById('profitabilityChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Year 1 (Mo. Avg)', 'Year 2 (Qtr. Avg)'],
+                datasets: [{
+                    label: 'Revenue', data: [8400, 45500],
+                    backgroundColor: 'rgba(59, 130, 246, 0.5)', borderColor: 'rgba(59, 130, 246, 1)', borderWidth: 1
+                }, {
+                    label: 'Net Op. Income', data: [2912, 22540],
+                    backgroundColor: 'rgba(139, 92, 246, 0.5)', borderColor: 'rgba(139, 92, 246, 1)', borderWidth: 1
+                }]
+            },
+            options: {
+                scales: { y: { beginAtZero: true, ticks: { callback: (v) => '$' + (v/1000) + 'k' }}},
+                plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => `${c.dataset.label}: $${c.raw.toLocaleString()}`}}}
+            }
+        });
+
+        // --- Phase 2: Growth & Marketing Simulators ---
+        const techniciansSlider = document.getElementById('techniciansSlider');
+        const marketingBudgetSlider = document.getElementById('marketingBudgetSlider');
+        const marketingBudgetPercentEl = document.getElementById('marketingBudgetPercent');
+        const marketingBudgetValueEl = document.getElementById('marketingBudgetValue');
+        
+        const yearData = { '2': { revenue: 637000, grossProfit: 433160, ebitda: 111310 }, '3': { revenue: 955500, grossProfit: 649740, ebitda: 168965 }, '4': { revenue: 1274000, grossProfit: 866320, ebitda: 251620 }};
+        
+        function updatePhase2Sims() {
+            const techCount = techniciansSlider.value;
+            const data = yearData[techCount];
+            document.getElementById('technicianCount').textContent = techCount;
+            document.getElementById('simRevenue').textContent = '$' + data.revenue.toLocaleString();
+            document.getElementById('simGrossProfit').textContent = '$' + data.grossProfit.toLocaleString();
+            document.getElementById('simEbitda').textContent = '$' + data.ebitda.toLocaleString();
+
+            const budgetPercent = parseFloat(marketingBudgetSlider.value);
+            const budgetValue = data.revenue * (budgetPercent / 100);
+            marketingBudgetPercentEl.textContent = budgetPercent.toFixed(1);
+            marketingBudgetValueEl.textContent = '$' + budgetValue.toLocaleString(undefined, {maximumFractionDigits: 0});
+        }
+        
+        techniciansSlider.addEventListener('input', updatePhase2Sims);
+        marketingBudgetSlider.addEventListener('input', updatePhase2Sims);
+        updatePhase2Sims();
+
+
+        // --- Phase 3: Tabs ---
+        const tabs = document.querySelectorAll('.tab');
+        const tabPanes = document.querySelectorAll('.tab-pane');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                tabPanes.forEach(pane => {
+                    if (pane.id === tab.dataset.tab) pane.classList.remove('hidden');
+                    else pane.classList.add('hidden');
+                });
+            });
+        });
+
+        // --- Phase 3: Acquisition Explorer ---
+        const targetListEl = document.getElementById('targetList');
+        const integrationPanel = document.getElementById('integrationPanel');
+        const valuationPanel = document.getElementById('valuationPanel');
+        const targetNameEl = document.getElementById('targetName');
+        const targetValuationEl = document.getElementById('targetValuation');
+        const integrationChecklistEl = document.getElementById('integrationChecklist');
+        const acquireBtn = document.getElementById('acquireBtn');
+        const targets = [{ name: "Anaheim Reliable Doors", city: "Anaheim", ebitda: 74000 }, { name: "Santa Ana Springs", city: "Santa Ana", ebitda: 68000 }, { name: "Irvine Garage Solutions", city: "Irvine", ebitda: 82000 }, { name: "Costa Mesa Door Experts", city: "Costa Mesa", ebitda: 61000 }];
+        const checklistItems = [{ day: "1-30", title: "Systems & Branding" }, { day: "31-60", title: "Financial & Ops Consolidation" }, { day: "61-100", title: "Personnel & Business Dev" }];
+        let currentTarget = null;
+
+        targets.forEach((target) => {
+            const button = document.createElement('button');
+            button.className = 'w-full text-left p-4 rounded-lg border hover:bg-blue-50 transition';
+            button.innerHTML = `<p class="font-bold">${target.name}</p><p class="text-sm text-gray-500">${target.city}</p>`;
+            button.onclick = () => selectTarget(target, button);
+            targetListEl.appendChild(button);
+        });
+
+        function selectTarget(target, buttonEl) {
+            currentTarget = target;
+            Array.from(targetListEl.children).forEach(btn => btn.classList.remove('bg-blue-100', 'border-blue-500'));
+            buttonEl.classList.add('bg-blue-100', 'border-blue-500');
+            integrationPanel.classList.add('hidden');
+            valuationPanel.classList.remove('hidden');
+            targetNameEl.textContent = target.name;
+            targetValuationEl.textContent = '$' + (target.ebitda * 2.5).toLocaleString();
+            acquireBtn.disabled = false;
+            acquireBtn.textContent = 'Acquire & Integrate';
+            acquireBtn.className = 'w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 mt-6';
+            integrationChecklistEl.innerHTML = '';
+            checklistItems.forEach(item => {
+                const li = document.createElement('li');
+                li.className = 'flex items-center space-x-4 p-3 bg-gray-50 rounded-md';
+                li.innerHTML = `<div class="w-12 h-12 flex-shrink-0 flex items-center justify-center bg-gray-200 rounded-full font-bold text-gray-600 text-xs">Days ${item.day}</div><div><p class="font-semibold">${item.title}</p><div class="w-full bg-gray-200 rounded-full h-2.5 mt-1 overflow-hidden"><div class="progress-bar-fill bg-blue-600 h-2.5 rounded-full" style="width: 0%; --progress-width: 0%;"></div></div></div>`;
+                integrationChecklistEl.appendChild(li);
+            });
+        }
+
+        acquireBtn.addEventListener('click', () => {
+            if (!currentTarget) return;
+            acquireBtn.disabled = true;
+            acquireBtn.textContent = 'Integrating...';
+            acquireBtn.className = 'w-full bg-yellow-500 text-white font-bold py-3 px-4 rounded-lg cursor-wait mt-6';
+            const progressBars = integrationChecklistEl.querySelectorAll('.progress-bar-fill');
+            let completed = 0;
+            progressBars.forEach((bar, index) => {
+                setTimeout(() => {
+                    bar.style.setProperty('--progress-width', '100%');
+                    bar.style.width = '100%';
+                    const dayCircle = bar.closest('li').querySelector('.w-12');
+                    dayCircle.innerHTML = `<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
+                    dayCircle.className = 'w-12 h-12 flex-shrink-0 flex items-center justify-center bg-green-500 rounded-full';
+                    if (++completed === progressBars.length) {
+                        acquireBtn.textContent = 'Integration Complete!';
+                        acquireBtn.className = 'w-full bg-green-500 text-white font-bold py-3 px-4 rounded-lg cursor-not-allowed mt-6';
+                    }
+                }, index * 800);
+            });
+        });
+
+        // --- Vision: Exit Valuation Calculator ---
+        const revenueSlider = document.getElementById('revenueSlider');
+        const marginSlider = document.getElementById('marginSlider');
+        const multipleSlider = document.getElementById('multipleSlider');
+        
+        const revenueValueEl = document.getElementById('revenueValue');
+        const marginValueEl = document.getElementById('marginValue');
+        const multipleValueEl = document.getElementById('multipleValue');
+        
+        const projectedEbitdaEl = document.getElementById('projectedEbitda');
+        const finalValuationEl = document.getElementById('finalValuation');
+
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(value);
+        }
+
+        function updateValuation() {
+            const revenue = parseFloat(revenueSlider.value);
+            const margin = parseFloat(marginSlider.value);
+            const multiple = parseFloat(multipleSlider.value);
+
+            const ebitda = revenue * (margin / 100);
+            const valuation = ebitda * multiple;
+
+            revenueValueEl.textContent = `$${(revenue / 1000000).toFixed(1)}M`;
+            marginValueEl.textContent = `${margin.toFixed(1)}%`;
+            multipleValueEl.textContent = `${multiple.toFixed(1)}x`;
+
+            projectedEbitdaEl.textContent = formatCurrency(ebitda);
+            finalValuationEl.textContent = formatCurrency(valuation);
+        }
+
+        revenueSlider.addEventListener('input', updateValuation);
+        marginSlider.addEventListener('input', updateValuation);
+        multipleSlider.addEventListener('input', updateValuation);
+        
+        // Initial calculation
+        updateValuation();
+
+    });
+    </script>
+</body>
+</html>
