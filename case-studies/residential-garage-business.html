@@ -3,9 +3,10 @@
 
     <!-- 
     /-----------------------------------------------\
-    | LAST UPDATE: 2509031504…Wed_Sep_03_2025_0304PM|
+    | LAST UPDATE: 2509031455…Wed_Sep_03_2025_0255PM|
     \-----------------------------------------------/
     -->
+
 
 <head>
     <meta charset="UTF-8">
@@ -40,6 +41,7 @@
         .step-line.active {
             background-color: #2563EB;
         }
+        /* Custom animation for progress bars */
         @keyframes fill-progress {
             from { width: 0%; }
             to { width: var(--progress-width); }
@@ -129,6 +131,7 @@
                 </p>
             </div>
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <!-- TAM Cards -->
                 <div class="info-card bg-white p-6 rounded-xl shadow-lg text-center"><h4 class="font-bold text-lg">Anaheim</h4><p class="text-3xl font-extrabold text-blue-600 mt-2">~48,570</p><p class="text-sm text-gray-500">Owner-Occupied Units</p></div>
                 <div class="info-card bg-white p-6 rounded-xl shadow-lg text-center"><h4 class="font-bold text-lg">Santa Ana</h4><p class="text-3xl font-extrabold text-blue-600 mt-2">~35,540</p><p class="text-sm text-gray-500">Owner-Occupied Units</p></div>
                 <div class="info-card bg-white p-6 rounded-xl shadow-lg text-center"><h4 class="font-bold text-lg">Irvine</h4><p class="text-3xl font-extrabold text-blue-600 mt-2">~49,073</p><p class="text-sm text-gray-500">Owner-Occupied Units</p></div>
@@ -163,6 +166,7 @@
             </div>
         </section>
 
+
         <!-- Phase I -->
         <section id="phase1" class="py-16 bg-gray-100 -mx-6 px-6">
             <div class="text-center mb-12">
@@ -176,6 +180,7 @@
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Startup Cost & Legal -->
                 <div class="lg:col-span-1 phase-card bg-white p-8 rounded-xl shadow-lg">
                     <h4 class="text-xl font-bold mb-4 text-center">Lean Startup & Legal</h4>
                     <div class="mb-6">
@@ -191,6 +196,7 @@
                     </ul>
                 </div>
 
+                <!-- Operational Focus -->
                  <div class="lg:col-span-1 phase-card bg-white p-8 rounded-xl shadow-lg">
                     <h4 class="text-xl font-bold mb-4 text-center">Operational & Pricing Focus</h4>
                     <p class="text-center text-sm text-gray-600 mb-4">Specialize in high-margin, high-turnover repairs with transparent pricing.</p>
@@ -209,6 +215,7 @@
                     </div>
                 </div>
 
+                <!-- Path to Profitability -->
                 <div class="lg:col-span-1 phase-card bg-white p-8 rounded-xl shadow-lg">
                      <h4 class="text-xl font-bold mb-4 text-center">Path to Profitability</h4>
                     <canvas id="profitabilityChart" class=""></canvas>
@@ -299,8 +306,11 @@
 
                     <!-- Tab Content -->
                     <div id="tabContent">
+                        <!-- Multiple Arbitrage -->
                         <div id="arbitrage" class="tab-pane"><h5 class="font-bold text-xl text-center mb-4">How Roll-Ups Create Value</h5><div class="grid md:grid-cols-3 gap-6 items-center"><div class="text-center"><p class="font-semibold">Acquire Small Co.</p><div class="bg-gray-100 p-4 rounded-lg mt-2"><p class="text-sm">Earnings (SDE)</p><p class="text-2xl font-bold">$100,000</p><p class="text-sm mt-2">Valuation Multiple</p><p class="text-2xl font-bold">2.5x</p><hr class="my-2"><p class="text-sm">Acquisition Cost</p><p class="text-2xl font-bold text-red-600">$250,000</p></div></div><div class="text-center text-5xl font-bold text-gray-400">+</div><div class="text-center"><p class="font-semibold">Integrate into Platform</p><div class="bg-blue-100 p-4 rounded-lg mt-2"><p class="text-sm">Same Earnings</p><p class="text-2xl font-bold">$100,000</p><p class="text-sm mt-2">Platform's Multiple</p><p class="text-2xl font-bold">6.0x</p><hr class="my-2"><p class="text-sm">Re-Valued Worth</p><p class="text-2xl font-bold text-green-600">$600,000</p></div></div></div><div class="bg-green-50 text-green-800 p-4 rounded-lg mt-6 text-center"><p class="font-bold">Value Created Through Arbitrage: <span class="text-2xl">$350,000</span></p></div></div>
+                        <!-- Quality of Earnings & Working Capital-->
                         <div id="qoe" class="tab-pane hidden"><h5 class="font-bold text-xl text-center mb-4">Finding True Profitability (QoE) & Efficiency</h5><div class="grid md:grid-cols-2 gap-8 items-start"><div class="bg-gray-50 p-6 rounded-lg"> <p class="font-medium text-center mb-2">Target's Stated Net Income: <span class="font-bold text-blue-600">$50,000</span></p><div class="mt-4"><p class="font-medium mb-2 text-center">Normalization Adjustments</p><div class="space-y-2 text-sm"><div class="flex justify-between p-2 bg-green-50 rounded"><span>+ Add-Backs (Owner Salary, etc.)</span><span>$94,000</span></div><div class="flex justify-between p-2 bg-red-50 rounded"><span>- Normalizations (Mgr Salary, etc.)</span><span>($75,000)</span></div></div><p class="font-bold text-center mt-2">Adjusted EBITDA: <span class="text-2xl text-blue-600">$69,000</span></p></div></div><div class="bg-gray-50 p-6 rounded-lg text-center h-full flex flex-col justify-center"><h5 class="font-bold mb-4">Working Capital Targets</h5><div class="space-y-3"><div class="flex justify-between items-center text-left"><span class="font-semibold">DSO</span><p class="text-sm text-gray-600">Measures collection time</p><span class="font-bold text-green-600">&lt; 15 Days</span></div><div class="flex justify-between items-center text-left"><span class="font-semibold">DIO</span><p class="text-sm text-gray-600">Measures inventory turnover</p><span class="font-bold text-green-600">&lt; 30 Days</span></div><div class="flex justify-between items-center text-left"><span class="font-semibold">DPO</span><p class="text-sm text-gray-600">Measures payment speed</p><span class="font-bold text-green-600">30-45 Days</span></div></div></div></div></div>
+                        <!-- Financing -->
                         <div id="financing" class="tab-pane hidden">
                             <h5 class="font-bold text-xl text-center mb-4">The LBO Financing Stack</h5>
                             <p class="text-center text-gray-600 mb-6 max-w-2xl mx-auto">Acquisitions will be funded using a Leveraged Buyout (LBO) structure to maximize return on equity with minimal cash from the platform's balance sheet.</p>
@@ -310,6 +320,7 @@
                                 <div class="p-4 bg-purple-100 rounded-lg flex items-center space-x-4"><div class="bg-purple-600 text-white rounded-full h-12 w-12 flex-shrink-0 flex items-center justify-center font-bold text-lg">10%</div><div><h6 class="font-bold">Buyer Equity</h6><p class="text-sm text-purple-800">Cash from the platform company for down payment & closing costs.</p></div></div>
                             </div>
                         </div>
+                        <!-- Acquisition Explorer -->
                         <div id="acquire" class="tab-pane hidden"><div class="grid lg:grid-cols-5 gap-8"><div class="lg:col-span-2"><h4 class="text-xl font-bold mb-4 text-center">Target Explorer</h4><p class="text-sm text-center text-gray-500 mb-4">Select a competitor to see their valuation and integration plan.</p><div id="targetList" class="space-y-3"></div></div><div class="lg:col-span-3"><div id="integrationPanel" class="text-center text-gray-500 pt-10"><p class="font-medium">Select a target to get started</p></div><div id="valuationPanel" class="hidden"><h4 class="text-xl font-bold mb-4">Valuation for <span id="targetName" class="text-blue-600"></span></h4><div class="bg-gray-100 p-4 rounded-lg text-center mb-6"><p class="font-medium">Valuation (at 2.5x Adjusted EBITDA)</p><p class="text-3xl font-bold text-green-600" id="targetValuation">$185,000</p></div><h4 class="text-xl font-bold mb-4">100-Day Integration Playbook</h4><ul id="integrationChecklist" class="space-y-3"></ul><button id="acquireBtn" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 mt-6">Acquire & Integrate</button></div></div></div></div>
                     </div>
                 </div>
@@ -332,88 +343,24 @@
                  <div class="bg-white p-8 rounded-xl shadow-lg text-center info-card"><div class="bg-green-100 text-green-600 rounded-full h-16 w-16 flex items-center justify-center mx-auto mb-4"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01M12 6v-1m0-1V4m0 2.01v.01M12 16v1m0 1v1m0-2.01v.01M12 20v-1m0-1v-1m0 2.01v.01M4 12H3m1-1h.01M3 12h-1m18 0h1m-1 1h-.01M21 12h1M12 4V3m1 1v.01M11 3v1m2-1.99v.01M12 21v-1m1 1v.01M11 20v1m2-1.99v.01M4 12H3m1-1h.01M3 12h-1m18 0h1m-1 1h-.01M21 12h1"></path></svg></div><h4 class="text-xl font-bold">Premium Exit</h4><p class="text-gray-600 mt-2">Position the scaled business for a premium sale (6x+ EBITDA) to a national home services company or a larger PE firm.</p></div>
             </div>
 
-            <!-- Advanced Exit Valuation Calculator -->
-            <div class="max-w-6xl mx-auto mt-12">
-                <div class="bg-white p-8 rounded-xl shadow-lg">
-                    <h4 class="text-2xl font-bold mb-2 text-center">Advanced Exit Valuation Calculator</h4>
-                    <p class="text-center text-gray-600 mb-8">Build your exit scenario by adjusting the revenue drivers and valuation metrics below.</p>
-                    
-                    <!-- Revenue Drivers -->
-                    <div class="bg-blue-50 p-6 rounded-lg mb-6">
-                        <h5 class="text-xl font-bold mb-4 text-blue-900">Revenue Drivers</h5>
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block font-medium mb-1">Technicians at Exit: <span id="techniciansExitValue" class="font-bold text-blue-600">15</span></label>
-                                <input id="techniciansExitSlider" type="range" min="10" max="30" value="15" step="1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
-                            </div>
-                            <div>
-                                <label class="block font-medium mb-1">Jobs per Tech per Year: <span id="jobsPerTechValue" class="font-bold text-blue-600">600</span></label>
-                                <input id="jobsPerTechSlider" type="range" min="400" max="800" value="600" step="50" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
-                            </div>
-                            <div>
-                                <label class="block font-medium mb-1">Revenue per Job: <span id="revenuePerJobValue" class="font-bold text-blue-600">$450</span></label>
-                                <input id="revenuePerJobSlider" type="range" min="350" max="600" value="450" step="10" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
-                            </div>
-                            <div>
-                                <label class="block font-medium mb-1">Acquired Companies: <span id="acquiredCompaniesValue" class="font-bold text-blue-600">6</span></label>
-                                <input id="acquiredCompaniesSlider" type="range" min="0" max="10" value="6" step="1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
-                            </div>
-                            <div>
-                                <label class="block font-medium mb-1">Commercial Mix: <span id="commercialMixValue" class="font-bold text-blue-600">20%</span></label>
-                                <input id="commercialMixSlider" type="range" min="0" max="50" value="20" step="5" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
-                            </div>
-                            <div>
-                                <label class="block font-medium mb-1">Growth Multiplier: <span id="growthMultiplierValue" class="font-bold text-blue-600">1.30x</span></label>
-                                <input id="growthMultiplierSlider" type="range" min="1" max="2" value="1.3" step="0.05" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
-                            </div>
-                        </div>
+            <!-- Valuation Calculator Section -->
+            <div class="max-w-4xl mx-auto mt-12">
+                <div class="bg-white p-8 rounded-xl shadow-lg info-card">
+                    <h4 class="text-2xl font-bold mb-2 text-center">Interactive Exit Valuation Calculator</h4>
+                    <p class="text-center text-gray-600 mb-8">Estimate the potential enterprise value after the successful execution of the roll-up strategy by adjusting the key performance metrics below.</p>
+                    <div class="space-y-6">
+                        <div><label for="revenueSlider" class="block font-medium mb-1">Projected Annual Revenue at Exit: <span id="revenueValue" class="font-bold text-blue-600">$10.0M</span></label><input id="revenueSlider" type="range" min="10000000" max="15000000" value="10000000" step="500000" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"></div>
+                        <div><label for="marginSlider" class="block font-medium mb-1">Projected EBITDA Margin: <span id="marginValue" class="font-bold text-blue-600">17.5%</span></label><input id="marginSlider" type="range" min="15" max="20" value="17.5" step="0.5" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"></div>
+                        <div><label for="multipleSlider" class="block font-medium mb-1">Exit Valuation Multiple: <span id="multipleValue" class="font-bold text-blue-600">6.0x</span></label><input id="multipleSlider" type="range" min="5" max="8" value="6" step="0.5" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"></div>
                     </div>
-
-                    <!-- Key Metrics -->
-                    <div class="grid md:grid-cols-4 gap-4 mb-6">
-                        <div class="bg-gray-100 p-4 rounded-lg text-center">
-                            <p class="text-sm text-gray-600">Total Revenue</p>
-                            <p id="calculatedRevenue" class="text-2xl font-bold text-gray-900">$10,530,000</p>
-                        </div>
-                        <div class="bg-gray-100 p-4 rounded-lg text-center">
-                            <p class="text-sm text-gray-600">Total Jobs/Year</p>
-                            <p id="totalJobs" class="text-2xl font-bold text-gray-900">9,000</p>
-                        </div>
-                        <div class="bg-gray-100 p-4 rounded-lg text-center">
-                            <p class="text-sm text-gray-600">Fleet Utilization</p>
-                            <p id="fleetUtilization" class="text-2xl font-bold text-gray-900">82%</p>
-                        </div>
-                        <div class="bg-gray-100 p-4 rounded-lg text-center">
-                            <p class="text-sm text-gray-600">Revenue/Tech</p>
-                            <p id="revenuePerTech" class="text-2xl font-bold text-gray-900">$702,000</p>
-                        </div>
-                    </div>
-
-                    <!-- Valuation Metrics -->
-                    <div class="bg-green-50 p-6 rounded-lg mb-6">
-                        <h5 class="text-xl font-bold mb-4 text-green-900">Valuation Metrics</h5>
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block font-medium mb-1">EBITDA Margin: <span id="marginValue" class="font-bold text-green-600">17.5%</span></label>
-                                <input id="marginSlider" type="range" min="12" max="25" value="17.5" step="0.5" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
-                            </div>
-                            <div>
-                                <label class="block font-medium mb-1">Exit Multiple: <span id="multipleValue" class="font-bold text-green-600">6.5x</span></label>
-                                <input id="multipleSlider" type="range" min="4" max="8" value="6.5" step="0.5" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Final Valuation -->
-                    <div class="border-t-2 border-dashed border-blue-300 pt-6 text-center">
-                        <p class="text-lg font-medium text-gray-700">Projected EBITDA:</p>
-                        <p class="text-3xl font-bold text-indigo-600 mt-1" id="projectedEbitda">$1,842,750</p>
-                        <p class="text-lg font-medium text-gray-700 mt-4">Estimated Enterprise Value:</p>
-                        <p class="text-5xl font-extrabold text-green-600 mt-2" id="finalValuation">$11,977,875</p>
+                    <div class="mt-8 border-t-2 border-dashed border-blue-300 pt-6 text-center">
+                        <p class="text-lg font-medium text-gray-700">Projected EBITDA:</p><p class="text-3xl font-bold text-indigo-600 mt-1" id="projectedEbitda">$1,750,000</p>
+                        <p class="text-lg font-medium text-gray-700 mt-4">Estimated Fair Market Enterprise Value:</p><p class="text-5xl font-extrabold text-green-600 mt-2" id="finalValuation">$10,500,000</p>
                     </div>
                 </div>
             </div>
         </section>
+
     </main>
 
     <footer class="bg-gray-800 text-white mt-16">
@@ -426,7 +373,7 @@
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         
-        // Observer for stepper animation
+        // --- Observer for stepper animation ---
         const sections = document.querySelectorAll('section[id]');
         const stepCircles = [
             document.getElementById('step-circle-0'), document.getElementById('step-circle-1'),
@@ -463,14 +410,14 @@
 
         sections.forEach(section => observer.observe(section));
 
-        // Phase 1: Startup Cost Calculator
+        // --- Phase 1: Startup Cost Calculator ---
         const startupCostSlider = document.getElementById('startupCostSlider');
         const totalCostEl = document.getElementById('totalStartupCost');
         const recoupTimeEl = document.getElementById('recoupTime');
         
         function updateRecoupTime() {
             const totalCost = parseInt(startupCostSlider.value);
-            const monthlyNetIncome = 2912;
+            const monthlyNetIncome = 2912; // From pro-forma Year 1 monthly average
             const monthsToRecoup = totalCost / monthlyNetIncome;
 
             totalCostEl.textContent = '$' + totalCost.toLocaleString();
@@ -478,9 +425,11 @@
         }
 
         startupCostSlider.addEventListener('input', updateRecoupTime);
+        // Initial calculation on load
         updateRecoupTime();
 
-        // Phase 1: Profitability Chart
+
+        // --- Phase 1: Profitability Chart ---
         const ctx = document.getElementById('profitabilityChart').getContext('2d');
         new Chart(ctx, {
             type: 'bar',
@@ -500,17 +449,13 @@
             }
         });
 
-        // Phase 2: Growth & Marketing Simulators
+        // --- Phase 2: Growth & Marketing Simulators ---
         const techniciansSlider = document.getElementById('techniciansSlider');
         const marketingBudgetSlider = document.getElementById('marketingBudgetSlider');
         const marketingBudgetPercentEl = document.getElementById('marketingBudgetPercent');
         const marketingBudgetValueEl = document.getElementById('marketingBudgetValue');
         
-        const yearData = { 
-            '2': { revenue: 637000, grossProfit: 433160, ebitda: 111310 }, 
-            '3': { revenue: 955500, grossProfit: 649740, ebitda: 168965 }, 
-            '4': { revenue: 1274000, grossProfit: 866320, ebitda: 251620 }
-        };
+        const yearData = { '2': { revenue: 637000, grossProfit: 433160, ebitda: 111310 }, '3': { revenue: 955500, grossProfit: 649740, ebitda: 168965 }, '4': { revenue: 1274000, grossProfit: 866320, ebitda: 251620 }};
         
         function updatePhase2Sims() {
             const techCount = techniciansSlider.value;
@@ -530,7 +475,8 @@
         marketingBudgetSlider.addEventListener('input', updatePhase2Sims);
         updatePhase2Sims();
 
-        // Phase 3: Tabs
+
+        // --- Phase 3: Tabs ---
         const tabs = document.querySelectorAll('.tab');
         const tabPanes = document.querySelectorAll('.tab-pane');
         tabs.forEach(tab => {
@@ -544,7 +490,7 @@
             });
         });
 
-        // Phase 3: Acquisition Explorer
+        // --- Phase 3: Acquisition Explorer ---
         const targetListEl = document.getElementById('targetList');
         const integrationPanel = document.getElementById('integrationPanel');
         const valuationPanel = document.getElementById('valuationPanel');
@@ -552,17 +498,8 @@
         const targetValuationEl = document.getElementById('targetValuation');
         const integrationChecklistEl = document.getElementById('integrationChecklist');
         const acquireBtn = document.getElementById('acquireBtn');
-        const targets = [
-            { name: "Anaheim Reliable Doors", city: "Anaheim", ebitda: 74000 }, 
-            { name: "Santa Ana Springs", city: "Santa Ana", ebitda: 68000 }, 
-            { name: "Irvine Garage Solutions", city: "Irvine", ebitda: 82000 }, 
-            { name: "Costa Mesa Door Experts", city: "Costa Mesa", ebitda: 61000 }
-        ];
-        const checklistItems = [
-            { day: "1-30", title: "Systems & Branding" }, 
-            { day: "31-60", title: "Financial & Ops Consolidation" }, 
-            { day: "61-100", title: "Personnel & Business Dev" }
-        ];
+        const targets = [{ name: "Anaheim Reliable Doors", city: "Anaheim", ebitda: 74000 }, { name: "Santa Ana Springs", city: "Santa Ana", ebitda: 68000 }, { name: "Irvine Garage Solutions", city: "Irvine", ebitda: 82000 }, { name: "Costa Mesa Door Experts", city: "Costa Mesa", ebitda: 61000 }];
+        const checklistItems = [{ day: "1-30", title: "Systems & Branding" }, { day: "31-60", title: "Financial & Ops Consolidation" }, { day: "61-100", title: "Personnel & Business Dev" }];
         let currentTarget = null;
 
         targets.forEach((target) => {
@@ -615,16 +552,20 @@
             });
         });
 
-        // Vision: Advanced Exit Valuation Calculator
+        // --- Vision: Exit Valuation Calculator ---
+        // Revenue Driver Sliders
         const techniciansExitSlider = document.getElementById('techniciansExitSlider');
         const jobsPerTechSlider = document.getElementById('jobsPerTechSlider');
         const revenuePerJobSlider = document.getElementById('revenuePerJobSlider');
         const acquiredCompaniesSlider = document.getElementById('acquiredCompaniesSlider');
         const commercialMixSlider = document.getElementById('commercialMixSlider');
         const growthMultiplierSlider = document.getElementById('growthMultiplierSlider');
+        
+        // Valuation Sliders
         const marginSlider = document.getElementById('marginSlider');
         const multipleSlider = document.getElementById('multipleSlider');
         
+        // Display Elements
         const techniciansExitValueEl = document.getElementById('techniciansExitValue');
         const jobsPerTechValueEl = document.getElementById('jobsPerTechValue');
         const revenuePerJobValueEl = document.getElementById('revenuePerJobValue');
@@ -642,34 +583,44 @@
         const finalValuationEl = document.getElementById('finalValuation');
 
         function formatCurrency(value) {
-            return new Intl.NumberFormat('en-US', { 
-                style: 'currency', 
-                currency: 'USD', 
-                minimumFractionDigits: 0, 
-                maximumFractionDigits: 0 
-            }).format(value);
+            return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(value);
         }
 
         function updateValuation() {
+            // Get values from revenue drivers
             const technicians = parseInt(techniciansExitSlider.value);
             const jobsPerTech = parseInt(jobsPerTechSlider.value);
             const revenuePerJob = parseInt(revenuePerJobSlider.value);
             const acquiredCompanies = parseInt(acquiredCompaniesSlider.value);
             const commercialMix = parseFloat(commercialMixSlider.value) / 100;
             const growthMultiplier = parseFloat(growthMultiplierSlider.value);
+            
+            // Get valuation metrics
             const margin = parseFloat(marginSlider.value);
             const multiple = parseFloat(multipleSlider.value);
             
+            // Calculate commercial premium (commercial jobs typically have 30% higher ticket value)
             const commercialPremium = 1 + (commercialMix * 0.3);
+            
+            // Calculate base revenue
             const baseRevenue = technicians * jobsPerTech * revenuePerJob;
+            
+            // Apply growth multiplier and commercial premium
             const totalRevenue = baseRevenue * growthMultiplier * commercialPremium;
+            
+            // Calculate additional metrics
             const totalJobs = technicians * jobsPerTech;
             const revenuePerTech = totalRevenue / technicians;
-            const optimalJobsPerTech = 730;
+            
+            // Fleet utilization calculation (assuming 2 jobs per day, 250 working days = 500 jobs per year is 100%)
+            const optimalJobsPerTech = 730; // Upper bound for excellent utilization
             const fleetUtilization = Math.min(100, (jobsPerTech / optimalJobsPerTech) * 100);
+            
+            // Calculate EBITDA and valuation
             const ebitda = totalRevenue * (margin / 100);
             const valuation = ebitda * multiple;
             
+            // Update display values for sliders
             techniciansExitValueEl.textContent = technicians;
             jobsPerTechValueEl.textContent = jobsPerTech;
             revenuePerJobValueEl.textContent = formatCurrency(revenuePerJob);
@@ -679,6 +630,7 @@
             marginValueEl.textContent = `${margin.toFixed(1)}%`;
             multipleValueEl.textContent = `${multiple.toFixed(1)}x`;
             
+            // Update calculated values
             calculatedRevenueEl.textContent = formatCurrency(totalRevenue);
             totalJobsEl.textContent = totalJobs.toLocaleString();
             fleetUtilizationEl.textContent = `${fleetUtilization.toFixed(0)}%`;
@@ -687,6 +639,7 @@
             finalValuationEl.textContent = formatCurrency(valuation);
         }
         
+        // Add event listeners to all sliders
         techniciansExitSlider.addEventListener('input', updateValuation);
         jobsPerTechSlider.addEventListener('input', updateValuation);
         revenuePerJobSlider.addEventListener('input', updateValuation);
@@ -696,7 +649,9 @@
         marginSlider.addEventListener('input', updateValuation);
         multipleSlider.addEventListener('input', updateValuation);
         
+        // Initial calculation
         updateValuation();
+
     });
     </script>
 </body>
