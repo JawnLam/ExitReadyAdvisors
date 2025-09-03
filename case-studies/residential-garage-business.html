@@ -1,5 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
+    <!-- 
+    /-----------------------------------------------\
+    | LAST UPDATE: 2509031437…Wed_Sep_03_2025_0237PM|
+    \-----------------------------------------------/
+    -->
+
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -557,92 +565,98 @@
         const marginSlider = document.getElementById('marginSlider');
         const multipleSlider = document.getElementById('multipleSlider');
         
-        // Display Elements
-        const techniciansExitValueEl = document.getElementById('techniciansExitValue');
-        const jobsPerTechValueEl = document.getElementById('jobsPerTechValue');
-        const revenuePerJobValueEl = document.getElementById('revenuePerJobValue');
-        const acquiredCompaniesValueEl = document.getElementById('acquiredCompaniesValue');
-        const commercialMixValueEl = document.getElementById('commercialMixValue');
-        const growthMultiplierValueEl = document.getElementById('growthMultiplierValue');
-        const marginValueEl = document.getElementById('marginValue');
-        const multipleValueEl = document.getElementById('multipleValue');
-        
-        const calculatedRevenueEl = document.getElementById('calculatedRevenue');
-        const totalJobsEl = document.getElementById('totalJobs');
-        const fleetUtilizationEl = document.getElementById('fleetUtilization');
-        const revenuePerTechEl = document.getElementById('revenuePerTech');
-        const projectedEbitdaEl = document.getElementById('projectedEbitda');
-        const finalValuationEl = document.getElementById('finalValuation');
+        // Check if all elements exist before proceeding
+        if (techniciansExitSlider && jobsPerTechSlider && revenuePerJobSlider && 
+            acquiredCompaniesSlider && commercialMixSlider && growthMultiplierSlider && 
+            marginSlider && multipleSlider) {
+            
+            // Display Elements
+            const techniciansExitValueEl = document.getElementById('techniciansExitValue');
+            const jobsPerTechValueEl = document.getElementById('jobsPerTechValue');
+            const revenuePerJobValueEl = document.getElementById('revenuePerJobValue');
+            const acquiredCompaniesValueEl = document.getElementById('acquiredCompaniesValue');
+            const commercialMixValueEl = document.getElementById('commercialMixValue');
+            const growthMultiplierValueEl = document.getElementById('growthMultiplierValue');
+            const marginValueEl = document.getElementById('marginValue');
+            const multipleValueEl = document.getElementById('multipleValue');
+            
+            const calculatedRevenueEl = document.getElementById('calculatedRevenue');
+            const totalJobsEl = document.getElementById('totalJobs');
+            const fleetUtilizationEl = document.getElementById('fleetUtilization');
+            const revenuePerTechEl = document.getElementById('revenuePerTech');
+            const projectedEbitdaEl = document.getElementById('projectedEbitda');
+            const finalValuationEl = document.getElementById('finalValuation');
 
-        function formatCurrency(value) {
-            return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(value);
-        }
+            function formatCurrency(value) {
+                return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(value);
+            }
 
-        function updateValuation() {
-            // Get values from revenue drivers
-            const technicians = parseInt(techniciansExitSlider.value);
-            const jobsPerTech = parseInt(jobsPerTechSlider.value);
-            const revenuePerJob = parseInt(revenuePerJobSlider.value);
-            const acquiredCompanies = parseInt(acquiredCompaniesSlider.value);
-            const commercialMix = parseFloat(commercialMixSlider.value) / 100;
-            const growthMultiplier = parseFloat(growthMultiplierSlider.value);
+            function updateValuation() {
+                // Get values from revenue drivers
+                const technicians = parseInt(techniciansExitSlider.value);
+                const jobsPerTech = parseInt(jobsPerTechSlider.value);
+                const revenuePerJob = parseInt(revenuePerJobSlider.value);
+                const acquiredCompanies = parseInt(acquiredCompaniesSlider.value);
+                const commercialMix = parseFloat(commercialMixSlider.value) / 100;
+                const growthMultiplier = parseFloat(growthMultiplierSlider.value);
+                
+                // Get valuation metrics
+                const margin = parseFloat(marginSlider.value);
+                const multiple = parseFloat(multipleSlider.value);
+                
+                // Calculate commercial premium (commercial jobs typically have 30% higher ticket value)
+                const commercialPremium = 1 + (commercialMix * 0.3);
+                
+                // Calculate base revenue
+                const baseRevenue = technicians * jobsPerTech * revenuePerJob;
+                
+                // Apply growth multiplier and commercial premium
+                const totalRevenue = baseRevenue * growthMultiplier * commercialPremium;
+                
+                // Calculate additional metrics
+                const totalJobs = technicians * jobsPerTech;
+                const revenuePerTech = totalRevenue / technicians;
+                
+                // Fleet utilization calculation (assuming 2 jobs per day, 250 working days = 500 jobs per year is 100%)
+                const optimalJobsPerTech = 730; // Upper bound for excellent utilization
+                const fleetUtilization = Math.min(100, (jobsPerTech / optimalJobsPerTech) * 100);
+                
+                // Calculate EBITDA and valuation
+                const ebitda = totalRevenue * (margin / 100);
+                const valuation = ebitda * multiple;
+                
+                // Update display values for sliders
+                techniciansExitValueEl.textContent = technicians;
+                jobsPerTechValueEl.textContent = jobsPerTech;
+                revenuePerJobValueEl.textContent = formatCurrency(revenuePerJob);
+                acquiredCompaniesValueEl.textContent = acquiredCompanies;
+                commercialMixValueEl.textContent = `${commercialMix * 100}%`;
+                growthMultiplierValueEl.textContent = `${growthMultiplier.toFixed(2)}x`;
+                marginValueEl.textContent = `${margin.toFixed(1)}%`;
+                multipleValueEl.textContent = `${multiple.toFixed(1)}x`;
+                
+                // Update calculated values
+                calculatedRevenueEl.textContent = formatCurrency(totalRevenue);
+                totalJobsEl.textContent = totalJobs.toLocaleString();
+                fleetUtilizationEl.textContent = `${fleetUtilization.toFixed(0)}%`;
+                revenuePerTechEl.textContent = formatCurrency(revenuePerTech);
+                projectedEbitdaEl.textContent = formatCurrency(ebitda);
+                finalValuationEl.textContent = formatCurrency(valuation);
+            }
             
-            // Get valuation metrics
-            const margin = parseFloat(marginSlider.value);
-            const multiple = parseFloat(multipleSlider.value);
+            // Add event listeners to all sliders
+            techniciansExitSlider.addEventListener('input', updateValuation);
+            jobsPerTechSlider.addEventListener('input', updateValuation);
+            revenuePerJobSlider.addEventListener('input', updateValuation);
+            acquiredCompaniesSlider.addEventListener('input', updateValuation);
+            commercialMixSlider.addEventListener('input', updateValuation);
+            growthMultiplierSlider.addEventListener('input', updateValuation);
+            marginSlider.addEventListener('input', updateValuation);
+            multipleSlider.addEventListener('input', updateValuation);
             
-            // Calculate commercial premium (commercial jobs typically have 30% higher ticket value)
-            const commercialPremium = 1 + (commercialMix * 0.3);
-            
-            // Calculate base revenue
-            const baseRevenue = technicians * jobsPerTech * revenuePerJob;
-            
-            // Apply growth multiplier and commercial premium
-            const totalRevenue = baseRevenue * growthMultiplier * commercialPremium;
-            
-            // Calculate additional metrics
-            const totalJobs = technicians * jobsPerTech;
-            const revenuePerTech = totalRevenue / technicians;
-            
-            // Fleet utilization calculation (assuming 2 jobs per day, 250 working days = 500 jobs per year is 100%)
-            const optimalJobsPerTech = 730; // Upper bound for excellent utilization
-            const fleetUtilization = Math.min(100, (jobsPerTech / optimalJobsPerTech) * 100);
-            
-            // Calculate EBITDA and valuation
-            const ebitda = totalRevenue * (margin / 100);
-            const valuation = ebitda * multiple;
-            
-            // Update display values for sliders
-            techniciansExitValueEl.textContent = technicians;
-            jobsPerTechValueEl.textContent = jobsPerTech;
-            revenuePerJobValueEl.textContent = formatCurrency(revenuePerJob);
-            acquiredCompaniesValueEl.textContent = acquiredCompanies;
-            commercialMixValueEl.textContent = `${commercialMix * 100}%`;
-            growthMultiplierValueEl.textContent = `${growthMultiplier.toFixed(2)}x`;
-            marginValueEl.textContent = `${margin.toFixed(1)}%`;
-            multipleValueEl.textContent = `${multiple.toFixed(1)}x`;
-            
-            // Update calculated values
-            calculatedRevenueEl.textContent = formatCurrency(totalRevenue);
-            totalJobsEl.textContent = totalJobs.toLocaleString();
-            fleetUtilizationEl.textContent = `${fleetUtilization.toFixed(0)}%`;
-            revenuePerTechEl.textContent = formatCurrency(revenuePerTech);
-            projectedEbitdaEl.textContent = formatCurrency(ebitda);
-            finalValuationEl.textContent = formatCurrency(valuation);
+            // Initial calculation
+            updateValuation();
         }
-        
-        // Add event listeners to all sliders
-        techniciansExitSlider.addEventListener('input', updateValuation);
-        jobsPerTechSlider.addEventListener('input', updateValuation);
-        revenuePerJobSlider.addEventListener('input', updateValuation);
-        acquiredCompaniesSlider.addEventListener('input', updateValuation);
-        commercialMixSlider.addEventListener('input', updateValuation);
-        growthMultiplierSlider.addEventListener('input', updateValuation);
-        marginSlider.addEventListener('input', updateValuation);
-        multipleSlider.addEventListener('input', updateValuation);
-        
-        // Initial calculation
-        updateValuation();
 
     });
     </script>
