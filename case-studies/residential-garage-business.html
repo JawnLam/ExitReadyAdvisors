@@ -1,11 +1,11 @@
+<!-- 
+/-----------------------------------------------\
+| LAST UPDATE: 2509031550…Wed_Sep_03_2025_0350PM|
+\-----------------------------------------------/
+-->
+
 <!DOCTYPE html>
 <html lang="en">
-
-    <!-- 
-    /-----------------------------------------------\
-    | LAST UPDATE: 2509031550…Wed_Sep_03_2025_0350PM|
-    \-----------------------------------------------/
-    -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,41 +48,135 @@
             transform: translateX(0);
             transition: transform 0.3s ease-out;
         }
-        /* Improved touch targets for mobile */
+        
+        /* PROPER SLIDER STYLING WITH CLEAR VISUAL DISTINCTION */
         input[type="range"] {
             -webkit-appearance: none;
             appearance: none;
-            background: transparent;
-            cursor: pointer;
+            width: 100%;
+            height: 10px;
+            border-radius: 5px;
+            background: #ddd;
+            outline: none;
+            margin: 15px 0;
+            position: relative;
         }
+        
+        /* Webkit browsers (Chrome, Safari) */
         input[type="range"]::-webkit-slider-track {
-            background: #e5e7eb;
-            height: 8px;
-            border-radius: 4px;
+            -webkit-appearance: none;
+            height: 10px;
+            border-radius: 5px;
+            background: linear-gradient(to right, 
+                #3b82f6 0%, 
+                #3b82f6 var(--progress, 50%), 
+                #e5e7eb var(--progress, 50%), 
+                #e5e7eb 100%);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
         }
+        
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            background: #2563EB;
-            height: 24px;
-            width: 24px;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
+            background: #ffffff;
+            border: 3px solid #3b82f6;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
             margin-top: -8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s ease;
         }
+        
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+            box-shadow: 0 3px 8px rgba(59, 130, 246, 0.4);
+        }
+        
+        input[type="range"]::-webkit-slider-thumb:active {
+            transform: scale(1.1);
+            background: #f0f9ff;
+        }
+        
+        /* Firefox */
         input[type="range"]::-moz-range-track {
+            height: 10px;
+            border-radius: 5px;
             background: #e5e7eb;
-            height: 8px;
-            border-radius: 4px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
         }
+        
+        input[type="range"]::-moz-range-progress {
+            height: 10px;
+            border-radius: 5px;
+            background: #3b82f6;
+        }
+        
         input[type="range"]::-moz-range-thumb {
-            background: #2563EB;
-            height: 24px;
-            width: 24px;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
-            border: none;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            background: #ffffff;
+            border: 3px solid #3b82f6;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s ease;
         }
+        
+        input[type="range"]::-moz-range-thumb:hover {
+            transform: scale(1.15);
+            box-shadow: 0 3px 8px rgba(59, 130, 246, 0.4);
+        }
+        
+        input[type="range"]::-moz-range-thumb:active {
+            transform: scale(1.1);
+            background: #f0f9ff;
+        }
+        
+        /* GREEN SLIDERS */
+        input[type="range"].green-slider::-webkit-slider-track {
+            background: linear-gradient(to right, 
+                #22c55e 0%, 
+                #22c55e var(--progress, 50%), 
+                #e5e7eb var(--progress, 50%), 
+                #e5e7eb 100%);
+        }
+        
+        input[type="range"].green-slider::-webkit-slider-thumb {
+            border-color: #22c55e;
+        }
+        
+        input[type="range"].green-slider::-webkit-slider-thumb:hover {
+            box-shadow: 0 3px 8px rgba(34, 197, 94, 0.4);
+        }
+        
+        input[type="range"].green-slider::-webkit-slider-thumb:active {
+            background: #f0fdf4;
+        }
+        
+        input[type="range"].green-slider::-moz-range-progress {
+            background: #22c55e;
+        }
+        
+        input[type="range"].green-slider::-moz-range-thumb {
+            border-color: #22c55e;
+        }
+        
+        input[type="range"].green-slider::-moz-range-thumb:hover {
+            box-shadow: 0 3px 8px rgba(34, 197, 94, 0.4);
+        }
+        
+        input[type="range"].green-slider::-moz-range-thumb:active {
+            background: #f0fdf4;
+        }
+        
+        /* Slider container */
+        .slider-container {
+            padding: 5px 0;
+            margin: 8px 0;
+        }
+        
         /* Mobile-friendly tab scrolling */
         @media (max-width: 640px) {
             .tab-container {
@@ -141,42 +235,6 @@
             </p>
         </div>
     </section>
-
-    <!-- Stepper Navigation -->
-    <div class="container mx-auto px-4 sm:px-6 py-8 sm:py-12 overflow-x-auto">
-        <div class="w-full max-w-5xl mx-auto min-w-[320px]">
-            <div class="flex items-center">
-                 <div class="flex flex-col items-center flex-shrink-0">
-                    <div id="step-circle-0" class="step-circle w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center font-bold text-gray-500">
-                        <svg class="w-4 h-4 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                    </div>
-                    <p class="text-xs mt-1 sm:mt-2 text-center">Market</p>
-                </div>
-                <div id="step-line-0" class="step-line flex-auto border-t-2 border-gray-300 mx-2 sm:mx-4"></div>
-                <div class="flex flex-col items-center flex-shrink-0">
-                    <div id="step-circle-1" class="step-circle w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center font-bold text-gray-500 text-sm sm:text-base">1</div>
-                    <p class="text-xs mt-1 sm:mt-2 text-center">Blueprint</p>
-                </div>
-                <div id="step-line-1" class="step-line flex-auto border-t-2 border-gray-300 mx-2 sm:mx-4"></div>
-                <div class="flex flex-col items-center flex-shrink-0">
-                    <div id="step-circle-2" class="step-circle w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center font-bold text-gray-500 text-sm sm:text-base">2</div>
-                     <p class="text-xs mt-1 sm:mt-2 text-center">Scaling</p>
-                </div>
-                <div id="step-line-2" class="step-line flex-auto border-t-2 border-gray-300 mx-2 sm:mx-4"></div>
-                <div class="flex flex-col items-center flex-shrink-0">
-                    <div id="step-circle-3" class="step-circle w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center font-bold text-gray-500 text-sm sm:text-base">3</div>
-                     <p class="text-xs mt-1 sm:mt-2 text-center">Roll-Up</p>
-                </div>
-                 <div id="step-line-3" class="step-line flex-auto border-t-2 border-gray-300 mx-2 sm:mx-4"></div>
-                 <div class="flex flex-col items-center flex-shrink-0">
-                    <div id="step-circle-4" class="step-circle w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center font-bold text-gray-500">
-                        <svg class="w-4 h-4 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    </div>
-                     <p class="text-xs mt-1 sm:mt-2 text-center">Exit</p>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <main class="container mx-auto px-4 sm:px-6">
         <!-- Market Opportunity -->
@@ -243,7 +301,9 @@
                     <div class="mb-6">
                         <p class="text-sm sm:text-md font-medium text-gray-700 text-center">Adjust Initial Startup Capital:</p>
                         <p class="text-2xl sm:text-3xl font-extrabold text-blue-700 text-center" id="totalStartupCost">$47,300</p>
-                         <input id="startupCostSlider" type="range" min="35000" max="60000" value="47300" step="100" class="w-full mt-2">
+                        <div class="slider-container">
+                            <input id="startupCostSlider" type="range" min="35000" max="60000" value="47300" step="100" class="w-full">
+                        </div>
                     </div>
                      <ul class="space-y-2 text-xs sm:text-sm">
                         <li class="flex items-start"><svg class="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span>Form Single-Member LLC</span></li>
@@ -310,8 +370,10 @@
                                 <span class="font-bold">Scaling Trigger:</span> Turning down 2+ profitable jobs per week due to a full schedule.
                             </div>
                             <label for="techniciansSlider" class="block font-medium mb-2 text-sm sm:text-base">Adjust Number of Technicians (Years 3-5): <span id="technicianCount" class="font-bold text-blue-600">2</span></label>
-                            <input id="techniciansSlider" type="range" min="2" max="4" value="2" step="1" class="w-full">
-                            <div class="flex justify-between text-xs w-full px-1 mt-1"><span>2 (Yr 3)</span><span>3 (Yr 4)</span><span>4 (Yr 5)</span></div>
+                            <div class="slider-container">
+                                <input id="techniciansSlider" type="range" min="2" max="4" value="2" step="1" class="w-full">
+                                <div class="flex justify-between text-xs w-full px-1 mt-1"><span>2 (Yr 3)</span><span>3 (Yr 4)</span><span>4 (Yr 5)</span></div>
+                            </div>
                         </div>
                         <div class="grid grid-cols-2 gap-3 sm:gap-4 text-center">
                             <div class="bg-blue-50 p-3 sm:p-4 rounded-lg"><p class="text-xs sm:text-sm text-blue-800">Annual Revenue</p><p id="simRevenue" class="text-xl sm:text-2xl font-bold text-blue-900 mt-1">$637,000</p></div>
@@ -324,7 +386,9 @@
                          <div class="bg-gray-100 p-4 sm:p-6 rounded-lg">
                             <h5 class="font-bold text-center mb-1 text-sm sm:text-base">Marketing Budget Allocation</h5>
                             <p class="text-center text-xs sm:text-sm text-gray-600 mb-4">Set at <span id="marketingBudgetPercent">5.0</span>% of revenue: <span id="marketingBudgetValue" class="font-bold">$31,850</span></p>
-                            <input id="marketingBudgetSlider" type="range" min="5" max="10" value="5" step="0.5" class="w-full mb-4">
+                            <div class="slider-container mb-4">
+                                <input id="marketingBudgetSlider" type="range" min="5" max="10" value="5" step="0.5" class="w-full">
+                            </div>
                             
                              <div class="space-y-2 sm:space-y-3 text-xs sm:text-sm">
                                 <div class="flex justify-between items-center"><span class="font-medium">Google Ads (PPC)</span> <span class="px-2 py-1 bg-blue-200 text-blue-800 rounded-md font-semibold text-xs">High Intent</span></div>
@@ -357,7 +421,6 @@
                             <button data-tab="arbitrage" class="tab py-3 sm:py-4 px-1 inline-flex items-center gap-1 sm:gap-2 border-b-2 border-transparent text-xs sm:text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 active">1. Multiple Arbitrage</button>
                             <button data-tab="qoe" class="tab py-3 sm:py-4 px-1 inline-flex items-center gap-1 sm:gap-2 border-b-2 border-transparent text-xs sm:text-sm whitespace-nowrap text-gray-500 hover:text-blue-600">2. Due Diligence</button>
                             <button data-tab="financing" class="tab py-3 sm:py-4 px-1 inline-flex items-center gap-1 sm:gap-2 border-b-2 border-transparent text-xs sm:text-sm whitespace-nowrap text-gray-500 hover:text-blue-600">3. Deal Structure</button>
-                            <button data-tab="acquire" class="tab py-3 sm:py-4 px-1 inline-flex items-center gap-1 sm:gap-2 border-b-2 border-transparent text-xs sm:text-sm whitespace-nowrap text-gray-500 hover:text-blue-600">4. Acquisition Explorer</button>
                         </nav>
                     </div>
 
@@ -467,31 +530,6 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        <div id="acquire" class="tab-pane hidden">
-                            <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 sm:gap-8">
-                                <div class="lg:col-span-2">
-                                    <h4 class="text-lg sm:text-xl font-bold mb-4 text-center">Target Explorer</h4>
-                                    <p class="text-xs sm:text-sm text-center text-gray-500 mb-4">Select a competitor to see their valuation and integration plan.</p>
-                                    <div id="targetList" class="space-y-3"></div>
-                                </div>
-                                <div class="lg:col-span-3">
-                                    <div id="integrationPanel" class="text-center text-gray-500 pt-10">
-                                        <p class="font-medium text-sm sm:text-base">Select a target to get started</p>
-                                    </div>
-                                    <div id="valuationPanel" class="hidden">
-                                        <h4 class="text-lg sm:text-xl font-bold mb-4">Valuation for <span id="targetName" class="text-blue-600"></span></h4>
-                                        <div class="bg-gray-100 p-3 sm:p-4 rounded-lg text-center mb-6">
-                                            <p class="font-medium text-sm sm:text-base">Valuation (at 2.5x Adjusted EBITDA)</p>
-                                            <p class="text-2xl sm:text-3xl font-bold text-green-600" id="targetValuation">$185,000</p>
-                                        </div>
-                                        <h4 class="text-lg sm:text-xl font-bold mb-4">100-Day Integration Playbook</h4>
-                                        <ul id="integrationChecklist" class="space-y-3"></ul>
-                                        <button id="acquireBtn" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 mt-6 text-sm sm:text-base">Acquire & Integrate</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -537,27 +575,39 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                             <div>
                                 <label class="block font-medium mb-1 text-sm sm:text-base">Technicians at Exit: <span id="techniciansExitValue" class="font-bold text-blue-600">15</span></label>
-                                <input id="techniciansExitSlider" type="range" min="10" max="30" value="15" step="1" class="w-full">
+                                <div class="slider-container">
+                                    <input id="techniciansExitSlider" type="range" min="10" max="30" value="15" step="1" class="w-full">
+                                </div>
                             </div>
                             <div>
                                 <label class="block font-medium mb-1 text-sm sm:text-base">Jobs per Tech per Year: <span id="jobsPerTechValue" class="font-bold text-blue-600">600</span></label>
-                                <input id="jobsPerTechSlider" type="range" min="400" max="800" value="600" step="50" class="w-full">
+                                <div class="slider-container">
+                                    <input id="jobsPerTechSlider" type="range" min="400" max="800" value="600" step="50" class="w-full">
+                                </div>
                             </div>
                             <div>
                                 <label class="block font-medium mb-1 text-sm sm:text-base">Revenue per Job: <span id="revenuePerJobValue" class="font-bold text-blue-600">$450</span></label>
-                                <input id="revenuePerJobSlider" type="range" min="350" max="600" value="450" step="10" class="w-full">
+                                <div class="slider-container">
+                                    <input id="revenuePerJobSlider" type="range" min="350" max="600" value="450" step="10" class="w-full">
+                                </div>
                             </div>
                             <div>
                                 <label class="block font-medium mb-1 text-sm sm:text-base">Acquired Companies: <span id="acquiredCompaniesValue" class="font-bold text-blue-600">6</span></label>
-                                <input id="acquiredCompaniesSlider" type="range" min="0" max="10" value="6" step="1" class="w-full">
+                                <div class="slider-container">
+                                    <input id="acquiredCompaniesSlider" type="range" min="0" max="10" value="6" step="1" class="w-full">
+                                </div>
                             </div>
                             <div>
                                 <label class="block font-medium mb-1 text-sm sm:text-base">Commercial Mix: <span id="commercialMixValue" class="font-bold text-blue-600">20%</span></label>
-                                <input id="commercialMixSlider" type="range" min="0" max="50" value="20" step="5" class="w-full">
+                                <div class="slider-container">
+                                    <input id="commercialMixSlider" type="range" min="0" max="50" value="20" step="5" class="w-full">
+                                </div>
                             </div>
                             <div>
                                 <label class="block font-medium mb-1 text-sm sm:text-base">Growth Multiplier: <span id="growthMultiplierValue" class="font-bold text-blue-600">1.30x</span></label>
-                                <input id="growthMultiplierSlider" type="range" min="1" max="2" value="1.3" step="0.05" class="w-full">
+                                <div class="slider-container">
+                                    <input id="growthMultiplierSlider" type="range" min="1" max="2" value="1.3" step="0.05" class="w-full">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -623,6 +673,24 @@
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         
+        // Function to update slider fill based on value
+        function updateSliderProgress(slider) {
+            const min = parseFloat(slider.min) || 0;
+            const max = parseFloat(slider.max) || 100;
+            const value = parseFloat(slider.value);
+            const percentage = ((value - min) / (max - min)) * 100;
+            slider.style.setProperty('--progress', percentage + '%');
+        }
+        
+        // Initialize all sliders and add event listeners
+        const allSliders = document.querySelectorAll('input[type="range"]');
+        allSliders.forEach(slider => {
+            updateSliderProgress(slider);
+            slider.addEventListener('input', function() {
+                updateSliderProgress(this);
+            });
+        });
+        
         // Mobile menu toggle
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
@@ -643,43 +711,6 @@
                 closeIcon.classList.add('hidden');
             });
         });
-        
-        // Observer for stepper animation
-        const sections = document.querySelectorAll('section[id]');
-        const stepCircles = [
-            document.getElementById('step-circle-0'), document.getElementById('step-circle-1'),
-            document.getElementById('step-circle-2'), document.getElementById('step-circle-3'),
-            document.getElementById('step-circle-4')
-        ];
-        const stepLines = [
-            document.getElementById('step-line-0'), document.getElementById('step-line-1'),
-            document.getElementById('step-line-2'), document.getElementById('step-line-3')
-        ];
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const id = entry.target.getAttribute('id');
-                    let activeIndex = -1;
-                    if (id === 'market') activeIndex = 0;
-                    if (id === 'phase1') activeIndex = 1;
-                    if (id === 'phase2') activeIndex = 2;
-                    if (id === 'phase3') activeIndex = 3;
-                    if (id === 'vision') activeIndex = 4;
-
-                    stepCircles.forEach((circle, i) => {
-                         if (i <= activeIndex) circle.classList.add('active');
-                         else circle.classList.remove('active');
-                    });
-                    stepLines.forEach((line, i) => {
-                         if (i < activeIndex) line.classList.add('active');
-                         else line.classList.remove('active');
-                    });
-                }
-            });
-        }, { rootMargin: "-50% 0px -50% 0px" });
-
-        sections.forEach(section => observer.observe(section));
 
         // Phase 1: Startup Cost Calculator
         const startupCostSlider = document.getElementById('startupCostSlider');
@@ -753,7 +784,7 @@
         marketingBudgetSlider.addEventListener('input', updatePhase2Sims);
         updatePhase2Sims();
 
-        // Phase 3: Tabs
+        // Phase 3: Tabs (Removed 4th tab entirely)
         const tabs = document.querySelectorAll('.tab');
         const tabPanes = document.querySelectorAll('.tab-pane');
         tabs.forEach(tab => {
@@ -764,77 +795,6 @@
                     if (pane.id === tab.dataset.tab) pane.classList.remove('hidden');
                     else pane.classList.add('hidden');
                 });
-            });
-        });
-
-        // Phase 3: Acquisition Explorer
-        const targetListEl = document.getElementById('targetList');
-        const integrationPanel = document.getElementById('integrationPanel');
-        const valuationPanel = document.getElementById('valuationPanel');
-        const targetNameEl = document.getElementById('targetName');
-        const targetValuationEl = document.getElementById('targetValuation');
-        const integrationChecklistEl = document.getElementById('integrationChecklist');
-        const acquireBtn = document.getElementById('acquireBtn');
-        const targets = [
-            { name: "Anaheim Reliable Doors", city: "Anaheim", ebitda: 74000 }, 
-            { name: "Santa Ana Springs", city: "Santa Ana", ebitda: 68000 }, 
-            { name: "Irvine Garage Solutions", city: "Irvine", ebitda: 82000 }, 
-            { name: "Costa Mesa Door Experts", city: "Costa Mesa", ebitda: 61000 }
-        ];
-        const checklistItems = [
-            { day: "1-30", title: "Systems & Branding" }, 
-            { day: "31-60", title: "Financial & Ops Consolidation" }, 
-            { day: "61-100", title: "Personnel & Business Dev" }
-        ];
-        let currentTarget = null;
-
-        targets.forEach((target) => {
-            const button = document.createElement('button');
-            button.className = 'w-full text-left p-3 sm:p-4 rounded-lg border hover:bg-blue-50 transition';
-            button.innerHTML = `<p class="font-bold text-sm sm:text-base">${target.name}</p><p class="text-xs sm:text-sm text-gray-500">${target.city}</p>`;
-            button.onclick = () => selectTarget(target, button);
-            targetListEl.appendChild(button);
-        });
-
-        function selectTarget(target, buttonEl) {
-            currentTarget = target;
-            Array.from(targetListEl.children).forEach(btn => btn.classList.remove('bg-blue-100', 'border-blue-500'));
-            buttonEl.classList.add('bg-blue-100', 'border-blue-500');
-            integrationPanel.classList.add('hidden');
-            valuationPanel.classList.remove('hidden');
-            targetNameEl.textContent = target.name;
-            targetValuationEl.textContent = '$' + (target.ebitda * 2.5).toLocaleString();
-            acquireBtn.disabled = false;
-            acquireBtn.textContent = 'Acquire & Integrate';
-            acquireBtn.className = 'w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 mt-6 text-sm sm:text-base';
-            integrationChecklistEl.innerHTML = '';
-            checklistItems.forEach(item => {
-                const li = document.createElement('li');
-                li.className = 'flex items-center space-x-3 sm:space-x-4 p-3 bg-gray-50 rounded-md';
-                li.innerHTML = `<div class="w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0 flex items-center justify-center bg-gray-200 rounded-full font-bold text-gray-600 text-xs">Days ${item.day}</div><div class="flex-1"><p class="font-semibold text-sm sm:text-base">${item.title}</p><div class="w-full bg-gray-200 rounded-full h-2.5 mt-1 overflow-hidden"><div class="progress-bar-fill bg-blue-600 h-2.5 rounded-full" style="width: 0%; --progress-width: 0%;"></div></div></div>`;
-                integrationChecklistEl.appendChild(li);
-            });
-        }
-
-        acquireBtn.addEventListener('click', () => {
-            if (!currentTarget) return;
-            acquireBtn.disabled = true;
-            acquireBtn.textContent = 'Integrating...';
-            acquireBtn.className = 'w-full bg-yellow-500 text-white font-bold py-3 px-4 rounded-lg cursor-wait mt-6 text-sm sm:text-base';
-            const progressBars = integrationChecklistEl.querySelectorAll('.progress-bar-fill');
-            let completed = 0;
-            progressBars.forEach((bar, index) => {
-                setTimeout(() => {
-                    bar.style.setProperty('--progress-width', '100%');
-                    bar.style.width = '100%';
-                    const dayCircle = bar.closest('li').querySelector('.w-10, .w-12');
-                    dayCircle.innerHTML = `<svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
-                    dayCircle.className = 'w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0 flex items-center justify-center bg-green-500 rounded-full';
-                    if (++completed === progressBars.length) {
-                        acquireBtn.textContent = 'Integration Complete!';
-                        acquireBtn.className = 'w-full bg-green-500 text-white font-bold py-3 px-4 rounded-lg cursor-not-allowed mt-6 text-sm sm:text-base';
-                    }
-                }, index * 800);
             });
         });
 
