@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <!--  
+    /--------------------------------------------------------------------\
+    | LAST UPDATE: 2507241730…Thu_Jul_24_2025_0530PM                     |
+    | https://gemini.google.com/app/df97e939472ed543                     |
+    | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/header.html |
+    \--------------------------------------------------------------------/
+    -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exit Ready Advisors - Case Studies</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* Use Inter as the default font */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- header.html -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto flex justify-between items-center">
+            <!-- Inverted Brand Block with Hover Effect -->
+            <div class="group bg-gray-900 hover:bg-white -ml-6 px-6 py-4 transition-colors duration-300">
+                <a href="https://jawnlam.github.io/ExitReadyAdvisors/index.html" class="text-xl md:text-2xl font-bold text-white group-hover:text-gray-900 transition-colors duration-300">Exit Ready Advisors</a>
+            </div>
+            
+            <!-- Desktop Navigation Links -->
+            <div class="hidden md:flex items-center space-x-8" id="desktop-nav">
+                <a href="https://jawnlam.github.io/ExitReadyAdvisors/services.html" class="nav-link text-gray-500 font-medium px-3 py-2 rounded-md hover:text-white hover:bg-gray-900 transition-colors duration-300">Services</a>
+                <a href="https://jawnlam.github.io/ExitReadyAdvisors/case-studies/index.html" class="nav-link text-gray-500 font-medium px-3 py-2 rounded-md hover:text-white hover:bg-gray-900 transition-colors duration-300">Case Studies</a>
+                <a href="https://jawnlam.github.io/ExitReadyAdvisors/resources/index.html" class="nav-link text-gray-500 font-medium px-3 py-2 rounded-md hover:text-white hover:bg-gray-900 transition-colors duration-300">Resources</a>
+                <a href="https://jawnlam.github.io/ExitReadyAdvisors/about.html" class="nav-link text-gray-500 font-medium px-3 py-2 rounded-md hover:text-white hover:bg-gray-900 transition-colors duration-300">About Us</a>
+                <a href="https://jawnlam.github.io/ExitReadyAdvisors/book-a-call.html" class="cta-link bg-orange-500 text-white px-5 py-2 rounded-lg font-semibold transform transition-all duration-300 border border-transparent hover:bg-white hover:text-orange-500 hover:border-orange-500 hover:shadow-lg hover:scale-110">Book A Call</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden pr-4">
+                <button id="mobile-menu-button" aria-controls="mobile-menu" aria-expanded="false">
+                    <span class="sr-only">Open main menu</span>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+             <a href="https://jawnlam.github.io/ExitReadyAdvisors/services.html" class="nav-link block py-2 px-3 rounded-md text-gray-500 font-medium hover:text-white hover:bg-gray-900 transition-colors duration-300">Services</a>
+             <a href="https://jawnlam.github.io/ExitReadyAdvisors/case-studies/index.html" class="nav-link block py-2 px-3 rounded-md text-gray-500 font-medium hover:text-white hover:bg-gray-900 transition-colors duration-300">Case Studies</a>
+             <a href="https://jawnlam.github.io/ExitReadyAdvisors/resources/index.html" class="nav-link block py-2 px-3 rounded-md text-gray-500 font-medium hover:text-white hover:bg-gray-900 transition-colors duration-300">Resources</a>
+             <a href="https://jawnlam.github.io/ExitReadyAdvisors/about.html" class="nav-link block py-2 px-3 rounded-md text-gray-500 font-medium hover:text-white hover:bg-gray-900 transition-colors duration-300">About Us</a>
+             <a href="https://jawnlam.github.io/ExitReadyAdvisors/book-a-call.html" class="cta-link block mt-2 bg-orange-500 text-white px-4 py-2 rounded-lg w-full text-center font-semibold transition-all duration-300 border border-transparent hover:bg-white hover:text-orange-500 hover:border-orange-500 hover:shadow-md">Book A Call</a>
+        </div>
+    </header>
+
+    <script>
+        // --- Mobile Menu Toggle ---
+        const menuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+            menuButton.setAttribute('aria-expanded', !isExpanded);
+        });
+
+        // --- Active Navigation Link Styling (URL Method) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentUrl = window.location.href;
+            
+            // Define paths for different sections
+            const servicesPath = 'ExitReadyAdvisors/services.html';
+            const caseStudiesPath = 'ExitReadyAdvisors/case-studies/';
+            const resourcesPath = 'ExitReadyAdvisors/resources/';
+            const aboutPath = 'ExitReadyAdvisors/about.html';
+
+            // Check for Services
+            if (currentUrl.includes(servicesPath)) {
+                const activeLinks = document.querySelectorAll('a[href*="services"]');
+                activeLinks.forEach(link => {
+                    link.classList.add('bg-gray-900', 'text-white');
+                    link.classList.remove('text-gray-500');
+                });
+            }
+
+            // Check for Case Studies
+            if (currentUrl.includes(caseStudiesPath)) {
+                const activeLinks = document.querySelectorAll('a[href*="case-studies"]');
+                activeLinks.forEach(link => {
+                    link.classList.add('bg-gray-900', 'text-white');
+                    link.classList.remove('text-gray-500');
+                });
+            }
+            
+            // Check for Resources
+            if (currentUrl.includes(resourcesPath)) {
+                 const activeLinks = document.querySelectorAll('a[href*="resources"]');
+                 activeLinks.forEach(link => {
+                    link.classList.add('bg-gray-900', 'text-white');
+                    link.classList.remove('text-gray-500');
+                 });
+            }
+
+            // Check for About Us
+            if (currentUrl.includes(aboutPath)) {
+                const activeLinks = document.querySelectorAll('a[href*="about"]');
+                activeLinks.forEach(link => {
+                    link.classList.add('bg-gray-900', 'text-white');
+                    link.classList.remove('text-gray-500');
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+    <!--
+    /----------------------------------------------------------------------------------------------------\
+    | LAST UPDATE: 2508071947…Thu_Aug_07_2025_0747PM                                                     |
+    | https://gemini.google.com/app/3e66dc9b4e1bff55                                                     |
+    | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/case-studies/templates/valuation-brief.html |
+    \----------------------------------------------------------------------------------------------------/
+    -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valuation Brief - Johnson & Sons Heating, Plumbing, & Air</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        /* Custom styles and animations */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F3F4F6; /* Light gray background */
+        }
+        
+        /* Core Animation Definition */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Animation for initial page load */
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out forwards;
+        }
+        
+        /* --- TAB STYLING --- */
+
+        /* This is the main selector for each tab button. */
+        .tab-button {
+            /* --- ANIMATION & TRANSITION --- */
+            transition: all 0.3s ease; /* Makes all changes (color, border, etc.) animate smoothly over 0.3 seconds. */
+            position: relative; /* Necessary for positioning the ::after pseudo-element for the hover effect. */
+            overflow: hidden;   /* Keeps the hover effect contained within the button's rounded corners. */
+            z-index: 1;         /* Ensures the button text appears above the hover background effect. */
+
+            /* --- LOOK & BORDERS --- */
+            border-bottom: 3px solid transparent; /* Creates a transparent border at the bottom, which will get a color on hover/active. */
+            border-radius: 0.375rem 0.375rem 0 0; /* Rounds the top-left and top-right corners. */
+            font-weight: 600; /* Sets the font to semi-bold. */
+
+            /* --- SIZE & PLACEMENT --- */
+            /* Font size is now controlled by JavaScript */
+            padding: 0.75rem 0.25rem; /* Adds padding inside the button (top/bottom and left/right). */
+            margin: 0 2px;          /* Adds a small margin between the tabs. */
+            min-height: 55px;       /* Ensures all tabs have the same minimum height. */
+            display: flex;          /* Uses flexbox for alignment. */
+            align-items: center;    /* Vertically centers the text. */
+            justify-content: center;/* Horizontally centers the text. */
+            flex-grow: 1;           /* Allows the tabs to grow and fill the available space equally. */
+            text-align: center;     /* Centers the text (useful for multi-line text). */
+            white-space: nowrap;    /* Prevents text from wrapping during measurement. */
+        }
+
+        /* This creates a pseudo-element that's used for the background hover animation. */
+        .tab-button::after {
+            content: ''; /* Required for a pseudo-element to appear. */
+            position: absolute; /* Positions it relative to the .tab-button. */
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 0; /* Starts with zero height, so it's invisible. */
+            background-color: #DBEAFE; /* The light blue background color for the effect. */
+            transition: height 0.3s ease; /* Animates the height change over 0.3 seconds. */
+            z-index: -1; /* Places it behind the button's text. */
+        }
+
+        /* --- HOVER & ACTIVE STATES --- */
+
+        /* This block controls the animation when you hover over a tab that is NOT active. */
+        .tab-button:not(.active):hover::after {
+            height: 100%; /* The background grows to fill the full height of the tab on hover. */
+        }
+
+        /* This styles the tab text and border on hover when it is NOT active. */
+        .tab-button:not(.active):hover {
+            color: #2563EB; /* Changes text color to blue. */
+            border-bottom-color: #3B82F6; /* Changes the bottom border color to a brighter blue. */
+        }
+
+        /* This styles a tab when it IS the active tab. */
+        .tab-button.active {
+            background-color: #DBEAFE; /* Sets the light blue background color. */
+            color: #2563EB; /* Sets the text color to blue. */
+            border-bottom-color: #3B82F6; /* Sets the bottom border color. */
+            box-shadow: 0 0 0 1px #3B82F6; /* Adds a subtle 1px blue outline. */
+        }
+
+        /* This styles a tab when it is NOT active. */
+        .tab-button:not(.active) {
+            color: #6B7280; /* Sets the default text color to gray. */
+        }
+
+        /* --- TAB CONTENT STYLING --- */
+
+        /* By default, all tab content is hidden. */
+        .tab-content {
+            display: none;
+        }
+
+        /* When a tab content panel has the 'active' class, it becomes visible. */
+        .tab-content.active {
+            display: block; /* Changes display from 'none' to 'block' to show it. */
+            animation: fadeIn 0.5s ease-in-out; /* Applies a fade-in animation. */
+        }
+        
+        /* --- FINANCIALS TAB STYLING --- */
+        .financials-container {
+            position: relative;
+            overflow: hidden; /* This is the key change to hide the sliding panel */
+            height: 576px; /* Match the iframe height */
+            border-radius: 0.5rem; /* To clip the panel's corners */
+        }
+        #financial-nav-panel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 280px;
+            background-color: white;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 40;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border-right: 1px solid #e5e7eb;
+        }
+        #financial-nav-panel.open {
+            transform: translateX(0);
+        }
+        #financial-nav-trigger {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            z-index: 30;
+        }
+        .financial-statement-button {
+            transition: all 0.3s ease;
+            width: 100%;
+            text-align: left;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            color: #4b5563; /* text-gray-600 */
+            border-left: 4px solid transparent;
+        }
+        .financial-statement-button:hover {
+            background-color: #eff6ff; /* bg-blue-50 */
+            color: #1d4ed8; /* text-blue-700 */
+            border-left-color: #93c5fd; /* border-blue-300 */
+        }
+        .financial-statement-button.active {
+            background-color: #dbeafe; /* bg-blue-100 */
+            color: #1e40af; /* text-blue-800 */
+            border-left-color: #2563eb; /* border-blue-600 */
+            font-weight: 600;
+        }
+
+        /* --- MARKET ANALYSIS & OPERATIONS: FLIP CARDS --- */
+        .flip-card-container {
+            perspective: 1000px;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flip-card-container.active .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 0.75rem;
+            border: 1px solid #e5e7eb;
+            padding: 1.5rem;
+        }
+        .flip-card-front {
+            background-color: #f9fafb;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .flip-card-back {
+            background-color: #eff6ff;
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        /* --- DEAL TIMELINE STYLING --- */
+        .deal-timeline-nav {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+        }
+        .deal-timeline-nav::before {
+            content: '';
+            position: absolute;
+            bottom: 2rem;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background-color: #d1d5db;
+            z-index: 1;
+        }
+        .timeline-milestone {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            z-index: 2;
+        }
+        .milestone-icon {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 9999px;
+            background-color: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            border: 2px solid #e5e7eb;
+        }
+        .timeline-milestone.active .milestone-icon {
+            background-color: #DBEAFE;
+            border-color: #3B82F6;
+            transform: scale(1.1);
+        }
+        .timeline-milestone-content {
+            display: none;
+        }
+        .timeline-milestone-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 m-0 p-0">
+
+    <!-- Header Placeholder -->
+    <header id="header-placeholder"></header>
+
+    <div id="page-valuation-brief" class="max-w-7xl mx-auto py-8" style="display: none;">
+
+        <!-- Page Header Component -->
+        <header class="grid grid-cols-1 md:grid-cols-2 bg-white rounded-xl overflow-hidden shadow-lg mb-8">
+            <div id="hero-image-container" class="flex items-center justify-center h-48 md:h-auto bg-blue-100" style="max-height: 300px;">
+                <img src="./images/1.jpg" 
+                     alt="Johnson & Sons - Heating, Plumbing, & Air" 
+                     class="object-cover w-full h-full"
+                     onerror="this.style.display='none'; document.getElementById('hero-image-container').innerHTML = `<div class='p-8 text-blue-600'>This page is a structured overview of the business. It provides a concise assessment of the company's operations, market position, key financial metrics (including estimates where necessary), assets, and workforce. Crucially, it identifies and explains the most critical transaction considerations and transition factors specific to this business, presented in a clear format designed to facilitate ease of evaluation.</div>`">
+            </div>
+<!-- ============================ -->
+<!-- (((((NAME OF CASE STUDY))))) -->
+<!-- ============================ -->
+            <div class="p-8">
+                <h1 class="text-3xl font-bold text-gray-900">Johnson & Sons Heating, Plumbing, & Air</h1>
+                <p class="text-gray-600 mt-4">
+                    A premier mechanical contractor with a 45-year history of excellence serving commercial, industrial, and institutional clients across the Southwest.
+                </p>
+            </div>
+        </header>
+
+        <!-- Back/Next Navigation -->
+        <div class="my-8 flex items-center gap-4">
+            <a href="index.html" class="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-700 font-medium rounded-lg shadow-sm border border-gray-300 hover:bg-gray-300 transition flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                Back
+            </a>
+            
+            <!-- Centered Valuation Brief Title -->
+            <div class="flex-grow text-center px-4 py-2 bg-blue-100 text-blue-600 font-medium uppercase tracking-wider rounded-lg shadow-sm border border-blue-600">
+                Valuation Brief
+            </div>
+
+            <a href="2-baseline-analysis.html" class="inline-flex items-center gap-2 px-4 py-2 bg-red-100 text-red-600 font-medium rounded-lg shadow-sm border border-red-500 hover:bg-red-200 transition flex-shrink-0">
+                Baseline Analysis
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                </svg>
+            </a>
+        </div>
+
+        <!-- Financials Grid Component -->
+        <section class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+            <!-- Financial Cards -->
+            <div class="bg-white p-4 border border-gray-200 rounded-xl shadow-md"><p class="text-sm text-gray-500">Asking Price</p><p class="text-2xl font-semibold text-gray-900">$51,250,000</p></div>
+            <div class="bg-white p-4 border border-gray-200 rounded-xl shadow-md"><p class="text-sm text-gray-500">Gross Revenue</p><p class="text-2xl font-semibold text-gray-900">$68,850,000</p></div>
+            <div class="bg-white p-4 border border-gray-200 rounded-xl shadow-md"><p class="text-sm text-gray-500">Adjusted Free Cash Flow</p><p class="text-2xl font-semibold text-gray-900">$10,450,000</p></div>
+            <div class="bg-white p-4 border border-gray-200 rounded-xl shadow-md"><p class="text-sm text-gray-500">Adjusted EBITDA</p><p class="text-2xl font-semibold text-gray-900">$8,540,000</p></div>
+        </section>
+
+        <!-- Detailed Information with Tabs -->
+        <main>
+            <!-- Tab Navigation -->
+            <div class="border-b border-gray-200 mb-6">
+                <nav class="-mb-px flex" aria-label="Tabs">
+                    <button class="tab-button" data-tab="overview">Overview</button>
+                    <button class="tab-button" data-tab="financials">Financials</button>
+                    <button class="tab-button" data-tab="market">Market Analysis</button>
+                    <button class="tab-button" data-tab="operations">Operations</button>
+                    <button class="tab-button" data-tab="deal-opportunities">Deal Structure</button>
+                </nav>
+            </div>
+
+            <!-- Tab Content Panels -->
+            <div class="bg-white p-6 border border-gray-200 rounded-xl shadow-md">
+                <!-- Overview Panel -->
+                <div id="overview" class="tab-content">
+                    <div class="bg-blue-100 p-8 border-2 border-dashed border-blue-600 rounded-xl shadow-lg">
+                        <div>
+                            <h3 class="text-xl font-bold text-blue-600 mb-3">Business Description</h3>
+                            <p class="text-blue-600 leading-relaxed">Johnson & Sons Heating, Plumbing, & Air is a premier mechanical contractor with a distinguished 45-year history of excellence in the HVAC and plumbing sectors. The company specializes in serving commercial, industrial, and institutional clients across a three-state operational footprint in the southwestern United States. With a robust portfolio of over 3,500 completed construction units annually and a backlog of $88 million in contracted projects, it has established itself as a trusted partner for some of the largest national owner/builders. The firm's success is built on a foundation of near-perfect client retention, a highly scalable operational model, and a seasoned leadership team.</p>
+                        </div>
+                         <div class="mt-8">
+                            <h3 class="text-xl font-bold text-blue-600 mb-3">History & Context</h3>
+                            <p class="text-blue-600 leading-relaxed">Founded by William Johnson in 1979, the company began as a small family operation with a single truck. William's commitment to quality and customer service laid the groundwork for what would become a regional leader in mechanical contracting. The business is now in its second generation, with the same founding principles guiding its expansion and success.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Financials Panel -->
+                <div id="financials" class="tab-content">
+                    <div class="financials-container">
+                        <button id="financial-nav-trigger" class="bg-white/75 p-3 rounded-full shadow-lg border">
+                            <i class="fas fa-bars text-blue-600"></i>
+                        </button>
+                        <!-- Slide-over Navigation -->
+                        <div id="financial-nav-panel" class="p-4">
+                             <h4 class="text-lg font-bold text-gray-800 mb-4">Financial Statements</h4>
+                            <div class="flex flex-col space-y-2">
+                                <button class="financial-statement-button" data-src="./financial-statements/1-adjusted-trial-balance.html" data-fallback-id="atb">Adjusted Trial Balance</button>
+                                <button class="financial-statement-button" data-src="./financial-statements/2-income-statement.html" data-fallback-id="is">Income Statement</button>
+                                <button class="financial-statement-button" data-src="./financial-statements/3-statement-of-equity.html" data-fallback-id="soe">Statement of Equity</button>
+                                <button class="financial-statement-button" data-src="./financial-statements/4-balance-sheet.html" data-fallback-id="bs">Balance Sheet</button>
+                                <button class="financial-statement-button" data-src="./financial-statements/5-statement-of-cash-flows.html" data-fallback-id="socf">Statement of Cash Flows</button>
+                                <button class="financial-statement-button" data-src="./financial-statements/6-closing-disclosures.html" data-fallback-id="cd">Closing Disclosures</button>
+                            </div>
+                        </div>
+                        <!-- Iframe Display Area -->
+                        <div class="w-full h-full">
+                            <iframe id="financial-iframe" class="w-full h-full border-0 rounded-lg"></iframe>
+                        </div>
+                        <!-- Zoom Controls -->
+                        <div class="absolute bottom-4 right-4 flex space-x-2">
+                            <button id="zoom-in" class="bg-white/75 p-2 rounded-full shadow-lg border w-10 h-10 flex items-center justify-center"><i class="fas fa-plus text-blue-600"></i></button>
+                            <button id="zoom-out" class="bg-white/75 p-2 rounded-full shadow-lg border w-10 h-10 flex items-center justify-center"><i class="fas fa-minus text-blue-600"></i></button>
+                            <button id="zoom-reset" class="bg-white/75 p-2 rounded-full shadow-lg border w-10 h-10 flex items-center justify-center"><i class="fas fa-sync-alt text-blue-600"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Market Panel -->
+                <div id="market" class="tab-content">
+                     <h3 class="text-2xl font-bold text-gray-800 mb-2 text-center">Market & Competitive Strengths</h3>
+                     <p class="text-center text-gray-600 mb-8">Click any card to reveal more details.</p>
+                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Card 1: Competitive Landscape -->
+                        <div class="flip-card-container">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-shield-alt text-4xl text-blue-500 mb-4"></i>
+                                    <h4 class="text-xl font-bold text-gray-800 text-center">Competitive Landscape</h4>
+                                </div>
+                                <div class="flip-card-back">
+                                    <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700 text-sm">
+                                        <li><strong>Market Position:</strong> A dominant regional player positioned to capitalize on continued commercial and industrial development.</li>
+                                        <li><strong>Competitive Advantage:</strong> A multi-state footprint, sophisticated systems, and long-term relationships create a significant competitive moat.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card 2: Customer Base -->
+                         <div class="flip-card-container">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-users text-4xl text-blue-500 mb-4"></i>
+                                    <h4 class="text-xl font-bold text-gray-800 text-center">Customer Base</h4>
+                                </div>
+                                <div class="flip-card-back">
+                                    <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700 text-sm">
+                                        <li><strong>Client Retention:</strong> Near-100% repeat business rate from core clients.</li>
+                                        <li><strong>Contract Structure:</strong> Long-term master service agreements provide predictable, recurring revenue.</li>
+                                        <li><strong>Project Backlog:</strong> $88 million in active work provides strong revenue visibility.</li>
+                                        <li><strong>Risk Mitigation:</strong> No single client accounts for more than 15% of annual revenue.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card 3: Strategic Positioning -->
+                        <div class="flip-card-container">
+                           <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-bullseye text-4xl text-blue-500 mb-4"></i>
+                                    <h4 class="text-xl font-bold text-gray-800 text-center">Strategic Positioning</h4>
+                                </div>
+                                <div class="flip-card-back">
+                                    <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700 text-sm">
+                                        <li><strong>Market Opportunity:</strong> Expanding addressable market due to population growth and corporate relocations.</li>
+                                        <li><strong>Industry Trends:</strong> Growing emphasis on green building and energy efficiency.</li>
+                                        <li><strong>Barriers to Entry:</strong> High capital requirements, licensing, and deep-seated relationships.</li>
+                                        <li><strong>Pricing Power:</strong> Reputation for quality allows for premium pricing.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                     </div>
+                </div>
+
+
+                <!-- Operations Panel -->
+                <div id="operations" class="tab-content">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2 text-center">The Engine of Excellence</h3>
+                    <p class="text-center text-gray-600 mb-8">Explore the core components of our operational strength. Click each card to learn more.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Card 1: Assets & Facilities -->
+                        <div class="flip-card-container">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-warehouse text-4xl text-blue-500 mb-4"></i>
+                                    <h4 class="text-xl font-bold text-gray-800 text-center">Assets & Facilities</h4>
+                                </div>
+                                <div class="flip-card-back">
+                                    <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700 text-sm">
+                                        <li>Three strategically located, owned facilities in Phoenix, Salt Lake City, and Denver.</li>
+                                        <li>A well-maintained fleet and state-of-the-art equipment valued at approximately $5.4 million.</li>
+                                        <li>A robust inventory management system to minimize project delays.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card 2: Technology & Systems -->
+                        <div class="flip-card-container">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-cogs text-4xl text-blue-500 mb-4"></i>
+                                    <h4 class="text-xl font-bold text-gray-800 text-center">Technology & Systems</h4>
+                                </div>
+                                <div class="flip-card-back">
+                                    <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700 text-sm">
+                                        <li>Advanced software for streamlined scheduling, resource allocation, and budget tracking.</li>
+                                        <li>45 years of developed proprietary techniques and quality control checklists.</li>
+                                        <li>Highly scalable infrastructure and systems supporting significant growth.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card 3: Management & Workforce -->
+                        <div class="flip-card-container">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-users text-4xl text-blue-500 mb-4"></i>
+                                    <h4 class="text-xl font-bold text-gray-800 text-center">Management & Workforce</h4>
+                                </div>
+                                <div class="flip-card-back">
+                                    <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700 text-sm">
+                                        <li>A seasoned, autonomous leadership team with an average tenure of over 15 years.</li>
+                                        <li>A dedicated team of over 110 skilled technicians, project managers, and support staff.</li>
+                                        <li>The business is not dependent on the owner for day-to-day operations.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Deal Structure & Opportunities Panel -->
+                <div id="deal-opportunities" class="tab-content">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2 text-center">The Anatomy of the Deal</h3>
+                    <p class="text-center text-gray-600 mb-8">Follow the timeline to understand each phase of the opportunity.</p>
+                    
+                    <!-- Timeline Navigation -->
+                    <div class="deal-timeline-nav">
+                        <div class="timeline-milestone active" data-content="timeline-transaction">
+                            <div class="milestone-icon"><i class="fas fa-handshake text-3xl text-blue-600"></i></div>
+                            <p class="text-sm font-semibold mt-2">Transaction</p>
+                        </div>
+                        <div class="timeline-milestone" data-content="timeline-transition">
+                            <div class="milestone-icon"><i class="fas fa-people-arrows text-3xl text-blue-600"></i></div>
+                            <p class="text-sm font-semibold mt-2">Transition</p>
+                        </div>
+                        <div class="timeline-milestone" data-content="timeline-valuation">
+                            <div class="milestone-icon"><i class="fas fa-calculator text-3xl text-blue-600"></i></div>
+                            <p class="text-sm font-semibold mt-2">Valuation</p>
+                        </div>
+                        <div class="timeline-milestone" data-content="timeline-future">
+                            <div class="milestone-icon"><i class="fas fa-chart-line text-3xl text-blue-600"></i></div>
+                            <p class="text-sm font-semibold mt-2">The Future</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline Content Display Area -->
+                    <div class="timeline-content-container bg-gray-50 p-6 rounded-lg">
+                        <div id="timeline-transaction" class="timeline-milestone-content active">
+                            <h4 class="text-xl font-bold text-gray-800 mb-3">The Transaction</h4>
+                            <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700">
+                                <li><strong>Structure:</strong> Anticipated as an asset sale for a step-up in basis; stock sale also considered.</li>
+                                <li><strong>Financing:</strong> A combination of third-party debt and seller financing is proposed.</li>
+                                <li><strong>Working Capital:</strong> A normalized net working capital target will be established and adjusted at closing.</li>
+                            </ul>
+                        </div>
+                        <div id="timeline-transition" class="timeline-milestone-content">
+                            <h4 class="text-xl font-bold text-gray-800 mb-3">The Transition</h4>
+                            <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700">
+                                <li><strong>Seller Role:</strong> The owner will commit to a 24-36 month transition period, followed by a flexible advisory role.</li>
+                                <li><strong>Continuity:</strong> The existing leadership team (average tenure 15+ years) will remain.</li>
+                                <li><strong>Key Issues:</strong> Proactive client consent for contract novation and securing the management team are critical.</li>
+                            </ul>
+                        </div>
+                        <div id="timeline-valuation" class="timeline-milestone-content">
+                            <h4 class="text-xl font-bold text-gray-800 mb-3">The Valuation</h4>
+                            <p class="text-gray-700 leading-relaxed">The asking price of <strong>$51,250,000</strong> is based on a multiple of Adjusted EBITDA, reflecting the company's strong market position, recurring revenue, and significant growth potential. A detailed valuation report is available to qualified buyers.</p>
+                        </div>
+                        <div id="timeline-future" class="timeline-milestone-content">
+                            <h4 class="text-xl font-bold text-gray-800 mb-3">The Future: Growth & Risks</h4>
+                             <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700">
+                                <li><strong>Growth:</strong> Expansion into the Texas market and the high-tech building systems sector represent significant, untapped revenue streams.</li>
+                                <li><strong>Risks:</strong> Market risks include potential downturns in the commercial construction sector and dependency on key material suppliers, mitigated by a diversified client base and strong supplier relationships.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals for Operations Tab -->
+    <div id="modal-assets" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-800">Assets & Facilities</h3>
+                <button class="modal-close text-gray-500 hover:text-gray-800">&times;</button>
+            </div>
+            <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700">
+                <li>Three strategically located, owned facilities in Phoenix, Salt Lake City, and Denver.</li>
+                <li>A well-maintained fleet and state-of-the-art equipment valued at approximately $5.4 million.</li>
+                <li>A robust inventory management system to minimize project delays.</li>
+            </ul>
+        </div>
+    </div>
+    <div id="modal-tech" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-800">Technology & Systems</h3>
+                <button class="modal-close text-gray-500 hover:text-gray-800">&times;</button>
+            </div>
+            <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700">
+                <li>Advanced software for streamlined scheduling, resource allocation, and budget tracking.</li>
+                <li>45 years of developed proprietary techniques and quality control checklists.</li>
+                <li>Highly scalable infrastructure and systems supporting significant growth.</li>
+            </ul>
+        </div>
+    </div>
+    <div id="modal-workforce" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-800">Management & Workforce</h3>
+                <button class="modal-close text-gray-500 hover:text-gray-800">&times;</button>
+            </div>
+            <ul class="list-disc list-outside space-y-2 pl-5 text-gray-700">
+                <li>A seasoned, autonomous leadership team with an average tenure of over 15 years.</li>
+                <li>A dedicated team of over 110 skilled technicians, project managers, and support staff.</li>
+                <li>The business is not dependent on the owner for day-to-day operations.</li>
+            </ul>
+        </div>
+    </div>
+
+
+    <!-- Footer Placeholder -->
+    <footer id="footer-placeholder"></footer>
+
+    <!-- 
+    /-------------------\
+    | HEADER AND FOOTER |
+    \-------------------/
+    -->
+    <script>
+        /**
+         * Adjusts tab font size for uniform appearance, preventing text wrapping.
+         *
+         * This function calculates the largest possible font size for each tab individually
+         * where the text does not wrap to a new line. It then takes the smallest of these
+         * calculated sizes and applies it uniformly to all tabs. This ensures all tab
+         * labels are the same size and fit on a single line.
+         */
+        function adjustTabFontSize() {
+            const tabs = document.querySelectorAll('.tab-button');
+            if (tabs.length === 0) return;
+
+            const maxFontSizes = [];
+            const minFontSize = 12; // The smallest we'll allow the font to be.
+            const maxFontSize = 16; // The largest we'll allow the font to be.
+
+            // Temporarily reset styles to get accurate measurements.
+            tabs.forEach(tab => {
+                tab.style.fontSize = ''; 
+                tab.style.whiteSpace = 'nowrap'; // Prevent wrapping during measurement
+            });
+
+            // Step 1: Find the maximum font size for each tab that prevents text from overflowing its container.
+            tabs.forEach(tab => {
+                let currentBestSize = minFontSize;
+
+                // Iterate downwards from the max font size.
+                for (let size = maxFontSize; size >= minFontSize; size--) {
+                    tab.style.fontSize = size + 'px';
+                    
+                    // The key check: If the content's width (scrollWidth) is less than or
+                    // equal to the element's visible width (clientWidth), the text fits.
+                    // We add a small buffer (e.g., 2px) to be safe with rendering differences.
+                    if (tab.scrollWidth <= tab.clientWidth + 2) {
+                        currentBestSize = size;
+                        break; // Found the largest size that fits, so we can stop checking for this tab.
+                    }
+                }
+                maxFontSizes.push(currentBestSize);
+            });
+            
+            // Restore wrapping ability after measurements
+            tabs.forEach(tab => {
+                tab.style.whiteSpace = 'normal';
+            });
+
+            // Step 2: Determine the single smallest font size from our findings.
+            // This becomes the "master" font size for all tabs to ensure uniformity.
+            const uniformSize = Math.min(...maxFontSizes);
+
+            // Step 3: Apply the uniform font size to all tabs.
+            tabs.forEach(tab => {
+                tab.style.fontSize = uniformSize + 'px';
+            });
+        }
+
+        /**
+         * Initializes the mobile menu toggle functionality.
+         * This should be called after the header content is loaded.
+         */
+        function initializeMobileMenu() {
+            const menuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (menuButton && mobileMenu) {
+                menuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                    const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+                    menuButton.setAttribute('aria-expanded', !isExpanded);
+                });
+            }
+        }
+
+        /**
+         * Sets the active style for navigation links based on the current URL.
+         * This should be called after the header content is loaded.
+         */
+        function setActiveNavLinks() {
+            const currentUrl = window.location.href;
+            const navLinks = document.querySelectorAll('nav a'); // Get all nav links
+
+            const linkPaths = {
+                'case-studies': 'ExitReadyAdvisors/case-studies/',
+                'services.html': 'ExitReadyAdvisors/services.html',
+                'about.html': 'ExitReadyAdvisors/about.html'
+            };
+
+            for (const link of navLinks) {
+                const href = link.getAttribute('href');
+                for (const key in linkPaths) {
+                    if (href && href.includes(key) && currentUrl.includes(linkPaths[key])) {
+                        link.classList.add('bg-gray-900', 'text-white');
+                        link.classList.remove('text-gray-500'); // Or similar default class
+                    }
+                }
+            }
+        }
+
+        /**
+         * Fetches and injects the header and footer, then initializes interactive components.
+         */
+        async function loadComponents() {
+            try {
+                const [headerResponse, footerResponse] = await Promise.all([
+                    fetch("https://jawnlam.github.io/ExitReadyAdvisors/header.html"),
+                    fetch("https://jawnlam.github.io/ExitReadyAdvisors/footer.html")
+                ]);
+
+                if (!headerResponse.ok) throw new Error('Header failed to load.');
+                if (!footerResponse.ok) throw new Error('Footer failed to load.');
+
+                const headerData = await headerResponse.text();
+                const footerData = await footerResponse.text();
+                
+                document.querySelector("#header-placeholder").innerHTML = headerData;
+                document.querySelector("#footer-placeholder").innerHTML = footerData;
+
+                // --- INITIALIZE DYNAMIC COMPONENTS ---
+                // These functions are called *after* the header/footer HTML is injected.
+                initializeMobileMenu();
+                setActiveNavLinks();
+
+            } catch (error) {
+                console.error('Error loading components:', error);
+                document.querySelector("#header-placeholder").innerHTML = '<div class="bg-gray-800 text-white p-4 text-center">Header could not be loaded.</div>';
+                document.querySelector("#footer-placeholder").innerHTML = '<div class="bg-gray-800 text-white p-4 text-center">Footer could not be loaded.</div>';
+            }
+        }
+        
+        /**
+         * Adjusts the height of flip cards to fit their content.
+         */
+        function adjustFlipCardHeights() {
+            const tabsWithCards = ['#market', '#operations'];
+            tabsWithCards.forEach(tabSelector => {
+                const tab = document.querySelector(tabSelector);
+                if (!tab) return;
+
+                const cards = tab.querySelectorAll('.flip-card-container');
+                if (cards.length === 0) return;
+
+                let maxHeight = 0;
+
+                // First pass: reset heights and find the max required height
+                cards.forEach(card => {
+                    card.style.height = 'auto';
+                    const front = card.querySelector('.flip-card-front');
+                    const back = card.querySelector('.flip-card-back');
+                    front.style.height = 'auto';
+                    back.style.height = 'auto';
+
+                    const frontHeight = front.scrollHeight;
+                    const backHeight = back.scrollHeight;
+                    const cardMaxHeight = Math.max(frontHeight, backHeight, 16 * 16); // min-height of h-64
+                    if (cardMaxHeight > maxHeight) {
+                        maxHeight = cardMaxHeight;
+                    }
+                });
+
+                // Second pass: apply the max height to all cards in the group
+                cards.forEach(card => {
+                    card.style.height = `${maxHeight}px`;
+                    const front = card.querySelector('.flip-card-front');
+                    const back = card.querySelector('.flip-card-back');
+                    front.style.height = `${maxHeight}px`;
+                    back.style.height = `${maxHeight}px`;
+                });
+            });
+        }
+
+        // Main DOMContentLoaded listener
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load shared header and footer
+            loadComponents();
+            
+            // Initialize page-specific logic
+            const pageContainer = document.getElementById('page-valuation-brief');
+            if (pageContainer) {
+                pageContainer.style.display = 'block';
+                pageContainer.classList.add('fade-in');
+            }
+
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            function switchTab(tabId) {
+                tabButtons.forEach(button => {
+                    button.classList.toggle('active', button.dataset.tab === tabId);
+                });
+                tabContents.forEach(content => {
+                    content.classList.toggle('active', content.id === tabId);
+                });
+                // Adjust flip card heights when a tab is switched
+                adjustFlipCardHeights();
+            }
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    switchTab(button.dataset.tab);
+                });
+            });
+
+            if (tabButtons.length > 0) {
+                switchTab(tabButtons[0].dataset.tab);
+            }
+            
+            // Adjust font sizes on initial load
+            adjustTabFontSize();
+
+            // --- FINANCIALS TAB LOGIC ---
+            const financialButtons = document.querySelectorAll('.financial-statement-button');
+            const iframe = document.getElementById('financial-iframe');
+            const financialNavPanel = document.getElementById('financial-nav-panel');
+            const financialNavTrigger = document.getElementById('financial-nav-trigger');
+            const zoomInButton = document.getElementById('zoom-in');
+            const zoomOutButton = document.getElementById('zoom-out');
+            const zoomResetButton = document.getElementById('zoom-reset');
+            let currentZoom = 1;
+            let isPanning = false;
+            let start = { x: 0, y: 0 };
+            let scroll = { left: 0, top: 0 };
+
+            function applyZoom() {
+                if (iframe && iframe.contentDocument && iframe.contentDocument.body) {
+                    iframe.contentDocument.body.style.transform = `scale(${currentZoom})`;
+                    iframe.contentDocument.body.style.transformOrigin = '0 0';
+                    iframe.contentDocument.body.style.overflow = 'auto';
+                    iframe.contentDocument.body.style.userSelect = 'none';
+                }
+            }
+
+            if (financialNavTrigger) {
+                financialNavTrigger.addEventListener('click', () => {
+                    financialNavPanel.classList.toggle('open');
+                });
+            }
+
+            const fallbackContent = {
+                atb: "An Adjusted Trial Balance is an internal document that lists the general ledger accounts and their balances after all adjusting entries have been posted. It is used to verify the mathematical equality of debits and credits before the preparation of the financial statements.",
+                is: "An Income Statement, also known as the profit and loss (P&L) statement, reports a company's financial performance over a specific accounting period. It summarizes revenues, expenses, gains, and losses, culminating in the net income or loss for the period.",
+                soe: "The Statement of Equity, or Statement of Retained Earnings, details the change in a company's equity over an accounting period. It reconciles the beginning and ending equity balances by accounting for items such as profits, losses, and dividend payments.",
+                bs: "A Balance Sheet is a snapshot of a company's financial health at a single point in time. It presents a company's assets, liabilities, and owners' equity, adhering to the fundamental accounting equation: Assets = Liabilities + Equity.",
+                socf: "The Statement of Cash Flows provides aggregate data regarding all cash inflows a company receives from its ongoing operations and external investment sources, as well as all cash outflows that pay for business activities and investments during a given period.",
+                cd: "A Closing Disclosure is a five-page form that provides final details about the mortgage loan you have selected. It includes the loan terms, your projected monthly payments, and how much you will pay in fees and other costs to get your mortgage (closing costs)."
+            };
+
+            async function loadFinancialStatement(button) {
+                if (!iframe) return;
+                
+                currentZoom = 1;
+                
+                const src = button.dataset.src;
+                const fallbackId = button.dataset.fallbackId;
+
+                try {
+                    const response = await fetch(src);
+                    if (response.ok) {
+                        iframe.src = src;
+                        iframe.onload = () => {
+                            applyZoom();
+                            iframe.contentDocument.body.style.cursor = 'grab';
+                            iframe.contentDocument.body.addEventListener('mousedown', (e) => {
+                                isPanning = true;
+                                start.x = e.pageX - iframe.offsetLeft;
+                                start.y = e.pageY - iframe.offsetTop;
+                                scroll.left = iframe.contentWindow.scrollX;
+                                scroll.top = iframe.contentWindow.scrollY;
+                                iframe.contentDocument.body.style.cursor = 'grabbing';
+                            });
+                        };
+                    } else {
+                        throw new Error('File not found');
+                    }
+                } catch (error) {
+                    const definition = fallbackContent[fallbackId] || "No definition available.";
+                    const content = `<div style="padding: 1.5rem; font-family: 'Inter', sans-serif;">
+                                        <h4 style="font-weight: 600; color: #1f2937;">We're sorry that the current file is unavailable.</h4>
+                                        <p style="margin-top: 1rem; color: #4b5563;">${definition}</p>
+                                     </div>`;
+                    iframe.srcdoc = content;
+                }
+            }
+            
+            financialButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    financialButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    loadFinancialStatement(button);
+                    financialNavPanel.classList.remove('open'); // Close panel on selection
+                });
+            });
+
+            // Load the first financial statement by default
+            if (financialButtons.length > 0) {
+                financialButtons[0].classList.add('active');
+                loadFinancialStatement(financialButtons[0]);
+            }
+            
+            // Zoom functionality
+            if (zoomInButton) {
+                zoomInButton.addEventListener('click', () => {
+                    currentZoom += 0.1;
+                    applyZoom();
+                });
+            }
+            if (zoomOutButton) {
+                zoomOutButton.addEventListener('click', () => {
+                    currentZoom = Math.max(0.5, currentZoom - 0.1);
+                    applyZoom();
+                });
+            }
+            if (zoomResetButton) {
+                zoomResetButton.addEventListener('click', () => {
+                    currentZoom = 1;
+                    applyZoom();
+                });
+            }
+            
+            // Panning logic
+            if (iframe) {
+                 iframe.contentWindow.addEventListener('mousemove', (e) => {
+                    if (!isPanning) return;
+                    e.preventDefault();
+                    const x = e.pageX - iframe.offsetLeft;
+                    const y = e.pageY - iframe.offsetTop;
+                    const walkX = (x - start.x) * 2; // Adjust multiplier for scroll speed
+                    const walkY = (y - start.y) * 2;
+                    iframe.contentWindow.scrollTo(scroll.left - walkX, scroll.top - walkY);
+                });
+                
+                iframe.contentWindow.addEventListener('mouseup', () => {
+                    isPanning = false;
+                    if(iframe.contentDocument.body) iframe.contentDocument.body.style.cursor = 'grab';
+                });
+                
+                iframe.contentWindow.addEventListener('mouseleave', () => {
+                    isPanning = false;
+                    if(iframe.contentDocument.body) iframe.contentDocument.body.style.cursor = 'grab';
+                });
+            }
+
+
+            // --- MARKET ANALYSIS: FLIP CARD LOGIC ---
+            const flipCards = document.querySelectorAll('.flip-card-container');
+            flipCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    card.classList.toggle('active');
+                });
+            });
+
+
+            // --- OPERATIONS MODAL LOGIC ---
+            const modalTriggers = document.querySelectorAll('[data-modal-target]');
+            modalTriggers.forEach(trigger => {
+                trigger.addEventListener('click', () => {
+                    const modalId = trigger.getAttribute('data-modal-target');
+                    const modal = document.getElementById(modalId);
+                    if (modal) {
+                        modal.classList.remove('hidden');
+                    }
+                });
+            });
+
+            const modals = document.querySelectorAll('.modal-overlay');
+            modals.forEach(modal => {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal || e.target.closest('.modal-close')) {
+                        modal.classList.add('hidden');
+                    }
+                });
+            });
+
+            // --- DEAL TIMELINE LOGIC ---
+            const milestones = document.querySelectorAll('.timeline-milestone');
+            const milestoneContents = document.querySelectorAll('.timeline-milestone-content');
+
+            milestones.forEach(milestone => {
+                milestone.addEventListener('click', () => {
+                    const contentId = milestone.dataset.content;
+
+                    milestones.forEach(m => m.classList.remove('active'));
+                    milestone.classList.add('active');
+
+                    milestoneContents.forEach(c => c.classList.remove('active'));
+                    document.getElementById(contentId).classList.add('active');
+                });
+            });
+            
+            // Adjust flip card heights on initial load
+            adjustFlipCardHeights();
+        });
+
+        // Adjust font sizes and flip card heights on window resize
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                adjustTabFontSize();
+                adjustFlipCardHeights();
+            }, 100); // Debounce to avoid performance issues
+        });
+    </script>
+
+</body>
+</html>

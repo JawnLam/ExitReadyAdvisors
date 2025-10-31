@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <!-- 
+    /----------------------------------------------------------------------------\
+    | LAST UPDATE: 2507211308…Mon_Jul_21_2025_0108PM                             |
+    | https://gemini.google.com/app/a481f93648df580c                             |
+    | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/privacy-policy.html |
+    \----------------------------------------------------------------------------/
+    -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Exit Ready Advisors</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .cta-button {
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        /* Styles for the main content area for better readability */
+        .policy-content h2 {
+            @apply text-3xl font-bold text-gray-900 mt-12 mb-6 pb-3 border-b border-gray-300;
+        }
+        .policy-content h3 {
+            @apply text-2xl font-bold text-gray-900 mt-10 mb-4;
+        }
+        .policy-content p {
+            @apply text-lg text-gray-700 mb-10 leading-relaxed;
+        }
+        .policy-content ul {
+            @apply list-disc list-inside text-lg text-gray-700 mb-10 pl-4 space-y-3;
+        }
+        .policy-content a {
+            @apply text-gray-800 underline hover:text-black;
+        }
+        /* First h2 should not have a top margin */
+        .policy-content h2:first-of-type {
+            @apply mt-0;
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800">
+    <!-- Header Placeholder -->
+    <header id="header-placeholder"></header>
+
+    <!-- Main Content: Privacy Policy -->
+    <main class="bg-gray-50 py-16 md:py-24">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto bg-white p-8 md:p-12 rounded-lg shadow-md">
+                <h1 class="text-5xl font-bold text-gray-900 mb-10">Privacy Policy</h1>
+
+                <div class="policy-content">
+                    <p>Exit Ready Advisors ("we," "us," or "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website and use our services. Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the site.</p>
+
+                    <h2>Information We Collect</h2>
+                    <p>We may collect information about you in a variety of ways. The information we may collect on the Site includes:</p>
+                    
+                    <h3>Personal Data</h3>
+                    <p>Personally identifiable information, such as your name, email address, and telephone number, and business information, that you voluntarily give to us when you use our contact forms, book a discovery call, or otherwise interact with us. You are under no obligation to provide us with personal information of any kind; however, your refusal to do so may prevent you from using certain features of the Site and our services.</p>
+
+                    <h3>Derivative Data</h3>
+                    <p>Information our servers automatically collect when you access the Site, such as your IP address, your browser type, your operating system, your access times, and the pages you have viewed directly before and after accessing the Site. This information is used for statistical purposes and to improve our website.</p>
+
+                    <h2>How We Use Your Information</h2>
+                    <p>Having accurate information about you permits us to provide you with a smooth, efficient, and customized experience. Specifically, we may use information collected about you via the Site to:</p>
+                    <ul>
+                        <li>Schedule and manage appointments and consultations.</li>
+                        <li>Respond to your inquiries and provide customer support.</li>
+                        <li>Deliver our coaching and advisory services.</li>
+                        <li>Send you administrative information, such as updates to our policies.</li>
+                        <li>Monitor and analyze usage and trends to improve your experience with the Site.</li>
+                        <li>Compile anonymous statistical data and analysis for internal use.</li>
+                    </ul>
+
+                    <h2>Information Sharing and Disclosure</h2>
+                    <p>We do not sell, trade, rent, or otherwise share your Personal Information for marketing purposes with third parties.</p>
+                    <p>We may share information we have collected about you in certain situations. Your information may be disclosed as follows:</p>
+                    <ul>
+                        <li><strong>By Law or to Protect Rights:</strong> If we believe the release of information about you is necessary to respond to legal process, to investigate or remedy potential violations of our policies, or to protect the rights, property, and safety of others, we may share your information as permitted or required by any applicable law, rule, or regulation.</li>
+                        <li><strong>Third-Party Service Providers:</strong> We may share your information with third parties that perform services for us or on our behalf, including appointment scheduling (e.g., Vimcal), data analysis, email delivery, and hosting services.</li>
+                    </ul>
+
+                    <h2>Data Security</h2>
+                    <p>We use administrative, technical, and physical security measures to help protect your personal information. While we have taken reasonable steps to secure the personal information you provide to us, please be aware that despite our efforts, no security measures are perfect or impenetrable, and no method of data transmission can be guaranteed against any interception or other type of misuse.</p>
+
+                    <h2>Your Rights</h2>
+                    <p>You have certain rights regarding your personal information, including:</p>
+                    <ul>
+                        <li>The right to access the personal information we hold about you.</li>
+                        <li>The right to request that we correct any inaccurate personal information.</li>
+                        <li>The right to request that we delete your personal information.</li>
+                    </ul>
+                    <p>To exercise these rights, please contact us using the contact information provided below.</p>
+
+                    <h2>Changes to This Policy</h2>
+                    <p>We may update this Privacy Policy from time to time. The updated version will be indicated by an updated "Last Updated" date and the updated version will be effective as soon as it is accessible. We encourage you to review this privacy policy frequently to be informed of how we are protecting your information.</p>
+
+                    <h2>Contact Us</h2>
+                    <p>If you have questions or comments about this Privacy Policy, please contact us at:</p>
+                    <p>
+                        Exit Ready Advisors<br>
+                        Email: <a href="mailto:privacy@exitreadyadvisors.com">privacy@exitreadyadvisors.com</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Placeholder -->
+    <footer id="footer-placeholder"></footer>
+
+    <!-- 
+    /-------------------\
+    | HEADER AND FOOTER |
+    \-------------------/
+    -->
+    <script>
+        /**
+         * Fetches and injects the header and footer components concurrently.
+         * This function is called once the initial HTML document has been completely loaded and parsed.
+         */
+        async function loadComponents() {
+            try {
+                // Promise.all allows us to fetch both resources at the same time (concurrently).
+                const [headerResponse, footerResponse] = await Promise.all([
+                    fetch("https://jawnlam.github.io/ExitReadyAdvisors/header.html"),
+                    fetch("https://jawnlam.github.io/ExitReadyAdvisors/footer.html")
+                ]);
+
+                // Check both responses for errors.
+                if (!headerResponse.ok) throw new Error('Header failed to load.');
+                if (!footerResponse.ok) throw new Error('Footer failed to load.');
+
+                // Get the text content from both responses.
+                const headerData = await headerResponse.text();
+                const footerData = await footerResponse.text();
+                
+                // Inject the HTML into the placeholder elements.
+                document.querySelector("#header-placeholder").innerHTML = headerData;
+                document.querySelector("#footer-placeholder").innerHTML = footerData;
+
+            } catch (error) {
+                console.error('Error loading components:', error);
+                // Display fallback content if any part of the loading process fails.
+                document.querySelector("#header-placeholder").innerHTML = '<div class="bg-gray-800 text-white p-4 text-center">Header could not be loaded.</div>';
+                document.querySelector("#footer-placeholder").innerHTML = '<div class="bg-gray-800 text-white p-4 text-center">Footer could not be loaded.</div>';
+            }
+        }
+
+        // It's best practice to run this script after the DOM is fully loaded.
+        document.addEventListener('DOMContentLoaded', loadComponents);
+    </script>
+
+</body>
+</html>

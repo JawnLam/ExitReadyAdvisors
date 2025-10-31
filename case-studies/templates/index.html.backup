@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+    <!-- 
+    /------------------------------------------------------------------------------------------\
+    | LAST UPDATE: 2508031212…Sun_Aug_03_2025_1212PM                                           |
+    | https://gemini.google.com/app/                                           |
+    | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/case-studies/templates/index.html |
+    \------------------------------------------------------------------------------------------/
+    -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- ============================ -->
+    <!-- (((((NAME OF CASE STUDY))))) -->
+    <!-- ============================ -->
+    <title>JOHNSON & SONS - HEATING, PLUMBING, & AIR Case Study</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* A lighter, cooler gray */
+            background-image: radial-gradient(#dbeafe 2px, transparent 2px), radial-gradient(#dbeafe 2px, #f0f4f8 2px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+        }
+        .card-link {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            border-left-width: 4px;
+        }
+        .card-link:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 100%;
+            background-color: #d1d5db; /* gray-300 */
+            z-index: 0;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animated-card {
+             animation: fadeIn 0.5s ease-in-out backwards;
+        }
+        .hero-text-glow {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+        .hero-text-glow-subtle {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Header Placeholder -->
+    <header id="header-placeholder"></header>
+
+    <main id="main-container" class="container mx-auto p-4 sm-p-6 lg:p-8">
+        <div id="page-home">
+            <!-- New Hero Section -->
+            <div class="relative rounded-xl shadow-2xl mb-16 overflow-hidden">
+                <!-- Background Image with Dark Overlay -->
+                <div class="absolute inset-0">
+                    <img src="./images/0.jpg" 
+                         onerror="this.parentElement.style.backgroundColor = 'black'; this.style.display='none';"
+                         class="w-full h-full object-cover" 
+                         alt="Alternative Text for the Hero Image">
+                </div>
+                <div class="relative h-80 flex flex-col items-center justify-center text-center text-white px-4">
+                    <!-- ============================ -->
+                    <!-- (((((NAME OF CASE STUDY))))) -->
+                    <!-- ============================ -->
+                    <h1 class="text-4xl md:text-6xl font-extrabold hero-text-glow">
+                        Johnson & Sons - Heating, Plumbing, & Air
+                    </h1>
+                    <p class="mt-4 text-lg md:text-xl max-w-2xl hero-text-glow-subtle">An Interactive Case Study</p>
+                </div>
+            </div>
+
+            <div class="relative max-w-2xl mx-auto mb-16">
+                 <div class="timeline"></div>
+                 <div class="space-y-0">
+                    <!-- Card 1: Valuation Brief -->
+                    <a href="./1-valuation-brief.html" class="animated-card card-link relative flex items-start space-x-6 bg-white p-6 rounded-xl shadow-lg border-blue-500" style="animation-delay: 0.1s;">
+                        <div class="flex-shrink-0 bg-blue-100 text-blue-600 rounded-full p-3 z-10">
+                            <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h6.375a.375.375 0 01.375.375v1.5a.375.375 0 01-.375.375H9a.375.375 0 01-.375-.375v-1.5A.375.375 0 019 6.75zM9 12.75h6.375a.375.375 0 01.375.375v1.5a.375.375 0 01-.375.375H9a.375.375 0 01-.375-.375v-1.5A.375.375 0 019 12.75z" /></svg>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900 mb-1">Valuation Brief</h2>
+                            <p class="text-gray-600">An overview of the business as presented to the market, including key financials and operational summary.</p>
+                        </div>
+                    </a>
+                    
+                    <div class="h-16 flex justify-center items-center"><div class="w-8 h-8 flex items-center justify-center bg-gray-300 rounded-full z-10"><svg class="w-5 h-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m0 0l6.75-6.75M12 19.5l-6.75-6.75" /></svg></div></div>
+
+                    <!-- Card 2: Baseline Analysis -->
+                    <a href="./2-baseline-analysis.html" class="animated-card card-link relative flex items-start space-x-6 bg-white p-6 rounded-xl shadow-lg border-red-500" style="animation-delay: 0.2s;">
+                        <div class="flex-shrink-0 bg-red-100 text-red-600 rounded-full p-3 z-10">
+                           <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.042 21.672L13.684 16.6m0 0l-2.51 2.225.569-9.47 5.227 7.917-3.286-.672zm-7.518-.267A8.25 8.25 0 1120.25 10.5M8.288 14.212A5.25 5.25 0 1117.25 10.5" /></svg>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900 mb-1">Baseline Analysis</h2>
+                            <p class="text-gray-600">A deep dive into the business's state before strategic changes, highlighting risks and underlying issues.</p>
+                        </div>
+                    </a>
+                    
+                    <div class="h-16 flex justify-center items-center"><div class="w-8 h-8 flex items-center justify-center bg-gray-300 rounded-full z-10"><svg class="w-5 h-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m0 0l6.75-6.75M12 19.5l-6.75-6.75" /></svg></div></div>
+
+                    <!-- Card 3: Value Creation Strategy -->
+                    <a href="./3-value-creation-strategy.html" class="animated-card card-link relative flex items-start space-x-6 bg-white p-6 rounded-xl shadow-lg border-yellow-500" style="animation-delay: 0.3s;">
+                        <div class="flex-shrink-0 bg-yellow-100 text-yellow-600 rounded-full p-3 z-10">
+                           <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" /></svg>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900 mb-1">Value Creation Strategy</h2>
+                            <p class="text-gray-600">The strategic plan for rapid value creation by increasing cash flows and de-risking the operation.</p>
+                        </div>
+                    </a>
+                    
+                    <div class="h-16 flex justify-center items-center"><div class="w-8 h-8 flex items-center justify-center bg-gray-300 rounded-full z-10"><svg class="w-5 h-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m0 0l6.75-6.75M12 19.5l-6.75-6.75" /></svg></div></div>
+
+                    <!-- Card 4: Implementation Journey -->
+                    <a href="./4-implementation-journey.html" class="animated-card card-link relative flex items-start space-x-6 bg-white p-6 rounded-xl shadow-lg border-purple-500" style="animation-delay: 0.4s;">
+                        <div class="flex-shrink-0 bg-purple-100 text-purple-600 rounded-full p-3 z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900 mb-1">Implementation Journey</h2>
+                            <p class="text-gray-600">A discussion on how the strategy was implemented, including the challenges faced along the way, to bridge the plan with the outcome.</p>
+                        </div>
+                    </a>
+
+                    <div class="h-16 flex justify-center items-center"><div class="w-8 h-8 flex items-center justify-center bg-gray-300 rounded-full z-10"><svg class="w-5 h-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m0 0l6.75-6.75M12 19.5l-6.75-6.75" /></svg></div></div>
+
+                    <!-- Card 5: Exit Ready Analysis -->
+                    <a href="./5-exit-ready-analysis.html" class="animated-card card-link relative flex items-start space-x-6 bg-white p-6 rounded-xl shadow-lg border-green-500" style="animation-delay: 0.5s;">
+                        <div class="flex-shrink-0 bg-green-100 text-green-600 rounded-full p-3 z-10">
+                            <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900 mb-1">Exit Ready Analysis</h2>
+                            <p class="text-gray-600">The transformed business, showcasing the impact of the strategic plan and its readiness for a future exit.</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Confidentiality Notice -->
+            <div class="mt-16 text-gray-500 text-left space-y-3 p-6 bg-white rounded-xl shadow-md border border-gray-200" style="font-size: 0.7rem; line-height: 1rem;">
+                <h3 class="font-bold text-sm text-gray-600 uppercase tracking-wider">CASE STUDIES CONFIDENTIALITY NOTICE</h3>
+                <div>
+                    <h4 class="font-semibold text-gray-700">Client Confidentiality Protection</h4>
+                    <p>The case studies presented demonstrate our strategic methodologies and problem-solving approaches. All materials have been modified to protect client confidentiality, including changes to identifying details, financial data, timelines, and industry contexts where necessary. Furthermore, case studies derived from specific engagements are used with express client authorization following their review of the final, anonymized material.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-gray-700">Educational Purpose</h4>
+                    <p>These case studies illustrate our analytical frameworks and strategic thinking processes. They are presented for educational and business development purposes and should not be relied upon for specific business decisions without independent professional consultation.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-gray-700">Intellectual Property</h4>
+                    <p>The methodologies, frameworks, and analysis techniques presented are proprietary to our firm. Intellectual property rights protect the case study presentations and materials.</p>
+                </div>
+                <hr class="border-gray-300 my-3">
+                <p><span class="font-semibold text-gray-700">GOVERNING LAW:</span> This notice is governed by the laws of California. By viewing these materials, you agree to these terms.</p>
+                <p>For questions about our experience in your specific industry or situation, please contact us directly.</p>
+                <p class="mt-4">For our full case studies confidentiality discalimer, <a href="https://jawnlam.github.io/ExitReadyAdvisors/case-studies/case-studies-disclaimer.html" class="text-blue-600 hover:underline font-semibold">click here</a>.</p>
+            </div>
+            
+        </div>
+
+    </main>
+
+    <!-- Footer Placeholder -->
+    <footer id="footer-placeholder"></footer>
+
+    <script>
+        /**
+         * Initializes the mobile menu toggle functionality.
+         * This should be called after the header content is loaded.
+         */
+        function initializeMobileMenu() {
+            const menuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (menuButton && mobileMenu) {
+                menuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                    const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+                    menuButton.setAttribute('aria-expanded', !isExpanded);
+                });
+            }
+        }
+
+        /**
+         * Sets the active style for navigation links based on the current URL.
+         * This should be called after the header content is loaded.
+         */
+        function setActiveNavLinks() {
+            const currentUrl = window.location.href;
+            const navLinks = document.querySelectorAll('nav a'); // Get all nav links
+
+            const linkPaths = {
+                'case-studies': 'ExitReadyAdvisors/case-studies/',
+                'services.html': 'ExitReadyAdvisors/services.html',
+                'about.html': 'ExitReadyAdvisors/about.html'
+            };
+
+            for (const link of navLinks) {
+                const href = link.getAttribute('href');
+                for (const key in linkPaths) {
+                    if (href && href.includes(key) && currentUrl.includes(linkPaths[key])) {
+                        link.classList.add('bg-gray-900', 'text-white');
+                        link.classList.remove('text-gray-500'); // Or similar default class
+                    }
+                }
+            }
+        }
+
+        /**
+         * Fetches and injects the header and footer, then initializes interactive components.
+         */
+        async function loadComponents() {
+            try {
+                const [headerResponse, footerResponse] = await Promise.all([
+                    fetch("https://jawnlam.github.io/ExitReadyAdvisors/header.html"),
+                    fetch("https://jawnlam.github.io/ExitReadyAdvisors/footer.html")
+                ]);
+
+                if (!headerResponse.ok) throw new Error('Header failed to load.');
+                if (!footerResponse.ok) throw new Error('Footer failed to load.');
+
+                const headerData = await headerResponse.text();
+                const footerData = await footerResponse.text();
+                
+                document.querySelector("#header-placeholder").innerHTML = headerData;
+                document.querySelector("#footer-placeholder").innerHTML = footerData;
+
+                // --- INITIALIZE DYNAMIC COMPONENTS ---
+                // These functions are called *after* the header/footer HTML is injected.
+                initializeMobileMenu();
+                setActiveNavLinks();
+
+            } catch (error) {
+                console.error('Error loading components:', error);
+                document.querySelector("#header-placeholder").innerHTML = '<div class="bg-gray-800 text-white p-4 text-center">Header could not be loaded.</div>';
+                document.querySelector("#footer-placeholder").innerHTML = '<div class="bg-gray-800 text-white p-4 text-center">Footer could not be loaded.</div>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadComponents);
+    </script>
+
+</body>
+</html>

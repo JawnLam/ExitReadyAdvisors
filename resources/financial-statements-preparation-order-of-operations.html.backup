@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+    <!-- 
+    /------------------------------------------------------------------------\
+    | LAST UPDATE: 2507241704…Thu_Jul_24_2025_0504PM                         |
+    | https://gemini.google.com/app/                         |
+    | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/??????????.html |
+    \------------------------------------------------------------------------/
+    -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Statements Preparation: Order of Operations</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* --- Interactive Card Styles (Resized) --- */
+        .card-container {
+            perspective: 1000px;
+            width: 130px;
+            height: 184px;
+        }
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            cursor: grab;
+        }
+        .card.is-flipped {
+            transform: rotateY(180deg);
+        }
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+            transition: background-color 0.3s;
+        }
+        .card-front {
+            background-color: white;
+            z-index: 2;
+        }
+        .card-back {
+            background-color: white;
+            transform: rotateY(180deg);
+        }
+        .drop-zone {
+            border: 2px dashed #d1d5db;
+            transition: all 0.2s ease-in-out;
+        }
+        .drop-zone.drag-over {
+            background-color: #e0f2fe;
+            border-color: #3b82f6;
+        }
+        .drop-zone.correct {
+            background-color: #dcfce7;
+            border-color: #22c55e;
+            border-style: solid;
+        }
+        .drop-zone.incorrect {
+            background-color: #fee2e2;
+            border-color: #ef4444;
+            animation: shake 0.5s;
+        }
+        .dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+
+        /* --- Gate/Blur Styles --- */
+        .content-blurred {
+            filter: blur(3px);
+            transition: filter 0.3s ease-in-out;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        /* --- Troubleshooting Scrollable List & Display --- */
+        #troubleshooting-list-container,
+        #troubleshooting-display {
+            height: 26rem; /* Increased height by another 20% */
+            overflow-y: auto;
+        }
+        #troubleshooting-list-container {
+            padding-right: 0.5rem; /* Space for scrollbar */
+        }
+        #troubleshooting-display {
+             padding: 1.5rem; /* p-6 */
+        }
+
+        /* Custom Scrollbar */
+        #troubleshooting-list-container::-webkit-scrollbar,
+        #troubleshooting-display::-webkit-scrollbar {
+            width: 8px;
+        }
+        #troubleshooting-list-container::-webkit-scrollbar-track,
+        #troubleshooting-display::-webkit-scrollbar-track {
+            background: #f1f5f9; /* slate-100 */
+            border-radius: 4px;
+        }
+        #troubleshooting-list-container::-webkit-scrollbar-thumb,
+        #troubleshooting-display::-webkit-scrollbar-thumb {
+            background: #cbd5e1; /* slate-300 */
+            border-radius: 4px;
+        }
+        #troubleshooting-list-container::-webkit-scrollbar-thumb:hover,
+        #troubleshooting-display::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; /* slate-400 */
+        }
+
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header Placeholder -->
+    <header id="header-placeholder"></header>
+
+    <!-- Gate Modal with Card Game -->
+    <div id="gate-modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50 p-4 opacity-0 invisible transition-opacity duration-300 ease-in-out">
+        <div class="bg-white p-6 rounded-xl shadow-2xl w-full max-w-4xl">
+            <h2 class="text-xl sm:text-2xl font-bold text-center text-slate-900 mb-2">Knowledge Check</h2>
+            <p class="text-center text-slate-600 text-sm sm:text-base mb-4">Drag the cards into the correct order.</p>
+            
+            <div class="text-center mb-4">
+                <div id="completion-message" class="mb-4"></div>
+                <button id="reset-button" class="bg-slate-600 text-white font-bold py-1.5 px-3 text-sm rounded-lg hover:bg-slate-700 transition-colors">Reset Challenge</button>
+            </div>
+            
+            <div class="flex flex-col md:flex-row gap-3 min-h-[260px]">
+                <div id="card-pile" class="w-full md:w-1/3 lg:w-1/4 h-64 relative flex items-center justify-center mb-4 md:mb-0"></div>
+                <div id="drop-zones" class="w-full md:w-2/3 lg:w-3/4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+        <!-- Header Section (unblurred) -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl sm:text-5xl font-bold text-slate-900 mb-4">Financial Statements Preparation: Order of Operations</h1>
+        </header>
+
+        <!-- Main Content Wrapper (this will be blurred) -->
+        <div id="content-wrapper">
+            <!-- Overview Section -->
+            <section id="overview" class="mb-16 bg-white p-8 rounded-xl shadow-sm border border-slate-200">
+                <h2 class="text-2xl font-bold text-slate-900 mb-4">Overview</h2>
+                <p class="text-slate-600 leading-relaxed">
+                    The core financial statements and their accompanying notes must be prepared in a specific logical sequence. Each component builds on information from the previous one, ensuring consistency, accuracy, and proper reconciliation across all financial reports.
+                </p>
+                <div class="mt-6 p-6 bg-blue-50 border-l-4 border-blue-500 rounded-r-lg">
+                    <h3 class="text-lg font-semibold text-blue-800 mb-2">Why Sequential Preparation Matters</h3>
+                    <p class="text-blue-700">
+                        <strong>Critical Principle:</strong> Financial statements are interconnected documents where the output of one statement becomes the necessary input for another. Preparing them out of order will result in incomplete information, reconciliation errors, and inconsistent reporting.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Workflow Diagram Section -->
+            <section id="workflow-diagram" class="mb-16 bg-white p-8 rounded-xl shadow-sm border border-slate-200">
+                <h2 class="text-3xl font-bold text-center text-slate-900 mb-8">Workflow Diagram: Financial Statement Interconnections</h2>
+                <div class="flex justify-center overflow-x-auto">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
+                      <style>
+                        .label { font-family: Arial, sans-serif; font-size: 12px; fill: #333; }
+                        .title { font-family: Arial, sans-serif; font-size: 14px; font-weight: bold; fill: #fff; }
+                        .dark-title { fill: #333; } /* New class for black text */
+                        .box { fill: #fefce8; stroke: #facc15; stroke-width: 2; } /* Yellow */
+                        .start-box { fill: #dbeafe; stroke: #3b82f6; stroke-width: 2; } /* Blue */
+                        .final-box { fill: #f3e5f5; stroke: #8e24aa; stroke-width: 2; } /* Purple */
+                        .arrow { stroke: #555; stroke-width: 2; marker-end: url(#arrowhead); }
+                        .data-flow { fill: #D84315; font-weight: bold; font-size: 11px; font-family: Arial, sans-serif; }
+                      </style>
+                      <defs>
+                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+                          <polygon points="0 0, 10 3.5, 0 7" fill="#555" />
+                        </marker>
+                      </defs>
+                      <rect x="10" y="225" width="140" height="50" rx="5" class="start-box"/><rect x="10" y="225" width="140" height="20" rx="5" style="fill: #3b82f6;"/><text x="80" y="240" text-anchor="middle" class="title">Step 0: Adj. T.B.</text><text x="80" y="263" text-anchor="middle" class="label">Debits = Credits</text>
+                      <rect x="210" y="30" width="180" height="50" rx="5" class="box"/><rect x="210" y="30" width="180" height="20" rx="5" style="fill: #facc15;"/><text x="300" y="45" text-anchor="middle" class="title dark-title">Step 1: Income Stmt.</text><text x="300" y="68" text-anchor="middle" class="label">Revenues - Expenses</text>
+                      <rect x="210" y="225" width="180" height="50" rx="5" class="box"/><rect x="210" y="225" width="180" height="20" rx="5" style="fill: #facc15;"/><text x="300" y="240" text-anchor="middle" class="title dark-title">Step 2: Stmt. of Equity</text><text x="300" y="263" text-anchor="middle" class="label">Beg. Equity + NI - Divs</text>
+                      <rect x="210" y="420" width="180" height="50" rx="5" class="box"/><rect x="210" y="420" width="180" height="20" rx="5" style="fill: #facc15;"/><text x="300" y="435" text-anchor="middle" class="title dark-title">Step 3: Balance Sheet</text><text x="300" y="458" text-anchor="middle" class="label">A = L + E</text>
+                      <rect x="440" y="225" width="180" height="50" rx="5" class="box"/><rect x="440" y="225" width="180" height="20" rx="5" style="fill: #facc15;"/><text x="530" y="240" text-anchor="middle" class="title dark-title">Step 4: Stmt. of Cash Flows</text><text x="530" y="263" text-anchor="middle" class="label">Op., Inv., Fin. Activities</text>
+                      <rect x="650" y="225" width="140" height="50" rx="5" class="final-box"/><rect x="650" y="225" width="140" height="20" rx="5" style="fill: #8e24aa;"/><text x="720" y="240" text-anchor="middle" class="title">Step 5: Disclosures</text><text x="720" y="263" text-anchor="middle" class="label">Disclosures &amp; Policies</text>
+                      <path d="M 80 225 V 55 H 210" fill="none" class="arrow"/><text x="145" y="45" text-anchor="middle" class="label" style="font-size: 10px; fill: #555;">(Rev/Exp)</text>
+                      <path d="M 80 275 V 445 H 210" fill="none" class="arrow" style="stroke-dasharray: 5,5;"/><text x="145" y="465" text-anchor="middle" class="label" style="font-size: 10px; fill: #555;">(A/L)</text>
+                      <line x1="300" y1="80" x2="300" y2="225" class="arrow"/><text x="300" y="150" text-anchor="middle" class="data-flow">Net Income</text>
+                      <line x1="300" y1="275" x2="300" y2="420" class="arrow"/><text x="300" y="345" text-anchor="middle" class="data-flow">Ending Equity</text>
+                      <path d="M 390 55 H 530 V 225" fill="none" class="arrow"/><text x="460" y="70" text-anchor="middle" class="data-flow">Net Income</text>
+                      <path d="M 390 445 H 530 V 275" fill="none" class="arrow"/><text x="460" y="430" text-anchor="middle" class="data-flow">B/S Changes</text>
+                      <path d="M 390 55 L 390 20 L 720 20 L 720 225" fill="none" class="arrow" style="stroke-dasharray: 5,5;"/>
+                      <path d="M 390 250 L 390 300 L 650 300 L 650 250" fill="none" class="arrow" style="stroke-dasharray: 5,5;"/>
+                      <path d="M 390 445 H 720 V 275" fill="none" class="arrow" style="stroke-dasharray: 5,5;"/>
+                      <path d="M 620 250 H 650" fill="none" class="arrow" style="stroke-dasharray: 5,5;"/>
+                    </svg>
+                </div>
+            </section>
+
+            <!-- Static Sequence Section -->
+            <section id="sequence-static" class="mb-16 space-y-8">
+            
+              <h2 class="text-3xl font-bold text-center text-slate-900">
+                The Prerequisite Foundation
+              </h2>
+            
+              <!-- Step 0 Card -->
+              <div class="bg-white p-8 rounded-xl shadow-lg border-t-4 border-blue-500">
+                <div class="flex items-center mb-4">
+                  <div class="bg-blue-500 text-white text-sm font-semibold rounded-md px-3 py-1.5 mr-4">Step 0</div>
+                  <h3 class="text-2xl font-bold text-slate-900">Finalize the Adjusted Trial Balance (ATB)</h3>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 mt-6">
+                  <div>
+                    <h4 class="font-semibold text-slate-800 text-lg mb-2">Purpose</h4>
+                    <p class="text-slate-600">
+                      The ATB is a listing of all company accounts and their balances after all adjusting entries.
+                      It is the <strong>direct source document</strong> for the financial statements.
+                    </p>
+                  </div>
+                  <div>
+                    <h4 class="font-semibold text-slate-800 text-lg mb-2">Why It's Essential</h4>
+                    <ul class="list-disc list-inside text-slate-600 space-y-1">
+                      <li><strong>Accuracy:</strong> If the ATB is incorrect, all subsequent financial statements will be flawed.</li>
+                      <li><strong>Verification:</strong> It confirms that Total Debits = Total Credits after all adjustments.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="mt-6 p-4 bg-slate-100 border-l-4 border-slate-500 rounded-r-lg">
+                  <p class="font-semibold text-slate-800">
+                    <strong>Action Item:</strong> Verify that the ATB is complete and balanced before proceeding to Step 1.
+                  </p>
+                </div>
+              </div>
+            
+              <h2 class="text-3xl font-bold text-center text-slate-900 pt-8">
+                The 5 Key Components of Financial Statements
+              </h2>
+            
+              <!-- Step 1 Card -->
+              <div class="bg-white p-8 rounded-xl shadow-lg border-t-4 border-yellow-400">
+                <div class="flex items-center mb-4">
+                  <div class="bg-yellow-500 text-white text-sm font-semibold rounded-md px-3 py-1.5 mr-4">Step 1</div>
+                  <h3 class="text-2xl font-bold text-slate-900">Income Statement</h3>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 mt-6">
+                  <div>
+                    <h4 class="font-semibold text-slate-800 text-lg mb-2">Purpose & Details</h4>
+                    <ul class="list-disc list-inside text-slate-600 space-y-1">
+                      <li>Calculates financial performance for a period.</li>
+                      <li><strong>Equation:</strong> Revenues - Expenses = Net Income</li>
+                      <li>Covers a period of time.</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 class="font-semibold text-slate-800 text-lg mb-2">Technical Note</h4>
+                    <p class="text-slate-600">
+                      If the company has "Other Comprehensive Income" (OCI) items, a Statement of Comprehensive Income must be
+                      prepared immediately after this step.
+                    </p>
+                  </div>
+                </div>
+                <div class="mt-6 p-4 bg-yellow-50 border-l-4 border-yellow-500 rounded-r-lg">
+                  <p class="font-semibold text-slate-800">
+                    <strong>Key Output:</strong> Net Income
+                  </p>
+                </div>
+              </div>
+            
+              <!-- Step 2 Card -->
+              <div class="bg-white p-8 rounded-xl shadow-lg border-t-4 border-yellow-400">
+                <div class="flex items-center mb-4">
+                  <div class="bg-yellow-500 text-white text-sm font-semibold rounded-md px-3 py-1.5 mr-4">Step 2</div>
+                  <h3 class="text-2xl font-bold text-slate-900">Statement of Shareholders' Equity</h3>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 mt-6">
+                  <div>
+                    <h4 class="font-semibold text-slate-800 text-lg mb-2">Purpose & Details</h4>
+                    <ul class="list-disc list-inside text-slate-600 space-y-1">
+                      <li>Reconciles beginning and ending equity balances.</li>
+                      <li><strong>Equation:</strong> Beg. Equity + NI - Divs = End. Equity</li>
+                      <li>Covers a period of time.</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 class="font-semibold text-slate-800 text-lg mb-2">Technical Note</h4>
+                    <p class="text-slate-600">
+                      This statement details all changes in equity, including Net Income, dividends, stock issuances,
+                      and treasury stock repurchases.
+                    </p>
+                  </div>
+                </div>
+                <div class="mt-6 p-4 bg-yellow-50 border-l-4 border-yellow-500 rounded-r-lg">
+                  <p class="font-semibold text-slate-800">
+                    <strong>Key Output:</strong> Ending Shareholders' Equity
+                  </p>
+                </div>
+              </div>
+            
+              <!-- Step 3 Card -->
+              <div class="bg-white p-8 rounded-xl shadow-lg border-t-4 border-yellow-400">
+                <div class="flex items-center mb-4">
+                  <div class="bg-yellow-500 text-white text-sm font-semibold rounded-md px-3 py-1.5 mr-4">Step 3</div>
+                  <h3 class="text-2xl font-bold text-slate-900">Balance Sheet</h3>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 mt-6">
+                  <div>
+                    <h4 class="font-semibold text-slate-800 text-lg mb-2">Purpose & Details</h4>
+                    <ul class="list-disc list-inside text-slate-600 space-y-1">
+                      <li>Shows financial position at a point in time.</li>
+                      <li><strong>Equation:</strong> Assets = Liabilities + Equity</li>
+                      <li>Covers a snapshot in time (e.g., "As of Dec 31").</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 class="font-semibold text-slate-800 text-lg mb-2">Technical Note</h4>
+                    <p class="text-slate-600">
+                      This statement must always balance. The Ending Cash balance shown here is the target figure
+                      for the Statement of Cash Flows reconciliation.
+                    </p>
+                  </div>
+                </div>
+                <div class="mt-6 p-4 bg-yellow-50 border-l-4 border-yellow-500 rounded-r-lg">
+                  <p class="font-semibold text-slate-800">
+                    <strong>Key Output:</strong> Ending Cash Balance & Financial Position
+                  </p>
+                </div>
+              </div>
+            
+              <!-- Step 4 Card -->
+              <div class="bg-white p-8 rounded-xl shadow-lg border-t-4 border-yellow-400">
+                <div class="flex items-center mb-4">
+                  <div class="bg-yellow-500 text-white text-sm font-semibold rounded-md px-3 py-1.5 mr-4">Step 4</div>
+                  <h3 class="text-2xl font-bold text-slate-900">Statement of Cash Flows</h3>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 mt-6">
+                  <div>
+                    <h4 class="font-semibold text-slate-800 text-lg mb-2">Purpose & Details</h4>
+                    <ul class="list-disc list-inside text-slate-600 space-y-1">
+                      <li>Explains the change in the cash balance.</li>
+                      <li><strong>Equation:</strong> Beg. Cash +/- Cash Flows = End. Cash</li>
+                      <li>Covers a period of time.</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 class="font-semibold text-slate-800 text-lg mb-2">Technical Note</h4>
+                    <p class="text-slate-600">
+                      This manual assumes the <strong>Indirect Method</strong> for the Operating section,
+                      which starts with Net Income and adjusts for non-cash items and working capital changes.
+                    </p>
+                  </div>
+                </div>
+                <div class="mt-6 p-4 bg-yellow-50 border-l-4 border-yellow-500 rounded-r-lg">
+                  <p class="font-semibold text-slate-800">
+                    <strong>Key Output:</strong> Reconciliation of Cash Balance
+                  </p>
+                </div>
+              </div>
+            
+              <!-- Step 5 Card -->
+              <div class="bg-white p-8 rounded-xl shadow-lg border-t-4 border-purple-500">
+                <div class="flex items-center mb-4">
+                  <div class="bg-purple-600 text-white text-sm font-semibold rounded-md px-3 py-1.5 mr-4">Step 5</div>
+                  <h3 class="text-2xl font-bold text-slate-900">Disclosures (Notes)</h3>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 mt-6">
+                  <div>
+                    <h4 class="font-semibold text-slate-800 text-lg mb-2">Purpose & Details</h4>
+                    <ul class="list-disc list-inside text-slate-600 space-y-1">
+                      <li>Provides required disclosures and supplementary detail.</li>
+                      <li>Explains significant accounting policies.</li>
+                      <li>Elaborates on specific line items from the statements.</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 class="font-semibold text-slate-800 text-lg mb-2">Technical Note</h4>
+                    <p class="text-slate-600">
+                      The Notes are an integral and mandatory part of a complete financial statement package
+                      under both GAAP and IFRS. They cannot be finalized until all other statements are complete.
+                    </p>
+                  </div>
+                </div>
+                <div class="mt-6 p-4 bg-purple-50 border-l-4 border-purple-500 rounded-r-lg">
+                  <p class="font-semibold text-slate-800">
+                    <strong>Key Output:</strong> Complete & Compliant Disclosures
+                  </p>
+                </div>
+              </div>
+            
+            </section>
+
+            <!-- Summary Table Section -->
+            <section id="summary" class="mb-16">
+                <h2 class="text-3xl font-bold text-center text-slate-900 mb-8">Summary Reference Table</h2>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 overflow-x-auto">
+                    <table class="w-full min-w-full text-left">
+                        <thead class="bg-slate-100">
+                            <tr>
+                                <th class="p-4 font-semibold text-slate-800">Component</th>
+                                <th class="p-4 font-semibold text-slate-800">Step</th>
+                                <th class="p-4 font-semibold text-slate-800">Dependencies</th>
+                                <th class="p-4 font-semibold text-slate-800">Key Output</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200">
+                            <tr><td class="p-4 font-medium">Adjusted Trial Balance</td><td class="p-4">0 (Prerequisite)</td><td class="p-4">G/L Balances & AJEs</td><td class="p-4 text-blue-600 font-semibold">Source for Statements</td></tr>
+                            <tr><td class="p-4 font-medium">Income Statement</td><td class="p-4">1st</td><td class="p-4">Adjusted Trial Balance</td><td class="p-4 text-yellow-600 font-semibold">Net Income</td></tr>
+                            <tr><td class="p-4 font-medium">Statement of Shareholders' Equity</td><td class="p-4">2nd</td><td class="p-4">Net Income</td><td class="p-4 text-yellow-600 font-semibold">Ending Equity</td></tr>
+                            <tr><td class="p-4 font-medium">Balance Sheet</td><td class="p-4">3rd</td><td class="p-4">Ending Equity</td><td class="p-4 text-yellow-600 font-semibold">Ending Cash Balance</td></tr>
+                            <tr><td class="p-4 font-medium">Statement of Cash Flows</td><td class="p-4">4th</td><td class="p-4">Net Income + Balance Sheets</td><td class="p-4 text-yellow-600 font-semibold">Cash Reconciliation</td></tr>
+                            <tr><td class="p-4 font-medium">Disclosures (Notes)</td><td class="p-4">5th</td><td class="p-4">All finalized statements</td><td class="p-4 text-purple-600 font-semibold">Complete Disclosures</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Test Your Knowledge Button Section -->
+            <section class="text-center my-16">
+                <button id="show-gate-button" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition-all text-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-blue-300">
+                    Test Your Knowledge
+                </button>
+            </section>
+
+            <!-- Troubleshooting Section -->
+            <section id="troubleshooting" class="mb-16 bg-white p-8 rounded-xl shadow-sm border border-slate-200">
+                <h2 class="text-3xl font-bold text-center text-slate-900 mb-8">Troubleshooting Common Reconciliation Issues</h2>
+                <div class="flex flex-col md:flex-row gap-8">
+                    <!-- Left Column: List of Problems -->
+                    <div id="troubleshooting-list-container" class="w-full md:w-1/3">
+                        <div id="troubleshooting-list" class="space-y-2">
+                            <!-- Buttons will be injected here -->
+                        </div>
+                    </div>
+                    <!-- Right Column: Display Area -->
+                    <div id="troubleshooting-display" class="w-full md:w-2/3 border border-slate-200 rounded-lg bg-slate-50">
+                        <!-- Content will be injected here -->
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Checklist and Success Factors Section -->
+            <section id="checklists" class="mb-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-2xl font-bold text-slate-900 mb-6">Implementation Checklist</h3>
+                    <div class="space-y-6">
+                        <div><h4 class="font-semibold text-slate-800 mb-2">Prerequisite Step</h4><ul class="space-y-2 text-slate-600"><li class="flex items-center"><span class="mr-3 text-blue-500">☐</span> Step 0: Finalize and verify the Adjusted Trial Balance.</li></ul></div>
+                        <div><h4 class="font-semibold text-slate-800 mb-2">Statement Preparation Process</h4><ul class="space-y-2 text-slate-600"><li class="flex items-center"><span class="mr-3 text-yellow-500">☐</span> Step 1: Complete Income Statement.</li><li class="flex items-center"><span class="mr-3 text-yellow-500">☐</span> Step 2: Prepare Statement of Equity.</li><li class="flex items-center"><span class="mr-3 text-yellow-500">☐</span> Step 3: Complete Balance Sheet.</li><li class="flex items-center"><span class="mr-3 text-yellow-500">☐</span> Step 4: Prepare Statement of Cash Flows.</li><li class="flex items-center"><span class="mr-3 text-purple-600">☐</span> Step 5: Compile Disclosures (Notes).</li></ul></div>
+                        <div><h4 class="font-semibold text-slate-800 mb-2">Final Verification</h4><ul class="space-y-2 text-slate-600"><li class="flex items-center"><span class="mr-3 text-yellow-500">☐</span> Confirm Net Income flows correctly.</li><li class="flex items-center"><span class="mr-3 text-yellow-500">☐</span> Verify ending equity balance matches.</li><li class="flex items-center"><span class="mr-3 text-yellow-500">☐</span> Ensure cash reconciliation balances.</li><li class="flex items-center"><span class="mr-3 text-purple-600">☐</span> Review Disclosures for accuracy and completeness.</li></ul></div>
+                    </div>
+                </div>
+                <div class="bg-purple-50 p-8 rounded-xl border-l-4 border-purple-400">
+                    <h3 class="text-2xl font-bold text-purple-900 mb-6">Key Success Factors</h3>
+                    <ul class="space-y-4">
+                        <li><h4 class="font-semibold text-purple-800">Maintain the Sequence</h4><p class="text-purple-700">Never skip ahead. This will create inconsistencies that are difficult to identify and correct.</p></li>
+                        <li><h4 class="font-semibold text-purple-800">Verify Each Connection</h4><p class="text-purple-700">At each step, double-check that information flows correctly from the previous statement.</p></li>
+                        <li><h4 class="font-semibold text-purple-800">Document Your Work</h4><p class="text-purple-700">Keep clear records of calculations and sources for each figure to facilitate review and audits.</p></li>
+                         <li><h4 class="font-semibold text-purple-800">Cross-Reference Continuously</h4><p class="text-purple-700">Regularly verify that interconnected figures remain consistent across all statements.</p></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- A Note on Modern Accounting Systems -->
+            <section id="modern-practices" class="bg-slate-100 p-8 rounded-xl border border-slate-200">
+                <h2 class="text-2xl font-bold text-slate-900 mb-4 text-center">A Note on Modern Accounting Systems</h2>
+                <div class="max-w-4xl mx-auto text-left text-slate-600 leading-relaxed">
+                    <p class="mb-4">Modern accounting software (e.g., QuickBooks, SAP, Xero) automates this process. Once the underlying transactions are recorded and the period is closed (the ATB is finalized), the software can generate all these statements simultaneously.</p>
+                    <p>However, understanding this manual sequence remains critical for troubleshooting errors, interpreting the financial results, and comprehending the fundamental connections between a company's performance and its financial position.</p>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <footer id="footer-placeholder"></footer>
+
+    <!-- 
+    /-------------------\
+    | HEADER AND FOOTER |
+    \-------------------/
+    -->
+    <script>
+        /**
+         * Initializes the mobile menu toggle functionality.
+         * This should be called after the header content is loaded.
+         */
+        function initializeMobileMenu() {
+            const menuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (menuButton && mobileMenu) {
+                menuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                    const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+                    menuButton.setAttribute('aria-expanded', !isExpanded);
+                });
+            }
+        }
+
+        /**
+         * Sets the active style for navigation links based on the current URL.
+         * This should be called after the header content is loaded.
+         */
+        function setActiveNavLinks() {
+            const currentUrl = window.location.href;
+            const navLinks = document.querySelectorAll('nav a'); // Get all nav links
+
+            const linkPaths = {
+                'case-studies': 'ExitReadyAdvisors/case-studies/',
+                'services.html': 'ExitReadyAdvisors/services.html',
+                'about.html': 'ExitReadyAdvisors/about.html',
+                'resources': 'ExitReadyAdvisors/resources/' // Added this line
+            };
+
+            for (const link of navLinks) {
+                const href = link.getAttribute('href');
+                for (const key in linkPaths) {
+                    if (href && href.includes(key) && currentUrl.includes(linkPaths[key])) {
+                        link.classList.add('bg-gray-900', 'text-white');
+                        link.classList.remove('text-gray-500'); // Or similar default class
+                    }
+                }
+            }
+        }
+
+        /**
+         * Fetches and injects the header and footer, then initializes interactive components.
+         */
+        async function loadComponents() {
+            try {
+                const [headerResponse, footerResponse] = await Promise.all([
+                    fetch("https://jawnlam.github.io/ExitReadyAdvisors/header.html"),
+                    fetch("https://jawnlam.github.io/ExitReadyAdvisors/footer.html")
+                ]);
+
+                if (!headerResponse.ok) throw new Error('Header failed to load.');
+                if (!footerResponse.ok) throw new Error('Footer failed to load.');
+
+                const headerData = await headerResponse.text();
+                const footerData = await footerResponse.text();
+                
+                document.querySelector("#header-placeholder").innerHTML = headerData;
+                document.querySelector("#footer-placeholder").innerHTML = footerData;
+
+                // --- INITIALIZE DYNAMIC COMPONENTS ---
+                // These functions are called *after* the header/footer HTML is injected.
+                initializeMobileMenu();
+                setActiveNavLinks();
+
+            } catch (error) {
+                console.error('Error loading components:', error);
+                document.querySelector("#header-placeholder").innerHTML = '<div class="bg-gray-800 text-white p-4 text-center">Header could not be loaded.</div>';
+                document.querySelector("#footer-placeholder").innerHTML = '<div class="bg-gray-800 text-white p-4 text-center">Footer could not be loaded.</div>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadComponents);
+
+        const cardData = [
+            { id: 0, name: 'Adjusted Trial Balance', keyInput: 'G/L Balances & AJEs', output: 'Source for Statements', correctColor: 'blue', details: `<div class="space-y-1 text-left"><p><strong>Purpose:</strong> A listing of all accounts and their balances after adjusting entries.</p><p><strong>Key Details:</strong> Confirms Debits = Credits. The direct source for all other statements.</p></div>` },
+            { id: 1, name: 'Income Statement', keyInput: 'Adjusted Trial Balance', output: 'Net Income', correctColor: 'yellow', details: `<div class="space-y-1 text-left"><p><strong>Purpose:</strong> Calculates financial performance for a period.</p><p><strong>Key Details:</strong> Revenues - Expenses = Net Income.</p></div>` },
+            { id: 2, name: 'Statement of Equity', keyInput: 'Net Income', output: 'Ending Equity', correctColor: 'yellow', details: `<div class="space-y-1 text-left"><p><strong>Purpose:</strong> Reconciles beginning and ending equity balances.</p><p><strong>Key Details:</strong> Beg. Equity + NI - Divs = End. Equity.</p></div>` },
+            { id: 3, name: 'Balance Sheet', keyInput: 'Ending Equity', output: 'Ending Cash', correctColor: 'yellow', details: `<div class="space-y-1 text-left"><p><strong>Purpose:</strong> Shows financial position at a point in time.</p><p><strong>Key Details:</strong> Assets = Liabilities + Equity.</p></div>` },
+            { id: 4, name: 'Statement of Cash Flows', keyInput: 'Net Income & B/S', output: 'Cash Reconciliation', correctColor: 'yellow', details: `<div class="space-y-1 text-left"><p><strong>Purpose:</strong> Explains the change in the cash balance.</p><p><strong>Key Details:</strong> Beg. Cash +/- Cash Flows = End. Cash.</p></div>` },
+            { id: 5, name: 'Disclosures', keyInput: 'All Final Statements', output: 'Complete Disclosures', correctColor: 'purple', details: `<div class="space-y-1 text-left"><p><strong>Purpose:</strong> Provides required disclosures and supplementary details.</p><p><strong>Key Details:</strong> Explains accounting policies and elaborates on line items.</p></div>` }
+        ];
+        const troubleshootingData = [
+            { title: "1. Problem: The Balance Sheet Does Not Balance", content: `<ul class="space-y-4 text-slate-600"><li><strong>Check 1 (Most Common):</strong> Verify that Ending Retained Earnings from the Statement of Equity (Step 2) was transferred <em>exactly</em> to the Balance Sheet (Step 3).</li><li><strong>Check 2:</strong> Ensure the Adjusted Trial Balance (Step 0) was balanced before you started.</li><li><strong>Check 3:</strong> Confirm all Asset/Liability accounts from the ATB were included on the Balance Sheet.</li></ul>`},
+            { title: "2. Problem: The Statement of Cash Flows Does Not Reconcile", content: `<ul class="space-y-4 text-slate-600"><li><strong>Check 1 (The Target):</strong> Ensure "Cash at End of Period" on the Cash Flow Statement exactly matches the "Cash" line item on the current Balance Sheet (Step 3).</li><li><strong>Check 2 (Operating Section):</strong> Verify that non-cash expenses (like Depreciation) were correctly added back to Net Income.</li><li><strong>Check 3 (Working Capital):</strong> Review calculations for changes in current assets/liabilities. Ensure signs are correct (e.g., an increase in Accounts Receivable is a <em>use</em> of cash).</li></ul>`},
+            { title: "3. Problem: The Adjusted Trial Balance (ATB) does not balance", content: `<p class="text-slate-600 mb-4">If the foundational document (the ATB) is incorrect, all subsequent statements will be flawed. Total Debits must equal Total Credits.</p><ul class="space-y-4 text-slate-600"><li><strong>Check 1 (Adjusting Entries):</strong> Review all Adjusting Journal Entries (AJEs). Ensure the debits and credits for <em>each individual entry</em> are equal.</li><li><strong>Check 2 (Transposition/Slide Errors):</strong> Look for transposition errors (e.g., entering $820 instead of $280). If the difference between total debits and credits is evenly divisible by 9, it often indicates this type of error.</li><li><strong>Check 3 (Natural Account Balances):</strong> Verify the natural balance of accounts. Assets and Expenses should have debit balances. Liabilities, Equity, and Revenue should have credit balances.</li></ul>`},
+            { title: "4. Problem: Retained Earnings Calculation is Incorrect", content: `<ul class="space-y-4 text-slate-600"><li><strong>Check 1 (The Starting Point):</strong> Verify the "Beginning Retained Earnings" balance. It must exactly match the <em>ending</em> Retained Earnings from the prior period's finalized Balance Sheet.</li><li><strong>Check 2 (Prior Period Adjustments):</strong> Investigate if any Prior Period Adjustments (PPAs) were made. These are recorded directly to the beginning Retained Earnings balance.</li><li><strong>Check 3 (Dividends vs. Expenses):</strong> Confirm that Dividends have been <em>subtracted</em> from Retained Earnings, not mistakenly recorded as an expense on the Income Statement.</li><li><strong>Check 4 (Net Income vs. Net Loss):</strong> Confirm that a Net Income was correctly added, or a Net Loss was correctly subtracted.</li></ul>`},
+            { title: "5. Problem: Errors in Cash Flow (Operating)", content: `<ul class="space-y-4 text-slate-600"><li><strong>Check 1 (Gains and Losses):</strong> Gains on asset sales must be <em>subtracted</em> from Net Income; Losses must be <em>added</em> back. The actual cash proceeds are reported under Investing.</li><li><strong>Check 2 (Current Assets Logic):</strong> Increases in A/R or Inventory <em>consume</em> cash and must be subtracted. Decreases <em>provide</em> cash and must be added.</li><li><strong>Check 3 (Current Liabilities Logic):</strong> Increases in A/P <em>provide</em> cash and must be added. Decreases <em>consume</em> cash and must be subtracted.</li><li><strong>Check 4 (Omitted Non-Cash Expenses):</strong> Ensure all non-cash expenses (Depreciation, Amortization, Stock-Based Compensation) were added back.</li></ul>`},
+            { title: "6. Problem: Errors in Cash Flow (Investing)", content: `<ul class="space-y-4 text-slate-600"><li><strong>Check 1 (Proceeds vs. Gain/Loss):</strong> Ensure the figure reported is the actual cash proceeds from the sale, <em>not</em> the gain/loss or book value.</li><li><strong>Check 2 (PP&E Reconciliation):</strong> Analyze the change in the Net PP&E account. The change must be explained by Depreciation, Purchases (CAPEX), and Sales.</li><li><strong>Check 3 (Gross vs. Net):</strong> Verify that purchases and sales of assets are reported separately (Gross) and not netted.</li></ul>`},
+            { title: "7. Problem: Errors in Cash Flow (Financing)", content: `<ul class="space-y-4 text-slate-600"><li><strong>Check 1 (Debt Transactions):</strong> Verify that both new borrowings (inflows) and principal repayments (outflows) are included, not just the net change.</li><li><strong>Check 2 (Dividends Paid vs. Declared):</strong> Ensure the actual cash dividends <em>paid</em> are listed as an outflow.</li><li><strong>Check 3 (Interest Payments):</strong> Under US GAAP, interest payments are typically classified under Operating activities.</li></ul>`},
+            { title: "8. Problem: Misclassification of Accounts", content: `<ul class="space-y-4 text-slate-600"><li><strong>Check 1 (Prepaids):</strong> "Prepaid Expenses" are Assets on the Balance Sheet; only the utilized portion ("Rent Expense") is on the Income Statement.</li><li><strong>Check 2 (Unearned Revenue):</strong> "Unearned Revenue" is a Liability on the Balance Sheet; only the earned portion is on the Income Statement.</li><li><strong>Check 3 (Depreciation):</strong> "Depreciation Expense" is on the Income Statement; "Accumulated Depreciation" is on the Balance Sheet.</li></ul>`},
+            { title: "9. Problem: Incorrect Internal Balance Sheet Classification", content: `<ul class="space-y-4 text-slate-600"><li><strong>Check 1 (Current vs. Long-Term):</strong> Verify that the "Current Portion of Long-Term Debt" has been moved to Current Liabilities.</li><li><strong>Check 2 (Contra-Accounts):</strong> Ensure contra-accounts like "Accumulated Depreciation" are correctly netted against their related assets.</li><li><strong>Check 3 (Restricted Cash):</strong> If any cash is restricted long-term, it must be classified as a Non-Current Asset.</li></ul>`},
+            { title: "10. Problem: Significant Non-Cash Transactions Handled Incorrectly", content: `<ul class="space-y-4 text-slate-600"><li><strong>Check 1 (Identification):</strong> Identify if any long-term assets were acquired by issuing stock or debt, or if debt was converted to equity.</li><li><strong>Check 2 (Disclosure):</strong> Ensure these transactions are excluded from the main body of the SCF but are disclosed separately in the notes.</li></ul>`},
+            { title: "11. Problem: Handling Other Comprehensive Income (OCI)", content: `<ul class="space-y-4 text-slate-600"><li><strong>Check 1 (Separation from Net Income):</strong> Ensure OCI items are <em>not</em> included in the calculation of Net Income.</li><li><strong>Check 2 (Balance Sheet Presentation):</strong> Verify Net Income flows into Retained Earnings, while OCI flows into "Accumulated Other Comprehensive Income" (AOCI), a separate component of Equity.</li></ul>`},
+            { title: "12. Problem: Income Tax Accounts Do Not Reconcile", content: `<ul class="space-y-4 text-slate-600"><li><strong>Check 1 (The Provision Components):</strong> Verify that "Income Tax Expense" on the Income Statement is the correct sum of "Current Tax Expense" and "Deferred Tax Expense."</li><li><strong>Check 2 (Deferred Tax Linkage):</strong> Ensure the net change in Deferred Tax balances on the Balance Sheet equals the "Deferred Tax Expense (or Benefit)" on the Income Statement.</li><li><strong>Check 3 (Taxes Payable Reconciliation):</strong> Reconcile the "Income Taxes Payable" account: Beginning Balance + Current Tax Expense - Cash Taxes Paid = Ending Balance.</li><li><strong>Check 4 (Cash Flow Presentation):</strong> Verify "Cash Taxes Paid" is correctly calculated and disclosed in the Statement of Cash Flows.</li></ul>`},
+            { title: "13. Problem: Discrepancies in Equity Accounts Beyond Retained Earnings", content: `<ul class="space-y-4 text-slate-600"><li><strong>Check 1 (Stock Issuance and APIC):</strong> Verify new stock issuance is correctly split between Common Stock (at Par) and Additional Paid-In Capital (APIC).</li><li><strong>Check 2 (Treasury Stock Presentation):</strong> Ensure Treasury Stock is reported as a reduction to total equity (a contra-equity account), not an asset.</li><li><strong>Check 3 (Stock-Based Compensation):</strong> Confirm Stock-Based Comp expense on the Income Statement increases APIC and is added back as a non-cash expense in the SCF.</li><li><strong>Check 4 (Cash Flow Linkage):</strong> Ensure cash flows from issuing/repurchasing stock match amounts in the Financing section of the SCF.</li></ul>`},
+            { title: "14. Problem: Errors Related to Period-End Cutoff", content: `<ul class="space-y-4 text-slate-600"><li><strong>Check 1 (Revenue and Receivables Cutoff):</strong> Examine sales around period-end to verify revenue was recognized in the correct period based on shipping terms or service delivery dates.</li><li><strong>Check 2 (Expense Matching and Accruals):</strong> Review invoices received after period-end to ensure expenses were accrued in the period the service/goods were received.</li><li><strong>Check 3 (Inventory and COGS):</strong> Ensure the timing of inventory recording matches the sales cutoff, accounting for goods in transit based on FOB terms.</li></ul>`},
+            { title: "15. Problem: Intercompany Transactions Not Eliminated (Consolidated)", content: `<ul class="space-y-4 text-slate-600"><li><strong>Check 1 (Reciprocal Accounts):</strong> Verify that Intercompany Receivables/Payables and Revenues/Expenses match exactly between entities before elimination.</li><li><strong>Check 2 (Elimination Entries):</strong> Ensure consolidating entries completely remove intercompany transactions, bringing their balances to zero.</li><li><strong>Check 3 (Intercompany Profit in Inventory):</strong> Check that any profit from intercompany inventory sales is eliminated if the inventory hasn't been sold to an outside party.</li><li><strong>Check 4 (Non-Controlling Interest - NCI):</strong> If applicable, verify NCI is correctly calculated and presented in equity and that its share of Net Income is properly allocated.</li></ul>`}
+        ];
+        let correctlyPlacedCards = 0;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- Gate & Blur Logic ---
+            const gateModal = document.getElementById('gate-modal');
+            const contentWrapper = document.getElementById('content-wrapper');
+            const showGateButton = document.getElementById('show-gate-button');
+            
+            function showGate() {
+                contentWrapper.classList.add('content-blurred');
+                gateModal.classList.remove('invisible');
+                gateModal.classList.add('opacity-100');
+            }
+
+            function hideGate() {
+                contentWrapper.classList.remove('content-blurred');
+                gateModal.classList.remove('opacity-100');
+                gateModal.classList.add('invisible');
+            }
+            
+            showGateButton.addEventListener('click', showGate);
+
+            // --- Troubleshooting Master-Detail Logic ---
+            const troubleshootingList = document.getElementById('troubleshooting-list');
+            const troubleshootingDisplay = document.getElementById('troubleshooting-display');
+            const listContainer = document.getElementById('troubleshooting-list-container');
+
+            troubleshootingData.forEach((item, index) => {
+                const button = document.createElement('button');
+                button.className = 'troubleshoot-btn w-full text-left p-3 rounded-lg transition-all duration-200 border hover:bg-red-100 hover:shadow-lg hover:-translate-y-px';
+                button.dataset.index = index;
+                button.innerHTML = `<span class="font-bold">${item.title}</span>`;
+                troubleshootingList.appendChild(button);
+            });
+
+            const troubleshootButtons = document.querySelectorAll('.troubleshoot-btn');
+
+            function updateTroubleshootingDisplay(activeIndex) {
+                troubleshootButtons.forEach((btn, index) => {
+                    const span = btn.querySelector('span');
+                    if (index === activeIndex) {
+                        btn.classList.add('bg-red-900', 'border-red-700', 'shadow-lg');
+                        btn.classList.remove('bg-red-50', 'border-red-200');
+                        span.classList.add('text-white');
+                        span.classList.remove('text-red-700');
+                    } else {
+                        btn.classList.remove('bg-red-900', 'border-red-700', 'shadow-lg');
+                        btn.classList.add('bg-red-50', 'border-red-200');
+                        span.classList.remove('text-white');
+                        span.classList.add('text-red-700');
+                    }
+                });
+                troubleshootingDisplay.innerHTML = troubleshootingData[activeIndex].content;
+            }
+
+            troubleshootButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const index = parseInt(button.dataset.index, 10);
+                    updateTroubleshootingDisplay(index);
+                });
+            });
+
+            if (troubleshootingData.length > 0) {
+                updateTroubleshootingDisplay(0);
+            }
+
+
+            // --- Interactive Game Setup ---
+            const cardPile = document.getElementById('card-pile');
+            const dropZonesContainer = document.getElementById('drop-zones');
+            const resetButton = document.getElementById('reset-button');
+            const completionMessage = document.getElementById('completion-message');
+            let draggedCard = null;
+
+            function initializeGame() {
+                cardPile.innerHTML = '';
+                dropZonesContainer.innerHTML = '';
+                completionMessage.innerHTML = '';
+                correctlyPlacedCards = 0;
+                resetButton.disabled = false;
+                resetButton.classList.remove('opacity-50', 'cursor-not-allowed');
+
+                for (let i = 0; i <= 5; i++) {
+                    const zone = document.createElement('div');
+                    zone.className = 'drop-zone w-full h-full min-h-[190px] rounded-lg flex items-center justify-center p-2';
+                    zone.dataset.step = i;
+                    zone.innerHTML = `<div class="text-slate-400 text-lg font-bold">Step ${i}</div>`;
+                    dropZonesContainer.appendChild(zone);
+                }
+                [...cardData].sort(() => Math.random() - 0.5).forEach((data, index) => {
+                    const cardContainer = document.createElement('div');
+                    cardContainer.className = 'card-container absolute';
+                    cardContainer.style.top = `${index * 6}px`; 
+                    cardContainer.style.left = `${index * 6}px`; 
+                    cardContainer.innerHTML = `<div class="card" draggable="true" data-id="${data.id}"><div class="card-face card-front flex flex-col justify-between p-2 bg-slate-50"><div class="absolute top-1.5 right-1.5 text-slate-400" title="Click to flip"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/><path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/></svg></div><h3 class="text-sm font-bold text-slate-900 text-center">${data.name}</h3><div class="space-y-1"><div class="pt-1 border-t border-slate-200 text-center"><p class="text-[11px] font-semibold text-slate-500">KEY INPUT:</p><p class="text-xs font-bold text-slate-700">${data.keyInput}</p></div><div class="pt-1 border-t border-slate-200 text-center"><p class="text-[11px] font-semibold text-slate-500">KEY OUTPUT:</p><p class="text-xs font-bold text-slate-700">${data.output}</p></div></div></div><div class="card-face card-back p-2 text-xs overflow-y-auto">${data.details}</div></div>`;
+                    cardPile.appendChild(cardContainer);
+                });
+                addEventListeners();
+            }
+
+            function addEventListeners() {
+                document.querySelectorAll('.card').forEach(card => {
+                    card.addEventListener('click', () => card.classList.toggle('is-flipped'));
+                    card.addEventListener('dragstart', handleDragStart);
+                    card.addEventListener('dragend', handleDragEnd);
+                });
+                document.querySelectorAll('.drop-zone').forEach(zone => {
+                    zone.addEventListener('dragover', handleDragOver);
+                    zone.addEventListener('dragleave', handleDragLeave);
+                    zone.addEventListener('drop', handleDrop);
+                });
+            }
+
+            function handleDragStart(e) { draggedCard = e.target; setTimeout(() => e.target.classList.add('dragging'), 0); }
+            function handleDragEnd(e) { e.target.classList.remove('dragging'); }
+            function handleDragOver(e) { e.preventDefault(); if (!e.currentTarget.hasChildNodes() || e.currentTarget.querySelector('.text-slate-400')) { e.currentTarget.classList.add('drag-over'); } }
+            function handleDragLeave(e) { e.currentTarget.classList.remove('drag-over'); }
+            function handleDrop(e) {
+                e.preventDefault();
+                const dropZone = e.currentTarget;
+                dropZone.classList.remove('drag-over');
+                if (dropZone.hasChildNodes() && !dropZone.querySelector('.text-slate-400')) return;
+                const cardId = parseInt(draggedCard.dataset.id, 10);
+                const correctStep = parseInt(dropZone.dataset.step, 10);
+                if (cardId === correctStep) {
+                    const droppedCardData = cardData.find(c => c.id === cardId);
+                    const cardFront = draggedCard.querySelector('.card-front');
+                    cardFront.classList.remove('bg-slate-50');
+                    const pElements = cardFront.querySelectorAll('p');
+                    pElements.forEach(p => { p.classList.remove('text-slate-500', 'text-slate-700'); });
+                    switch (droppedCardData.correctColor) {
+                        case 'blue': cardFront.classList.add('bg-blue-50'); pElements[0].classList.add('text-blue-500'); pElements[1].classList.add('text-blue-700'); pElements[2].classList.add('text-blue-500'); pElements[3].classList.add('text-blue-700'); break;
+                        case 'yellow': cardFront.classList.add('bg-yellow-50'); pElements[0].classList.add('text-yellow-500'); pElements[1].classList.add('text-yellow-700'); pElements[2].classList.add('text-yellow-500'); pElements[3].classList.add('text-yellow-700'); break;
+                        case 'purple': cardFront.classList.add('bg-purple-50'); pElements[0].classList.add('text-purple-500'); pElements[1].classList.add('text-purple-700'); pElements[2].classList.add('text-purple-500'); pElements[3].classList.add('text-purple-700'); break;
+                    }
+                    dropZone.innerHTML = ''; 
+                    dropZone.appendChild(draggedCard.parentElement);
+                    draggedCard.parentElement.style.position = 'relative';
+                    draggedCard.parentElement.style.top = '0';
+                    draggedCard.parentElement.style.left = '0';
+                    draggedCard.setAttribute('draggable', 'false');
+                    draggedCard.style.cursor = 'default';
+                    dropZone.classList.add('correct');
+                    correctlyPlacedCards++;
+                    if (correctlyPlacedCards === cardData.length) {
+                        completionMessage.innerHTML = `<div class="p-4 bg-green-100 border-l-4 border-green-500 text-green-700 rounded-r-lg"><h3 class="font-bold">Great job!</h3><p class="mb-4">You've completed the challenge.</p><button id="back-to-site-button" class="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">Back to Site</button></div>`;
+                        document.getElementById('back-to-site-button').addEventListener('click', hideGate);
+                        resetButton.disabled = true;
+                        resetButton.classList.add('opacity-50', 'cursor-not-allowed');
+                    }
+                } else {
+                    dropZone.classList.add('incorrect');
+                    setTimeout(() => dropZone.classList.remove('incorrect'), 500);
+                }
+            }
+            resetButton.addEventListener('click', initializeGame);
+            
+            // --- Initial Setup ---
+            initializeGame();
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <!-- 
+    /------------------------------------------------------------------------------\
+    | LAST UPDATE: 2507211317…Mon_Jul_21_2025_0117PM                               |
+    | https://gemini.google.com/app/2431a4ca46278d65                               |
+    | https://github.com/JawnLam/ExitReadyAdvisors/edit/main/terms-of-service.html |
+    \------------------------------------------------------------------------------/
+    -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service - Exit Ready Advisors</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .cta-button {
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        /* Styles for the main content area */
+        .prose {
+            max-width: 80ch; /* Optimal reading width */
+        }
+        .prose h2 {
+            font-size: 1.5rem; /* 24px */
+            font-weight: 600;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #e5e7eb; /* gray-200 */
+            padding-bottom: 0.5rem;
+        }
+        .prose h3 {
+            font-size: 1.25rem; /* 20px */
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+        }
+        .prose p, .prose ul {
+            line-height: 1.75;
+            margin-bottom: 1.25rem;
+        }
+        .prose ul {
+            list-style-position: inside;
+            list-style-type: disc;
+            padding-left: 1rem;
+        }
+        .prose a {
+            color: #1f2937; /* gray-800 */
+            text-decoration: underline;
+        }
+        .prose a:hover {
+            color: #000000;
+        }
+    </style>
+</head>
+
+<body class="bg-white text-gray-800">
+
+    <!-- Header Placeholder -->
+    <header id="header-placeholder"></header>
+
+    <!-- Main Content: Terms of Service -->
+    <main class="bg-gray-50">
+        <div class="container mx-auto px-6 py-16 md:py-24">
+            <div class="prose mx-auto bg-white p-8 md:p-12 rounded-lg shadow-md">
+                <h1 class="text-4xl font-bold text-gray-900 text-center mb-8">Terms of Service</h1>
+
+                <h2>1. About Our Services</h2>
+                <p>We provide business value acceleration coaching and consulting services specifically designed for small-to-medium business (SMB) owners planning to exit their business. Our services include:</p>
+                <ul>
+                    <li>Value Acceleration Strategy Development: Identifying and implementing specific initiatives to maximize business value</li>
+                    <li>Exit Readiness Assessment: Comprehensive evaluation of business sale-readiness across operational, financial, and strategic dimensions</li>
+                    <li>Implementation Coaching: Ongoing guidance and accountability to execute value-maximizing changes</li>
+                    <li>Buyer Preparation Strategy: Positioning businesses to attract qualified buyers and optimize sale terms</li>
+                    <li>Exit Planning & Strategy: Strategic planning to align value acceleration activities with exit goals</li>
+                </ul>
+                <p><strong>Important Note:</strong> We are business coaches and consultants, not investment bankers, business brokers, or transaction intermediaries. We do not directly facilitate the sale of businesses or represent clients in transaction negotiations.</p>
+
+                <h2>2. Website Use & Intellectual Property</h2>
+                <h3>Content Ownership</h3>
+                <p>All content on this website, including text, graphics, logos, images, videos, and downloadable resources, is the exclusive property of Exit Ready Advisors and is protected by intellectual property laws.</p>
+                <h3>Permitted Use</h3>
+                <p>You may view, download, and print content from this website for your personal, non-commercial use only. You may not:</p>
+                 <ul>
+                    <li>Reproduce, distribute, or republish any content without written permission</li>
+                    <li>Use our content for commercial purposes</li>
+                    <li>Create derivative works from our materials</li>
+                    <li>Remove copyright or proprietary notices</li>
+                </ul>
+                <h3>Trademarks</h3>
+                <p>All trademarks, service marks, and company names mentioned on this website are the property of their respective owners.</p>
+
+                <h2>3. No Professional Advice Disclaimer</h2>
+                <h3>Educational Content</h3>
+                <p>The information provided on this website is for educational and informational purposes only. It should not be considered professional advice.</p>
+                <h3>What We Don't Provide</h3>
+                <ul>
+                    <li>Legal advice (consult qualified attorneys for transaction legal matters)</li>
+                    <li>Tax planning advice (consult qualified CPAs/tax advisors)</li>
+                    <li>Investment banking services (consult qualified investment bankers for transaction facilitation)</li>
+                    <li>Formal business valuations (consult qualified appraisers for official valuations)</li>
+                    <li>Financial planning advice (consult qualified financial advisors for wealth management)</li>
+                </ul>
+                <h3>Consultation Required</h3>
+                <p>Specific professional guidance requires a formal consulting engagement with appropriate agreements in place.</p>
+
+                <h2>4. No Guarantees or Warranties</h2>
+                <h3>Results Disclaimer</h3>
+                <p>While our strategies and methodologies are based on proven business principles and extensive experience, we make no guarantees regarding:</p>
+                <ul>
+                    <li>Specific business value increases</li>
+                    <li>Sale success or timing</li>
+                    <li>Particular outcomes or results</li>
+                    <li>Market conditions or buyer availability</li>
+                </ul>
+                <h3>Website Functionality</h3>
+                <p>We strive to keep our website accurate and up-to-date, but we make no warranties about the completeness, reliability, or accuracy of information. The website is provided "as is" without warranties of any kind.</p>
+
+                <h2>5. Limitation of Liability</h2>
+                <p>To the fullest extent permitted by law, Exit Ready Advisors shall not be liable for any:</p>
+                <ul>
+                    <li>Direct, indirect, incidental, special, or consequential damages</li>
+                    <li>Loss of profits, revenue, or business opportunities</li>
+                    <li>Business interruption or loss of data</li>
+                    <li>Damages resulting from use of this website or reliance on its content</li>
+                </ul>
+                <p>Your sole remedy for dissatisfaction with the website or its content is to stop using the website.</p>
+
+                <h2>6. Privacy & Data Collection</h2>
+                <h3>Information Collection</h3>
+                <p>We may collect information you voluntarily provide through contact forms, newsletter signups, or resource downloads. This information is used solely to provide requested services and communications.</p>
+                <h3>Email Communications</h3>
+                <p>By providing your email address, you consent to receive communications about our services, educational content, and business insights. You may unsubscribe at any time.</p>
+                <h3>Data Protection</h3>
+                <p>We are committed to protecting your privacy and will not sell, rent, or share your personal information with third parties except as required by law.</p>
+
+                <h2>7. Third-Party Links & Resources</h2>
+                <p>Our website may contain links to third-party websites or references to other service providers. These links are provided for your convenience only. We do not endorse or assume responsibility for the content, policies, or practices of any third-party sites or services.</p>
+
+                <h2>8. User Conduct</h2>
+                <p>When using our website, you agree not to:</p>
+                <ul>
+                    <li>Violate any applicable laws or regulations</li>
+                    <li>Transmit harmful, threatening, or offensive content</li>
+                    <li>Attempt to gain unauthorized access to our systems</li>
+                    <li>Use the website for any fraudulent or unlawful purpose</li>
+                    <li>Interfere with the website's operation or other users' experience</li>
+                </ul>
+
+                <h2>9. Contact Forms & Communications</h2>
+                <h3>No Attorney-Client Relationship</h3>
+                <p>Communications through our website, including contact forms or email, do not create a professional services relationship. Confidential information should not be shared until a formal engagement agreement is in place.</p>
+                <h3>Response Timeframe</h3>
+                <p>While we strive to respond promptly to inquiries, we do not guarantee specific response times for website communications.</p>
+
+                <h2>10. Website Modifications & Availability</h2>
+                <p>We reserve the right to:</p>
+                <ul>
+                    <li>Modify, suspend, or discontinue any aspect of the website at any time</li>
+                    <li>Update content, services descriptions, or pricing information</li>
+                    <li>Restrict access to certain areas of the website</li>
+                    <li>Make changes without prior notice</li>
+                </ul>
+                <p>We do not guarantee uninterrupted availability of the website and are not liable for any downtime or technical issues.</p>
+
+                <h2>11. Governing Law</h2>
+                <p>These Terms of Service are governed by the laws of the State of California, without regard to conflict of law principles. Any disputes arising from use of this website shall be resolved in the courts of Orange County, California.</p>
+
+                <h2>12. Severability & Entire Agreement</h2>
+                <p>If any provision of these Terms is found to be unenforceable, the remaining provisions will continue in full force and effect. These Terms constitute the entire agreement between you and Exit Ready Advisors regarding use of this website.</p>
+
+                <h2>13. Changes to Terms</h2>
+                <p>We reserve the right to update these Terms of Service at any time. Material changes will be posted on this page with an updated "Last Modified" date. Your continued use of the website after any changes constitutes acceptance of the new Terms.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Placeholder -->
+    <footer id="footer-placeholder"></footer>
+
+    <!-- 
+    /-------------------\
+    | HEADER AND FOOTER |
+    \-------------------/
+    -->
+    <script>
+        /**
+         * Fetches and injects the header and footer components concurrently.
+         * This function is called once the initial HTML document has been completely loaded and parsed.
+         */
+        async function loadComponents() {
+            try {
+                // Promise.all allows us to fetch both resources at the same time (concurrently).
+                const [headerResponse, footerResponse] = await Promise.all([
+                    fetch("https://jawnlam.github.io/ExitReadyAdvisors/header.html"),
+                    fetch("https://jawnlam.github.io/ExitReadyAdvisors/footer.html")
+                ]);
+
+                // Check both responses for errors.
+                if (!headerResponse.ok) throw new Error('Header failed to load.');
+                if (!footerResponse.ok) throw new Error('Footer failed to load.');
+
+                // Get the text content from both responses.
+                const headerData = await headerResponse.text();
+                const footerData = await footerResponse.text();
+                
+                // Inject the HTML into the placeholder elements.
+                document.querySelector("#header-placeholder").innerHTML = headerData;
+                document.querySelector("#footer-placeholder").innerHTML = footerData;
+
+            } catch (error) {
+                console.error('Error loading components:', error);
+                // Display fallback content if any part of the loading process fails.
+                document.querySelector("#header-placeholder").innerHTML = '<div class="bg-gray-800 text-white p-4 text-center">Header could not be loaded.</div>';
+                document.querySelector("#footer-placeholder").innerHTML = '<div class="bg-gray-800 text-white p-4 text-center">Footer could not be loaded.</div>';
+            }
+        }
+
+        // It's best practice to run this script after the DOM is fully loaded.
+        document.addEventListener('DOMContentLoaded', loadComponents);
+    </script>
+
+</body>
+</html>
