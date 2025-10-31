@@ -178,7 +178,7 @@
                 <hr class="border-gray-300 my-3">
                 <p><span class="font-semibold text-gray-700">GOVERNING LAW:</span> This notice is governed by the laws of California. By viewing these materials, you agree to these terms.</p>
                 <p>For questions about our experience in your specific industry or situation, please contact us directly.</p>
-                <p class="mt-4">For our full case studies confidentiality discalimer, <a href="https://jawnlam.github.io/ExitReadyAdvisors/case-studies/case-studies-disclaimer.html" class="text-blue-600 hover:underline font-semibold">click here</a>.</p>
+                <p class="mt-4">For our full case studies confidentiality discalimer, <a href="../case-studies-disclaimer.html" class="text-blue-600 hover:underline font-semibold">click here</a>.</p>
             </div>
             
         </div>
@@ -237,8 +237,8 @@
         async function loadComponents() {
             try {
                 const [headerResponse, footerResponse] = await Promise.all([
-                    fetch("https://jawnlam.github.io/ExitReadyAdvisors/header.html"),
-                    fetch("https://jawnlam.github.io/ExitReadyAdvisors/footer.html")
+                    fetch("../../header.html"),
+                    fetch("../../footer.html")
                 ]);
 
                 if (!headerResponse.ok) throw new Error('Header failed to load.');

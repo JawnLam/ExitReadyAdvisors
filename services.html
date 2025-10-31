@@ -93,8 +93,8 @@
         async function loadComponents() {
             try {
                 const [headerResponse, footerResponse] = await Promise.all([
-                    fetch("https://jawnlam.github.io/ExitReadyAdvisors/header.html"),
-                    fetch("https://jawnlam.github.io/ExitReadyAdvisors/footer.html")
+                    fetch("header.html"),
+                    fetch("footer.html")
                 ]);
 
                 if (!headerResponse.ok) throw new Error('Header failed to load.');
